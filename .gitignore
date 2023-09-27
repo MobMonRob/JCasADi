@@ -1,1 +1,12 @@
-build/
+#Ignore temporary files
+**/.*.kate-swp
+**/.directory
+
+#Ignore generated folders
+**/.vs
+**/x64
+**/x32
+**/Debug
+**/Release
+**/target
+**/build
