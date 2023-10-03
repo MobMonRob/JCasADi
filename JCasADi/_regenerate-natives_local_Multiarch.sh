@@ -7,9 +7,13 @@ cd "$scriptDir"
 source "./_bash_config.sh"
 
 run() {
-	# bash "$wrapLibDir/_regenerate_dependency-recursive_Multiarch.sh"
+	clearCurrentPlatform
+	rm -rdf "$currentNativesPath"
+	mkdir -p "$currentNativesPath"
 
-	./_regenerate_local_Multiarch.sh
+	./copy-deps_Multiarch.sh
+
+	setSuccessToken
 }
 
 run_bash run $@

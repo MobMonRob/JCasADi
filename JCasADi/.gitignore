@@ -1,0 +1,4 @@
+/src/main/java/de/dhbw/rahmlab/**/impl
+**/natives
+*.log
+**/target
