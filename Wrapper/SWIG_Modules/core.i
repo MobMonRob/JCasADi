@@ -14,6 +14,8 @@
 using namespace casadi;
 %}
 
+#define CASADI_EXPORT
+
 %import "casadi/core/casadi_common.hpp" // #define SWIG_IF_ELSE
 %import "casadi/core/casadi_types.hpp"
 
@@ -21,8 +23,6 @@ using namespace casadi;
 #define GUESTOBJECT void
 
 // #pragma SWIG nowarn=509,303,302
-
-#define CASADI_EXPORT
 
 // Incude cmath early on, see #622
 %begin %{
@@ -83,45 +83,172 @@ using namespace casadi;
 
 //////
 
+using namespace casadi;
+
+//////
+
+/*
+%import "casadi/core/calculus.hpp"
+%import "casadi/core/callback.hpp"
+%import "casadi/core/casadi_common.hpp"
+%import "casadi/core/casadi_enum.hpp"
+%import "casadi/core/casadi_export.h"
+%import "casadi/core/casadi_interrupt.hpp"
+%import "casadi/core/casadi_limits.hpp"
+%import "casadi/core/casadi_logger.hpp"
+%import "casadi/core/casadi_meta.hpp"
+%import "casadi/core/casadi_misc.hpp"
+%import "casadi/core/casadi_types.hpp"
+%import "casadi/core/code_generator.hpp"
+%import "casadi/core/conic.hpp"
+%import "casadi/core/core.hpp"
+%import "casadi/core/dae_builder.hpp"
+%import "casadi/core/dm.hpp"
+%import "casadi/core/dm_fwd.hpp"
+%import "casadi/core/dple.hpp"
+%import "casadi/core/exception.hpp"
+%import "casadi/core/expm.hpp"
+%import "casadi/core/external.hpp"
+%import "casadi/core/fmu.hpp"
+%import "casadi/core/function.hpp"
+%import "casadi/core/generic_expression.hpp"
+%import "casadi/core/generic_matrix.hpp"
+%import "casadi/core/generic_type.hpp"
+%import "casadi/core/global_options.hpp"
+%import "casadi/core/im.hpp"
+%import "casadi/core/im_fwd.hpp"
+%import "casadi/core/importer.hpp"
+%import "casadi/core/integration_tools.hpp"
+%import "casadi/core/integrator.hpp"
+%import "casadi/core/interpolant.hpp"
+%import "casadi/core/linsol.hpp"
+%import "casadi/core/matrix_decl.hpp"
+%import "casadi/core/matrix_fwd.hpp"
+%import "casadi/core/mx.hpp"
+%import "casadi/core/nlp_builder.hpp"
+%import "casadi/core/nlp_tools.hpp"
+%import "casadi/core/nlpsol.hpp"
+%import "casadi/core/nonzeros.hpp"
+%import "casadi/core/options.hpp"
+%import "casadi/core/optistack.hpp"
+%import "casadi/core/polynomial.hpp"
+%import "casadi/core/printable.hpp"
+%import "casadi/core/rootfinder.hpp"
+%import "casadi/core/serializer.hpp"
+%import "casadi/core/serializing_stream.hpp"
+%import "casadi/core/shared_object.hpp"
+%import "casadi/core/slice.hpp"
+%import "casadi/core/sparsity.hpp"
+%import "casadi/core/sparsity_interface.hpp"
+%import "casadi/core/submatrix.hpp"
+//%import "casadi/core/sx.hpp"
+%import "casadi/core/sx_elem.hpp"
+//%import "casadi/core/sx_fwd.hpp"
+%import "casadi/core/timing.hpp"
+%import "casadi/core/xml_file.hpp"
+%import "casadi/core/xml_node.hpp"
+*/
+
+//////
 // Scalar expressions (why do I need to put it up here?)
-//%include "sx_elem.hpp"
+//%include "casadi/core/sx_elem.hpp"
 
 // Generic tools
-//%include "polynomial.hpp"
-//%include "casadi_misc.hpp"
-//%include "global_options.hpp"
-//%include "casadi_meta.hpp"
+//%include "casadi/core/polynomial.hpp"
+//%include "casadi/core/casadi_misc.hpp"
+//%include "casadi/core/global_options.hpp"
+//%include "casadi/core/casadi_meta.hpp"
 
 // Matrices
-//%include "sx.hpp"
-//%include "dm.hpp"
-//%include "im.hpp"
+
+%ignore PrintableCommon;
+%ignore MatrixCommon;
+%ignore GenericExpressionCommon;
+%ignore Sparsity;
+%ignore Slice;
+%ignore DeserializingStream;
+%ignore SerializingStream;
+%ignore GenericMatrixCommon;
+%ignore SparsityInterfaceCommon;
+
+//%import "casadi/core/core.hpp"
+
+/*
+%{
+	namespace casadi {
+		typedef GenericMatrix< Matrix< SXElem > > BS;
+	}
+%}
+
+%rename(TheBS) casadi::BS;
+%interface_impl(casadi::BS);
+*/
+
+%import "casadi/core/generic_matrix.hpp"
+%import "casadi/core/generic_expression.hpp"
+%import "casadi/core/sx_elem.hpp"
+%import "casadi/core/matrix_decl.hpp"
+%import "casadi/core/sx_fwd.hpp"
+%import "casadi/core/sx.hpp"
+
+//%template(BS) GenericMatrix< Matrix< SXElem > >;
+
+
+
+//typedef GenericMatrix< Matrix< SXElem > > GenericMatrix__Matrix_SXElem___22;
+
+/*
+%{
+	namespace casadi {
+		template class Matrix<SXElem>;
+		typedef Matrix<SXElem> SX2;
+	}
+%}
+%rename(TheSX2) casadi::SX2;
+namespace casadi {
+	template class Matrix<SXElem>;
+	typedef Matrix<SXElem> SX2;
+}
+*/
+
+//%interface_impl(casadi::BS);
+
+
+%template(SX) Matrix<SXElem>;
+//%template(SXVector) std::vector<SX>;
+//%template(SXIList) std::initializer_list<SX>;
+//%template(SXVectorVector) std::vector<SXVector> SXVectorVector;
+//%template(SXDict) std::map<std::string, SX>;
+
+
+//%include "casadi/core/dm.hpp"
+//%include "casadi/core/im.hpp"
 
 // Matrix expressions
-%include "casadi/core/mx.hpp"
+// %include "casadi/core/mx.hpp"
 
 // Functions
-//%include "code_generator.hpp"
-//%include "includeer.hpp"
-//%include "callback.hpp"
-//%include "integrator.hpp"
-//%include "conic.hpp"
-//%include "nlpsol.hpp"
-//%include "rootfinder.hpp"
-//%include "linsol.hpp"
-//%include "dple.hpp"
-//%include "expm.hpp"
-//%include "interpolant.hpp"
-//%include "external.hpp"
+//%include "casadi/core/code_generator.hpp"
+//%include "casadi/core/includeer.hpp"
+//%include "casadi/core/callback.hpp"
+//%include "casadi/core/integrator.hpp"
+//%include "casadi/core/conic.hpp"
+//%include "casadi/core/nlpsol.hpp"
+//%include "casadi/core/rootfinder.hpp"
+//%include "casadi/core/linsol.hpp"
+//%include "casadi/core/dple.hpp"
+//%include "casadi/core/expm.hpp"
+//%include "casadi/core/interpolant.hpp"
+//%include "casadi/core/external.hpp"
 
 // Misc
-//%include "integration_tools.hpp"
-//%include "nlp_tools.hpp"
-//%include "nlp_builder.hpp"
-//%include "dae_builder.hpp"
-//%include "xml_file.hpp"
-//%include "optistack.hpp"
-//%include "serializer.hpp"
+//%include "casadi/core/integration_tools.hpp"
+//%include "casadi/core/nlp_tools.hpp"
+//%include "casadi/core/nlp_builder.hpp"
+//%include "casadi/core/dae_builder.hpp"
+//%include "casadi/core/xml_file.hpp"
+//%include "casadi/core/optistack.hpp"
+//%include "casadi/core/serializer.hpp"
 
 
 //"Submodules"

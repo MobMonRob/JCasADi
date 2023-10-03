@@ -21,6 +21,7 @@ run() {
 	local -r SwigModulesArray=($(find "$swigModulesDirectory"/* -maxdepth 0 -mindepth 0 -type f -printf '%f\n'))
 
 	local -r moduleOfInterest="core.i"
+	# local -r moduleOfInterest="casadi.i"
 
 	local -r filterModule="true"
 
@@ -37,6 +38,7 @@ run() {
 		#-debug-tmused -debug-tmsearch -debug-typemap
 		#-debug-tags
 		#-doxygen
+		#-ignoremissing -importall
 		swig -Wextra -cpperraswarn -DSWIGWORDSIZE64 -DSWIG_TYPE_TABLE=casadi -c++ -java -package "de.dhbw.rahmlab."$wrapLibName".impl" -outdir "$swigJavaOutDir" -o "$currentTmp/"$swigModule"_wrap.cpp" -I"$wrapLibInclude" -I"$swigLibDirectory" "$swigModulesDirectory/$swigModule"
 	done
 }
