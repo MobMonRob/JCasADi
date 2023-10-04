@@ -4,6 +4,7 @@
 
 #Ignore generated folders
 **/.vs
+**/.vscode
 **/x64
 **/x32
 **/Debug

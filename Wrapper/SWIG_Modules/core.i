@@ -5,7 +5,9 @@
 
 
 // SWIG lib .i fles
+%include <swiginterface.i>
 
+////////////////
 
 %{
 #include "casadi/core/casadi_common.hpp"
@@ -83,7 +85,7 @@ using namespace casadi;
 
 //////
 
-using namespace casadi;
+//using namespace casadi;
 
 //////
 
@@ -161,60 +163,61 @@ using namespace casadi;
 
 // Matrices
 
-%ignore PrintableCommon;
-%ignore MatrixCommon;
-%ignore GenericExpressionCommon;
-%ignore Sparsity;
-%ignore Slice;
-%ignore DeserializingStream;
-%ignore SerializingStream;
-%ignore GenericMatrixCommon;
-%ignore SparsityInterfaceCommon;
+%ignore casadi::PrintableCommon;
+//%ignore MatrixCommon;
+%ignore casadi::GenericExpressionCommon;
+%ignore casadi::Sparsity;
+%ignore casadi::Slice;
+%ignore casadi::DeserializingStream;
+%ignore casadi::SerializingStream;
+%ignore casadi::GenericMatrixCommon;
+%ignore casadi::SparsityInterfaceCommon;
+%ignore casadi::PrintableCommon;
 
 //%import "casadi/core/core.hpp"
 
-/*
-%{
-	namespace casadi {
-		typedef GenericMatrix< Matrix< SXElem > > BS;
-	}
-%}
+%interface_impl(casadi::MatrixCommon);
 
-%rename(TheBS) casadi::BS;
-%interface_impl(casadi::BS);
-*/
-
+//#pragma SWIG nowarn=320,401,503
 %import "casadi/core/generic_matrix.hpp"
 %import "casadi/core/generic_expression.hpp"
 %import "casadi/core/sx_elem.hpp"
-%import "casadi/core/matrix_decl.hpp"
+%include "casadi/core/matrix_decl.hpp"
 %import "casadi/core/sx_fwd.hpp"
 %import "casadi/core/sx.hpp"
+//#pragma SWIG nowarn=+320,401,503
 
-//%template(BS) GenericMatrix< Matrix< SXElem > >;
-
-
-
-//typedef GenericMatrix< Matrix< SXElem > > GenericMatrix__Matrix_SXElem___22;
-
-/*
 %{
-	namespace casadi {
-		template class Matrix<SXElem>;
-		typedef Matrix<SXElem> SX2;
-	}
+template <typename T>
+class Asdf {
+	public:
+	T hello() {return (T) 5;}
+};
+
+template class Asdf<int>;
+
 %}
-%rename(TheSX2) casadi::SX2;
-namespace casadi {
-	template class Matrix<SXElem>;
-	typedef Matrix<SXElem> SX2;
+//%rename(Asdf_int) Asdf<int>;
+
+//%interface_impl(Asdf<int>);
+%interface_custom("Asdf_Proxy", "Asdf_Interface", Asdf<int>)
+
+class Asdf<int> {
+	public:
+	int hello() {return 5;}
+};
+
+%extend casadi::MatrixCommon {
+	public:
+	int test() {
+		return 1;
+	}
 }
-*/
 
-//%interface_impl(casadi::BS);
+//%template(Commona) casadi::MatrixCommon<int>;
+//%template(SX_GenericMatrix) casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >;
+%template(SX) casadi::Matrix<casadi::SXElem>;
 
-
-%template(SX) Matrix<SXElem>;
 //%template(SXVector) std::vector<SX>;
 //%template(SXIList) std::initializer_list<SX>;
 //%template(SXVectorVector) std::vector<SXVector> SXVectorVector;
