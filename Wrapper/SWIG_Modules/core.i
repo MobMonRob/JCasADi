@@ -2,7 +2,7 @@
 
 // Own generic .i files
 %include "_common.i"
-
+%include "template_interface.i"
 
 // SWIG lib .i fles
 %include <swiginterface.i>
@@ -216,9 +216,7 @@ class Xyz : public Asdf<K> {
 
 };
 
-%feature("interface", name="Asdf_Interface") Asdf<int>;
-INTERFACE_TYPEMAPS(Asdf<int>)
-%template("Asdf_Proxy") Asdf<int>;
+%template_interface("Asdf", Asdf<int>)
 
 %template(Xyz) Xyz<int>;
 
