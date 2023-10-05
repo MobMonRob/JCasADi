@@ -187,6 +187,8 @@ using namespace casadi;
 %import "casadi/core/sx.hpp"
 //#pragma SWIG nowarn=+320,401,503
 
+///////////////////////////
+
 %{
 template <typename T>
 class Asdf {
@@ -197,15 +199,23 @@ class Asdf {
 template class Asdf<int>;
 
 %}
-//%rename(Asdf_int) Asdf<int>;
 
-//%interface_impl(Asdf<int>);
 %interface_custom("Asdf_Proxy", "Asdf_Interface", Asdf<int>)
 
-class Asdf<int> {
+// %feature("interface", name="Asdf_Interface") Asdf<int>;
+// INTERFACE_TYPEMAPS(Asdf<int>)
+
+template <typename T>
+class Asdf {
 	public:
-	int hello() {return 5;}
+	T hello();
 };
+
+%template(Asdf) Asdf<int>;
+
+
+
+///////////////////////////
 
 %extend casadi::MatrixCommon {
 	public:
