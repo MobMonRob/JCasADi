@@ -19,6 +19,8 @@ using namespace casadi;
 #define CASADI_EXPORT
 
 %import "casadi/core/casadi_common.hpp" // #define SWIG_IF_ELSE
+#undef SWIG_IF_ELSE
+#define SWIG_IF_ELSE(is_swig, not_swig) not_swig
 %import "casadi/core/casadi_types.hpp"
 
 /// Data structure in the target language holding data
@@ -163,6 +165,7 @@ using namespace casadi;
 
 // Matrices
 
+/*
 %ignore casadi::PrintableCommon;
 //%ignore MatrixCommon;
 %ignore casadi::GenericExpressionCommon;
@@ -173,55 +176,32 @@ using namespace casadi;
 %ignore casadi::GenericMatrixCommon;
 %ignore casadi::SparsityInterfaceCommon;
 %ignore casadi::PrintableCommon;
+*/
 
 //%import "casadi/core/core.hpp"
 
-%interface_custom("MatrixCommon_Proxy", "MatrixCommon_Interface", casadi::MatrixCommon)
+// %interface_custom("MatrixCommon_Proxy", "MatrixCommon_Interface", casadi::MatrixCommon)
 
+//////////////////
+
+%interface(casadi::GenericExpressionCommon)
+%ignore printme;
+
+// %import "casadi/core/sx_elem.hpp"
+class casadi::SXElem;
+#undef SWIG
 //#pragma SWIG nowarn=320,401,503
 %import "casadi/core/generic_matrix.hpp"
 %import "casadi/core/generic_expression.hpp"
-%import "casadi/core/sx_elem.hpp"
-%include "casadi/core/matrix_decl.hpp"
+%import "casadi/core/matrix_decl.hpp"
 %import "casadi/core/sx_fwd.hpp"
 %import "casadi/core/sx.hpp"
+#define SWIG
 //#pragma SWIG nowarn=+320,401,503
 
-///////////////////////////
-
-%{
-template <typename T>
-class Asdf {
-	public:
-	T hello() {return (T) 5;}
-};
-
-template class Asdf<int>;
-
-template <typename K>
-class Xyz : public Asdf<K> {
-
-};
-
-%}
-
-template <typename T>
-class Asdf {
-	public:
-	T hello();
-};
-
-template <typename K>
-class Xyz : public Asdf<K> {
-
-};
-
-%template_interface("Asdf", Asdf<int>)
-
-%template(Xyz) Xyz<int>;
-
-///////////////////////////
-//%template(SX_GenericMatrix) casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >;
+%template_interface("SX_GenericExpression", casadi::GenericExpression< casadi::Matrix< casadi::SXElem > >)
+// %template_interface("SX_GenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >)
+// %template_interface("SX_Printable", casadi::Printable< casadi::Matrix< casadi::SXElem > >)
 %template(SX) casadi::Matrix<casadi::SXElem>;
 
 //%template(SXVector) std::vector<SX>;
