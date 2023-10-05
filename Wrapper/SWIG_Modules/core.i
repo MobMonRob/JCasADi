@@ -198,6 +198,10 @@ class Asdf {
 
 template class Asdf<int>;
 
+class Xyz : public Asdf<int> {
+
+};
+
 %}
 
 %interface_custom("Asdf_Proxy", "Asdf_Interface", Asdf<int>)
@@ -211,8 +215,12 @@ class Asdf {
 	T hello();
 };
 
+
 %template(Asdf) Asdf<int>;
 
+class Xyz : public Asdf<int> {
+
+};
 
 
 ///////////////////////////
