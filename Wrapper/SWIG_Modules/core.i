@@ -205,24 +205,20 @@ class Xyz : public Asdf<K> {
 
 %}
 
-%interface_custom("Asdf_Proxy", "Asdf_Interface", Asdf<int>)
-
-// %feature("interface", name="Asdf_Interface") Asdf<int>;
-// INTERFACE_TYPEMAPS(Asdf<int>)
-
 template <typename T>
 class Asdf {
 	public:
 	T hello();
 };
 
-
-%template(Asdf) Asdf<int>;
-
 template <typename K>
 class Xyz : public Asdf<K> {
 
 };
+
+%feature("interface", name="Asdf_Interface") Asdf<int>;
+INTERFACE_TYPEMAPS(Asdf<int>)
+%template("Asdf_Proxy") Asdf<int>;
 
 %template(Xyz) Xyz<int>;
 
