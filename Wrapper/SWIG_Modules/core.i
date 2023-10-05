@@ -176,7 +176,7 @@ using namespace casadi;
 
 //%import "casadi/core/core.hpp"
 
-%interface_impl(casadi::MatrixCommon);
+%interface_custom("MatrixCommon_Proxy", "MatrixCommon_Interface", casadi::MatrixCommon)
 
 //#pragma SWIG nowarn=320,401,503
 %import "casadi/core/generic_matrix.hpp"
@@ -223,15 +223,6 @@ INTERFACE_TYPEMAPS(Asdf<int>)
 %template(Xyz) Xyz<int>;
 
 ///////////////////////////
-
-%extend casadi::MatrixCommon {
-	public:
-	int test() {
-		return 1;
-	}
-}
-
-//%template(Commona) casadi::MatrixCommon<int>;
 //%template(SX_GenericMatrix) casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >;
 %template(SX) casadi::Matrix<casadi::SXElem>;
 
