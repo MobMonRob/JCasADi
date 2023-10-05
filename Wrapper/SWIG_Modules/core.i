@@ -198,7 +198,8 @@ class Asdf {
 
 template class Asdf<int>;
 
-class Xyz : public Asdf<int> {
+template <typename K>
+class Xyz : public Asdf<K> {
 
 };
 
@@ -218,10 +219,12 @@ class Asdf {
 
 %template(Asdf) Asdf<int>;
 
-class Xyz : public Asdf<int> {
+template <typename K>
+class Xyz : public Asdf<K> {
 
 };
 
+%template(Xyz) Xyz<int>;
 
 ///////////////////////////
 
