@@ -6,6 +6,7 @@ public class JCasADi {
 
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
-		// SX sx = SX.sym()
+		SX posi = SX.sym("p", 2);
+		System.out.println("test: " + posi.str());
 	}
 }

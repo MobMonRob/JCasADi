@@ -6,6 +6,7 @@
 
 // SWIG lib .i fles
 %include <swiginterface.i>
+%include <std_string.i>
 
 ////////////////
 
@@ -184,25 +185,43 @@ using namespace casadi;
 
 //////////////////
 
-%interface(casadi::GenericExpressionCommon)
-%ignore printme;
+#pragma SWIG nowarn=503
+
+// %interface(casadi::GenericExpressionCommon)
+// class casadi::GenericExpressionCommon {};
+%ignore casadi::GenericExpressionCommon;
+%ignore casadi::GenericExpression::printme;
+
+// %interface(casadi::MatrixCommon)
+// %interface(casadi::SparsityInterfaceCommon)
+// %interface(casadi::GenericMatrixCommon)
+// %interface(casadi::PrintableCommon)
+%ignore casadi::MatrixCommon;
+%ignore casadi::SparsityInterfaceCommon;
+%ignore casadi::GenericMatrixCommon;
+%ignore casadi::PrintableCommon;
 
 // %import "casadi/core/sx_elem.hpp"
 class casadi::SXElem;
 #undef SWIG
-//#pragma SWIG nowarn=320,401,503
-%import "casadi/core/generic_matrix.hpp"
+%import "casadi/core/sparsity_interface.hpp"
 %import "casadi/core/generic_expression.hpp"
-%import "casadi/core/matrix_decl.hpp"
-%import "casadi/core/sx_fwd.hpp"
-%import "casadi/core/sx.hpp"
+%import "casadi/core/printable.hpp"
 #define SWIG
-//#pragma SWIG nowarn=+320,401,503
+%import "casadi/core/generic_matrix.hpp"
+%import "casadi/core/matrix_decl.hpp"
+#undef SWIG
+// %import "casadi/core/sx_fwd.hpp"
+%include "casadi/core/sx.hpp"
+#define SWIG
 
+%template_interface("SX_Sparsity", casadi::SparsityInterface< casadi::Matrix< casadi::SXElem > >)
+%template_interface("SxGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SX_GenericExpression", casadi::GenericExpression< casadi::Matrix< casadi::SXElem > >)
-// %template_interface("SX_GenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >)
-// %template_interface("SX_Printable", casadi::Printable< casadi::Matrix< casadi::SXElem > >)
+%template_interface("SX_Printable", casadi::Printable< casadi::Matrix< casadi::SXElem > >)
 %template(SX) casadi::Matrix<casadi::SXElem>;
+
+//#pragma SWIG nowarn=+503
 
 //%template(SXVector) std::vector<SX>;
 //%template(SXIList) std::initializer_list<SX>;
