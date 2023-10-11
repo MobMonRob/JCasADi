@@ -172,7 +172,7 @@ using namespace casadi;
 
 //// Start: SX
 
-#pragma SWIG nowarn=503
+// #pragma SWIG nowarn=503
 
 // %interface(casadi::GenericExpressionCommon)
 // class casadi::GenericExpressionCommon {};
@@ -195,18 +195,31 @@ class casadi::SXElem;
 %import "casadi/core/generic_expression.hpp"
 %import "casadi/core/printable.hpp"
 #define SWIG
+#define DOXYGEN
 %import "casadi/core/generic_matrix.hpp"
+#undef DOXYGEN
 %import "casadi/core/matrix_decl.hpp"
 #undef SWIG
+// %import "casadi/core/matrix_decl.hpp"
 // %import "casadi/core/sx_fwd.hpp"
 %include "casadi/core/sx.hpp"
 #define SWIG
+
+// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
+%extend casadi::Matrix<casadi::SXElem> {
+	// casadi::SubIndex<casadi::Matrix<casadi::SXElem>, int> at(const int &rr) {return  (*($self))(rr);}
+	// Don't need to wrap SubIndex because use of baseclass Matrix is sufficient.
+	casadi::Matrix<casadi::SXElem> at(const int &rr) {return (*($self))(rr);}
+}
 
 %template_interface("SxSparsity", casadi::SparsityInterface< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SxGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SxGenericExpression", casadi::GenericExpression< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SxPrintable", casadi::Printable< casadi::Matrix< casadi::SXElem > >)
 %template(SX) casadi::Matrix<casadi::SXElem>;
+
+// %import "casadi/core/submatrix.hpp"
+// %template(SxSubIndex) casadi::SubIndex<casadi::Matrix<casadi::SXElem>, int>;
 
 //#pragma SWIG nowarn=+503
 

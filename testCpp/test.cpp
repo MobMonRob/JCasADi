@@ -13,6 +13,7 @@ int main(){
     casadi::SX posi_des = casadi::SX::sym("p_des", 2);
 
     // objective function
+	// casadi::SX::get()
     casadi::SX fun_obj = pow(posi(0)-posi_des(0), 2) +
                          pow(posi(1)-posi_des(1), 2);
     // gradients
