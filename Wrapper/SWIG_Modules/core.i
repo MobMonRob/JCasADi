@@ -155,8 +155,8 @@ using namespace casadi;
 */
 
 //////
-// Scalar expressions (why do I need to put it up here?)
-//%include "casadi/core/sx_elem.hpp"
+// Im Folgenden etwa die gleiche Reihenfolge wie  in "casadi/core/core.hpp"
+//////
 
 // Generic tools
 //%include "casadi/core/polynomial.hpp"
@@ -166,24 +166,11 @@ using namespace casadi;
 
 // Matrices
 
-/*
-%ignore casadi::PrintableCommon;
-//%ignore MatrixCommon;
-%ignore casadi::GenericExpressionCommon;
-%ignore casadi::Sparsity;
-%ignore casadi::Slice;
-%ignore casadi::DeserializingStream;
-%ignore casadi::SerializingStream;
-%ignore casadi::GenericMatrixCommon;
-%ignore casadi::SparsityInterfaceCommon;
-%ignore casadi::PrintableCommon;
-*/
-
 //%import "casadi/core/core.hpp"
 
 // %interface_custom("MatrixCommon_Proxy", "MatrixCommon_Interface", casadi::MatrixCommon)
 
-//////////////////
+//// Start: SX
 
 #pragma SWIG nowarn=503
 
@@ -215,10 +202,10 @@ class casadi::SXElem;
 %include "casadi/core/sx.hpp"
 #define SWIG
 
-%template_interface("SX_Sparsity", casadi::SparsityInterface< casadi::Matrix< casadi::SXElem > >)
+%template_interface("SxSparsity", casadi::SparsityInterface< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SxGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >)
-%template_interface("SX_GenericExpression", casadi::GenericExpression< casadi::Matrix< casadi::SXElem > >)
-%template_interface("SX_Printable", casadi::Printable< casadi::Matrix< casadi::SXElem > >)
+%template_interface("SxGenericExpression", casadi::GenericExpression< casadi::Matrix< casadi::SXElem > >)
+%template_interface("SxPrintable", casadi::Printable< casadi::Matrix< casadi::SXElem > >)
 %template(SX) casadi::Matrix<casadi::SXElem>;
 
 //#pragma SWIG nowarn=+503
@@ -228,6 +215,7 @@ class casadi::SXElem;
 //%template(SXVectorVector) std::vector<SXVector> SXVectorVector;
 //%template(SXDict) std::map<std::string, SX>;
 
+//// Stop: SX
 
 //%include "casadi/core/dm.hpp"
 //%include "casadi/core/im.hpp"
