@@ -172,7 +172,7 @@ using namespace casadi;
 
 //// Start: SX
 
-// #pragma SWIG nowarn=503
+#pragma SWIG nowarn=503
 
 // %interface(casadi::GenericExpressionCommon)
 // class casadi::GenericExpressionCommon {};
@@ -188,17 +188,37 @@ using namespace casadi;
 %ignore casadi::GenericMatrixCommon;
 %ignore casadi::PrintableCommon;
 
+%ignore sparsity;
+%ignore mtimes;
+%ignore vertsplit;
+%ignore nnz;
+%ignore numel;
+%ignore diagsplit;
+%ignore horzsplit;
+%ignore horzsplit_n;
+%ignore jtimes;
+
+%ignore nnz_lower;
+%ignore nnz_upper;
+%ignore size1;
+%ignore size2;
+%ignore is_dense;
+%ignore is_vector;
+%ignore is_row;
+%ignore is_column;
+%ignore is_triu;
+%ignore is_tril;
+
+
 // %import "casadi/core/sx_elem.hpp"
 class casadi::SXElem;
 #undef SWIG
 %import "casadi/core/sparsity_interface.hpp"
 %import "casadi/core/generic_expression.hpp"
 %import "casadi/core/printable.hpp"
-#define SWIG
-#define DOXYGEN
 %import "casadi/core/generic_matrix.hpp"
-#undef DOXYGEN
 %import "casadi/core/matrix_decl.hpp"
+#define SWIG
 #undef SWIG
 // %import "casadi/core/matrix_decl.hpp"
 // %import "casadi/core/sx_fwd.hpp"
