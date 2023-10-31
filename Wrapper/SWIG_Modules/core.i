@@ -209,6 +209,14 @@ using namespace casadi;
 %ignore is_triu;
 %ignore is_tril;
 
+// Start: Überladungen, die in Netbeans Probleme machen.
+%ignore dim;
+%ignore size;
+%ignore is_empty;
+%ignore is_scalar;
+%ignore row;
+%ignore colind;
+// Stop: Überladungen, die in Netbeans Probleme machen.
 
 // %import "casadi/core/sx_elem.hpp"
 class casadi::SXElem;
