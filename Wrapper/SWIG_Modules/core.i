@@ -7,6 +7,7 @@
 // SWIG lib .i fles
 %include <swiginterface.i>
 %include <std_string.i>
+%include <std_vector.i>
 
 ////////////////
 
@@ -285,6 +286,42 @@ class casadi::SXElem;
 //%include "casadi/core/xml_file.hpp"
 //%include "casadi/core/optistack.hpp"
 //%include "casadi/core/serializer.hpp"
+
+
+//// Start: Function
+%template_interface("FunctionPrintable", casadi::Printable< casadi::Function >)
+%interface_custom("SharedObject", "ISharedObject", casadi::SharedObject)
+
+%interface_custom("SharedObjectInternal", "ISharedObjectInternal", casadi::SharedObjectInternal)
+%interface_custom("FunctionInternal", "IFunctionInternal", casadi::FunctionInternal)
+
+%{
+// To trick the cpp compiler. Unsure, if will lead to errors.
+class casadi::SharedObjectInternal {
+
+};
+class casadi::FunctionInternal : public casadi::SharedObjectInternal {
+
+};
+/////
+%}
+
+class casadi::SharedObjectInternal {
+
+};
+class casadi::FunctionInternal : public casadi::SharedObjectInternal {
+
+};
+
+typedef casadi::Matrix<casadi::SXElem> SX;
+%template(StdVectorSx) std::vector<SX>;
+
+#undef SWIG
+%include "casadi/core/shared_object.hpp"
+%include "casadi/core/function.hpp"
+#define SWIG
+
+//// Stop: Function
 
 
 //"Submodules"

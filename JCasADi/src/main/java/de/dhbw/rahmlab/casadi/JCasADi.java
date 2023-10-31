@@ -1,6 +1,8 @@
 package de.dhbw.rahmlab.casadi;
 
+import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorSx;
 
 public class JCasADi {
 
@@ -20,7 +22,7 @@ public class JCasADi {
 			SX.pow(SX.minus(posi.at(0), posi_des.at(0)), new SX(2)),
 			SX.pow(SX.minus(posi.at(1), posi_des.at(1)), new SX(2))
 		);
-
+//
 //		// gradients
 //		casadi::SX fun_obj_grad = jacobian(fun_obj, posi);  // 1 by 2 jacobian matrix
 		SX fun_obj_grad = SX.jacobian(fun_obj, posi);
@@ -28,6 +30,8 @@ public class JCasADi {
 //		// functions to be generated
 //		casadi::Function f_fun_obj("fun_obj", {posi, posi_des}, {fun_obj});
 //		casadi::Function f_fun_obj_grad("fun_obj_grad", {posi, posi_des}, {fun_obj_grad});
+		Function f_fun_obj = new Function("fun_obj", new StdVectorSx(new SX[]{posi, posi_des}), new StdVectorSx(new SX[]{fun_obj}));
+		Function f_fun_obj_grad = new Function("fun_obj_grad", new StdVectorSx(new SX[]{posi, posi_des}), new StdVectorSx(new SX[]{fun_obj_grad}));
 //
 //		// Numeric
 //		// input
