@@ -228,7 +228,6 @@ class casadi::SXElem;
 %import "casadi/core/matrix_decl.hpp"
 #define SWIG
 #undef SWIG
-// %import "casadi/core/matrix_decl.hpp"
 // %import "casadi/core/sx_fwd.hpp"
 %include "casadi/core/sx.hpp"
 #define SWIG

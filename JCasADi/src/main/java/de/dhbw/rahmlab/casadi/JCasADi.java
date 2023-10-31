@@ -23,7 +23,7 @@ public class JCasADi {
 
 //		// gradients
 //		casadi::SX fun_obj_grad = jacobian(fun_obj, posi);  // 1 by 2 jacobian matrix
-		// SX fun_obj_grad = SX.j
+		SX fun_obj_grad = SX.jacobian(fun_obj, posi);
 //
 //		// functions to be generated
 //		casadi::Function f_fun_obj("fun_obj", {posi, posi_des}, {fun_obj});
