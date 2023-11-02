@@ -323,6 +323,34 @@ typedef casadi::Matrix<casadi::SXElem> SX;
 
 //// Stop: Function
 
+//// Start: std::vector<double>
+
+%template(StdVectorDouble) std::vector<double>;
+
+//// Stop: std::vector<double>
+
+//// Start: DM
+// dm_fwd.hpp
+typedef casadi::Matrix<double> DM;
+
+// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
+%extend casadi::Matrix<double> {
+	// casadi::SubIndex<casadi::Matrix<double>, int> at(const int &rr) {return  (*($self))(rr);}
+	// Don't need to wrap SubIndex because use of baseclass Matrix is sufficient.
+	casadi::Matrix<double> at(const int &rr) {return (*($self))(rr);}
+}
+
+%template_interface("DmSparsity", casadi::SparsityInterface< casadi::Matrix< double > >)
+%template_interface("DmGenericMatrix", casadi::GenericMatrix< casadi::Matrix< double > >)
+%template_interface("DmGenericExpression", casadi::GenericExpression< casadi::Matrix< double > >)
+%template_interface("DmPrintable", casadi::Printable< casadi::Matrix< double > >)
+%template(DM) casadi::Matrix<double>;
+
+// dm_fwd.hpp
+typedef std::vector<DM> DMVector;
+%template(StdVectorDM) std::vector<DM>;
+//// Stop: DM
+
 
 //"Submodules"
 

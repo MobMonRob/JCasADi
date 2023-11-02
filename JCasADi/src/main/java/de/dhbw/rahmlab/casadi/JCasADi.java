@@ -1,7 +1,10 @@
 package de.dhbw.rahmlab.casadi;
 
+import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSx;
 
 public class JCasADi {
@@ -38,25 +41,37 @@ public class JCasADi {
 //		std::vector<double> posi_val(2, 0);
 //		posi_val[0] = 10.0;
 //		posi_val[1] = 5.0;
+		StdVectorDouble posi_val = new StdVectorDouble(new double[]{10.0, 5.0});
 //
 //		std::vector<double> posi_des_val(2, 0);
 //		posi_des_val[0] = 5.0;
 //		posi_des_val[1] = 3.0;
+		StdVectorDouble posi_des_val = new StdVectorDouble(new double[]{5.0, 3.0});
 //
 //		std::vector<casadi::DM> arg_1 = {casadi::DM(posi_val), casadi::DM(posi_des_val)};
+		StdVectorDM arg_1 = new StdVectorDM(new DM[]{new DM(posi_val), new DM(posi_des_val)});
 //
 //		// compute objective function
 //		std::vector<casadi::DM> result_1 = f_fun_obj(arg_1);
+		StdVectorDM result_1 = new StdVectorDM();
+		f_fun_obj.call(arg_1, result_1);
+//
 //		// the first result
 //		std::cout << "objective function: " << result_1.at(0) << std::endl;
+		System.out.println("objective function: " + result_1.get(0).str());
 //
 //
 //		// another way to input
 //		std::vector<casadi::DM> arg_2 = {posi_val, posi_des_val};
+		StdVectorDM arg_2 = new StdVectorDM(new DM[]{new DM(posi_val), new DM(posi_des_val)});
 //
 //		// compute objective function jacobian
 //		std::vector<casadi::DM> result_2 = f_fun_obj_grad(arg_2);
+		StdVectorDM result_2 = new StdVectorDM();
+		f_fun_obj_grad.call(arg_2, result_2);
+//
 //		// the first result
 //		std::cout << "objective function jacobian: " << result_2.at(0) << std::endl;
+		System.out.println("objective function jacobian: " + result_2.get(0).str());
 	}
 }
