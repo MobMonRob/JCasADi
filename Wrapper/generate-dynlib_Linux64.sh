@@ -22,7 +22,8 @@ run() {
 	#-flto
 	#-c für nicht linken (nur .o erzeugen)
 	#-shared .so muss tun, damit sicher der Fehler nicht hier liegt.
-	g++ -c -fPIC -O3 -cpp -std=c++17 "$linuxTmp/$swigCpp" \
+	#-O3
+	g++ -c -fPIC -cpp -std=c++17 "$linuxTmp/$swigCpp" \
 	-I"$javaIncludeLinux/linux" -I"$javaIncludeLinux" -I"$wrapLibInclude" \
 	-o "$linuxTmp/$swigCpp.o"
 	done
