@@ -20,8 +20,8 @@ run() {
 
 	local -r SwigModulesArray=($(find "$swigModulesDirectory"/* -maxdepth 0 -mindepth 0 -type f -printf '%f\n'))
 
-	local -r moduleOfInterest="core.i"
-	# local -r moduleOfInterest="casadi.i"
+	# local -r moduleOfInterest="core.i"
+	local -r moduleOfInterest="casadi.i"
 
 	local -r filterModule="true"
 
