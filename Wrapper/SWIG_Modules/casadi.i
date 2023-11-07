@@ -24,9 +24,17 @@
 
 
 
-%module(package="casadi",directors=1) casadi
+%module(directors=1) casadiModule
+// package="casadiPackage",
+
+// Own generic .i files
+%include "_common.i"
 
 // Fix
+// #define SWIGMATLAB
+%ignore casadi::Slice::Slice(casadi_int i, bool ind1=false);
+%rename(close) casadi::Callback::finalize();
+
 %include <std_string.i>
 
 // %include typemaps/swigtypemaps.swg
@@ -4688,3 +4696,17 @@ opti_metadata_modifiers(casadi::Opti)
 %exception {
   $action
 }
+
+// Fix: SWIGTYPE's
+%inline %{
+  typedef casadi::Matrix<casadi::SXElem> SX;
+%}
+%template(StdVectorSx) std::vector<SX>;
+
+%template(StdVectorDouble) std::vector<double>;
+
+%inline %{
+  typedef casadi::Matrix<double> DM;
+  typedef std::vector<DM> DMVector;
+%}
+%template(StdVectorDM) std::vector<DM>;
