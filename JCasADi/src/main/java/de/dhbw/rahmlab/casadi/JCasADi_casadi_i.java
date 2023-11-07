@@ -1,13 +1,14 @@
 package de.dhbw.rahmlab.casadi;
 
+import de.dhbw.rahmlab.casadi.impl.SWIGTYPE_p_std__mapT_std__string_casadi__GenericType_std__lessT_std__string_t_t;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenSX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
+import static de.dhbw.rahmlab.casadi.impl.casadiModule.*;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSx;
-import static de.dhbw.rahmlab.casadi.impl.casadiModule.*;
 
 public class JCasADi_casadi_i {
 
@@ -24,13 +25,13 @@ public class JCasADi_casadi_i {
 //		casadi::SX fun_obj = pow(posi(0)-posi_des(0), 2) +
 //							 pow(posi(1)-posi_des(1), 2);
 		SX fun_obj = plus(
-			pow(minus(posi.at(0), posi_des.at(0)), new SX(2)),
-			pow(minus(posi.at(1), posi_des.at(1)), new SX(2))
+			power(minus(posi.at(0), posi_des.at(0)), new SX(2)),
+			power(minus(posi.at(1), posi_des.at(1)), new SX(2))
 		);
 //
 //		// gradients
 //		casadi::SX fun_obj_grad = jacobian(fun_obj, posi);  // 1 by 2 jacobian matrix
-		SX fun_obj_grad = SX.jacobian(fun_obj, posi);
+		SX fun_obj_grad = jacobian(fun_obj, posi, new SWIGTYPE_p_std__mapT_std__string_casadi__GenericType_std__lessT_std__string_t_t());
 //
 //		// functions to be generated
 //		casadi::Function f_fun_obj("fun_obj", {posi, posi_des}, {fun_obj});

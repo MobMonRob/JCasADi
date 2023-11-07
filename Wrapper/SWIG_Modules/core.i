@@ -201,6 +201,7 @@ class casadi::FunctionInternal : public casadi::SharedObjectInternal {
 
 };
 
+// Muss womöglich vor function.hpp stehen, wo das verwendet wird.
 typedef casadi::Matrix<casadi::SXElem> SX;
 %template(StdVectorSx) std::vector<SX>;
 

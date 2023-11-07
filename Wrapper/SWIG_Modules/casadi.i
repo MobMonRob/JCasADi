@@ -66,8 +66,8 @@
   /// Data structure in the target language holding data
 #ifdef SWIGPYTHON
 #define GUESTOBJECT PyObject
-#elif defined(SWIGMATLAB)
-#define GUESTOBJECT mxArray
+// #elif defined(SWIGMATLAB)
+// #define GUESTOBJECT mxArray
 #elif defined(SWIGJAVA)
 #define GUESTOBJECT jlong
 #endif
@@ -129,7 +129,7 @@
   casadi::InterruptHandler::is_main_thread();
 
 %}
-#elif defined(SWIGMATLAB)
+#elif defined(SWIGMATLAB__NO)
 %{
   namespace casadi {
     // Redirect printout to mexPrintf
@@ -2410,13 +2410,13 @@ namespace std {
 #undef MATLABSTYLE
 
 // Matlab is index-1 based
-#ifdef SWIGMATLAB
-%typemap(in, doc="index", noblock=1) casadi_index {
-  if (!casadi::to_val($input, &$1)) SWIG_exception(SWIG_TypeError,"Failed to convert input $argnum to type ' index '.");
-  if ($1==0) SWIG_exception(SWIG_TypeError,"Index starts at 1, got index '0'.");
-  if ($1>=1) $1--;
-}
-#endif
+// #ifdef SWIGMATLAB
+// %typemap(in, doc="index", noblock=1) casadi_index {
+//   if (!casadi::to_val($input, &$1)) SWIG_exception(SWIG_TypeError,"Failed to convert input $argnum to type ' index '.");
+//   if ($1==0) SWIG_exception(SWIG_TypeError,"Index starts at 1, got index '0'.");
+//   if ($1>=1) $1--;
+// }
+// #endif
 
 #endif // SWIGXML
 
@@ -2619,13 +2619,13 @@ def dcat(args):
 %feature("varargin","1") casadi_veccat;
 %feature("optionalunpack","1") size;
 
-// Raise an error if "this" not correct
-%typemap(check, noblock=1) SWIGTYPE *self %{
-if (!$1) {
-  SWIG_Error(SWIG_RuntimeError, "Invalid 'self' object");
-  SWIG_fail;
- }
-%}
+// // Raise an error if "this" not correct
+// %typemap(check, noblock=1) SWIGTYPE *self %{
+// if (!$1) {
+//   SWIG_Error(SWIG_RuntimeError, "Invalid 'self' object");
+//   SWIG_fail;
+//  }
+// %}
 
 // Workarounds, pending proper fix
 %rename(nonzero) __nonzero__;
@@ -2908,13 +2908,13 @@ namespace casadi{
     def repr(self): return self.type_name() + '(' + self.str() + ')'
   %}
 #endif // SWIGPYTHON
-#ifdef SWIGMATLAB
-  %matlabcode %{
-    function s = repr(self)
-      s = [self.type_name() '(' self.str() ')'];
-    end
-  %}
-#endif // SWIGMATLAB
+// #ifdef SWIGMATLAB
+//   %matlabcode %{
+//     function s = repr(self)
+//       s = [self.type_name() '(' self.str() ')'];
+//     end
+//   %}
+// #endif // SWIGMATLAB
 }
 } // namespace casadi
 
@@ -3100,7 +3100,7 @@ SPARSITY_INTERFACE_FUN(DECL, (FLAG | IS_DMATRIX), Matrix<double>)
 SPARSITY_INTERFACE_FUN(DECL, (FLAG | IS_SX), Matrix<SXElem>)
 %enddef
 
-#ifdef SWIGMATLAB
+#ifdef SWIGMATLAB__NO
   %define SPARSITY_INTERFACE_FUN(DECL, FLAG, M)
     SPARSITY_INTERFACE_FUN_BASE(DECL, FLAG, M)
     #if FLAG & IS_MEMBER
@@ -3858,7 +3858,7 @@ namespace casadi{
 #endif // SWIGPYTHON
 
 
-#ifdef SWIGMATLAB
+#ifdef SWIGMATLAB__NO
 namespace casadi{
 
 
@@ -4075,189 +4075,189 @@ def PyFunction(name, obj, inputs, outputs, opts={}):
 #endif
 
 %include <casadi/core/function.hpp>
-#ifdef SWIGPYTHON
-namespace casadi{
-%extend Function {
-  %pythoncode %{
-    def __call__(self, *args, **kwargs):
-      # Either named inputs or ordered inputs
-      if len(args)>0 and len(kwargs)>0:
-        raise SyntaxError('Function evaluation requires all arguments to be named or none')
-      if len(args)>0:
-        # Ordered inputs -> return tuple
-        ret = self.call(args)
-        if len(ret)==0:
-          return None
-        elif len(ret)==1:
-          return ret[0]
-        else:
-          return tuple(ret)
-      else:
-        # Named inputs -> return dictionary
-        return self.call(kwargs)
+// #ifdef SWIGPYTHON
+// namespace casadi{
+// %extend Function {
+//   %pythoncode %{
+//     def __call__(self, *args, **kwargs):
+//       # Either named inputs or ordered inputs
+//       if len(args)>0 and len(kwargs)>0:
+//         raise SyntaxError('Function evaluation requires all arguments to be named or none')
+//       if len(args)>0:
+//         # Ordered inputs -> return tuple
+//         ret = self.call(args)
+//         if len(ret)==0:
+//           return None
+//         elif len(ret)==1:
+//           return ret[0]
+//         else:
+//           return tuple(ret)
+//       else:
+//         # Named inputs -> return dictionary
+//         return self.call(kwargs)
 
-    def buffer(self):
-      """
-      Create a FunctionBuffer object for evaluating with minimal overhead
+//     def buffer(self):
+//       """
+//       Create a FunctionBuffer object for evaluating with minimal overhead
 
-      """
-      import functools
-      fb = FunctionBuffer(self)
-      caller = functools.partial(_casadi._function_buffer_eval, fb._self())
-      return (fb, caller)
-  %}
+//       """
+//       import functools
+//       fb = FunctionBuffer(self)
+//       caller = functools.partial(_casadi._function_buffer_eval, fb._self())
+//       return (fb, caller)
+//   %}
 
 
- }
+//  }
 
-}
-#endif // SWIGPYTHON
+// }
+// #endif // SWIGPYTHON
 
-#ifdef SWIGMATLAB
-namespace casadi{
-%extend GenericMatrixCommon {
-  %matlabcode %{
-    function varargout = spy(self,varargin)
-      [varargout{1:nargout}] = spy(sparse(casadi.DM(self.sparsity(),1)),varargin{:});
-    end
-    function varargout = subsref(self,s)
-      if numel(s)==1 && strcmp(s.type,'()')
-        [varargout{1}] = paren(self, s.subs{:});
-      elseif numel(s)==1 && strcmp(s.type,'{}')
-        [varargout{1}] = brace(self, s.subs{:});
-      else
-        [varargout{1:nargout}] = builtin('subsref',self,s);
-      end
-    end
-    function self = subsasgn(self,s,v)
-      if numel(s)==1 && strcmp(s.type,'()')
-        paren_asgn(self, v, s.subs{:});
-      elseif numel(s)==1 && strcmp(s.type,'{}')
-        brace_asgn(self, v, s.subs{:});
-      else
-        self = builtin('subsasgn',self,s,v);
-      end
-    end
-    function out = sum(self,varargin)
-      narginchk(1,3);
-      if nargin==1
-        if is_vector(self)
-          if is_column(self)
-            out = sum1(self);
-          else
-            out = sum2(self);
-          end
-        else
-          out = sum1(self);
-        end
-      else
-        i = varargin{1};
-        if i==1
-          out = sum1(self);
-        elseif i==2
-          out = sum2(self);
-        else
-          error('sum argument (if present) must be 1 or 2');
-        end
-      end
-    end
-    function out = norm(self,varargin)
-      narginchk(1,2);
-      % 2-norm by default
-      if nargin==1
-        ind = 2;
-      else
-        ind = varargin{1};
-      end
-      % Typecheck
-      assert((isnumeric(ind) && isscalar(ind)) || ischar(ind))
-      % Pick the right norm
-      if isnumeric(ind)
-        switch ind
-          case 1
-            out = norm_1(self);
-          case 2
-            out = norm_2(self);
-          case inf
-            out = norm_inf(self);
-          otherwise
-            error(sprintf('Unknown norm argument: %g', ind))
-        end
-      else
-        switch ind
-          case 'fro'
-            out = norm_fro(self);
-          case 'inf'
-            out = norm_inf(self);
-          otherwise
-            error(sprintf('Unknown norm argument: ''%s''', ind))
-        end
-      end
-    end
-    function out = min(varargin)
-      narginchk(1,2);
-      if nargin==1
-        out = mmin(varargin{1});
-      else
-        out = fmin(varargin{1}, varargin{2});
-      end
-    end
-    function out = max(varargin)
-      narginchk(1,2);
-      if nargin==1
-        out = mmax(varargin{1});
-      else
-        out = fmax(varargin{1}, varargin{2});
-      end
-    end
-    function b = isrow(self)
-      b = is_row(self);
-    end
-    function b = iscolumn(self)
-      b = is_column(self);
-    end
-    function b = isvector(self)
-      b = is_vector(self);
-    end
-    function b = isscalar(self)
-      b = is_scalar(self);
-    end
-  %}
-}
-%extend Function {
-  %matlabcode %{
-    function varargout = subsref(self,s)
-      if numel(s)==1 && strcmp(s.type,'()')
-        [varargout{1:nargout}]= paren(self, s.subs{:});
-      else
-        [varargout{1:nargout}] = builtin('subsref',self,s);
-      end
-   end
-   function varargout = paren(self, varargin)
-      if nargin==1 || (nargin>=2 && ischar(varargin{1}))
-        % Named inputs: return struct
-        assert(nargout<2, 'Syntax error');
-        assert(mod(nargin,2)==1, 'Syntax error');
-        arg = struct;
-        for i=1:2:nargin-1
-          assert(ischar(varargin{i}), 'Syntax error');
-          arg.(varargin{i}) = varargin{i+1};
-        end
-        res = self.call(arg);
-        varargout{1} = res;
-      else
-        % Ordered inputs: return variable number of outputs
-        res = self.call(varargin);
-        assert(nargout<=numel(res), 'Too many outputs');
-        for i=1:max(min(1,numel(res)),nargout)
-          varargout{i} = res{i};
-        end
-      end
-    end
-  %}
- }
-}
-#endif // SWIGMATLAB
+// #ifdef SWIGMATLAB__NO
+// namespace casadi{
+// %extend GenericMatrixCommon {
+//   %matlabcode %{
+//     function varargout = spy(self,varargin)
+//       [varargout{1:nargout}] = spy(sparse(casadi.DM(self.sparsity(),1)),varargin{:});
+//     end
+//     function varargout = subsref(self,s)
+//       if numel(s)==1 && strcmp(s.type,'()')
+//         [varargout{1}] = paren(self, s.subs{:});
+//       elseif numel(s)==1 && strcmp(s.type,'{}')
+//         [varargout{1}] = brace(self, s.subs{:});
+//       else
+//         [varargout{1:nargout}] = builtin('subsref',self,s);
+//       end
+//     end
+//     function self = subsasgn(self,s,v)
+//       if numel(s)==1 && strcmp(s.type,'()')
+//         paren_asgn(self, v, s.subs{:});
+//       elseif numel(s)==1 && strcmp(s.type,'{}')
+//         brace_asgn(self, v, s.subs{:});
+//       else
+//         self = builtin('subsasgn',self,s,v);
+//       end
+//     end
+//     function out = sum(self,varargin)
+//       narginchk(1,3);
+//       if nargin==1
+//         if is_vector(self)
+//           if is_column(self)
+//             out = sum1(self);
+//           else
+//             out = sum2(self);
+//           end
+//         else
+//           out = sum1(self);
+//         end
+//       else
+//         i = varargin{1};
+//         if i==1
+//           out = sum1(self);
+//         elseif i==2
+//           out = sum2(self);
+//         else
+//           error('sum argument (if present) must be 1 or 2');
+//         end
+//       end
+//     end
+//     function out = norm(self,varargin)
+//       narginchk(1,2);
+//       % 2-norm by default
+//       if nargin==1
+//         ind = 2;
+//       else
+//         ind = varargin{1};
+//       end
+//       % Typecheck
+//       assert((isnumeric(ind) && isscalar(ind)) || ischar(ind))
+//       % Pick the right norm
+//       if isnumeric(ind)
+//         switch ind
+//           case 1
+//             out = norm_1(self);
+//           case 2
+//             out = norm_2(self);
+//           case inf
+//             out = norm_inf(self);
+//           otherwise
+//             error(sprintf('Unknown norm argument: %g', ind))
+//         end
+//       else
+//         switch ind
+//           case 'fro'
+//             out = norm_fro(self);
+//           case 'inf'
+//             out = norm_inf(self);
+//           otherwise
+//             error(sprintf('Unknown norm argument: ''%s''', ind))
+//         end
+//       end
+//     end
+//     function out = min(varargin)
+//       narginchk(1,2);
+//       if nargin==1
+//         out = mmin(varargin{1});
+//       else
+//         out = fmin(varargin{1}, varargin{2});
+//       end
+//     end
+//     function out = max(varargin)
+//       narginchk(1,2);
+//       if nargin==1
+//         out = mmax(varargin{1});
+//       else
+//         out = fmax(varargin{1}, varargin{2});
+//       end
+//     end
+//     function b = isrow(self)
+//       b = is_row(self);
+//     end
+//     function b = iscolumn(self)
+//       b = is_column(self);
+//     end
+//     function b = isvector(self)
+//       b = is_vector(self);
+//     end
+//     function b = isscalar(self)
+//       b = is_scalar(self);
+//     end
+//   %}
+// }
+// %extend Function {
+//   %matlabcode %{
+//     function varargout = subsref(self,s)
+//       if numel(s)==1 && strcmp(s.type,'()')
+//         [varargout{1:nargout}]= paren(self, s.subs{:});
+//       else
+//         [varargout{1:nargout}] = builtin('subsref',self,s);
+//       end
+//    end
+//    function varargout = paren(self, varargin)
+//       if nargin==1 || (nargin>=2 && ischar(varargin{1}))
+//         % Named inputs: return struct
+//         assert(nargout<2, 'Syntax error');
+//         assert(mod(nargin,2)==1, 'Syntax error');
+//         arg = struct;
+//         for i=1:2:nargin-1
+//           assert(ischar(varargin{i}), 'Syntax error');
+//           arg.(varargin{i}) = varargin{i+1};
+//         end
+//         res = self.call(arg);
+//         varargout{1} = res;
+//       else
+//         % Ordered inputs: return variable number of outputs
+//         res = self.call(varargin);
+//         assert(nargout<=numel(res), 'Too many outputs');
+//         for i=1:max(min(1,numel(res)),nargout)
+//           varargout{i} = res{i};
+//         end
+//       end
+//     end
+//   %}
+//  }
+// }
+// #endif // SWIGMATLAB
 %include <casadi/core/external.hpp>
 %include <casadi/core/integrator.hpp>
 %include <casadi/core/conic.hpp>
@@ -4481,16 +4481,16 @@ namespace casadi {
   %}
 }
 #endif // SWIGPYTHON
-#ifdef SWIGMATLAB
-%extend casadi::DeserializerBase {
-  %matlabcode %{
-    function out = unpack(self)
-      type = casadi.SerializerBase.type_to_string(self.internal_pop_type);
-      out = self.(['blind_unpack_' type]);
-    end
-  %}
-}
-#endif // SWIGMATLAB
+// #ifdef SWIGMATLAB
+// %extend casadi::DeserializerBase {
+//   %matlabcode %{
+//     function out = unpack(self)
+//       type = casadi.SerializerBase.type_to_string(self.internal_pop_type);
+//       out = self.(['blind_unpack_' type]);
+//     end
+//   %}
+// }
+// #endif // SWIGMATLAB
 
 %feature("director") casadi::OptiCallback;
 
@@ -4606,44 +4606,44 @@ opti_metadata_modifiers(casadi::Opti);
   %rename(internal_variable) class ## ::variable;
   %rename(internal_parameter) class ## ::parameter;
   %rename(internal_subject_to) class ## ::subject_to;
-  %extend class {
-    %matlabcode %{
-      function out = variable(self, varargin)
-        st = dbstack('-completenames',1);
-        if length(st)>0
-          meta = struct('stacktrace', st(1));
-        else
-          meta = struct;
-        end
-        out = self.internal_variable(varargin{:});
-        self.update_user_dict(out, meta);
-      end
-      function out = parameter(self, varargin)
-        st = dbstack('-completenames',1);
-        if length(st)>0
-          meta = struct('stacktrace', st(1));
-        else
-          meta = struct;
-        end
-        out = self.internal_parameter(varargin{:});
-        self.update_user_dict(out, meta);
-      end
-      function [] = subject_to(self, varargin)
-        if length(varargin)==0
-          self.internal_subject_to();
-          return;
-        end
-        st = dbstack('-completenames',1);
-        if length(st)>0
-          meta = struct('stacktrace', st(1));
-        else
-          meta = struct;
-        end
-        self.internal_subject_to(varargin{:});
-        self.update_user_dict(varargin{1}, meta);
-      end
-    %}
-  }
+  // %extend class {
+  //   %matlabcode %{
+  //     function out = variable(self, varargin)
+  //       st = dbstack('-completenames',1);
+  //       if length(st)>0
+  //         meta = struct('stacktrace', st(1));
+  //       else
+  //         meta = struct;
+  //       end
+  //       out = self.internal_variable(varargin{:});
+  //       self.update_user_dict(out, meta);
+  //     end
+  //     function out = parameter(self, varargin)
+  //       st = dbstack('-completenames',1);
+  //       if length(st)>0
+  //         meta = struct('stacktrace', st(1));
+  //       else
+  //         meta = struct;
+  //       end
+  //       out = self.internal_parameter(varargin{:});
+  //       self.update_user_dict(out, meta);
+  //     end
+  //     function [] = subject_to(self, varargin)
+  //       if length(varargin)==0
+  //         self.internal_subject_to();
+  //         return;
+  //       end
+  //       st = dbstack('-completenames',1);
+  //       if length(st)>0
+  //         meta = struct('stacktrace', st(1));
+  //       else
+  //         meta = struct;
+  //       end
+  //       self.internal_subject_to(varargin{:});
+  //       self.update_user_dict(varargin{1}, meta);
+  //     end
+  //   %}
+  // }
 %enddef
 
 opti_metadata_modifiers(casadi::Opti)
@@ -4682,7 +4682,7 @@ opti_metadata_modifiers(casadi::Opti)
 }
 #endif
 
-#ifdef SWIGMATLAB
+#ifdef SWIGMATLAB__NO
 %extend casadi::Opti {
   %matlabcode %{
     function [] = callback(self, varargin)
@@ -4697,10 +4697,29 @@ opti_metadata_modifiers(casadi::Opti)
   $action
 }
 
+// Fix: test
+// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
+%extend casadi::Matrix<casadi::SXElem> {
+	// casadi::SubIndex<casadi::Matrix<casadi::SXElem>, int> at(const int &rr) {return  (*($self))(rr);}
+	// Don't need to wrap SubIndex because use of baseclass Matrix is sufficient.
+	casadi::Matrix<casadi::SXElem> at(const int &rr) {return (*($self))(rr);}
+}
+
+// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
+%extend casadi::Matrix<double> {
+	// casadi::SubIndex<casadi::Matrix<double>, int> at(const int &rr) {return  (*($self))(rr);}
+	// Don't need to wrap SubIndex because use of baseclass Matrix is sufficient.
+	casadi::Matrix<double> at(const int &rr) {return (*($self))(rr);}
+}
+
 // Fix: SWIGTYPE's
-%inline %{
-  typedef casadi::Matrix<casadi::SXElem> SX;
+
+%include <std_vector.i>
+%{
+using namespace casadi;
 %}
+
+typedef casadi::Matrix<casadi::SXElem> SX;
 %template(StdVectorSx) std::vector<SX>;
 
 %template(StdVectorDouble) std::vector<double>;
