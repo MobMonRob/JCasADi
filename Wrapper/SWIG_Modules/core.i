@@ -158,7 +158,7 @@ class casadi::SXElem;
 	casadi::Matrix<casadi::SXElem> at(const int &rr) {return (*($self))(rr);}
 }
 
-%template_interface("SxSparsity", casadi::SparsityInterface< casadi::Matrix< casadi::SXElem > >)
+%template_interface("SxSparsityInterface", casadi::SparsityInterface< casadi::Matrix< casadi::SXElem > >) // Needed for GenericMatrix
 %template_interface("SxGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SxGenericExpression", casadi::GenericExpression< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SxPrintable", casadi::Printable< casadi::Matrix< casadi::SXElem > >)
@@ -183,7 +183,7 @@ class casadi::SXElem;
 %interface_custom("SharedObjectInternal", "ISharedObjectInternal", casadi::SharedObjectInternal)
 %interface_custom("FunctionInternal", "IFunctionInternal", casadi::FunctionInternal)
 
-%{
+%inline %{
 // To trick the cpp compiler. Unsure, if will lead to errors.
 class casadi::SharedObjectInternal {
 
@@ -194,14 +194,8 @@ class casadi::FunctionInternal : public casadi::SharedObjectInternal {
 /////
 %}
 
-class casadi::SharedObjectInternal {
-
-};
-class casadi::FunctionInternal : public casadi::SharedObjectInternal {
-
-};
-
 // Muss womöglich vor function.hpp stehen, wo das verwendet wird.
+// Beim MX scheint es nicht notwendig zu sein...
 typedef casadi::Matrix<casadi::SXElem> SX;
 %template(StdVectorSx) std::vector<SX>;
 
@@ -229,7 +223,7 @@ typedef casadi::Matrix<double> DM;
 	casadi::Matrix<double> at(const int &rr) {return (*($self))(rr);}
 }
 
-%template_interface("DmSparsity", casadi::SparsityInterface< casadi::Matrix< double > >)
+%template_interface("DmSparsityInterface", casadi::SparsityInterface< casadi::Matrix< double > >)
 %template_interface("DmGenericMatrix", casadi::GenericMatrix< casadi::Matrix< double > >)
 %template_interface("DmGenericExpression", casadi::GenericExpression< casadi::Matrix< double > >)
 %template_interface("DmPrintable", casadi::Printable< casadi::Matrix< double > >)
@@ -239,6 +233,36 @@ typedef casadi::Matrix<double> DM;
 typedef std::vector<DM> DMVector;
 %template(StdVectorDM) std::vector<DM>;
 //// Stop: DM
+
+//// Start: MX
+// Avoid SWIG Error
+%ignore repmat;
+
+class casadi::MX; // Forward declaration needed for Template instantiation in SWIG.
+%template_interface("MxGenericExpression", casadi::GenericExpression< casadi::MX >)
+%template_interface("MxPrintable", casadi::Printable< casadi::MX >)
+%template_interface("MxSparsityInterface", casadi::SparsityInterface< casadi::MX >) // Needed for GenericMatrix
+%template_interface("MxGenericMatrix", casadi::GenericMatrix< casadi::MX >)
+
+%inline %{
+// To trick the cpp compiler. Unsure, if will lead to errors.
+class casadi::MXNode : public casadi::SharedObjectInternal {
+
+};
+/////
+%}
+
+%ignore casadi::ConvexifyData;
+#undef SWIG
+// %import "casadi/core/sx_fwd.hpp"
+%include "casadi/core/mx.hpp"
+#define SWIG
+
+// Wichtig: Namespace "casadi::" vor "MX".
+typedef std::vector<casadi::MX> MXVector;
+%template(StdVectorMX) std::vector<casadi::MX>;
+//// Stop: MX
+
 
 //////
 // Im Folgenden etwa die gleiche Reihenfolge wie  in "casadi/core/core.hpp"
@@ -258,7 +282,7 @@ typedef std::vector<DM> DMVector;
 // %include "casadi/core/im.hpp"
 
 // // Matrix expressions
-// %include "casadi/core/mx.hpp"
+// Schon gemacht // %include "casadi/core/mx.hpp"
 
 // // Functions
 // %include "casadi/core/code_generator.hpp"

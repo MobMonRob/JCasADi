@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi;
 
+/*
 import de.dhbw.rahmlab.casadi.impl.SWIGTYPE_p_std__mapT_std__string_casadi__GenericType_std__lessT_std__string_t_t;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
@@ -9,10 +10,11 @@ import static de.dhbw.rahmlab.casadi.impl.casadiModule.*;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSx;
-
+ */
 public class JCasADi_casadi_i {
 
 	public static void main(String[] args) {
+		/*
 //		// Symbolic
 //		// symbolic variables
 //		casadi::SX posi = casadi::SX::sym("p", 2);
@@ -76,5 +78,6 @@ public class JCasADi_casadi_i {
 //		// the first result
 //		std::cout << "objective function jacobian: " << result_2.at(0) << std::endl;
 		System.out.println("objective function jacobian: " + result_2.get(0).str());
+		 */
 	}
 }
