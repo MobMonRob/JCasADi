@@ -908,7 +908,7 @@ namespace casadi {
       }
       return true;
     }
-    /// \endcond
+    // / \endcond
 #endif // SWIG
   };
 

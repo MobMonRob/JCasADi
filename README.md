@@ -10,8 +10,7 @@ Java Wrapper for [CasADi](https://web.casadi.org/).
 * CMake 3.16.3 `sudo apt install cmake`
 * SWIG 4.0.1 (3.x does not work!) `sudo apt install swig`
 * openjdk 17 LTS: `sudo apt install openjdk-17-jdk openjdk-17-demo openjdk-17-doc openjdk-17-jre-headless openjdk-17-source`
-* Snap 2.60.4 `sudo apt install snap`
-* Netbeans 19 `sudo snap install netbeans --classic`
+* Netbeans 19 `sudo apt install snap`, `sudo snap install netbeans --classic`
 
 
 ## Prepare build

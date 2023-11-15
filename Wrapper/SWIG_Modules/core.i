@@ -13,6 +13,8 @@
 
 ////////////////
 
+#pragma SWIG nowarn=503,401,320,476,516
+
 %{
 #include "casadi/core/casadi_common.hpp"
 #include "casadi/core/core.hpp"
@@ -119,8 +121,6 @@ typedef std::vector<std::string> StringVector;
 
 //// Start: SX
 
-#pragma SWIG nowarn=503
-
 // %interface(casadi::GenericExpressionCommon)
 // class casadi::GenericExpressionCommon {};
 %ignore casadi::GenericExpressionCommon;
@@ -135,34 +135,35 @@ typedef std::vector<std::string> StringVector;
 %ignore casadi::GenericMatrixCommon;
 %ignore casadi::PrintableCommon;
 
-%ignore sparsity;
-%ignore mtimes;
-%ignore vertsplit;
-%ignore nnz;
-%ignore numel;
-%ignore diagsplit;
-%ignore horzsplit;
-%ignore horzsplit_n;
-%ignore jtimes;
+%ignore casadi::GenericMatrix::sparsity; // %ignore casadi::Matrix::sparsity;
 
-%ignore nnz_lower;
-%ignore nnz_upper;
-%ignore size1;
-%ignore size2;
-%ignore is_dense;
-%ignore is_vector;
-%ignore is_row;
-%ignore is_column;
-%ignore is_triu;
-%ignore is_tril;
+%ignore casadi::SparsityInterface::mtimes; // %ignore casadi::Matrix::mtimes;
+%ignore casadi::SparsityInterface::vertsplit;
+%ignore casadi::SparsityInterface::diagsplit;
+%ignore casadi::SparsityInterface::horzsplit;
+%ignore casadi::SparsityInterface::horzsplit_n;
+
+%rename (nnz_) casadi::GenericMatrix::nnz; // %ignore casadi::GenericMatrix::nnz;
+%rename (numel_) casadi::GenericMatrix::numel;
+%rename (jtimes_) casadi::GenericMatrix::jtimes;
+%rename (nnz_lower_) casadi::GenericMatrix::nnz_lower;
+%rename (nnz_upper_) casadi::GenericMatrix::nnz_upper;
+%rename (size1_) casadi::GenericMatrix::size1;
+%rename (size2_) casadi::GenericMatrix::size2;
+%rename (is_dense_) casadi::GenericMatrix::is_dense;
+%rename (is_vector_) casadi::GenericMatrix::is_vector;
+%rename (is_row_) casadi::GenericMatrix::is_row;
+%rename (is_column_) casadi::GenericMatrix::is_column;
+%rename (is_triu_) casadi::GenericMatrix::is_triu;
+%rename (is_tril_) casadi::GenericMatrix::is_tril;
 
 // Start: Überladungen, die in Netbeans Probleme machen.
-%ignore dim;
-%ignore size;
-%ignore is_empty;
-%ignore is_scalar;
-%ignore row;
-%ignore colind;
+%rename (dim_) casadi::GenericMatrix::dim;
+%rename (size_) casadi::GenericMatrix::size;
+%rename (is_empty_) casadi::GenericMatrix::is_empty;
+%rename (is_scalar_) casadi::GenericMatrix::is_scalar;
+%rename (row_) casadi::GenericMatrix::row;
+%rename (colind_) casadi::GenericMatrix::colind;
 // Stop: Überladungen, die in Netbeans Probleme machen.
 
 // %import "casadi/core/sx_elem.hpp"
@@ -175,8 +176,6 @@ class casadi::SXElem {
 %import "casadi/core/printable.hpp"
 %import "casadi/core/generic_matrix.hpp"
 %import "casadi/core/matrix_decl.hpp"
-#define SWIG
-#undef SWIG
 // %import "casadi/core/sx_fwd.hpp"
 %include "casadi/core/sx.hpp"
 #define SWIG
@@ -196,8 +195,6 @@ class casadi::SXElem {
 
 // %import "casadi/core/submatrix.hpp"
 // %template(SxSubIndex) casadi::SubIndex<casadi::Matrix<casadi::SXElem>, int>;
-
-//#pragma SWIG nowarn=+503
 
 // From here: typedef std::vector<SX> SXVector;
 %import "casadi/core/sx_fwd.hpp"
@@ -267,8 +264,7 @@ typedef std::vector<DM> DMVector;
 //// Stop: DM
 
 //// Start: MX
-// Avoid SWIG Error
-%ignore repmat;
+%ignore casadi::MX::repmat; // Still in SparsityInterface which is superclass.
 
 class casadi::MX; // Forward declaration needed for Template instantiation in SWIG.
 %template_interface("MxGenericExpression", casadi::GenericExpression< casadi::MX >)
@@ -284,7 +280,7 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 // /////
 // %}
 
-%ignore casadi::ConvexifyData;
+%ignore casadi::ConvexifyData; // Used only in CodeGenerator within "#ifndef SWIG".
 #undef SWIG
 // %import "casadi/core/sx_fwd.hpp"
 %include "casadi/core/mx.hpp"
@@ -342,7 +338,9 @@ class casadi::Sparsity;
 %include <casadi/core/interpolant.hpp>
 
 %feature("copyctor", "0") casadi::CodeGenerator;
+// #undef SWIG
 %include <casadi/core/code_generator.hpp>
+// #define SWIG
 
 %include <casadi/core/importer.hpp>
 
