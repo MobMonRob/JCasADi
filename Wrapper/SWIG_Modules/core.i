@@ -56,7 +56,7 @@ using namespace casadi;
 	// Make sure that a copy constructor is created
 	%copyctor;
 
-	%include "doc.i"
+	// %include "doc.i"
 
 	// Note: Only from 3.0.0 onwards,
 	// DirectorException inherits from std::exception
@@ -104,7 +104,19 @@ typedef casadi::Dict Dict;
 // Weird error with dict::Iterator if namespace "casadi::" is missing!
 %template(Dict) std::map< std::string, casadi::GenericType >;
 
-//// Start: SWIGTYPE's removal
+typedef casadi::GenericType GenericType;
+
+// From: casadi_misc.hpp
+typedef std::vector<std::string> StringVector;
+
+%template(StdVectorBool) std::vector<bool>;
+%template(StdVectorCasadiFunction) std::vector<casadi::Function>;
+%template(StdVectorCasadiGenericType) std::vector<casadi::GenericType>;
+%template(StdVectorCasadiLinsol) std::vector<casadi::Linsol>;
+%template(StdVectorCasadiSXElem) std::vector<casadi::SXElem>;
+%template(StdVectorCasadiSparsity) std::vector<casadi::Sparsity>;
+
+//// Stop: SWIGTYPE's removal
 
 
 //// Start: SX
@@ -189,10 +201,13 @@ class casadi::SXElem {
 
 //#pragma SWIG nowarn=+503
 
-//%template(SXVector) std::vector<SX>;
-//%template(SXIList) std::initializer_list<SX>;
-//%template(SXVectorVector) std::vector<SXVector> SXVectorVector;
-//%template(SXDict) std::map<std::string, SX>;
+// From here: typedef std::vector<SX> SXVector;
+%import "casadi/core/sx_fwd.hpp"
+
+// Muss womöglich vor function.hpp stehen, wo das verwendet wird.
+// Beim MX scheint es nicht notwendig zu sein...
+typedef casadi::Matrix<casadi::SXElem> SX;
+%template(StdVectorSx) std::vector<SX>;
 
 //// Stop: SX
 
@@ -214,11 +229,6 @@ class casadi::SXElem {
 // };
 // /////
 // %}
-
-// Muss womöglich vor function.hpp stehen, wo das verwendet wird.
-// Beim MX scheint es nicht notwendig zu sein...
-typedef casadi::Matrix<casadi::SXElem> SX;
-%template(StdVectorSx) std::vector<SX>;
 
 #undef SWIG
 // %include "casadi/core/shared_object.hpp"
@@ -250,6 +260,9 @@ typedef casadi::Matrix<double> DM;
 // %template_interface("DmPrintable", casadi::Printable< casadi::Matrix< double > >)
 %template(DM) casadi::Matrix<double>;
 
+%import "casadi/core/dm_fwd.hpp"
+typedef casadi::DMDict DMDict;
+
 // dm_fwd.hpp
 typedef std::vector<DM> DMVector;
 %template(StdVectorDM) std::vector<DM>;
@@ -279,6 +292,11 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 %include "casadi/core/mx.hpp"
 #define SWIG
 
+// typedef casadi::MXVector;
+typedef casadi::MXIList MXIList;
+typedef casadi::MXVectorVector MXVectorVector;
+typedef casadi::MXDict MXDict;
+
 // Wichtig: Namespace "casadi::" vor "MX".
 typedef std::vector<casadi::MX> MXVector;
 %template(StdVectorMX) std::vector<casadi::MX>;
@@ -303,7 +321,9 @@ class casadi::Sparsity;
 //// Stop: Sparsity
 
 //// Start: Various
+#undef SWIG
 %include <casadi/core/generic_type.hpp>
+#define SWIG
 
 // class casadi::Slice;
 // %template_interface("SlicePrintable", casadi::Printable< casadi::Slice >)
