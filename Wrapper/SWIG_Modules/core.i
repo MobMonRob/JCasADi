@@ -97,8 +97,9 @@ typedef casadi::Slice Slice;
 
 %template(StdVectorStdString) std::vector<std::string>;
 
-class casadi::GenericType;
-typedef casadi::GenericType GenericType;
+// Needed, so that all occurrences of dict are correctly matched.
+typedef std::map< std::string, casadi::GenericType > casadi::Dict;
+typedef casadi::Dict Dict;
 // From: generic_type.hpp
 // Weird error with dict::Iterator if namespace "casadi::" is missing!
 %template(Dict) std::map< std::string, casadi::GenericType >;
