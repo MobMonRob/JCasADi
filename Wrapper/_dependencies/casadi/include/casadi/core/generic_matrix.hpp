@@ -1100,7 +1100,7 @@ namespace casadi {
     static MatType ones(const std::pair<casadi_int, casadi_int>& rc) {
       return ones(rc.first, rc.second);
     }
-    ///@}
+    // /@}
   };
 
   // Throw informative error message

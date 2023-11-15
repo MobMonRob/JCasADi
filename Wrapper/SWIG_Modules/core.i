@@ -56,8 +56,6 @@ using namespace casadi;
 	// Make sure that a copy constructor is created
 	%copyctor;
 
-	// %include "doc.i"
-
 	// Note: Only from 3.0.0 onwards,
 	// DirectorException inherits from std::exception
 	#if SWIG_VERSION >= 0x030000
