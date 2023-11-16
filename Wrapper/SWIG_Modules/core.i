@@ -202,7 +202,7 @@ class casadi::SXElem {
 // Muss womöglich vor function.hpp stehen, wo das verwendet wird.
 // Beim MX scheint es nicht notwendig zu sein...
 typedef casadi::Matrix<casadi::SXElem> SX;
-%template(StdVectorSx) std::vector<SX>;
+%template(StdVectorSX) std::vector<SX>;
 
 //// Stop: SX
 

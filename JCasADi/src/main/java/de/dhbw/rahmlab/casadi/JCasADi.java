@@ -5,7 +5,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorSx;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 
 public class JCasADi {
 
@@ -33,8 +33,8 @@ public class JCasADi {
 //		// functions to be generated
 //		casadi::Function f_fun_obj("fun_obj", {posi, posi_des}, {fun_obj});
 //		casadi::Function f_fun_obj_grad("fun_obj_grad", {posi, posi_des}, {fun_obj_grad});
-		Function f_fun_obj = new Function("fun_obj", new StdVectorSx(new SX[]{posi, posi_des}), new StdVectorSx(new SX[]{fun_obj}));
-		Function f_fun_obj_grad = new Function("fun_obj_grad", new StdVectorSx(new SX[]{posi, posi_des}), new StdVectorSx(new SX[]{fun_obj_grad}));
+		Function f_fun_obj = new Function("fun_obj", new StdVectorSX(new SX[]{posi, posi_des}), new StdVectorSX(new SX[]{fun_obj}));
+		Function f_fun_obj_grad = new Function("fun_obj_grad", new StdVectorSX(new SX[]{posi, posi_des}), new StdVectorSX(new SX[]{fun_obj_grad}));
 //
 //		// Numeric
 //		// input
