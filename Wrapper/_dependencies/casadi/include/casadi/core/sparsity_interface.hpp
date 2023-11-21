@@ -590,7 +590,7 @@ namespace casadi {
         \identifier{4q} */
     inline friend MatType sum2(const MatType &x) { return MatType::sum2(x);}
 
-/** \@} */
+
   };
 #endif // SWIG
 

@@ -407,7 +407,7 @@ public:
       \identifier{1p} */
   void callback_class(OptiCallback* callback);
   void callback_class();
-  ///@}
+  // /@}
 
 #ifndef SWIG
   Opti(const Opti& x);

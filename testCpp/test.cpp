@@ -49,5 +49,9 @@ int main(){
 	// the first result
 	std::cout << "objective function jacobian: " << result_2.at(0) << std::endl;
 
+	///////
+	casadi::DaeBuilder* b = new casadi::DaeBuilder;
+	casadi::SharedObjectInternal* soi = (static_cast<casadi::SharedObject*>(b))->get();
+
     return 0;
 }

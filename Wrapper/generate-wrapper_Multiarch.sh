@@ -40,7 +40,8 @@ run() {
 		#-doxygen
 		#-ignoremissing -importall
 		#-cpperraswarn
-		swig -Wextra -DSWIGWORDSIZE64 -DSWIG_TYPE_TABLE=casadi -c++ -java -package "de.dhbw.rahmlab."$wrapLibName".impl" -outdir "$swigJavaOutDir" -o "$currentTmp/"$swigModule"_wrap.cpp" -I"$wrapLibInclude" -I"$swigLibDirectory" "$swigModulesDirectory/$swigModule"
+		#-O
+		swig -doxygen -Wextra -DSWIGWORDSIZE64 -DSWIG_TYPE_TABLE=casadi -c++ -java -package "de.dhbw.rahmlab."$wrapLibName".impl" -outdir "$swigJavaOutDir" -o "$currentTmp/"$swigModule"_wrap.cpp" -I"$wrapLibInclude" -I"$swigLibDirectory" "$swigModulesDirectory/$swigModule"
 	done
 }
 
