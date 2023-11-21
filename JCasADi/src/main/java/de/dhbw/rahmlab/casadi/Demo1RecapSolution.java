@@ -1,10 +1,12 @@
 package de.dhbw.rahmlab.casadi;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
+import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
+import de.dhbw.rahmlab.casadi.impl.std.Dict;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
 /**
- *
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class Demo1RecapSolution {
@@ -15,8 +17,10 @@ public class Demo1RecapSolution {
         MX y = MX.sym("y");
         MX z = MX.sin(MX.dot(x, y));
         
-        Function f = new Function("f",new StdVectorMx(new MX[]{x,y}, new StdVectorMx(new MX{z}, 
-                new Std))
+        Dict options = new Dict();
+        options.put("always_inline", new GenericType(true));
+        Function f = new Function("f",new StdVectorMX(new MX[]{x,y}), 
+                new StdVectorMX(new MX[]{z}), options);
         
     }
        
