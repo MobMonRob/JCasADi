@@ -10,6 +10,8 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorSx;
 public class JCasADi {
 
 	public static void main(String[] args) {
+            
+            DM test;
 //		// Symbolic
 //		// symbolic variables
 //		casadi::SX posi = casadi::SX::sym("p", 2);
