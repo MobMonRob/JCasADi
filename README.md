@@ -23,3 +23,8 @@ Clone and build the Netbeans Maven project [JNativeLibLoader](https://github.com
 Open and build the Netbeans Maven project `./JCasADi`.
 
 The deployable jar should now be in the following path: `./JCasADi/target/JCasADi-1.0-SNAPSHOT-jar-with-dependencies.jar`.
+
+
+## Rebuild
+If the wrapper configuration has changed in the remote repository, after `git pull` execute Netbeans clean&build instead of build or run to be able to use the newest wrapper in Java.
+
