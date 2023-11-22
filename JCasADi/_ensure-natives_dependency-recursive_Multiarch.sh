@@ -8,9 +8,7 @@ source "./_bash_config.sh"
 
 perPlatform() {
 	if [[ "$(isSuccessTokenSet)" == "false" ]]; then
-		bash "$wrapperDir/_ensure_dependency-recursive_Multiarch.sh"
-
-		./_regenerate-natives_local_Multiarch.sh
+		./_regenerate-natives_dependency-recursive_Multiarch.sh
 	fi
 }
 
