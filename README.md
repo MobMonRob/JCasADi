@@ -26,5 +26,5 @@ The deployable jar should now be in the following path: `./JCasADi/target/JCasAD
 
 
 ## Rebuild
-If the wrapper configuration has changed in the remote repository, after `git pull` execute Netbeans clean&build instead of build or run to be able to use the newest wrapper in Java.
+If the wrapper configuration was changed, after `git pull` execute Netbeans clean&build instead of build or run to be able to use the newest wrapper in Java.
 
