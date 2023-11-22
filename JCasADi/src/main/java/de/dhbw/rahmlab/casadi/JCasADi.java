@@ -83,6 +83,7 @@ public class JCasADi {
 		String theStr = MX.print_operator(mx, vecStr);
 		System.out.println("1: " + theStr);
 		System.out.println("2: " + mx.str());
+
 		/*
 	MX x = MX::sym("x",2);
 	MX A = MX(2,2);
@@ -90,6 +91,8 @@ public class JCasADi {
 	A(1,1) = x(0)+x(1);
 	std::cout << "foo: " << A << std::endl;
 		 */
+		// Beispiel aus: https://web.casadi.org/docs/#the-mx-symbolics
+		// Achtung: Indizes fangen in der Casadi Doku bei 1 an und bei uns bei 0!
 		MX x = MX.sym("x", 2);
 		MX A = new MX(2, 2);
 		A.at(0, 0).assign(x.at(0));
