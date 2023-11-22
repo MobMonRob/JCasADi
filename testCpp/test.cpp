@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <casadi/casadi.hpp>
 
+using namespace casadi;
 
 int main(){
 	// Symbolic
@@ -52,6 +53,20 @@ int main(){
 	///////
 	casadi::DaeBuilder* b = new casadi::DaeBuilder;
 	casadi::SharedObjectInternal* soi = (static_cast<casadi::SharedObject*>(b))->get();
+	///////
+	casadi::MX mx = casadi::MX::sym("x",2,2);
+	casadi::StringVector sv;
+	std::string printed = casadi::MX::print_operator(mx, sv);
+	std::cout << "blub1: " << printed << std::endl;
+	std::cout << "blub2: " << mx << std::endl;
+	///////
+	MX x = MX::sym("x",2);
+	MX A = MX(2,2);
+	A(0,0) = x(0);
+	A(1,1) = x(0)+x(1);
+	std::cout << "foo: " << A << std::endl;
+	// Throws exception:
+	// std::cout << "foo: " << casadi::MX::print_operator(A, sv) << std::endl;
 
     return 0;
 }

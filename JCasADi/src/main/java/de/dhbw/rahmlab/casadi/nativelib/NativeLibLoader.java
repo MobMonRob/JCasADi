@@ -13,7 +13,7 @@ public class NativeLibLoader {
 
 	private static void loadActually() {
 		try {
-			de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader.init(true);
+			de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader.init(false);
 			de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader nativeLibLoader = de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader.getInstance();
 			nativeLibLoader.load(NativeLibLoader.class);
 		} catch (Exception e) {

@@ -48,6 +48,7 @@ using namespace casadi;
 	%ignore *::operator->;
 
 	%rename(str) get_str;
+	%rename(assign) operator=;
 
 	// append works for strings
 	%naturalvar;
@@ -118,6 +119,21 @@ typedef std::vector<std::string> StringVector;
 
 //// Stop: SWIGTYPE's removal
 
+// Needed for assignment of matrix elements.
+%import "casadi/core/submatrix.hpp"
+// If CTYPE is a template instance, %template must be before %extendAt. Otherwise SubIndex and SubMatrix won't be subclasses of CTYPE.
+// Example:
+// %template(SX) casadi::Matrix<casadi::SXElem>;
+// %extendAt("Sx", casadi::Matrix<casadi::SXElem>)
+%define %extendAt(PREFIX, CTYPE...)
+%template(PREFIX##"SubIndex") casadi::SubIndex<CTYPE, int>;
+%template(PREFIX##"SubMatrix") casadi::SubMatrix<CTYPE, int, int>;
+%extend CTYPE {
+	// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
+	casadi::SubIndex<CTYPE, int> at(const int &rr) {return (*($self))(rr);}
+	casadi::SubMatrix<CTYPE, int, int> at(const int &rr, const int &cc) {return (*($self))(rr, cc);}
+}
+%enddef
 
 //// Start: SX
 
@@ -180,18 +196,14 @@ class casadi::SXElem {
 %include "casadi/core/sx.hpp"
 #define SWIG
 
-// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
-%extend casadi::Matrix<casadi::SXElem> {
-	// casadi::SubIndex<casadi::Matrix<casadi::SXElem>, int> at(const int &rr) {return  (*($self))(rr);}
-	// Don't need to wrap SubIndex because use of baseclass Matrix is sufficient.
-	casadi::Matrix<casadi::SXElem> at(const int &rr) {return (*($self))(rr);}
-}
-
 %template_interface("SxSparsityInterface", casadi::SparsityInterface< casadi::Matrix< casadi::SXElem > >) // Needed for GenericMatrix
 %template_interface("SxGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SxGenericExpression", casadi::GenericExpression< casadi::Matrix< casadi::SXElem > >)
 // %template_interface("SxPrintable", casadi::Printable< casadi::Matrix< casadi::SXElem > >)
 %template(SX) casadi::Matrix<casadi::SXElem>;
+
+// Needs to be after %template(SX)
+%extendAt("Sx", casadi::Matrix<casadi::SXElem>)
 
 // %import "casadi/core/submatrix.hpp"
 // %template(SxSubIndex) casadi::SubIndex<casadi::Matrix<casadi::SXElem>, int>;
@@ -242,18 +254,14 @@ typedef casadi::Matrix<casadi::SXElem> SX;
 // dm_fwd.hpp
 typedef casadi::Matrix<double> DM;
 
-// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
-%extend casadi::Matrix<double> {
-	// casadi::SubIndex<casadi::Matrix<double>, int> at(const int &rr) {return  (*($self))(rr);}
-	// Don't need to wrap SubIndex because use of baseclass Matrix is sufficient.
-	casadi::Matrix<double> at(const int &rr) {return (*($self))(rr);}
-}
-
 %template_interface("DmSparsityInterface", casadi::SparsityInterface< casadi::Matrix< double > >)
 %template_interface("DmGenericMatrix", casadi::GenericMatrix< casadi::Matrix< double > >)
 %template_interface("DmGenericExpression", casadi::GenericExpression< casadi::Matrix< double > >)
 // %template_interface("DmPrintable", casadi::Printable< casadi::Matrix< double > >)
 %template(DM) casadi::Matrix<double>;
+
+// Needs to be after %template(DM)
+%extendAt("Dm", casadi::Matrix<double>)
 
 %import "casadi/core/dm_fwd.hpp"
 typedef casadi::DMDict DMDict;
@@ -285,6 +293,27 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 // %import "casadi/core/sx_fwd.hpp"
 %include "casadi/core/mx.hpp"
 #define SWIG
+
+%extendAt("Mx", casadi::MX)
+
+%extend casadi::MX {
+	std::string str() {
+		std::stringstream ss;
+		ss << *($self);
+		return ss.str();
+	}
+}
+
+
+// %extend casadi::MX {
+// 	/**
+// 	* Make overloaded and default assignment operator available.
+// 	*/
+// 	void assign(casadi::MX& param) {
+// 		*($self) = param;
+// 	}
+// }
+
 
 // typedef casadi::MXVector;
 typedef casadi::MXIList MXIList;

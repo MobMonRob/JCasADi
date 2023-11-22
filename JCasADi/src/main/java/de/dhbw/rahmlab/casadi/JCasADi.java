@@ -2,10 +2,12 @@ package de.dhbw.rahmlab.casadi;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
+import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
 
 public class JCasADi {
 
@@ -75,5 +77,23 @@ public class JCasADi {
 //		// the first result
 //		std::cout << "objective function jacobian: " << result_2.at(0) << std::endl;
 		System.out.println("objective function jacobian: " + result_2.get(0).str());
+
+		MX mx = MX.sym("x", 2, 2);
+		StdVectorStdString vecStr = new StdVectorStdString();
+		String theStr = MX.print_operator(mx, vecStr);
+		System.out.println("1: " + theStr);
+		System.out.println("2: " + mx.str());
+		/*
+	MX x = MX::sym("x",2);
+	MX A = MX(2,2);
+	A(0,0) = x(0);
+	A(1,1) = x(0)+x(1);
+	std::cout << "foo: " << A << std::endl;
+		 */
+		MX x = MX.sym("x", 2);
+		MX A = new MX(2, 2);
+		A.at(0, 0).assign(x.at(0));
+		A.at(1, 1).assign(MX.plus(x.at(0), x.at(1)));
+		System.out.println(A.str());
 	}
 }
