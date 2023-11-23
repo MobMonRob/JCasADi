@@ -58,7 +58,7 @@ public class Demo4SerializationSolution {
         // in phython reicht fd.unpack() ohne den Typ mit im Methodenname
         //TODO
         System.out.println(fd.unpack_string());
-        System.out.println(fd.unpack_sx().str());
+		System.out.println(fd.unpack_sx().toString());
         //fd.unpack_sx_vector().
         //TODO toString method fehlt in sx_vector
         // sollte so aussehen: [SX(sq(x)), SX(sin(x))]
