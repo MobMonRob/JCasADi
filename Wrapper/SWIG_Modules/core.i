@@ -282,14 +282,6 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 
 %extendAt("Mx", casadi::MX)
 
-%extend casadi::MX {
-	std::string str() {
-		std::stringstream ss;
-		ss << *($self);
-		return ss.str();
-	}
-}
-
 // typedef casadi::MXVector;
 typedef casadi::MXIList MXIList;
 typedef casadi::MXVectorVector MXVectorVector;
