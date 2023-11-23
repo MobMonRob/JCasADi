@@ -13,18 +13,22 @@
 
 ////////////////
 
-#pragma SWIG nowarn=503,401,320,476,516
+#pragma SWIG nowarn=503 // cant't wrap unless renamed to a valid identifier
+#pragma SWIG nowarn=476 // Initialization using std::initializer_list.
+#pragma SWIG nowarn=516 // Overloaded method const ignored
+#pragma SWIG nowarn=320 // Explicit template instantiation ignored.
+#pragma SWIG nowarn=401 // Nothing known about base class, ignored. Maybe you forgot to instantiate using %template.
 
 %{
-#include "casadi/core/casadi_common.hpp"
-#include "casadi/core/core.hpp"
+	#include "casadi/core/casadi_common.hpp"
+	#include "casadi/core/core.hpp"
 
-using namespace casadi;
+	using namespace casadi;
 %}
 
 #define CASADI_EXPORT
 
-%include "casadi/core/casadi_types.hpp"
+%include "casadi/core/casadi_types.hpp" // UnifiedReturnStatus for solvers
 %import "casadi/core/casadi_common.hpp" // #define SWIG_IF_ELSE
 #undef SWIG_IF_ELSE
 #define SWIG_IF_ELSE(is_swig, not_swig) not_swig
@@ -43,25 +47,24 @@ using namespace casadi;
 	#ifdef _POSIX_C_SOURCE
 	#undef _POSIX_C_SOURCE
 	#endif
-	%}
+%}
 
-	%ignore *::operator->;
+%ignore *::operator->;
 
-	%rename(str) get_str;
-	%rename(assign) operator=;
+%rename(assign) operator=;
 
-	// append works for strings
-	%naturalvar;
+// append works for strings
+%naturalvar;
 
-	// Make data members read-only
-	%immutable;
+// Make data members read-only
+%immutable;
 
-	// Make sure that a copy constructor is created
-	%copyctor;
+// Make sure that a copy constructor is created
+%copyctor;
 
-	// Note: Only from 3.0.0 onwards,
-	// DirectorException inherits from std::exception
-	#if SWIG_VERSION >= 0x030000
+// Note: Only from 3.0.0 onwards,
+// DirectorException inherits from std::exception
+#if SWIG_VERSION >= 0x030000
 	// Exceptions handling
 	%include "exception.i"
 	%exception {
@@ -71,7 +74,7 @@ using namespace casadi;
 			SWIG_exception(SWIG_RuntimeError, e.what());
 		}
 	}
-	#else
+#else
 	// Exceptions handling
 	%include "exception.i"
 	%exception {
@@ -83,14 +86,34 @@ using namespace casadi;
 			SWIG_exception(SWIG_TypeError, e.getMessage());
 		}
 	}
-	#endif
+#endif
 
-	%{
-		#define SWIG_Error_return(code, msg)  { std::cerr << "Error occured in CasADi SWIG interface code:" << std::endl << "  "<< msg << std::endl;SWIG_Error(code, msg); return 0; }
-	%}
+%{
+	#define SWIG_Error_return(code, msg)  { std::cerr << "Error occured in CasADi SWIG interface code:" << std::endl << "  "<< msg << std::endl;SWIG_Error(code, msg); return 0; }
+%}
 
 
 //////
+
+//// Start: print fix
+
+%rename(toString) get_str;
+
+// %rename(toString) casadi::Matrix::get_str;
+
+class casadi::SharedObject;
+typedef casadi::SharedObject SharedObject;
+%interface_custom("SharedObject", "ISharedObject", casadi::SharedObject)
+%ignore casadi::WeakRef;
+
+// %rename(toString) casadi::SharedObject::get_str;
+
+#ifndef SWIG
+	#define SWIG
+#endif
+%include "casadi/core/shared_object.hpp"
+
+//// Stop: print fix
 
 //// Start: SWIGTYPE's removal
 
@@ -126,26 +149,20 @@ typedef std::vector<std::string> StringVector;
 // %template(SX) casadi::Matrix<casadi::SXElem>;
 // %extendAt("Sx", casadi::Matrix<casadi::SXElem>)
 %define %extendAt(PREFIX, CTYPE...)
-%template(PREFIX##"SubIndex") casadi::SubIndex<CTYPE, int>;
-%template(PREFIX##"SubMatrix") casadi::SubMatrix<CTYPE, int, int>;
-%extend CTYPE {
-	// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
-	casadi::SubIndex<CTYPE, int> at(const int &rr) {return (*($self))(rr);}
-	casadi::SubMatrix<CTYPE, int, int> at(const int &rr, const int &cc) {return (*($self))(rr, cc);}
-}
+	%template(PREFIX##"SubIndex") casadi::SubIndex<CTYPE, int>;
+	%template(PREFIX##"SubMatrix") casadi::SubMatrix<CTYPE, int, int>;
+	%extend CTYPE {
+		// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
+		casadi::SubIndex<CTYPE, int> at(const int &rr) {return (*($self))(rr);}
+		casadi::SubMatrix<CTYPE, int, int> at(const int &rr, const int &cc) {return (*($self))(rr, cc);}
+	}
 %enddef
 
 //// Start: SX
 
-// %interface(casadi::GenericExpressionCommon)
-// class casadi::GenericExpressionCommon {};
 %ignore casadi::GenericExpressionCommon;
 %ignore casadi::GenericExpression::printme;
 
-// %interface(casadi::MatrixCommon)
-// %interface(casadi::SparsityInterfaceCommon)
-// %interface(casadi::GenericMatrixCommon)
-// %interface(casadi::PrintableCommon)
 %ignore casadi::MatrixCommon;
 %ignore casadi::SparsityInterfaceCommon;
 %ignore casadi::GenericMatrixCommon;
@@ -187,26 +204,22 @@ class casadi::SXElem {
 
 };
 #undef SWIG
-%import "casadi/core/sparsity_interface.hpp"
-%import "casadi/core/generic_expression.hpp"
-%import "casadi/core/printable.hpp"
-%import "casadi/core/generic_matrix.hpp"
-%import "casadi/core/matrix_decl.hpp"
-// %import "casadi/core/sx_fwd.hpp"
-%include "casadi/core/sx.hpp"
+	%import "casadi/core/sparsity_interface.hpp"
+	%import "casadi/core/generic_expression.hpp"
+	%import "casadi/core/printable.hpp"
+	%import "casadi/core/generic_matrix.hpp"
+	%import "casadi/core/matrix_decl.hpp"
+	// %import "casadi/core/sx_fwd.hpp"
+	%include "casadi/core/sx.hpp"
 #define SWIG
 
 %template_interface("SxSparsityInterface", casadi::SparsityInterface< casadi::Matrix< casadi::SXElem > >) // Needed for GenericMatrix
 %template_interface("SxGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SxGenericExpression", casadi::GenericExpression< casadi::Matrix< casadi::SXElem > >)
-// %template_interface("SxPrintable", casadi::Printable< casadi::Matrix< casadi::SXElem > >)
 %template(SX) casadi::Matrix<casadi::SXElem>;
 
 // Needs to be after %template(SX)
 %extendAt("Sx", casadi::Matrix<casadi::SXElem>)
-
-// %import "casadi/core/submatrix.hpp"
-// %template(SxSubIndex) casadi::SubIndex<casadi::Matrix<casadi::SXElem>, int>;
 
 // From here: typedef std::vector<SX> SXVector;
 %import "casadi/core/sx_fwd.hpp"
@@ -219,27 +232,9 @@ typedef casadi::Matrix<casadi::SXElem> SX;
 //// Stop: SX
 
 //// Start: Function
-%ignore SharedObject;
-// %template_interface("FunctionPrintable", casadi::Printable< casadi::Function >)
-// %interface_custom("SharedObject", "ISharedObject", casadi::SharedObject)
-
-// %interface_custom("SharedObjectInternal", "ISharedObjectInternal", casadi::SharedObjectInternal)
-// %interface_custom("FunctionInternal", "IFunctionInternal", casadi::FunctionInternal)
-
-// %inline %{
-// // To trick the cpp compiler. Unsure, if will lead to errors.
-// class casadi::SharedObjectInternal {
-
-// };
-// class casadi::FunctionInternal : public casadi::SharedObjectInternal {
-
-// };
-// /////
-// %}
 
 #undef SWIG
-// %include "casadi/core/shared_object.hpp"
-%include "casadi/core/function.hpp"
+	%include "casadi/core/function.hpp"
 #define SWIG
 
 //// Stop: Function
@@ -276,22 +271,13 @@ typedef std::vector<DM> DMVector;
 
 class casadi::MX; // Forward declaration needed for Template instantiation in SWIG.
 %template_interface("MxGenericExpression", casadi::GenericExpression< casadi::MX >)
-// %template_interface("MxPrintable", casadi::Printable< casadi::MX >)
 %template_interface("MxSparsityInterface", casadi::SparsityInterface< casadi::MX >) // Needed for GenericMatrix
 %template_interface("MxGenericMatrix", casadi::GenericMatrix< casadi::MX >)
 
-// %inline %{
-// // To trick the cpp compiler. Unsure, if will lead to errors.
-// class casadi::MXNode : public casadi::SharedObjectInternal {
-
-// };
-// /////
-// %}
-
 %ignore casadi::ConvexifyData; // Used only in CodeGenerator within "#ifndef SWIG".
 #undef SWIG
-// %import "casadi/core/sx_fwd.hpp"
-%include "casadi/core/mx.hpp"
+	// %import "casadi/core/sx_fwd.hpp"
+	%include "casadi/core/mx.hpp"
 #define SWIG
 
 %extendAt("Mx", casadi::MX)
@@ -303,17 +289,6 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 		return ss.str();
 	}
 }
-
-
-// %extend casadi::MX {
-// 	/**
-// 	* Make overloaded and default assignment operator available.
-// 	*/
-// 	void assign(casadi::MX& param) {
-// 		*($self) = param;
-// 	}
-// }
-
 
 // typedef casadi::MXVector;
 typedef casadi::MXIList MXIList;
@@ -328,28 +303,18 @@ typedef std::vector<casadi::MX> MXVector;
 //// Start: Sparsity
 class casadi::Sparsity;
 %template_interface("SparsitySparsityInterface", casadi::SparsityInterface< casadi::Sparsity >)
-// %template_interface("SparsityPrintable", casadi::Printable< casadi::Sparsity >)
-
-// %inline %{
-// // To trick the cpp compiler. Unsure, if will lead to errors.
-// class casadi::SparsityInternal : public casadi::SharedObjectInternal {
-
-// };
-// /////
-// %}
 
 #undef SWIG
-%include <casadi/core/sparsity.hpp>
+	%include <casadi/core/sparsity.hpp>
 #define SWIG
 //// Stop: Sparsity
 
 //// Start: Various
 #undef SWIG
-%include <casadi/core/generic_type.hpp>
+	%include <casadi/core/generic_type.hpp>
 #define SWIG
 
 // class casadi::Slice;
-// %template_interface("SlicePrintable", casadi::Printable< casadi::Slice >)
 %ignore casadi::Slice::Slice(casadi_int, bool);
 %include <casadi/core/slice.hpp>
 
@@ -383,13 +348,6 @@ class casadi::Sparsity;
 %include <casadi/core/nlp_tools.hpp>
 %include <casadi/core/nlp_builder.hpp>
 
-// %inline %{
-// // To trick the cpp compiler. Unsure, if will lead to errors.
-// class casadi::DaeBuilderInternal : public casadi::SharedObjectInternal {
-
-// };
-// /////
-// %
 %include <casadi/core/dae_builder.hpp>
 
 %include <casadi/core/xml_file.hpp>
