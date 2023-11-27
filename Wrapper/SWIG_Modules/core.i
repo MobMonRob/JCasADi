@@ -140,6 +140,8 @@ typedef std::vector<std::string> StringVector;
 %template(StdVectorCasadiSXElem) std::vector<casadi::SXElem>;
 %template(StdVectorCasadiSparsity) std::vector<casadi::Sparsity>;
 
+%template(StdVectorCasadiInt) std::vector<casadi_int>;
+
 //// Stop: SWIGTYPE's removal
 
 // Needed for assignment of matrix elements.
