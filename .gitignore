@@ -1,3 +1,6 @@
+*.casadi
+nb-configuration.xml
+
 #Ignore temporary files
 **/.*.kate-swp
 **/.directory

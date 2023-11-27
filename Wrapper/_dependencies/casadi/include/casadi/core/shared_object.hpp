@@ -156,7 +156,7 @@ namespace casadi {
         \identifier{av} */
     casadi_int __hash__() const;
 
-/// \cond INTERNAL
+// / \cond INTERNAL
 #ifndef SWIG
     /** \brief Get a weak reference to the object
 
@@ -168,8 +168,8 @@ namespace casadi {
   private:
     SharedObjectInternal *node;
 #endif // SWIG
-/// \endcond
-  };
+// / \endcond
+};
 
 /** \brief Weak reference type
 

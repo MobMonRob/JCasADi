@@ -12,13 +12,12 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
 public class JCasADi {
 
 	public static void main(String[] args) {
-            
-            DM test;
+		DM test;
 //		// Symbolic
 //		// symbolic variables
 //		casadi::SX posi = casadi::SX::sym("p", 2);
 		SX posi = SX.sym("p", 2);
-		System.out.println("test: " + posi.str());
+		System.out.println("posi: " + posi);
 //		casadi::SX posi_des = casadi::SX::sym("p_des", 2);
 		SX posi_des = SX.sym("p_des", 2);
 //
@@ -39,6 +38,8 @@ public class JCasADi {
 //		casadi::Function f_fun_obj_grad("fun_obj_grad", {posi, posi_des}, {fun_obj_grad});
 		Function f_fun_obj = new Function("fun_obj", new StdVectorSX(new SX[]{posi, posi_des}), new StdVectorSX(new SX[]{fun_obj}));
 		Function f_fun_obj_grad = new Function("fun_obj_grad", new StdVectorSX(new SX[]{posi, posi_des}), new StdVectorSX(new SX[]{fun_obj_grad}));
+		System.out.println("f_fun_obj: " + f_fun_obj);
+
 //
 //		// Numeric
 //		// input
@@ -62,7 +63,7 @@ public class JCasADi {
 //
 //		// the first result
 //		std::cout << "objective function: " << result_1.at(0) << std::endl;
-		System.out.println("objective function: " + result_1.get(0).str());
+		System.out.println("objective function: " + result_1.get(0));
 //
 //
 //		// another way to input
@@ -76,27 +77,25 @@ public class JCasADi {
 //
 //		// the first result
 //		std::cout << "objective function jacobian: " << result_2.at(0) << std::endl;
-		System.out.println("objective function jacobian: " + result_2.get(0).str());
+		System.out.println("objective function jacobian: " + result_2.get(0));
 
 		MX mx = MX.sym("x", 2, 2);
 		StdVectorStdString vecStr = new StdVectorStdString();
 		String theStr = MX.print_operator(mx, vecStr);
-		System.out.println("1: " + theStr);
-		System.out.println("2: " + mx.str());
+		System.out.println("mx 1.: " + theStr);
+		System.out.println("mx 2.: " + mx);
 
-		/*
-	MX x = MX::sym("x",2);
-	MX A = MX(2,2);
-	A(0,0) = x(0);
-	A(1,1) = x(0)+x(1);
-	std::cout << "foo: " << A << std::endl;
-		 */
+//		MX x = MX::sym("x",2);
+//		MX A = MX(2,2);
+//		A(0,0) = x(0);
+//		A(1,1) = x(0)+x(1);
+//		std::cout << "foo: " << A << std::endl;
 		// Beispiel aus: https://web.casadi.org/docs/#the-mx-symbolics
 		// Achtung: Indizes fangen in der Casadi Doku bei 1 an und bei uns bei 0!
 		MX x = MX.sym("x", 2);
 		MX A = new MX(2, 2);
 		A.at(0, 0).assign(x.at(0));
 		A.at(1, 1).assign(MX.plus(x.at(0), x.at(1)));
-		System.out.println(A.str());
+		System.out.println("A:" + A);
 	}
 }
