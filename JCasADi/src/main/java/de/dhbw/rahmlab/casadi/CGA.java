@@ -2,6 +2,7 @@ package de.dhbw.rahmlab.casadi;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt;
 import java.util.Arrays;
 
 public class CGA {
@@ -21,7 +22,9 @@ public class CGA {
      
     public static void main(String[] args) {
         MX x = MX.sym("x");
-        //Sparsity.rowcol(row, col, _basisLength, _basisLength)
+        StdVectorCasadiInt row = new StdVectorCasadiInt(new long[]{});
+        StdVectorCasadiInt col = new StdVectorCasadiInt(new long[]{});
+        Sparsity.rowcol(row, col, _basisLength, _basisLength);
         //MX.sym("cga", sparsity);
     }
     
