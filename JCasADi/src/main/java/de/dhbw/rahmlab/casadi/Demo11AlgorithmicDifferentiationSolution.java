@@ -124,8 +124,13 @@ public class Demo11AlgorithmicDifferentiationSolution {
         //StdVectorDouble dummy = new StdVectorDouble(new double[]{});
         StdVectorDM dummy = new StdVectorDM(new DM[]{});
         
-        StdVectorDM res1 = new StdVectorDM();
-        //System.out.println(fwd1_f.call(args_num, eins, res1));
+		StdVectorDM res1 = new StdVectorDM();
+
+		StdVectorDM args_num__eins = new StdVectorDM(new DM[]{new DM(args_num1), new DM(), new DM(einsA)});
+		fwd1_f.call(args_num__eins, res1);
+		System.out.println(res1);
+
+		// System.out.println(fwd1_f.call(args_num, eins, res1));
         //System.out.println(fwd1_f(args_num,dummy,zwei));
         //System.out.println(fwd1_f(args_num,dummy,drei));
         //TODO
