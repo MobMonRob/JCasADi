@@ -6,12 +6,23 @@ import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
 
 public class JCasADi {
 
 	public static void main(String[] args) {
+		System.out.println("------------------");
+		// test1();
+		System.out.println("------------------");
+		simple_function_call();
+		System.out.println("------------------");
+		composed_function_call();
+		System.out.println("------------------");
+	}
+
+	public static void test1() {
 		DM test;
 //		// Symbolic
 //		// symbolic variables
@@ -97,5 +108,109 @@ public class JCasADi {
 		A.at(0, 0).assign(x.at(0));
 		A.at(1, 1).assign(MX.plus(x.at(0), x.at(1)));
 		System.out.println("A:" + A);
+	}
+
+	public static Function f_sym_java(int dim) {
+		// DM ist nicht symbolisch!
+
+		// Input symbolic
+		MX in_sym_1 = MX.sym("in_sym_1", dim, dim);
+		System.out.println("in_sym_1: " + in_sym_1);
+		MX in_sym_2 = MX.sym("in_sym_2", dim, dim);
+		System.out.println("in_sym_2: " + in_sym_2);
+
+		// Output symbolic
+		MX out_sym_1 = MX.plus(in_sym_1, in_sym_2);
+		System.out.println("out_sym_1: " + out_sym_1);
+
+		// Function symbolic
+		var f_sym_in = new StdVectorMX(new MX[]{in_sym_1, in_sym_2});
+		var f_sym_out = new StdVectorMX(new MX[]{out_sym_1});
+		Function f_sym_casadi = new Function("f_sym_casadi", f_sym_in, f_sym_out);
+		System.out.println("f_sym_casadi: " + f_sym_casadi);
+
+		return f_sym_casadi;
+	}
+
+	public static void simple_function_call() {
+		System.out.println("-> simple_function_call()");
+
+		Function f_sym_casadi = f_sym_java(2);
+
+		DM in_num_1 = new DM(2, 2);
+		in_num_1.at(0, 0).assign(new DM(0));
+		in_num_1.at(1, 1).assign(new DM(11));
+		System.out.println("in_num_1: " + in_num_1);
+
+		DM in_num_2 = new DM(in_num_1);
+		in_num_2.at(0, 1).assign(new DM(314));
+		System.out.println("in_num_2: " + in_num_2);
+
+		StdVectorDM f_num_in = new StdVectorDM(new DM[]{in_num_1, in_num_2});
+		StdVectorDM f_num_out = new StdVectorDM();
+		// In Doku: "Evaluate the function symbolically or numerically."
+		// Call mit DM ist numerische Evaluierung.
+		// Call mit SX oder MX ist symbolische Evaluierung.
+		f_sym_casadi.call(f_num_in, f_num_out);
+
+		DM out_num_1 = f_num_out.get(0);
+		System.out.println("out_num_1: " + out_num_1);
+	}
+
+	public static Function f_sym_composed_java(int dim) {
+		Function f_sym_casadi = f_sym_java(dim);
+
+		// Input symbolic
+		MX in_sym_1 = MX.sym("in_sym_1", dim, dim);
+		System.out.println("in_sym_1: " + in_sym_1);
+		MX in_sym_2 = MX.sym("in_sym_2", dim, dim);
+		System.out.println("in_sym_2: " + in_sym_2);
+		MX in_sym_com_1 = MX.sym("in_sym_com_1", dim, dim);
+		System.out.println("in_sym_com_1: " + in_sym_com_1);
+
+		// Output symbolic
+		var f_sym_in = new StdVectorMX(new MX[]{in_sym_1, in_sym_2});
+		var f_sym_out = new StdVectorMX();
+		f_sym_casadi.call(f_sym_in, f_sym_out);
+		MX f_sym_out_1 = f_sym_out.get(0);
+		MX out_sym_com_1 = MX.minus(f_sym_out_1, in_sym_com_1);
+		System.out.println("out_sym_com_1: " + out_sym_com_1);
+
+		// Function symbolic
+		var f_sym_com_in = new StdVectorMX(new MX[]{in_sym_1, in_sym_2, in_sym_com_1});
+		var f_sym_com_out = new StdVectorMX(new MX[]{out_sym_com_1});
+		Function f_sym_com_casadi = new Function("f_sym_com_casadi", f_sym_com_in, f_sym_com_out);
+		System.out.println("f_sym_com_casadi: " + f_sym_com_casadi);
+
+		return f_sym_com_casadi;
+	}
+
+	public static void composed_function_call() {
+		System.out.println("-> composed_function_call()");
+
+		Function f_sym_com_casadi = f_sym_composed_java(2);
+
+		DM in_num_1 = new DM(2, 2);
+		in_num_1.at(0, 0).assign(new DM(0));
+		in_num_1.at(1, 1).assign(new DM(11));
+		System.out.println("in_num_1: " + in_num_1);
+
+		DM in_num_2 = new DM(in_num_1);
+		in_num_2.at(0, 1).assign(new DM(314));
+		System.out.println("in_num_2: " + in_num_2);
+
+		DM in_num_3 = new DM(2, 2);
+		in_num_3.at(1, 0).assign(new DM(15));
+		System.out.println("in_num_3: " + in_num_3);
+
+		StdVectorDM f_num_in = new StdVectorDM(new DM[]{in_num_1, in_num_2, in_num_3});
+		StdVectorDM f_num_out = new StdVectorDM();
+		// In Doku: "Evaluate the function symbolically or numerically."
+		// Call mit DM ist numerische Evaluierung.
+		// Call mit SX oder MX ist symbolische Evaluierung.
+		f_sym_com_casadi.call(f_num_in, f_num_out);
+
+		DM out_num_1 = f_num_out.get(0);
+		System.out.println("out_num_1: " + out_num_1);
 	}
 }
