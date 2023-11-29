@@ -1,12 +1,10 @@
 package de.dhbw.rahmlab.casadi;
 
-import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
 /**
@@ -17,6 +15,7 @@ public class Demo1RecapSolution {
     public static void main(String[] args) {
         
         // Ex 1.1
+        
         MX x = MX.sym("x");
         MX y = MX.sym("y");
         MX z = MX.sin(MX.dot(x, y));
@@ -42,32 +41,34 @@ public class Demo1RecapSolution {
         // für MX? oder sollte die toString()-Methode den symbolischen Ausdruck liefern?
         System.out.println("f(2*x,y)=" + result.get(0).toString()); // sin(((2.*x)*y)
        
-        // Ex 1.2
-        // print(substitute(z,x,2*x)
         
+        // Ex 1.2
+        
+        // print(substitute(z,x,2*x)
         MX res = MX.substitute(z, x, MX.dot(new MX(2d),x)); // sin(((2.*x)*y)
-        //TODO siehe oben, wie kann ich das symbolische Ergebnis ausgeben?
+        System.out.println(res.toString());
+        
         
         // Ex 1.3
+        
         MX A_mx = MX.sym("A",2,2);
         MX b_mx = MX.sym("b",2);
        
-        //TODO
         // z = A_mx@b_mx
+        z = MX.times(A_mx, b_mx);
         
         StdVectorMX args2 = new StdVectorMX(new MX[]{A_mx, b_mx});
-        //FIXME
-        //Function f_mx = new Function("f",args2,z);
+        
+        Function f_mx = new Function("f", args2, new StdVectorMX(new MX[]{z}));
         
         SX A_sx = SX.sym("A",2,2);
         SX b_sx = SX.sym("b",2);
-        //TODO
-        // z = A_sx@b_sx
         
-        //FIXME
-        // Was muss ich als stream angeben bzw. wie kann ich System.out konvertieren
-        // in den casadi internenen Stream?
+        // z = A_sx@b_sx
+        SX z1 = SX.times(A_sx, b_sx);
+        
         // Warum gibts die Methode disp() nicht für MX?
         //A_sx.disp(stream);
+        System.out.println(z1.toString());
     } 
 }
