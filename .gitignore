@@ -12,5 +12,5 @@ nb-configuration.xml
 **/x32
 **/Debug
 **/Release
-**/target
+**/target/**
 **/build

@@ -1,4 +1,6 @@
-/src/main/java/de/dhbw/rahmlab/**/impl
+#/src/main/java/de/dhbw/rahmlab/**/impl
 **/natives
 *.log
-**/target
+**/target/**
+!target/_tmp/
+!target/_tmp/**
