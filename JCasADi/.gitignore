@@ -1,5 +1,5 @@
 #/src/main/java/de/dhbw/rahmlab/**/impl
-**/natives
+#**/natives
 *.log
 **/target/**
 !target/_tmp/
