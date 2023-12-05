@@ -9,6 +9,8 @@ import java.util.List;
 public class FunctionSymbolic {
 
 	protected Function f_sym_casadi;
+	protected String name;
+	protected int arity;
 
 	protected static StdVectorMX transform(List<MultivectorSymbolic> mvs) {
 		List<MX> mxs = mvs.stream().map(mv -> mv.mx).toList();
@@ -19,6 +21,16 @@ public class FunctionSymbolic {
 		var f_sym_in = FunctionSymbolic.transform(parameters);
 		var f_sym_out = FunctionSymbolic.transform(returns);
 		this.f_sym_casadi = new Function(name, f_sym_in, f_sym_out);
+		this.name = name;
+		this.arity = parameters.size();
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public int getArity() {
+		return this.arity;
 	}
 
 	public List<MultivectorSymbolic> callSymbolic(List<MultivectorSymbolic> arguments) {

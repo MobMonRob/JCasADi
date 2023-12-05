@@ -4,6 +4,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
+import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
@@ -16,10 +17,18 @@ public class JCasADi {
 		System.out.println("------------------");
 		// test1();
 		System.out.println("------------------");
-		simple_function_call();
+		// simple_function_call();
 		System.out.println("------------------");
 		composed_function_call();
 		System.out.println("------------------");
+		// dmtest();
+	}
+
+	public static void dmtest() {
+		var sp = Sparsity.dense(2, 2);
+		var dd = new StdVectorDouble(new double[]{1.0, 2.0, 3.0, 4.0});
+		var dm = new DM(sp, dd, false);
+		System.out.println(dm);
 	}
 
 	public static void test1() {
