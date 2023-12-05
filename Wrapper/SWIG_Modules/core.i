@@ -138,9 +138,12 @@ typedef std::vector<std::string> StringVector;
 %template(StdVectorCasadiGenericType) std::vector<casadi::GenericType>;
 %template(StdVectorCasadiLinsol) std::vector<casadi::Linsol>;
 %template(StdVectorCasadiSXElem) std::vector<casadi::SXElem>;
+
+%template(StdVectorVectorCasadiSparsity) std::vector<std::vector<casadi::Sparsity>>;
 %template(StdVectorCasadiSparsity) std::vector<casadi::Sparsity>;
 
 %template(StdVectorCasadiInt) std::vector<casadi_int>;
+
 
 //// Stop: SWIGTYPE's removal
 
@@ -230,6 +233,7 @@ class casadi::SXElem {
 // Beim MX scheint es nicht notwendig zu sein...
 typedef casadi::Matrix<casadi::SXElem> SX;
 %template(StdVectorSX) std::vector<SX>;
+%template(StdVectorVectorSX) std::vector<std::vector<SX>>;
 
 //// Stop: SX
 
@@ -244,6 +248,7 @@ typedef casadi::Matrix<casadi::SXElem> SX;
 //// Start: std::vector<double>
 
 %template(StdVectorDouble) std::vector<double>;
+%template(StdVectorVectorDouble) std::vector<std::vector<double>>;
 
 //// Stop: std::vector<double>
 
@@ -266,6 +271,7 @@ typedef casadi::DMDict DMDict;
 // dm_fwd.hpp
 typedef std::vector<DM> DMVector;
 %template(StdVectorDM) std::vector<DM>;
+%template(StdVectorVectorDM) std::vector<std::vector<DM>>;
 //// Stop: DM
 
 //// Start: MX
@@ -292,6 +298,7 @@ typedef casadi::MXDict MXDict;
 // Wichtig: Namespace "casadi::" vor "MX".
 typedef std::vector<casadi::MX> MXVector;
 %template(StdVectorMX) std::vector<casadi::MX>;
+%template(StdVectorVectorMX) std::vector<std::vector<casadi::MX>>;
 //// Stop: MX
 
 //// Start: Sparsity
