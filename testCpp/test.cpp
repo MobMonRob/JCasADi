@@ -68,5 +68,12 @@ int main(){
 	// Throws exception:
 	// std::cout << "foo: " << casadi::MX::print_operator(A, sv) << std::endl;
 
+	std::cout << "----------------" << std::endl;
+	auto M = diag(MX(2, 2));
+	M(-1, -1) = 5.0;
+	M(0, 0) = 10.0;
+	auto N = M(Slice(0, 1));
+	std::cout << "N: " << N << std::endl;
+
     return 0;
 }

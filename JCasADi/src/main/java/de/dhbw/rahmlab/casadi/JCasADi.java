@@ -3,13 +3,16 @@ package de.dhbw.rahmlab.casadi;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
+import de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
+import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
+import java.util.List;
 
 public class JCasADi {
 
@@ -19,9 +22,42 @@ public class JCasADi {
 		System.out.println("------------------");
 		// simple_function_call();
 		System.out.println("------------------");
-		composed_function_call();
+		// composed_function_call();
 		System.out.println("------------------");
 		// dmtest();
+		System.out.println("------------------");
+		printtest();
+	}
+
+	public static void printtest() {
+		var mx = new MX(Sparsity.diag(2, 2));
+		// mx.set(new MX(3.14), false, new Slice(0, 1), new Slice(0, 1));
+		mx.at(0, 0).assign(new MX(3.14));
+		mx.at(1, 1).assign(new MX(2.7));
+		System.out.println(mx);
+		System.out.println(mx.at(0, 0));
+
+		var mx2 = MX.sym("mx2", Sparsity.diag(2, 2));
+		mx2.at(0, 0).assign(new MX(3.14));
+		mx2.at(1, 1).assign(new MX(2.7));
+		System.out.println(mx2);
+		System.out.println(mx2.at(0, 0));
+
+		var sx = new SX(Sparsity.diag(2, 2));
+		sx.at(0, 0).assign(new SX(3.14));
+		sx.at(1, 1).assign(new SX(2.7));
+		System.out.println(sx);
+		System.out.println(sx.at(0, 0));
+
+		var in = new StdVectorMX();
+		var out = new StdVectorMX(List.of(mx.at(0, 0)));
+		var f = new Function("theF", in, out);
+
+		var in2 = new StdVectorSX();
+		var out2 = new StdVectorSX();
+
+		f.call(in2, out2);
+		System.out.println(out2.get(0));
 	}
 
 	public static void dmtest() {
