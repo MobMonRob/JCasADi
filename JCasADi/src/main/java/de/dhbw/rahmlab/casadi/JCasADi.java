@@ -148,6 +148,8 @@ public class JCasADi {
 		MX mx = MX.sym("x", 2, 2);
 		StdVectorStdString vecStr = new StdVectorStdString();
 		String theStr = MX.print_operator(mx, vecStr);
+                // mx 1.: x
+                // mx 2.: x
 		System.out.println("mx 1.: " + theStr);
 		System.out.println("mx 2.: " + mx);
 
@@ -162,6 +164,8 @@ public class JCasADi {
 		MX A = new MX(2, 2);
 		A.at(0, 0).assign(x.at(0));
 		A.at(1, 1).assign(MX.plus(x.at(0), x.at(1)));
+                
+                // A:(project((zeros(2x2,1nz)[0] = x[0]))[1] = (x[0]+x[1]))
 		System.out.println("A:" + A);
 	}
 
