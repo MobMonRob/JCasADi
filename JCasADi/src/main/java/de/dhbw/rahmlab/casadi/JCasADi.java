@@ -26,7 +26,8 @@ public class JCasADi {
 		System.out.println("------------------");
 		// dmtest();
 		System.out.println("------------------");
-
+		// printtest();
+		System.out.println("------------------");
 		mxTest();
 	}
 
@@ -36,8 +37,6 @@ public class JCasADi {
 		mx.at(0, 0).assign(new MX(11));
 		mx.at(1, 1).assign(new MX(3.14));
 		System.out.println(mx);
-
-		printtest();
 	}
 
 	public static void printtest() {
