@@ -19,9 +19,19 @@ public class JCasADi {
 		System.out.println("------------------");
 		// simple_function_call();
 		System.out.println("------------------");
-		composed_function_call();
+		// composed_function_call();
 		System.out.println("------------------");
 		// dmtest();
+		System.out.println("------------------");
+		mxTest();
+	}
+
+	public static void mxTest() {
+		var sp = Sparsity.diag(2, 2);
+		var mx = new MX(sp);
+		mx.at(0, 0).assign(new MX(11));
+		mx.at(1, 1).assign(new MX(3.14));
+		System.out.println(mx);
 	}
 
 	public static void dmtest() {
