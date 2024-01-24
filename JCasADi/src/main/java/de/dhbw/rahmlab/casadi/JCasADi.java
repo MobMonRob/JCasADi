@@ -43,21 +43,44 @@ public class JCasADi {
 		var mx = new MX(Sparsity.diag(2, 2));
 		// mx.set(new MX(3.14), false, new Slice(0, 1), new Slice(0, 1));
 		mx.at(0, 0).assign(new MX(3.14));
-		mx.at(1, 1).assign(new MX(2.7));
-		System.out.println(mx);
-		System.out.println(mx.at(0, 0));
+		mx.at(1, 1).assign(new MX(11));
+		System.out.println(mx.at(0, 0).toString(true)); // MX
+		System.out.println(mx.at(0, 0)); // MXSubMatrix
+		System.out.println("--1....................\n");
+
+		var a = MX.sym("a", Sparsity.diag(2, 2));
+		System.out.println(a.at(1, 1).toString(true)); // MX
+		System.out.println(a.at(1, 1)); // MXSubMatrix
+		System.out.println("--2....................\n");
 
 		var mx2 = MX.sym("mx2", Sparsity.diag(2, 2));
-		mx2.at(0, 0).assign(MX.plus(MX.sym("MxExpr"), new MX(3.14)));
-		mx2.at(1, 1).assign(new MX(2.7));
-		System.out.println(mx2);
-		System.out.println(mx2.at(0, 0));
+		mx2.at(0, 0).assign(MX.plus(a.at(1, 1), new MX(3.14)));
+		mx2.at(1, 1).assign(new MX(22));
+		System.out.println(mx2.at(0, 0).toString(true)); // MX
+		System.out.println(mx2.at(0, 0)); // MXSubMatrix
+		System.out.println("--3....................\n");
 
-		var sx = new SX(Sparsity.diag(2, 2));
-		sx.at(0, 0).assign(SX.plus(SX.sym("SxExpr"), new SX(3.14)));
+		var mx3 = MX.sym("mx3", Sparsity.diag(2, 2));
+		mx3.at(0, 0).assign(MX.plus(mx2.at(0, 0), new MX(13)));
+		mx3.at(1, 1).assign(new MX(33));
+		System.out.println(mx3.at(0, 0).toString(true)); // MX
+		System.out.println(mx3.at(0, 0)); // MXSubMatrix
+		System.out.println("--4....................\n");
+
+		var b = SX.sym("b", Sparsity.diag(2, 2));
+
+		var sx = SX.sym("sx", Sparsity.diag(2, 2));
+		sx.at(0, 0).assign(SX.plus(b.at(1, 1), new SX(3.14)));
 		sx.at(1, 1).assign(new SX(2.7));
 		System.out.println(sx);
 		System.out.println(sx.at(0, 0));
+		System.out.println("--5....................\n");
+
+		var sx2 = SX.sym("sx2", Sparsity.diag(2, 2));
+		sx2.at(0, 0).assign(SX.plus(sx.at(0, 0), new SX(13)));
+		System.out.println(sx2);
+		System.out.println(sx2.at(0, 0));
+		System.out.println("--6....................\n");
 	}
 
 	public static void dmtest() {
