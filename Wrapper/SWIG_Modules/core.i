@@ -314,17 +314,20 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 		if ((super.columns() != 1) || (super.rows() != 1)) {
 			return super.toString();
 		}
+
+		var freeMX = $typemap(jstype, casadi::MX).symvar(this);
+		var freeSX = freeMX.stream().map(freeVar -> $typemap(jstype, casadi::SX).sym(freeVar.name())).toList();
 		
-		var inSym = new $typemap(jstype, std::vector<casadi::MX>)();
+		var inSym = new $typemap(jstype, std::vector<casadi::MX>)(freeMX);
 		var outSym = new $typemap(jstype, std::vector<casadi::MX>)(java.util.List.of(this));
 
 		// Allows MX created with MX.sym();
 		var options = new $typemap(jstype, casadi::Dict)();
 		options.put("allow_free", new $typemap(jstype, std::GenericType)(true));
 
-		var f = new $typemap(jstype, casadi::Function)("theF", inSym, outSym, options);
+		var f = new $typemap(jstype, casadi::Function)("f", inSym, outSym, options);
 
-		var inVal = new $typemap(jstype, std::vector<casadi::SX>)();
+		var inVal = new $typemap(jstype, std::vector<casadi::SX>)(freeSX);
 		var outVal = new $typemap(jstype, std::vector<casadi::SX>)();
 
 		f.call(inVal, outVal);

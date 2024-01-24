@@ -48,26 +48,16 @@ public class JCasADi {
 		System.out.println(mx.at(0, 0));
 
 		var mx2 = MX.sym("mx2", Sparsity.diag(2, 2));
-		mx2.at(0, 0).assign(new MX(3.14));
+		mx2.at(0, 0).assign(MX.plus(MX.sym("MxExpr"), new MX(3.14)));
 		mx2.at(1, 1).assign(new MX(2.7));
 		System.out.println(mx2);
 		System.out.println(mx2.at(0, 0));
 
 		var sx = new SX(Sparsity.diag(2, 2));
-		sx.at(0, 0).assign(new SX(3.14));
+		sx.at(0, 0).assign(SX.plus(SX.sym("SxExpr"), new SX(3.14)));
 		sx.at(1, 1).assign(new SX(2.7));
 		System.out.println(sx);
 		System.out.println(sx.at(0, 0));
-
-		var in = new StdVectorMX();
-		var out = new StdVectorMX(List.of(mx.at(0, 0)));
-		var f = new Function("theF", in, out);
-
-		var in2 = new StdVectorSX();
-		var out2 = new StdVectorSX();
-
-		f.call(in2, out2);
-		System.out.println(out2.get(0));
 	}
 
 	public static void dmtest() {
