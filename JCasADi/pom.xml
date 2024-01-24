@@ -28,12 +28,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<resources>
-			<resource>
-				<targetPath>${basedir}/target/classes/natives</targetPath>
-				<directory>${basedir}/natives</directory>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

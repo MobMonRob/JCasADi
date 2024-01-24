@@ -5,8 +5,8 @@ projectDir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 wrapperDir="$projectDir/_dependencies/Wrapper"
 
 #Has to be: <Project Folder>/natives/<os-arch> !!
-linuxNativesPath="./natives/linux-amd64"
-windowsNativesPath="./natives/windows-amd64"
+linuxNativesPath="./target/classes/natives/linux-amd64"
+windowsNativesPath="./target/classes/natives/windows-amd64"
 
 if [[ "$currentPlatform" == "$platformLinux" ]]; then
 	currentNativesPath="$linuxNativesPath"
