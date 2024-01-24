@@ -18,6 +18,7 @@
 #pragma SWIG nowarn=516 // Overloaded method const ignored
 #pragma SWIG nowarn=320 // Explicit template instantiation ignored.
 #pragma SWIG nowarn=401 // Nothing known about base class, ignored. Maybe you forgot to instantiate using %template.
+#pragma SWIG nowarn=315 // IM: Nothing known about 'B::horzsplit' ...
 
 %{
 	#include "casadi/core/casadi_common.hpp"
@@ -252,6 +253,20 @@ typedef casadi::Matrix<casadi::SXElem> SX;
 
 //// Stop: std::vector<double>
 
+//// Start: IM
+// typedef long long int casadi_int;
+typedef casadi::Matrix<casadi_int> IM;
+
+%template_interface("ImSparsityInterface", casadi::SparsityInterface< casadi::Matrix< casadi_int > >)
+%template_interface("ImGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi_int > >)
+%template_interface("ImGenericExpression", casadi::GenericExpression< casadi::Matrix< casadi_int > >)
+// %template_interface("ImPrintable", casadi::Printable< casadi::Matrix< casadi_int > >)
+%template(IM) casadi::Matrix<casadi_int>;
+
+// Needs to be after %template(IM)
+%extendAt("Im", casadi::Matrix<casadi_int>)
+//// Stop: IM
+
 //// Start: DM
 // dm_fwd.hpp
 typedef casadi::Matrix<double> DM;
@@ -289,6 +304,34 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 #define SWIG
 
 %extendAt("Mx", casadi::MX)
+%extend casadi::SubMatrix<casadi::MX, int, int> {
+%proxycode %{
+	/**
+	 * Shows the value if MX is a 1x1 Matrix. Works with MX created via MX.sym().
+	 */
+	@Override
+	public String toString() {
+		if ((super.columns() != 1) || (super.rows() != 1)) {
+			return super.toString();
+		}
+		
+		var inSym = new $typemap(jstype, std::vector<casadi::MX>)();
+		var outSym = new $typemap(jstype, std::vector<casadi::MX>)(java.util.List.of(this));
+
+		// Allows MX created with MX.sym();
+		var options = new $typemap(jstype, casadi::Dict)();
+		options.put("allow_free", new $typemap(jstype, std::GenericType)(true));
+
+		var f = new $typemap(jstype, casadi::Function)("theF", inSym, outSym, options);
+
+		var inVal = new $typemap(jstype, std::vector<casadi::SX>)();
+		var outVal = new $typemap(jstype, std::vector<casadi::SX>)();
+
+		f.call(inVal, outVal);
+		return outVal.get(0).toString();
+	}
+%}
+}
 
 // typedef casadi::MXVector;
 typedef casadi::MXIList MXIList;
