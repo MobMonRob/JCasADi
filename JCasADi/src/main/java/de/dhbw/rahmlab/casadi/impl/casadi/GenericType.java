@@ -101,8 +101,8 @@ public class GenericType implements ISharedObject {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_GenericType__SWIG_10(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(dv), dv), true);
   }
 
-  public GenericType(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t dv) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_GenericType__SWIG_11(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(dv)), true);
+  public GenericType(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble dv) {
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_GenericType__SWIG_11(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(dv), dv), true);
   }
 
   public GenericType(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString sv) {
@@ -279,8 +279,8 @@ public class GenericType implements ISharedObject {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_double_vector(swigCPtr, this), false);
   }
 
-  public SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t as_double_vector_vector() {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_double_vector_vector(swigCPtr, this), false);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble as_double_vector_vector() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_double_vector_vector(swigCPtr, this), false);
   }
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString as_string_vector() {
@@ -339,8 +339,8 @@ public class GenericType implements ISharedObject {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_to_double_vector(swigCPtr, this), true);
   }
 
-  public SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t to_double_vector_vector() {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_to_double_vector_vector(swigCPtr, this), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble to_double_vector_vector() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_to_double_vector_vector(swigCPtr, this), true);
   }
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString to_string_vector() {

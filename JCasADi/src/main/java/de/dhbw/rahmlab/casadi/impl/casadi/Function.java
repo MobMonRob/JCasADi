@@ -949,12 +949,12 @@ public class Function implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_17(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(OUTPUT));
   }
 
-  public SWIGTYPE_p_std__vectorT_double_const_p_t buf_in(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t arg) {
-    return new SWIGTYPE_p_std__vectorT_double_const_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_in__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(arg)), true);
+  public SWIGTYPE_p_std__vectorT_double_const_p_t buf_in(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble arg) {
+    return new SWIGTYPE_p_std__vectorT_double_const_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_in__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(arg), arg), true);
   }
 
-  public SWIGTYPE_p_std__vectorT_double_p_t buf_out(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t res) {
-    return new SWIGTYPE_p_std__vectorT_double_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_out__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(res)), true);
+  public SWIGTYPE_p_std__vectorT_double_p_t buf_out(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble res) {
+    return new SWIGTYPE_p_std__vectorT_double_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_out__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(res), res), true);
   }
 
   public SWIGTYPE_p_std__vectorT_double_p_t buf_out(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_p_t res) {
@@ -1325,8 +1325,8 @@ public class Function implements ISharedObject {
    * <br>
    *         
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree, long m, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_0(name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(knots), de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree, m, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree, long m, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_0(name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(knots), knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree, m, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -1336,8 +1336,8 @@ public class Function implements ISharedObject {
    * <br>
    *         
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree, long m) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_1(name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(knots), de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree, m), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree, long m) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_1(name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(knots), knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree, m), true);
   }
 
   /**
@@ -1347,8 +1347,8 @@ public class Function implements ISharedObject {
    * <br>
    *         
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_2(name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(knots), de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_2(name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(knots), knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree), true);
   }
 
   /**

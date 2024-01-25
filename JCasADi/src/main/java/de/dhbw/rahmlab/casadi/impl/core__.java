@@ -1103,8 +1103,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t grid, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble values, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_0(name, solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(grid), de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(values), values, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble grid, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble values, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_0(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(grid), grid, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(values), values, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -1113,8 +1113,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t grid, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble values) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_1(name, solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(grid), de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(values), values), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble grid, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble values) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_1(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(grid), grid, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(values), values), true);
   }
 
   /**
@@ -1128,8 +1128,8 @@ public class core__ implements core__Constants {
    * <br>
    *       
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t grid, long m, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_2(name, solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(grid), m, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble grid, long m, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_2(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(grid), grid, m, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -1143,8 +1143,8 @@ public class core__ implements core__Constants {
    * <br>
    *       
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t grid, long m) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_3(name, solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(grid), m), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble grid, long m) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_3(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(grid), grid, m), true);
   }
 
   /**
@@ -1158,8 +1158,8 @@ public class core__ implements core__Constants {
    * <br>
    *       
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t grid) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_4(name, solver, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(grid)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function interpolant(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble grid) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.interpolant__SWIG_4(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(grid), grid), true);
   }
 
   /**
@@ -1304,8 +1304,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static void collocation_interpolators(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tau, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t arg1, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble arg2) {
-    core__JNI.collocation_interpolators(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tau), tau, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(arg1), de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(arg2), arg2);
+  public static void collocation_interpolators(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tau, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble arg1, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble arg2) {
+    core__JNI.collocation_interpolators(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tau), tau, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(arg1), arg1, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(arg2), arg2);
   }
 
   /**

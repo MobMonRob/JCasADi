@@ -59,12 +59,12 @@ public class SparsitySparsityInterface implements ISparsitySparsityInterface {
   /**
    *  Conditional comment: CLUTTER
    */
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
   }
 
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long vert_incr, long horz_incr) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, vert_incr, horz_incr), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long vert_incr, long horz_incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, vert_incr, horz_incr), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.Sparsity veccat(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity x) {
