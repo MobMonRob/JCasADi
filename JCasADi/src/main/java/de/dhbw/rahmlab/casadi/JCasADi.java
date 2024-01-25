@@ -26,9 +26,35 @@ public class JCasADi {
 		System.out.println("------------------");
 		// dmtest();
 		System.out.println("------------------");
-		printtest();
+		// printtest();
 		System.out.println("------------------");
 		// mxTest();
+		System.out.println("------------------");
+		mulTest();
+	}
+
+	public static void mulTest() {
+		int za = 2;
+		int sa = za; // Quadratisch
+		int zb = sa; // Bedingung für Multiplikation
+		int sb = 1;
+		int zc = za; // Folge aus Multiplikation
+		int sc = sb; // Folge aus Multipklikation
+
+		var a = MX.sym("a", Sparsity.lower(za));
+		System.out.println("a: " + a.dim_(true));
+
+		var b = MX.sym("b", zb, sb);
+		System.out.println("b: " + b.dim_(true));
+
+		var c = MX.mtimes(a, b);
+		System.out.println("c: " + c.toString(true) + " | " + c.dim_(true));
+
+		for (int zeile = 0; zeile < c.rows(); ++zeile) {
+			for (int spalte = 0; spalte < c.columns(); ++spalte) {
+				System.out.println(String.format("z: %s, s: %s, v: %s", zeile, spalte, c.at(zeile, spalte)));
+			}
+		}
 	}
 
 	public static void mxTest() {
