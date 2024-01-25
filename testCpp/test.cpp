@@ -74,6 +74,22 @@ int main(){
 	M(0, 0) = 10.0;
 	auto N = M(Slice(0, 1));
 	std::cout << "N: " << N << std::endl;
+	std::cout << "----------------" << std::endl;
+
+
+ do 
+ {
+   std::cout << '\n' << "Press a key to continue...";
+ } while (std::cin.get() != '\n');
+
+	auto mxxx = MX(2, 1);
+	auto resss = MX::inv(mxxx);
+	std::cout << "resss: " << resss << std::endl;
+
+	do 
+ {
+   std::cout << '\n' << "222222222Press a key to continue...";
+ } while (std::cin.get() != '\n');
 
     return 0;
 }
