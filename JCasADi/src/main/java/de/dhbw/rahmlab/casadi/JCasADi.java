@@ -2,6 +2,7 @@ package de.dhbw.rahmlab.casadi;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
+import de.dhbw.rahmlab.casadi.impl.casadi.GlobalOptions;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
@@ -13,6 +14,9 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
 import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class JCasADi {
 
@@ -26,9 +30,61 @@ public class JCasADi {
 		System.out.println("------------------");
 		// dmtest();
 		System.out.println("------------------");
-		printtest();
+		// printtest();
 		System.out.println("------------------");
 		// mxTest();
+		System.out.println("------------------");
+		// mulTest();
+		System.out.println("------------------");
+		casadiSharedLibLoadTest();
+	}
+
+	public static void casadiSharedLibLoadTest() {
+		System.out.println("getCasadiPath: " + GlobalOptions.getCasadiPath());
+		System.out.println("getCasadiIncludePath: " + GlobalOptions.getCasadiIncludePath());
+		System.out.println("System.getenv(\"CASADIPATH\"): " + System.getenv("CASADIPATH"));
+		System.out.println("System.getProperty(\"CASADIPATH\"): " + System.getProperty("CASADIPATH"));
+		System.out.println("userDir: " + System.getProperty("user.dir"));
+
+		System.out.println("Waiting until enter...");
+		(new Scanner(System.in)).nextLine();
+
+		try {
+			var mv = MX.sym("mv", 2, 1);
+			System.out.println(mv.dim_(true));
+			Thread.sleep(100);
+			// MX.inv() of 2x1 matrix requires libcasadi_linsol_qr.so.
+			var inv = MX.inv(mv);
+			System.out.println(inv);
+		} catch (RuntimeException | InterruptedException ex) {
+			ex.printStackTrace();
+			System.out.println("Waiting until enter...");
+			(new Scanner(System.in)).nextLine();
+		}
+	}
+
+	public static void mulTest() {
+		int za = 2;
+		int sa = za; // Quadratisch
+		int zb = sa; // Bedingung für Multiplikation
+		int sb = 1;
+		int zc = za; // Folge aus Multiplikation
+		int sc = sb; // Folge aus Multipklikation
+
+		var a = MX.sym("a", Sparsity.lower(za));
+		System.out.println("a: " + a.dim_(true));
+
+		var b = MX.sym("b", zb, sb);
+		System.out.println("b: " + b.dim_(true));
+
+		var c = MX.mtimes(a, b);
+		System.out.println("c: " + c.toString(true) + " | " + c.dim_(true));
+
+		for (int zeile = 0; zeile < c.rows(); ++zeile) {
+			for (int spalte = 0; spalte < c.columns(); ++spalte) {
+				System.out.println(String.format("z: %s, s: %s, v: %s", zeile, spalte, c.at(zeile, spalte)));
+			}
+		}
 	}
 
 	public static void mxTest() {
