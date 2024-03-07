@@ -123,8 +123,14 @@ public class Linsol implements ISharedObject {
    *  Get linear system sparsity
    */
   public de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sparsity() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_sparsity(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_sparsity(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.Sparsity proxy = new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Symbolic factorization of the linear system, e.g. selecting pivots

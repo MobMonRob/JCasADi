@@ -325,15 +325,9 @@ public class SxGenericMatrix implements ISxSparsityInterface, ISxGenericMatrix {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_get_colind(swigCPtr, this), true);
   }
 
-  public SWIGTYPE_p_long_long row_() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_row___SWIG_0(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_long_long(cPtr, false);
-  }
+  public SWIGTYPE_p_long_long row_() {throw new UnsupportedOperationException();}
 
-  public SWIGTYPE_p_long_long colind_() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_colind___SWIG_0(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_long_long(cPtr, false);
-  }
+  public SWIGTYPE_p_long_long colind_() {throw new UnsupportedOperationException();}
 
   public long row_(long el) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_row___SWIG_1(swigCPtr, this, el);
@@ -579,8 +573,8 @@ public class SxGenericMatrix implements ISxSparsityInterface, ISxGenericMatrix {
    * <br>
    *         
    */
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_SX_t_t sym(String name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp, long p, long r) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_SX_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_sym__SWIG_7(name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp, p, r), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorSX sym(String name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp, long p, long r) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_sym__SWIG_7(name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp, p, r), true);
   }
 
   /**
@@ -590,8 +584,8 @@ public class SxGenericMatrix implements ISxSparsityInterface, ISxGenericMatrix {
    * <br>
    *         
    */
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_SX_t_t sym(String name, long nrow, long ncol, long p, long r) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_SX_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_sym__SWIG_8(name, nrow, ncol, p, r), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorSX sym(String name, long nrow, long ncol, long p, long r) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_sym__SWIG_8(name, nrow, ncol, p, r), true);
   }
 
   /**
@@ -667,12 +661,12 @@ public class SxGenericMatrix implements ISxSparsityInterface, ISxGenericMatrix {
   /**
    *  Conditional comment: CLUTTER
    */
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_SX_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.SX x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_SX_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorSX blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.SX x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
   }
 
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_SX_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.SX x, long vert_incr, long horz_incr) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_SX_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(x), x, vert_incr, horz_incr), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorSX blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.SX x, long vert_incr, long horz_incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxGenericMatrix_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(x), x, vert_incr, horz_incr), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.SX veccat(de.dhbw.rahmlab.casadi.impl.std.StdVectorSX x) {

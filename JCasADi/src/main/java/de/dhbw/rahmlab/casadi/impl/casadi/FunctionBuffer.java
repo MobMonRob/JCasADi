@@ -57,10 +57,6 @@ public class FunctionBuffer {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_FunctionBuffer__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.FunctionBuffer.getCPtr(f), f), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.casadi.FunctionBuffer assign(de.dhbw.rahmlab.casadi.impl.casadi.FunctionBuffer f) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.FunctionBuffer(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_FunctionBuffer_assign(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.FunctionBuffer.getCPtr(f), f), false);
-  }
-
   /**
    *  Set input buffer for input i<br>
    * <br>
@@ -98,9 +94,6 @@ public class FunctionBuffer {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_FunctionBuffer__eval(swigCPtr, this);
   }
 
-  public SWIGTYPE_p_void _self() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_FunctionBuffer__self(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
-  }
+  public SWIGTYPE_p_void _self() {throw new UnsupportedOperationException();}
 
 }

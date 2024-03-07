@@ -157,10 +157,7 @@ public class Sparsity implements ISparsitySparsityInterface, ISharedObject {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_create(SWIGTYPE_p_casadi__SparsityInternal.getCPtr(node)), true);
   }
 
-  public SWIGTYPE_p_casadi__SparsityInternal get() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_get(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_casadi__SparsityInternal(cPtr, false);
-  }
+  public SWIGTYPE_p_casadi__SparsityInternal get() {throw new UnsupportedOperationException();}
 
   /**
    *  Create a scalar sparsity pattern *<br>
@@ -424,8 +421,14 @@ public class Sparsity implements ISparsitySparsityInterface, ISharedObject {
    *  Reference to internal structure
    */
   public SWIGTYPE_p_casadi__SparsityInternal __ref__() {
-    return new SWIGTYPE_p_casadi__SparsityInternal(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity___ref__(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity___ref__(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	SWIGTYPE_p_casadi__SparsityInternal proxy = new SWIGTYPE_p_casadi__SparsityInternal(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  
@@ -720,20 +723,14 @@ public class Sparsity implements ISparsitySparsityInterface, ISharedObject {
    * <br>
    *         
    */
-  public SWIGTYPE_p_long_long row() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_row__SWIG_0(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_long_long(cPtr, false);
-  }
+  public SWIGTYPE_p_long_long row() {throw new UnsupportedOperationException();}
 
   /**
    *  Get a reference to the colindex of all column element (see class description)<br>
    * <br>
    *         
    */
-  public SWIGTYPE_p_long_long colind() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_colind__SWIG_0(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_long_long(cPtr, false);
-  }
+  public SWIGTYPE_p_long_long colind() {throw new UnsupportedOperationException();}
 
   /**
    *  Get the row for each non-zero entry<br>
@@ -1099,8 +1096,8 @@ public class Sparsity implements ISparsitySparsityInterface, ISharedObject {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_vertcat(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity.getCPtr(sp), sp), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Sparsity blockcat(SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t v) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_blockcat(SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t.getCPtr(v)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Sparsity blockcat(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity v) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_blockcat(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity.getCPtr(v), v), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.Sparsity diagcat(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity v) {
@@ -1576,34 +1573,6 @@ public class Sparsity implements ISparsitySparsityInterface, ISharedObject {
    */
   public void removeDuplicates(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt INOUT) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_removeDuplicates(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(INOUT), INOUT);
-  }
-
-  /**
-   *  Cached sparsity patterns
-   */
-  public static SWIGTYPE_p_std__unordered_multimapT_std__size_t_casadi__WeakRef_t getCache() {
-    return new SWIGTYPE_p_std__unordered_multimapT_std__size_t_casadi__WeakRef_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_getCache(), false);
-  }
-
-  /**
-   *  (Dense) scalar
-   */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Sparsity getScalar() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_getScalar(), false);
-  }
-
-  /**
-   *  (Sparse) scalar
-   */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Sparsity getScalarSparse() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_getScalarSparse(), false);
-  }
-
-  /**
-   *  Empty zero-by-zero
-   */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Sparsity getEmpty() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_getEmpty(), false);
   }
 
   /**
@@ -2215,19 +2184,15 @@ public class Sparsity implements ISparsitySparsityInterface, ISharedObject {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_file_format(filename, format_hint, SWIGTYPE_p_std__setT_std__string_t.getCPtr(file_formats));
   }
 
-  public static SWIGTYPE_p_std__setT_std__string_t getFile_formats() {
-    return new SWIGTYPE_p_std__setT_std__string_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_file_formats_get(), false);
-  }
-
   /**
    *  Conditional comment: CLUTTER
    */
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
   }
 
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long vert_incr, long horz_incr) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_casadi__Sparsity_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, vert_incr, horz_incr), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long vert_incr, long horz_incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Sparsity_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, vert_incr, horz_incr), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.Sparsity veccat(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity x) {

@@ -101,8 +101,8 @@ public class GenericType implements ISharedObject {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_GenericType__SWIG_10(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(dv), dv), true);
   }
 
-  public GenericType(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t dv) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_GenericType__SWIG_11(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(dv)), true);
+  public GenericType(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble dv) {
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_GenericType__SWIG_11(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(dv), dv), true);
   }
 
   public GenericType(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString sv) {
@@ -264,40 +264,94 @@ public class GenericType implements ISharedObject {
   }
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt as_int_vector() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_int_vector(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_int_vector(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt as_bool_vector() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_bool_vector(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_bool_vector(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public SWIGTYPE_p_std__vectorT_std__vectorT_casadi_int_t_t as_int_vector_vector() {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_casadi_int_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_int_vector_vector(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_int_vector_vector(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	SWIGTYPE_p_std__vectorT_std__vectorT_casadi_int_t_t proxy = new SWIGTYPE_p_std__vectorT_std__vectorT_casadi_int_t_t(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble as_double_vector() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_double_vector(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_double_vector(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
-  public SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t as_double_vector_vector() {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_double_vector_vector(swigCPtr, this), false);
-  }
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble as_double_vector_vector() {
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_double_vector_vector(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString as_string_vector() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_string_vector(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_string_vector(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.std.Dict as_dict() {
-    return new de.dhbw.rahmlab.casadi.impl.std.Dict(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_dict(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_dict(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.Dict proxy = new de.dhbw.rahmlab.casadi.impl.std.Dict(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.casadi.Function as_function() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_function(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_function(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.Function proxy = new de.dhbw.rahmlab.casadi.impl.casadi.Function(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiFunction as_function_vector() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiFunction(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_function_vector(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_function_vector(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiFunction proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiFunction(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public SWIGTYPE_p_void as_void_pointer() {
     long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_as_void_pointer(swigCPtr, this);
@@ -339,8 +393,8 @@ public class GenericType implements ISharedObject {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_to_double_vector(swigCPtr, this), true);
   }
 
-  public SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t to_double_vector_vector() {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_to_double_vector_vector(swigCPtr, this), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble to_double_vector_vector() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_to_double_vector_vector(swigCPtr, this), true);
   }
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString to_string_vector() {
@@ -359,10 +413,7 @@ public class GenericType implements ISharedObject {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiFunction(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_to_function_vector(swigCPtr, this), true);
   }
 
-  public SWIGTYPE_p_void to_void_pointer() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_to_void_pointer(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
-  }
+  public SWIGTYPE_p_void to_void_pointer() {throw new UnsupportedOperationException();}
 
   public SWIGTYPE_p_std__vectorT_int_t to_int_type_vector() {
     return new SWIGTYPE_p_std__vectorT_int_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GenericType_to_int_type_vector(swigCPtr, this), true);

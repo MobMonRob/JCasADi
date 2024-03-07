@@ -68,8 +68,14 @@ public class MetaVar extends de.dhbw.rahmlab.casadi.impl.casadi.IndexAbstraction
   }
 
   public de.dhbw.rahmlab.casadi.impl.std.Dict getExtra() {
-    return new de.dhbw.rahmlab.casadi.impl.std.Dict(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaVar_extra_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaVar_extra_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.Dict proxy = new de.dhbw.rahmlab.casadi.impl.std.Dict(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public MetaVar() {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MetaVar__SWIG_0(), true);

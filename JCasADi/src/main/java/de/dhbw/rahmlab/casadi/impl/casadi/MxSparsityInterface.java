@@ -59,12 +59,12 @@ public class MxSparsityInterface implements IMxSparsityInterface {
   /**
    *  Conditional comment: CLUTTER
    */
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_casadi__MX_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_casadi__MX_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSparsityInterface_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSparsityInterface_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
   }
 
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_casadi__MX_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.MX x, long vert_incr, long horz_incr) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_casadi__MX_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSparsityInterface_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, vert_incr, horz_incr), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.MX x, long vert_incr, long horz_incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSparsityInterface_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, vert_incr, horz_incr), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX veccat(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX x) {

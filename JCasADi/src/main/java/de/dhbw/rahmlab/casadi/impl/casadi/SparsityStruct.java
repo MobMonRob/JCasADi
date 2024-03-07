@@ -52,15 +52,9 @@ public class SparsityStruct {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsityStruct_ncol_get(swigCPtr, this);
   }
 
-  public SWIGTYPE_p_long_long getColind() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsityStruct_colind_get(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_long_long(cPtr, false);
-  }
+  public SWIGTYPE_p_long_long getColind() {throw new UnsupportedOperationException();}
 
-  public SWIGTYPE_p_long_long getRow() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsityStruct_row_get(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_long_long(cPtr, false);
-  }
+  public SWIGTYPE_p_long_long getRow() {throw new UnsupportedOperationException();}
 
   public SparsityStruct() {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_SparsityStruct__SWIG_0(), true);

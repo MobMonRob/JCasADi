@@ -44,24 +44,48 @@ public class MetaCon extends de.dhbw.rahmlab.casadi.impl.casadi.IndexAbstraction
   }
 
   public de.dhbw.rahmlab.casadi.impl.casadi.MX getOriginal() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_original_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_original_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.MX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.MX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.casadi.MX getCanon() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_canon_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_canon_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.MX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.MX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.casadi.ConstraintType getType() {
     return de.dhbw.rahmlab.casadi.impl.casadi.ConstraintType.swigToEnum(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_type_get(swigCPtr, this));
   }
 
   public de.dhbw.rahmlab.casadi.impl.casadi.MX getLb() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_lb_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_lb_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.MX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.MX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.casadi.MX getUb() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_ub_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_ub_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.MX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.MX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public long getN() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_n_get(swigCPtr, this);
@@ -72,16 +96,34 @@ public class MetaCon extends de.dhbw.rahmlab.casadi.impl.casadi.IndexAbstraction
   }
 
   public de.dhbw.rahmlab.casadi.impl.casadi.MX getDual_canon() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_dual_canon_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_dual_canon_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.MX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.MX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.casadi.MX getDual() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_dual_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_dual_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.MX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.MX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.std.Dict getExtra() {
-    return new de.dhbw.rahmlab.casadi.impl.std.Dict(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_extra_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_extra_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.Dict proxy = new de.dhbw.rahmlab.casadi.impl.std.Dict(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public MetaCon(de.dhbw.rahmlab.casadi.impl.casadi.MetaCon other) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MetaCon__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MetaCon.getCPtr(other), other), true);

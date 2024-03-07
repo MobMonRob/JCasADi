@@ -133,8 +133,14 @@ public class StdVectorSX extends java.util.AbstractList<de.dhbw.rahmlab.casadi.i
   }
 
   private de.dhbw.rahmlab.casadi.impl.casadi.SX doGet(int index) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.SX(de.dhbw.rahmlab.casadi.impl.core__JNI.std_StdVectorSX_doGet(swigCPtr, this, index), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.std_StdVectorSX_doGet(swigCPtr, this, index);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.SX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.SX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   private de.dhbw.rahmlab.casadi.impl.casadi.SX doSet(int index, de.dhbw.rahmlab.casadi.impl.casadi.SX val) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.SX(de.dhbw.rahmlab.casadi.impl.core__JNI.std_StdVectorSX_doSet(swigCPtr, this, index, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(val), val), true);

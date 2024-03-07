@@ -6,11 +6,11 @@
  * the SWIG interface file instead.
  * ----------------------------------------------------------------------------- */
 
-package de.dhbw.rahmlab.casadi.impl;
+package de.dhbw.rahmlab.casadi.impl.casadi;
 
-import java.lang.ref.Cleaner;
-import java.lang.ref.Reference;
+import de.dhbw.rahmlab.casadi.impl.*;
+import static de.dhbw.rahmlab.casadi.impl.core__.*;
 
-public interface core__Constants {
-  public final static String CASADI_INT_TYPE_STR = core__JNI.CASADI_INT_TYPE_STR_get();
+public interface IImGenericExpression {
+  long IImGenericExpression_GetInterfaceCPtr();
 }

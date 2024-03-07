@@ -535,8 +535,14 @@ public class Function implements ISharedObject {
    *         
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_name_in__SWIG_0(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_name_in__SWIG_0(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Get output scheme<br>
@@ -544,8 +550,14 @@ public class Function implements ISharedObject {
    *         
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_name_out__SWIG_0(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_name_out__SWIG_0(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Get input scheme name by index<br>
@@ -640,12 +652,24 @@ public class Function implements ISharedObject {
    *         
    */
   public de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sparsity_in(long ind) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_sparsity_in__SWIG_0(swigCPtr, this, ind), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_sparsity_in__SWIG_0(swigCPtr, this, ind);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.Sparsity proxy = new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sparsity_in(String iname) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_sparsity_in__SWIG_1(swigCPtr, this, iname), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_sparsity_in__SWIG_1(swigCPtr, this, iname);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.Sparsity proxy = new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Get sparsity of a given output<br>
@@ -653,12 +677,24 @@ public class Function implements ISharedObject {
    *         
    */
   public de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sparsity_out(long ind) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_sparsity_out__SWIG_0(swigCPtr, this, ind), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_sparsity_out__SWIG_0(swigCPtr, this, ind);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.Sparsity proxy = new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sparsity_out(String iname) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_sparsity_out__SWIG_1(swigCPtr, this, iname), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_sparsity_out__SWIG_1(swigCPtr, this, iname);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.Sparsity proxy = new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Get differentiability of inputs/output<br>
@@ -949,12 +985,12 @@ public class Function implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_17(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(OUTPUT));
   }
 
-  public SWIGTYPE_p_std__vectorT_double_const_p_t buf_in(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t arg) {
-    return new SWIGTYPE_p_std__vectorT_double_const_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_in__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(arg)), true);
+  public SWIGTYPE_p_std__vectorT_double_const_p_t buf_in(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble arg) {
+    return new SWIGTYPE_p_std__vectorT_double_const_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_in__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(arg), arg), true);
   }
 
-  public SWIGTYPE_p_std__vectorT_double_p_t buf_out(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t res) {
-    return new SWIGTYPE_p_std__vectorT_double_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_out__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(res)), true);
+  public SWIGTYPE_p_std__vectorT_double_p_t buf_out(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble res) {
+    return new SWIGTYPE_p_std__vectorT_double_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_out__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(res), res), true);
   }
 
   public SWIGTYPE_p_std__vectorT_double_p_t buf_out(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_p_t res) {
@@ -1325,8 +1361,8 @@ public class Function implements ISharedObject {
    * <br>
    *         
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree, long m, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_0(name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(knots), de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree, m, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree, long m, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_0(name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(knots), knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree, m, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -1336,8 +1372,8 @@ public class Function implements ISharedObject {
    * <br>
    *         
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree, long m) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_1(name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(knots), de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree, m), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree, long m) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_1(name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(knots), knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree, m), true);
   }
 
   /**
@@ -1347,8 +1383,8 @@ public class Function implements ISharedObject {
    * <br>
    *         
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_2(name, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t.getCPtr(knots), de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function bspline(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_bspline__SWIG_2(name, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(knots), knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(coeffs), coeffs, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree), true);
   }
 
   /**
@@ -1421,8 +1457,14 @@ public class Function implements ISharedObject {
    *         
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity jac_sparsity(boolean compact) {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_jac_sparsity__SWIG_0(swigCPtr, this, compact), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_jac_sparsity__SWIG_0(swigCPtr, this, compact);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Get, if necessary generate, the sparsity of all Jacobian blocks<br>
@@ -1430,8 +1472,14 @@ public class Function implements ISharedObject {
    *         
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity jac_sparsity() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_jac_sparsity__SWIG_1(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_jac_sparsity__SWIG_1(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Get, if necessary generate, the sparsity of a single Jacobian block<br>
@@ -1645,10 +1693,7 @@ public class Function implements ISharedObject {
   /**
    * Conditional comment: INTERNAL Get a const pointer to the node
    */
-  public SWIGTYPE_p_casadi__FunctionInternal get() {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_get(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_casadi__FunctionInternal(cPtr, false);
-  }
+  public SWIGTYPE_p_casadi__FunctionInternal get() {throw new UnsupportedOperationException();}
 
   /**
    *  Check if a particular cast is allowed
@@ -2195,10 +2240,7 @@ public class Function implements ISharedObject {
   /**
    *  Get memory object
    */
-  public SWIGTYPE_p_void memory(int ind) {
-    long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_memory(swigCPtr, this, ind);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
-  }
+  public SWIGTYPE_p_void memory(int ind) {throw new UnsupportedOperationException();}
 
   /**
    *  Get all functions in the cache<br>

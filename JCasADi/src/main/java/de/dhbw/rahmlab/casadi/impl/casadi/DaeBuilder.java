@@ -127,8 +127,14 @@ public class DaeBuilder implements ISharedObject {
    *       
    */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX t() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_t(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_t(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.MX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.MX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Differential states<br>
@@ -284,8 +290,14 @@ public class DaeBuilder implements ISharedObject {
    *       
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX aux() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_aux(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_aux(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Initial conditions, left-hand-side<br>
@@ -293,8 +305,14 @@ public class DaeBuilder implements ISharedObject {
    *       
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX init_lhs() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_init_lhs(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_init_lhs(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Initial conditions, right-hand-side<br>
@@ -302,8 +320,14 @@ public class DaeBuilder implements ISharedObject {
    *       
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX init_rhs() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_init_rhs(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_init_rhs(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  When statement: triggering condition<br>
@@ -311,8 +335,14 @@ public class DaeBuilder implements ISharedObject {
    *       
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX when_cond() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when_cond(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when_cond(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  When statement: left-hand-side<br>
@@ -320,8 +350,14 @@ public class DaeBuilder implements ISharedObject {
    *       
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX when_lhs() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when_lhs(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when_lhs(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  When statement: right-hand-side<br>
@@ -329,8 +365,14 @@ public class DaeBuilder implements ISharedObject {
    *       
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX when_rhs() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when_rhs(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when_rhs(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    * Model structure: outputs<br>

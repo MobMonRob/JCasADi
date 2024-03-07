@@ -133,8 +133,14 @@ public class StdVectorCasadiSXElem extends java.util.AbstractList<de.dhbw.rahmla
   }
 
   private de.dhbw.rahmlab.casadi.impl.casadi.SXElem doGet(int index) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.SXElem(de.dhbw.rahmlab.casadi.impl.core__JNI.std_StdVectorCasadiSXElem_doGet(swigCPtr, this, index), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.std_StdVectorCasadiSXElem_doGet(swigCPtr, this, index);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.SXElem proxy = new de.dhbw.rahmlab.casadi.impl.casadi.SXElem(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   private de.dhbw.rahmlab.casadi.impl.casadi.SXElem doSet(int index, de.dhbw.rahmlab.casadi.impl.casadi.SXElem val) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.SXElem(de.dhbw.rahmlab.casadi.impl.core__JNI.std_StdVectorCasadiSXElem_doSet(swigCPtr, this, index, de.dhbw.rahmlab.casadi.impl.casadi.SXElem.getCPtr(val), val), true);

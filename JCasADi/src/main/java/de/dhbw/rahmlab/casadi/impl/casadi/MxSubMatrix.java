@@ -59,15 +59,40 @@ public class MxSubMatrix extends de.dhbw.rahmlab.casadi.impl.casadi.MX {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MxSubMatrix__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix.getCPtr(y), y), true);
   }
 
-  /**
-   * Methods that modify a part of the parent object (A(i, j) = ?, A(i, j) += ?, etc.)
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX assign(de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix y) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSubMatrix_assign__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix.getCPtr(y), y), false);
+  public void assign(de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix other) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSubMatrix_assign__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix.getCPtr(other), other);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX assign(de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSubMatrix_assign__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), false);
+  public void assign(de.dhbw.rahmlab.casadi.impl.casadi.MX other) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSubMatrix_assign__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(other), other);
   }
+
+	/**
+	 * Shows the value if MX is a 1x1 Matrix. Works with MX created via MX.sym(). Be cautious: Will resolve MX dependencies as far as it can. The output is basically MX transformed to SX.
+	 */
+	@Override
+	public String toString() {
+		if ((super.columns() != 1) || (super.rows() != 1)) {
+			return super.toString();
+		}
+
+		var freeMX = de.dhbw.rahmlab.casadi.impl.casadi.MX.symvar(this);
+		var freeSX = freeMX.stream().map(freeVar -> de.dhbw.rahmlab.casadi.impl.casadi.SX.sym(freeVar.name(), freeVar.rows(), freeVar.columns())).toList();
+		
+		var inSym = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(freeMX);
+		var outSym = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(java.util.List.of(this));
+
+		// Allows MX created with MX.sym();
+		var options = new de.dhbw.rahmlab.casadi.impl.std.Dict();
+		options.put("allow_free", new de.dhbw.rahmlab.casadi.impl.casadi.GenericType(true));
+
+		var f = new de.dhbw.rahmlab.casadi.impl.casadi.Function("f", inSym, outSym, options);
+
+		var inVal = new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX(freeSX);
+		var outVal = new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX();
+
+		f.call(inVal, outVal);
+		return outVal.get(0).toString();
+	}
 
 }

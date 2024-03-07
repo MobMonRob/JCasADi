@@ -59,12 +59,12 @@ public class DmSparsityInterface implements IDmSparsityInterface {
   /**
    *  Conditional comment: CLUTTER
    */
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_DM_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.DM x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_DM_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DmSparsityInterface_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDM blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.DM x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DmSparsityInterface_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
   }
 
-  public static SWIGTYPE_p_std__vectorT_std__vectorT_DM_t_t blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.DM x, long vert_incr, long horz_incr) {
-    return new SWIGTYPE_p_std__vectorT_std__vectorT_DM_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DmSparsityInterface_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, vert_incr, horz_incr), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDM blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.DM x, long vert_incr, long horz_incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DmSparsityInterface_blocksplit__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, vert_incr, horz_incr), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.DM veccat(de.dhbw.rahmlab.casadi.impl.std.StdVectorDM x) {

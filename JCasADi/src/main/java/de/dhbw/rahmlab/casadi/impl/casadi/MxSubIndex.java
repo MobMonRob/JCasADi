@@ -59,15 +59,12 @@ public class MxSubIndex extends de.dhbw.rahmlab.casadi.impl.casadi.MX {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MxSubIndex__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MxSubIndex.getCPtr(y), y), true);
   }
 
-  /**
-   * Methods that modify a part of the parent object (A(i) = ?, A(i) += ?, etc.)
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX assign(de.dhbw.rahmlab.casadi.impl.casadi.MxSubIndex y) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSubIndex_assign__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MxSubIndex.getCPtr(y), y), false);
+  public void assign(de.dhbw.rahmlab.casadi.impl.casadi.MxSubIndex other) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSubIndex_assign__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MxSubIndex.getCPtr(other), other);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX assign(de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSubIndex_assign__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), false);
+  public void assign(de.dhbw.rahmlab.casadi.impl.casadi.MX other) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MxSubIndex_assign__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(other), other);
   }
 
 }

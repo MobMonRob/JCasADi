@@ -133,8 +133,14 @@ public class StdVectorCasadiSparsity extends java.util.AbstractList<de.dhbw.rahm
   }
 
   private de.dhbw.rahmlab.casadi.impl.casadi.Sparsity doGet(int index) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.std_StdVectorCasadiSparsity_doGet(swigCPtr, this, index), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.std_StdVectorCasadiSparsity_doGet(swigCPtr, this, index);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.Sparsity proxy = new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   private de.dhbw.rahmlab.casadi.impl.casadi.Sparsity doSet(int index, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity val) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.std_StdVectorCasadiSparsity_doSet(swigCPtr, this, index, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(val), val), true);

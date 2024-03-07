@@ -51,65 +51,125 @@ public class NlpBuilder {
    * Variables
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX getX() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Objective
    */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX getF() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_f_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_f_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.MX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.MX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Constraints
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX getG() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_g_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_g_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Bounds on x
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getX_lb() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_lb_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_lb_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getX_ub() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_ub_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_ub_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Bounds on g
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getG_lb() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_g_lb_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_g_lb_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getG_ub() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_g_ub_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_g_ub_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Primal initial guess
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getX_init() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_init_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_init_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Dual initial guess
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getLambda_init() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_lambda_init_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_lambda_init_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    *  Discrete variables
    */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorBool getDiscrete() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorBool(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_discrete_get(swigCPtr, this), false);
-  }
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_discrete_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.std.StdVectorBool proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorBool(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
 
   /**
    * Import an .nl file

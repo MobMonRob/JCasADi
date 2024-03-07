@@ -59,15 +59,12 @@ public class SxSubMatrix extends de.dhbw.rahmlab.casadi.impl.casadi.SX {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_SxSubMatrix__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.SxSubMatrix.getCPtr(y), y), true);
   }
 
-  /**
-   * Methods that modify a part of the parent object (A(i, j) = ?, A(i, j) += ?, etc.)
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.SX assign(de.dhbw.rahmlab.casadi.impl.casadi.SxSubMatrix y) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.SX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxSubMatrix_assign__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SxSubMatrix.getCPtr(y), y), false);
+  public void assign(de.dhbw.rahmlab.casadi.impl.casadi.SxSubMatrix other) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxSubMatrix_assign__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SxSubMatrix.getCPtr(other), other);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.casadi.SX assign(de.dhbw.rahmlab.casadi.impl.casadi.SX y) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.SX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxSubMatrix_assign__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(y), y), false);
+  public void assign(de.dhbw.rahmlab.casadi.impl.casadi.SX other) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SxSubMatrix_assign__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(other), other);
   }
 
 }
