@@ -20,6 +20,17 @@
 #pragma SWIG nowarn=401 // Nothing known about base class, ignored. Maybe you forgot to instantiate using %template.
 #pragma SWIG nowarn=315 // IM: Nothing known about 'B::horzsplit' ...
 
+// append works for strings
+%naturalvar;
+
+// Make data members read-only
+%immutable;
+
+// Make sure that a copy constructor is created
+%copyctor;
+
+%ignore *::operator->;
+
 %{
 	#include "casadi/core/casadi_common.hpp"
 	#include "casadi/core/core.hpp"
@@ -34,11 +45,6 @@
 #undef SWIG_IF_ELSE
 #define SWIG_IF_ELSE(is_swig, not_swig) not_swig
 
-/// Data structure in the target language holding data
-// #define GUESTOBJECT void
-
-// #pragma SWIG nowarn=509,303,302
-
 // Incude cmath early on, see #622
 %begin %{
 	#include <cmath>
@@ -49,19 +55,6 @@
 	#undef _POSIX_C_SOURCE
 	#endif
 %}
-
-%ignore *::operator->;
-
-%rename(assign) operator=;
-
-// append works for strings
-%naturalvar;
-
-// Make data members read-only
-%immutable;
-
-// Make sure that a copy constructor is created
-%copyctor;
 
 // Note: Only from 3.0.0 onwards,
 // DirectorException inherits from std::exception
@@ -95,6 +88,46 @@
 
 
 //////
+
+//// Start: Fix memory safety issues
+
+// Prevent use-after-free for many cases where methods return memory-unsafe output types.
+// Especially references to members.
+%typemap(javaout) SWIGTYPE & {
+	final long cPtr = $jnicall;
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	$javaclassname proxy = new $javaclassname(cPtr, $owner);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
+%typemap(javaout) SWIGTYPE * {throw new UnsupportedOperationException();}
+%ignore casadi::Sparsity::getCache;
+%ignore casadi::Sparsity::getScalar;
+%ignore casadi::Sparsity::getScalarSparse;
+%ignore casadi::Sparsity::getEmpty;
+%ignore casadi::Sparsity::file_formats; // Field
+
+%ignore casadi::Matrix::ptr;
+
+// Leads to use-after-free without LIFE_TIME_EXTENDER. Better use casadi::Matrix::get_sparsity.
+%ignore casadi::Matrix::sparsity;
+// Convenience to avoid renaming.
+%rename(sparsity) casadi::Matrix::get_sparsity;
+
+// SWIGTYPE &: C++ Container types will copy the values. Should be safe usually.
+// SWIGTYPE *: Pointer types are not wrapped.
+/*
+%typemap(javain) SWIGTYPE &, SWIGTYPE * "
+	longCall(() -> {
+		throw new UnsupportedOperationException()
+		return $javaclassname.getCPtr($javainput);
+	})
+"
+*/
+
+//// Stop: Fix memory safety issues
 
 //// Start: print fix
 
@@ -161,6 +194,15 @@ typedef std::vector<std::string> StringVector;
 		// Kommt ursprünglich aus GenericMatrix, das eine Superklasse von Matrix ist.
 		casadi::SubIndex<CTYPE, int> at(const int &rr) {return (*($self))(rr);}
 		casadi::SubMatrix<CTYPE, int, int> at(const int &rr, const int &cc) {return (*($self))(rr, cc);}
+		void assign(const CTYPE& other) {(*$self).operator=(other);}
+	}
+	%extend casadi::SubMatrix<CTYPE, int, int> {
+		void assign(const casadi::SubMatrix<CTYPE, int, int>& other) {(*$self).operator=(other);}
+		void assign(const CTYPE& other) {(*$self).operator=(other);}
+	}
+	%extend casadi::SubIndex<CTYPE, int> {
+		void assign(const casadi::SubIndex<CTYPE, int>& other) {(*$self).operator=(other);}
+		void assign(const CTYPE& other) {(*$self).operator=(other);}
 	}
 %enddef
 
@@ -206,6 +248,7 @@ typedef std::vector<std::string> StringVector;
 // Stop: Überladungen, die in Netbeans Probleme machen.
 
 // %import "casadi/core/sx_elem.hpp"
+// %ignore casadi::SXElem;
 class casadi::SXElem {
 
 };

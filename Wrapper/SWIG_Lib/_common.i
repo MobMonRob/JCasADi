@@ -28,3 +28,36 @@ import static de.dhbw.rahmlab.casadi.impl.$module.*;
 //Unknown Doxygen command
 #pragma SWIG nowarn=560
 
+%pragma(java) moduleimports=%{
+import java.lang.ref.Cleaner;
+import java.lang.ref.Reference;
+%}
+
+%pragma(java) modulecode=%{
+public static final LifeTimeExtender LIFE_TIME_EXTENDER = new LifeTimeExtender();
+
+public static final class LifeTimeExtender {
+
+	private final Cleaner cleaner = Cleaner.create();
+
+	private static Runnable reachabilityCleanup(final Object o) {
+		return () -> {
+			Reference.reachabilityFence(o);
+		};
+	}
+
+	public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime) {
+		this.cleaner.register(extendedToLifeTime, LifeTimeExtender.reachabilityCleanup(toBeExtendedLifeTime));
+	}
+}
+
+public static interface LongCall {
+	long call();
+}
+
+public static long longCall(LongCall cl) {
+	return cl.call();
+}
+
+%}
+
