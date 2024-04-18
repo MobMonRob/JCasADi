@@ -2,6 +2,9 @@
 ## Description
 Java Wrapper for [CasADi](https://web.casadi.org/).
 
+## Caveats
+CasADi is not totally thread-safe. This property is inherited by this Java wrapper. Use threading only with a lot of caution!
+
 
 ## Tested prerequisites
 * Kubuntu 20.04 x64 LTS
