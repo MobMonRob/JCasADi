@@ -10,6 +10,7 @@ package de.dhbw.rahmlab.casadi.impl.std;
 
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
+import java.util.function.LongConsumer;
 
 public class StdVectorStdString extends java.util.AbstractList<String> implements java.util.RandomAccess {
   private transient long swigCPtr;
@@ -18,26 +19,50 @@ public class StdVectorStdString extends java.util.AbstractList<String> implement
   public StdVectorStdString(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
+	if (cMemoryOwn) {
+		REGISTER_DELETION(this, this.swigCPtr, StdVectorStdString::delete);
+	}
+  }
+
+  /**
+  * <pre>
+  * In C++, deleting a pointer twice is undefined behavior!
+  * In C++, deleting an object polymorphically is undefined behavior if the base class does not declare it's constructor as virtual!
+  * Using this baseclass constructor for subtypes prevents that.
+  * </pre>
+  */
+  protected StdVectorStdString(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
+    swigCMemOwn = cMemoryOwn;
+    swigCPtr = cPtr;
+	if (cMemoryOwn) {
+		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+	}
   }
 
   public static long getCPtr(StdVectorStdString obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  @SuppressWarnings("deprecation")
-  protected void finalize() {
-    delete();
-  }
-
   public synchronized void delete() {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_StdVectorStdString(swigCPtr);
+        StdVectorStdString.delete(swigCPtr);
       }
       swigCPtr = 0;
     }
   }
+
+  @SuppressWarnings("deprecation")
+  @Override
+  protected void finalize() {
+  }
+
+  private static void delete(long swigCPtr) {
+	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_StdVectorStdString(swigCPtr);
+	}
+}
 
   public StdVectorStdString(String[] initialElements) {
     this();

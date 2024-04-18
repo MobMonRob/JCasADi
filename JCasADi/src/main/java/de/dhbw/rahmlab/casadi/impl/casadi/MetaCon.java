@@ -10,34 +10,42 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
+import java.util.function.LongConsumer;
 
 public class MetaCon extends de.dhbw.rahmlab.casadi.impl.casadi.IndexAbstraction {
   private transient long swigCPtr;
 
   public MetaCon(long cPtr, boolean cMemoryOwn) {
-    super(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_SWIGUpcast(cPtr), cMemoryOwn);
+    super(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_SWIGUpcast(cPtr), cMemoryOwn, cPtr, MetaCon::delete);
     swigCPtr = cPtr;
   }
-
+  
   public static long getCPtr(MetaCon obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  @SuppressWarnings("deprecation")
-  protected void finalize() {
-    delete();
-  }
-
+  @Override
   public synchronized void delete() {
     if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_MetaCon(swigCPtr);
+      if (super.swigCMemOwn) {
+        super.swigCMemOwn = false;
+        MetaCon.delete(swigCPtr);
       }
       swigCPtr = 0;
     }
     super.delete();
   }
+
+  @SuppressWarnings("deprecation")
+  @Override
+  protected void finalize() {
+  }
+
+  private static void delete(long swigCPtr) {
+	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_MetaCon(swigCPtr);
+	}
+}
 
   public MetaCon() {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MetaCon__SWIG_0(), true);

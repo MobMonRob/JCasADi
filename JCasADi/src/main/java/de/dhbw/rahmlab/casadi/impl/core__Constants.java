@@ -10,6 +10,7 @@ package de.dhbw.rahmlab.casadi.impl;
 
 import java.lang.ref.Cleaner;
 import java.lang.ref.Reference;
+import java.util.function.LongConsumer;
 
 public interface core__Constants {
   public final static String CASADI_INT_TYPE_STR = core__JNI.CASADI_INT_TYPE_STR_get();

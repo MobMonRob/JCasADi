@@ -10,6 +10,7 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
+import java.util.function.LongConsumer;
 
 /**
  *  Compact representation of a sparsity pattern<br>
@@ -23,26 +24,50 @@ public class SparsityStruct {
   public SparsityStruct(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
+	if (cMemoryOwn) {
+		REGISTER_DELETION(this, this.swigCPtr, SparsityStruct::delete);
+	}
+  }
+
+  /**
+  * <pre>
+  * In C++, deleting a pointer twice is undefined behavior!
+  * In C++, deleting an object polymorphically is undefined behavior if the base class does not declare it's constructor as virtual!
+  * Using this baseclass constructor for subtypes prevents that.
+  * </pre>
+  */
+  protected SparsityStruct(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
+    swigCMemOwn = cMemoryOwn;
+    swigCPtr = cPtr;
+	if (cMemoryOwn) {
+		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+	}
   }
 
   public static long getCPtr(SparsityStruct obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  @SuppressWarnings("deprecation")
-  protected void finalize() {
-    delete();
-  }
-
   public synchronized void delete() {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_SparsityStruct(swigCPtr);
+        SparsityStruct.delete(swigCPtr);
       }
       swigCPtr = 0;
     }
   }
+
+  @SuppressWarnings("deprecation")
+  @Override
+  protected void finalize() {
+  }
+
+  private static void delete(long swigCPtr) {
+	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_SparsityStruct(swigCPtr);
+	}
+}
 
   public long getNrow() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsityStruct_nrow_get(swigCPtr, this);

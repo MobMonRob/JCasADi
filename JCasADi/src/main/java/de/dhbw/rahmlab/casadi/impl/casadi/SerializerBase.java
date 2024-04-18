@@ -10,6 +10,7 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
+import java.util.function.LongConsumer;
 
 public class SerializerBase {
   private transient long swigCPtr;
@@ -18,26 +19,50 @@ public class SerializerBase {
   public SerializerBase(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
+	if (cMemoryOwn) {
+		REGISTER_DELETION(this, this.swigCPtr, SerializerBase::delete);
+	}
+  }
+
+  /**
+  * <pre>
+  * In C++, deleting a pointer twice is undefined behavior!
+  * In C++, deleting an object polymorphically is undefined behavior if the base class does not declare it's constructor as virtual!
+  * Using this baseclass constructor for subtypes prevents that.
+  * </pre>
+  */
+  protected SerializerBase(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
+    swigCMemOwn = cMemoryOwn;
+    swigCPtr = cPtr;
+	if (cMemoryOwn) {
+		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+	}
   }
 
   public static long getCPtr(SerializerBase obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  @SuppressWarnings("deprecation")
-  protected void finalize() {
-    delete();
-  }
-
   public synchronized void delete() {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_SerializerBase(swigCPtr);
+        SerializerBase.delete(swigCPtr);
       }
       swigCPtr = 0;
     }
   }
+
+  @SuppressWarnings("deprecation")
+  @Override
+  protected void finalize() {
+  }
+
+  private static void delete(long swigCPtr) {
+	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_SerializerBase(swigCPtr);
+	}
+}
 
   public void pack(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity e) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SerializerBase_pack__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(e), e);

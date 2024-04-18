@@ -10,6 +10,7 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
+import java.util.function.LongConsumer;
 
 /**
  *  SubIndex class for Matrix<br>
@@ -21,29 +22,36 @@ public class ImSubIndex extends de.dhbw.rahmlab.casadi.impl.casadi.IM {
   private transient long swigCPtr;
 
   public ImSubIndex(long cPtr, boolean cMemoryOwn) {
-    super(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImSubIndex_SWIGUpcast(cPtr), cMemoryOwn);
+    super(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImSubIndex_SWIGUpcast(cPtr), cMemoryOwn, cPtr, ImSubIndex::delete);
     swigCPtr = cPtr;
   }
-
+  
   public static long getCPtr(ImSubIndex obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  @SuppressWarnings("deprecation")
-  protected void finalize() {
-    delete();
-  }
-
+  @Override
   public synchronized void delete() {
     if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_ImSubIndex(swigCPtr);
+      if (super.swigCMemOwn) {
+        super.swigCMemOwn = false;
+        ImSubIndex.delete(swigCPtr);
       }
       swigCPtr = 0;
     }
     super.delete();
   }
+
+  @SuppressWarnings("deprecation")
+  @Override
+  protected void finalize() {
+  }
+
+  private static void delete(long swigCPtr) {
+	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_ImSubIndex(swigCPtr);
+	}
+}
 
   /**
    *  Constructor
