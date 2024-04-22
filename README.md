@@ -3,7 +3,9 @@
 Java Wrapper for [CasADi](https://web.casadi.org/).
 
 ## Caveats
-CasADi is not totally thread-safe. This property is inherited by this Java wrapper. Use threading only with a lot of caution!
+CasADi is not entirely thread-safe. This property is inherited by this Java wrapper. Avoid using multi-threading with CasADi symbolics.
+
+Due to threading issues, no longer needed C++ objects will not be deleted automatically. To do that manually but comfortably, regularly call `MANUAL_CLEANER.cleanupUnreachable()` (from the generated `core__.java` file) within the same thread as you create and use the generated CasADi proxy classes.
 
 
 ## Tested prerequisites
