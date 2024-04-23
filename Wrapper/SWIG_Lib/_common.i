@@ -24,60 +24,35 @@ static {
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.$module.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 %}
 
 //Unknown Doxygen command
 #pragma SWIG nowarn=560
 
-%pragma(java) moduleimports=%{
-import java.lang.ref.Cleaner;
-import java.lang.ref.Reference;
-import java.util.function.LongConsumer;
-%}
+// %pragma(java) moduleimports=%{
+// %}
 
 // Fix JVM crash by use-after-free if cpp functions return references to members.
 
-%pragma(java) modulecode=%{
-public static final Cleaner CLEANER = Cleaner.create();
-public static final LifeTimeExtender LIFE_TIME_EXTENDER = new LifeTimeExtender(CLEANER);
+// %pragma(java) modulecode=%{
 
-public static final class LifeTimeExtender {
+// public static interface LongCall {
+// 	long call();
+// }
 
-	private final Cleaner cleaner;
+// public static long longCall(LongCall cl) {
+// 	return cl.call();
+// }
 
-	public LifeTimeExtender(Cleaner cleaner) {
-		this.cleaner = cleaner;
-	}
-
-	private static Runnable reachabilityCleanup(final Object o) {
-		return () -> {
-			Reference.reachabilityFence(o);
-		};
-	}
-
-	public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime) {
-		this.cleaner.register(extendedToLifeTime, LifeTimeExtender.reachabilityCleanup(toBeExtendedLifeTime));
-	}
-}
-
-public static interface LongCall {
-	long call();
-}
-
-public static long longCall(LongCall cl) {
-	return cl.call();
-}
-
-%}
+// %}
 
 
-// Fix JVM crash during finalization due to CasADi not being thread-safe.
+// Fix JVM crashes due to CasADi not being thread-safe.
 
-%pragma(java) modulecode=%{
-public static void REGISTER_DELETION(Object obj, long swigCPtr, LongConsumer deleteFunction) {
-	CLEANER.register(obj, () -> deleteFunction.accept(swigCPtr));
-}
-%}
+// %pragma(java) modulecode=%{
+// %}
 
 // Adjusted definition from https://github.com/swig/swig/blob/v4.0.1/Lib/java/java.swg#L1204
 // Change if used SWIG version is different.
@@ -86,12 +61,14 @@ public static void REGISTER_DELETION(Object obj, long swigCPtr, LongConsumer del
 %typemap(javabody) TYPE %{
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   PTRCTOR_VISIBILITY $javaclassname(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, $javaclassname::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, $javaclassname::delete);
 	}
   }
 
@@ -106,7 +83,7 @@ public static void REGISTER_DELETION(Object obj, long swigCPtr, LongConsumer del
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -119,6 +96,7 @@ public static void REGISTER_DELETION(Object obj, long swigCPtr, LongConsumer del
       if (swigCMemOwn) {
         swigCMemOwn = false;
         $javaclassname.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -144,6 +122,7 @@ public static void REGISTER_DELETION(Object obj, long swigCPtr, LongConsumer del
       if (super.swigCMemOwn) {
         super.swigCMemOwn = false;
         $javaclassname.delete(swigCPtr);
+        super.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -156,22 +135,24 @@ SWIG_JAVABODY_PROXY_OWN(public, public, SWIGTYPE)
 %typemap(javafinalize) SWIGTYPE %{
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 %}
 
-%pragma(java) modulecode=%{
-public static final Object GLOBAL_DESTRUCTOR_LOCK = new Object();
-%}
+// GLOBAL_DESTRUCTOR_LOCK not needed if single-threaded deletion is ensured.
+// %pragma(java) modulecode=%{
+//  public static final Object GLOBAL_DESTRUCTOR_LOCK = new Object();
+// %}
 
 %typemap(javadestruct, methodname="delete", methodmodifiers="private static", parameters="long swigCPtr") SWIGTYPE {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         $jnicall;
-	}
+	// }
 }
 
 %typemap(javadestruct_derived, methodname="delete", methodmodifiers="private static", parameters="long swigCPtr") SWIGTYPE {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         $jnicall;
-	}
+	// }
 }
