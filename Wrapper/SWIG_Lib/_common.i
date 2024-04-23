@@ -25,6 +25,7 @@ import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.$module.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 %}
 
 //Unknown Doxygen command
@@ -60,12 +61,14 @@ import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 %typemap(javabody) TYPE %{
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   PTRCTOR_VISIBILITY $javaclassname(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, $javaclassname::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, $javaclassname::delete);
 	}
   }
 
@@ -80,7 +83,7 @@ import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -93,6 +96,7 @@ import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
       if (swigCMemOwn) {
         swigCMemOwn = false;
         $javaclassname.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -118,6 +122,7 @@ import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
       if (super.swigCMemOwn) {
         super.swigCMemOwn = false;
         $javaclassname.delete(swigCPtr);
+        super.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -131,7 +136,7 @@ SWIG_JAVABODY_PROXY_OWN(public, public, SWIGTYPE)
   @SuppressWarnings("deprecation")
   @Override
   protected void finalize() throws Throwable {
-	super.finalize();
+	  super.finalize();
   }
 %}
 

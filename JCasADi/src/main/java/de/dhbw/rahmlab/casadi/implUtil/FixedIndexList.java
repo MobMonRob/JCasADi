@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
+ * <pre>
  * The operations in this list do not move the objects once inserted.
+ * Not thread-safe.
+ * </pre>
  */
 public class FixedIndexList<T> {
 
@@ -17,12 +20,21 @@ public class FixedIndexList<T> {
 		this.gaps = new ArrayList<>(initialCapacity);
 	}
 
-	public void put(Function<Integer, T> tBuilder) {
+	/**
+	 *
+	 * @return index of the inserted element.
+	 */
+	public int put(Function<Integer, T> tBuilder) {
 		int index = acquireFreeIndex();
 		T t = tBuilder.apply(index);
 		payload.set(index, t);
+		return index;
 	}
 
+	/**
+	 *
+	 * @return index of the inserted element.
+	 */
 	public int put(T t) {
 		int index = acquireFreeIndex();
 		payload.set(index, t);
@@ -42,6 +54,10 @@ public class FixedIndexList<T> {
 		}
 	}
 
+	/**
+	 *
+	 * @return the element at the specified position in this list
+	 */
 	public T get(int index) {
 		return payload.get(index);
 	}

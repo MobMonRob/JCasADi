@@ -10,9 +10,12 @@ public class WrapUtil {
 	public static final LifeTimeExtender LIFE_TIME_EXTENDER = new LifeTimeExtender(CLEANER);
 
 	// Fix JVM crashes due to CasADi not being thread-safe.
-	public static final ManualCleaner<Object> MANUAL_CLEANER = new ManualCleaner<>();
+	public static final ManualCleaner MANUAL_CLEANER = new ManualCleaner();
 
-	public static void REGISTER_DELETION(Object obj, long swigCPtr, LongConsumer deleteFunction) {
-		MANUAL_CLEANER.register(obj, () -> deleteFunction.accept(swigCPtr));
+	public static CleanupPreventer REGISTER_DELETION(Object obj, long swigCPtr, LongConsumer deleteFunction) {
+		var cleanupPreventer = MANUAL_CLEANER.registerGetPreventer(obj, () -> deleteFunction.accept(swigCPtr));
+		// test memory leak
+		// cleanupPreventer.prevent();
+		return cleanupPreventer;
 	}
 }

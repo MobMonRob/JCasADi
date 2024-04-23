@@ -1,42 +1,31 @@
 package de.dhbw.rahmlab.casadi.implUtil;
 
 import java.lang.ref.ReferenceQueue;
-import java.util.function.Function;
 
 /**
  * Not thread-safe.
  */
-public class ManualCleaner<T> {
+public class ManualCleaner {
 
-	private final ReferenceQueue<T> referenceQueue = new ReferenceQueue<>();
-	/**
-	 * Needed to prevent CleaneablePhantomReference from being garbage collected before enqueued.
-	 */
-	private final FixedIndexList<CleaneablePhantomReference<T>> registeredRefs = new FixedIndexList<>(1024);
+	private final ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
 
-	private static <T> Function<Integer, CleaneablePhantomReference<T>> createRef(T referent, ReferenceQueue<T> referenceQueue, Runnable cleanupAction) {
-		return (Integer index) -> {
-			return new CleaneablePhantomReference<>(referent, referenceQueue, cleanupAction, index);
-		};
+	public void register(Object referent, Runnable cleanupAction) {
+		CleaneablePhantomReference.create(referent, this.referenceQueue, cleanupAction);
 	}
 
-	public void register(T referent, Runnable cleanupAction) {
-		var ref = createRef(referent, this.referenceQueue, cleanupAction);
-		this.registeredRefs.put(ref);
+	public CleanupPreventer registerGetPreventer(Object referent, Runnable cleanupAction) {
+		CleaneablePhantomReference ref = CleaneablePhantomReference.create(referent, this.referenceQueue, cleanupAction);
+		return new CleanupPreventer(ref);
 	}
 
 	public void cleanupUnreachable() {
-		CleaneablePhantomReference<T> ref;
+		CleaneablePhantomReference ref;
 		for (;;) {
-			ref = (CleaneablePhantomReference<T>) this.referenceQueue.poll();
+			ref = (CleaneablePhantomReference) this.referenceQueue.poll();
 			if (ref == null) {
 				return;
 			}
-			try {
-				ref.cleanup();
-			} finally {
-				this.registeredRefs.remove(ref.index);
-			}
+			ref.cleanup();
 		}
 	}
 }
