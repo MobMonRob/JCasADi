@@ -24,112 +24,34 @@ static {
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.$module.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 %}
 
 //Unknown Doxygen command
 #pragma SWIG nowarn=560
 
-%pragma(java) moduleimports=%{
-import java.lang.ref.Cleaner;
-import java.lang.ref.PhantomReference;
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.LongConsumer;
-%}
+// %pragma(java) moduleimports=%{
+// %}
 
 // Fix JVM crash by use-after-free if cpp functions return references to members.
 
-%pragma(java) modulecode=%{
-public static final Cleaner CLEANER = Cleaner.create();
-public static final LifeTimeExtender LIFE_TIME_EXTENDER = new LifeTimeExtender(CLEANER);
+// %pragma(java) modulecode=%{
 
-public static class LifeTimeExtender {
+// public static interface LongCall {
+// 	long call();
+// }
 
-	private final Cleaner cleaner;
+// public static long longCall(LongCall cl) {
+// 	return cl.call();
+// }
 
-	public LifeTimeExtender(Cleaner cleaner) {
-		this.cleaner = cleaner;
-	}
-
-	private static Runnable reachabilityCleanup(final Object o) {
-		return () -> {
-			Reference.reachabilityFence(o);
-		};
-	}
-
-	public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime) {
-		this.cleaner.register(extendedToLifeTime, LifeTimeExtender.reachabilityCleanup(toBeExtendedLifeTime));
-	}
-}
-
-public static interface LongCall {
-	long call();
-}
-
-public static long longCall(LongCall cl) {
-	return cl.call();
-}
-
-%}
+// %}
 
 
 // Fix JVM crashes due to CasADi not being thread-safe.
 
-%pragma(java) modulecode=%{
-	/**
-	 * Not thread-safe.
-	 */
-	public static class ManualCleaner<T> {
-
-		private static class CleaningPhantomReference<T> extends PhantomReference<T> {
-
-			private final Runnable cleanupAction;
-
-			public CleaningPhantomReference(T referent, ReferenceQueue<? super T> q, Runnable cleanupAction) {
-				super(referent, q);
-				this.cleanupAction = cleanupAction;
-			}
-
-			public void cleanUp() {
-				this.cleanupAction.run();
-			}
-		}
-
-		private final ReferenceQueue<T> referenceQueue = new ReferenceQueue<>();
-		/**
-		 * Needed to prevent CleaningPhantomReference from being garbage collected before enqueued.
-		 */
-		private final Set<CleaningPhantomReference<T>> registeredRefs = new HashSet<>(1024, 0.5f);
-
-		public void register(T referent, Runnable cleanupAction) {
-			CleaningPhantomReference<T> ref = new CleaningPhantomReference<>(referent, this.referenceQueue, cleanupAction);
-			this.registeredRefs.add(ref);
-		}
-
-		public void cleanupUnreachable() {
-			CleaningPhantomReference<T> ref;
-			for (;;) {
-				ref = (CleaningPhantomReference<T>) this.referenceQueue.poll();
-				if (ref == null) {
-					return;
-				}
-				try {
-					ref.cleanUp();
-				} finally {
-					this.registeredRefs.remove(ref);
-				}
-			}
-		}
-	}
-
-	public static final ManualCleaner<Object> MANUAL_CLEANER = new ManualCleaner<>();
-
-	public static void REGISTER_DELETION(Object obj, long swigCPtr, LongConsumer deleteFunction) {
-		MANUAL_CLEANER.register(obj, () -> deleteFunction.accept(swigCPtr));
-	}
-%}
+// %pragma(java) modulecode=%{
+// %}
 
 // Adjusted definition from https://github.com/swig/swig/blob/v4.0.1/Lib/java/java.swg#L1204
 // Change if used SWIG version is different.
@@ -208,14 +130,15 @@ SWIG_JAVABODY_PROXY_OWN(public, public, SWIGTYPE)
 %typemap(javafinalize) SWIGTYPE %{
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	super.finalize();
   }
 %}
 
 // GLOBAL_DESTRUCTOR_LOCK not needed if single-threaded deletion is ensured.
-%pragma(java) modulecode=%{
-// public static final Object GLOBAL_DESTRUCTOR_LOCK = new Object();
-%}
+// %pragma(java) modulecode=%{
+//  public static final Object GLOBAL_DESTRUCTOR_LOCK = new Object();
+// %}
 
 %typemap(javadestruct, methodname="delete", methodmodifiers="private static", parameters="long swigCPtr") SWIGTYPE {
 	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
