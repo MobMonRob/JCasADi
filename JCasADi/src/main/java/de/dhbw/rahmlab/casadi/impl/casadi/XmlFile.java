@@ -11,6 +11,8 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 /**
  *  XML parser<br>
@@ -25,12 +27,14 @@ import java.util.function.LongConsumer;
 public class XmlFile implements ISharedObject {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   public XmlFile(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, XmlFile::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, XmlFile::delete);
 	}
   }
 
@@ -45,7 +49,7 @@ public class XmlFile implements ISharedObject {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -58,6 +62,7 @@ public class XmlFile implements ISharedObject {
       if (swigCMemOwn) {
         swigCMemOwn = false;
         XmlFile.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -65,13 +70,14 @@ public class XmlFile implements ISharedObject {
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 
   private static void delete(long swigCPtr) {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_XmlFile(swigCPtr);
-	}
+	// }
 }
 
   public long ISharedObject_GetInterfaceCPtr() {

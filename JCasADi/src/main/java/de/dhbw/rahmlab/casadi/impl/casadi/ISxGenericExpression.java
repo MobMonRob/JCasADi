@@ -11,6 +11,8 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 public interface ISxGenericExpression {
   long ISxGenericExpression_GetInterfaceCPtr();

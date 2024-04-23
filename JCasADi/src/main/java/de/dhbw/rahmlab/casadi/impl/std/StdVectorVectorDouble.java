@@ -11,16 +11,20 @@ package de.dhbw.rahmlab.casadi.impl.std;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 public class StdVectorVectorDouble extends java.util.AbstractList<de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble> implements java.util.RandomAccess {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   public StdVectorVectorDouble(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, StdVectorVectorDouble::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, StdVectorVectorDouble::delete);
 	}
   }
 
@@ -35,7 +39,7 @@ public class StdVectorVectorDouble extends java.util.AbstractList<de.dhbw.rahmla
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -48,6 +52,7 @@ public class StdVectorVectorDouble extends java.util.AbstractList<de.dhbw.rahmla
       if (swigCMemOwn) {
         swigCMemOwn = false;
         StdVectorVectorDouble.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -55,13 +60,14 @@ public class StdVectorVectorDouble extends java.util.AbstractList<de.dhbw.rahmla
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 
   private static void delete(long swigCPtr) {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_StdVectorVectorDouble(swigCPtr);
-	}
+	// }
 }
 
   public StdVectorVectorDouble(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble[] initialElements) {

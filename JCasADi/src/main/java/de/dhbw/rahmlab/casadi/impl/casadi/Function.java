@@ -11,6 +11,8 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 /**
  *  Function object<br>
@@ -35,12 +37,14 @@ import java.util.function.LongConsumer;
 public class Function implements ISharedObject {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   public Function(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, Function::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, Function::delete);
 	}
   }
 
@@ -55,7 +59,7 @@ public class Function implements ISharedObject {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -68,6 +72,7 @@ public class Function implements ISharedObject {
       if (swigCMemOwn) {
         swigCMemOwn = false;
         Function.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -75,13 +80,14 @@ public class Function implements ISharedObject {
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 
   private static void delete(long swigCPtr) {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_Function(swigCPtr);
-	}
+	// }
 }
 
   public long ISharedObject_GetInterfaceCPtr() {

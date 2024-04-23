@@ -11,16 +11,20 @@ package de.dhbw.rahmlab.casadi.impl.std;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 public class StdVectorDouble extends java.util.AbstractList<Double> implements java.util.RandomAccess {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   public StdVectorDouble(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, StdVectorDouble::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, StdVectorDouble::delete);
 	}
   }
 
@@ -35,7 +39,7 @@ public class StdVectorDouble extends java.util.AbstractList<Double> implements j
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -48,6 +52,7 @@ public class StdVectorDouble extends java.util.AbstractList<Double> implements j
       if (swigCMemOwn) {
         swigCMemOwn = false;
         StdVectorDouble.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -55,13 +60,14 @@ public class StdVectorDouble extends java.util.AbstractList<Double> implements j
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 
   private static void delete(long swigCPtr) {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_StdVectorDouble(swigCPtr);
-	}
+	// }
 }
 
   public StdVectorDouble(double[] initialElements) {

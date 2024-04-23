@@ -11,6 +11,8 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 /**
  *  Sparsity interface class<br>
@@ -28,12 +30,14 @@ import java.util.function.LongConsumer;
 public class SparsitySparsityInterface implements ISparsitySparsityInterface {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   public SparsitySparsityInterface(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, SparsitySparsityInterface::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, SparsitySparsityInterface::delete);
 	}
   }
 
@@ -48,7 +52,7 @@ public class SparsitySparsityInterface implements ISparsitySparsityInterface {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -61,6 +65,7 @@ public class SparsitySparsityInterface implements ISparsitySparsityInterface {
       if (swigCMemOwn) {
         swigCMemOwn = false;
         SparsitySparsityInterface.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -68,13 +73,14 @@ public class SparsitySparsityInterface implements ISparsitySparsityInterface {
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 
   private static void delete(long swigCPtr) {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_SparsitySparsityInterface(swigCPtr);
-	}
+	// }
 }
 
   public long ISparsitySparsityInterface_GetInterfaceCPtr() {

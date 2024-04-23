@@ -11,6 +11,8 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 /**
  *  Helper class for C code generation<br>
@@ -23,12 +25,14 @@ import java.util.function.LongConsumer;
 public class CodeGenerator {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   public CodeGenerator(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, CodeGenerator::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, CodeGenerator::delete);
 	}
   }
 
@@ -43,7 +47,7 @@ public class CodeGenerator {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -56,6 +60,7 @@ public class CodeGenerator {
       if (swigCMemOwn) {
         swigCMemOwn = false;
         CodeGenerator.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -63,13 +68,14 @@ public class CodeGenerator {
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 
   private static void delete(long swigCPtr) {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_CodeGenerator(swigCPtr);
-	}
+	// }
 }
 
   /**

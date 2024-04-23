@@ -11,16 +11,20 @@ package de.dhbw.rahmlab.casadi.impl.std;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.impl.casadi.GenericType> {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   public Dict(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, Dict::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, Dict::delete);
 	}
   }
 
@@ -35,7 +39,7 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -48,6 +52,7 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
       if (swigCMemOwn) {
         swigCMemOwn = false;
         Dict.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -55,13 +60,14 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 
   private static void delete(long swigCPtr) {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_Dict(swigCPtr);
-	}
+	// }
 }
 
 
@@ -163,12 +169,14 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
   static public class Iterator {
     private transient long swigCPtr;
     protected transient boolean swigCMemOwn;
+    // Prevents double free after invoking delete().
+    protected CleanupPreventer cleanupPreventer;
   
     public Iterator(long cPtr, boolean cMemoryOwn) {
       swigCMemOwn = cMemoryOwn;
       swigCPtr = cPtr;
   	if (cMemoryOwn) {
-  		REGISTER_DELETION(this, this.swigCPtr, Iterator::delete);
+  		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, Iterator::delete);
   	}
     }
   
@@ -183,7 +191,7 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
       swigCMemOwn = cMemoryOwn;
       swigCPtr = cPtr;
   	if (cMemoryOwn) {
-  		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+  		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
   	}
     }
   
@@ -196,6 +204,7 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
         if (swigCMemOwn) {
           swigCMemOwn = false;
           Iterator.delete(swigCPtr);
+          this.cleanupPreventer.prevent();
         }
         swigCPtr = 0;
       }
@@ -203,13 +212,14 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
   
     @SuppressWarnings("deprecation")
     @Override
-    protected void finalize() {
+    protected void finalize() throws Throwable {
+  	  super.finalize();
     }
   
     private static void delete(long swigCPtr) {
-  	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+  	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
           de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_Dict_Iterator(swigCPtr);
-  	}
+  	// }
   }
   
     private de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator getNextUnchecked() {

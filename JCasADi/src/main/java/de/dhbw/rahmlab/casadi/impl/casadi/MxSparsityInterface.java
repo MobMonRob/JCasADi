@@ -11,6 +11,8 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 /**
  *  Sparsity interface class<br>
@@ -28,12 +30,14 @@ import java.util.function.LongConsumer;
 public class MxSparsityInterface implements IMxSparsityInterface {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
+  // Prevents double free after invoking delete().
+  protected CleanupPreventer cleanupPreventer;
 
   public MxSparsityInterface(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, this.swigCPtr, MxSparsityInterface::delete);
+		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, MxSparsityInterface::delete);
 	}
   }
 
@@ -48,7 +52,7 @@ public class MxSparsityInterface implements IMxSparsityInterface {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
 	if (cMemoryOwn) {
-		REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
 	}
   }
 
@@ -61,6 +65,7 @@ public class MxSparsityInterface implements IMxSparsityInterface {
       if (swigCMemOwn) {
         swigCMemOwn = false;
         MxSparsityInterface.delete(swigCPtr);
+        this.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -68,13 +73,14 @@ public class MxSparsityInterface implements IMxSparsityInterface {
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 
   private static void delete(long swigCPtr) {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_MxSparsityInterface(swigCPtr);
-	}
+	// }
 }
 
   public long IMxSparsityInterface_GetInterfaceCPtr() {

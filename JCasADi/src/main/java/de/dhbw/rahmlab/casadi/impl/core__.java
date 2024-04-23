@@ -8,51 +8,7 @@
 
 package de.dhbw.rahmlab.casadi.impl;
 
-import java.lang.ref.Cleaner;
-import java.lang.ref.Reference;
-import java.util.function.LongConsumer;
-
 public class core__ implements core__Constants {
-
-public static final Cleaner CLEANER = Cleaner.create();
-public static final LifeTimeExtender LIFE_TIME_EXTENDER = new LifeTimeExtender(CLEANER);
-
-public static final class LifeTimeExtender {
-
-	private final Cleaner cleaner;
-
-	public LifeTimeExtender(Cleaner cleaner) {
-		this.cleaner = cleaner;
-	}
-
-	private static Runnable reachabilityCleanup(final Object o) {
-		return () -> {
-			Reference.reachabilityFence(o);
-		};
-	}
-
-	public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime) {
-		this.cleaner.register(extendedToLifeTime, LifeTimeExtender.reachabilityCleanup(toBeExtendedLifeTime));
-	}
-}
-
-public static interface LongCall {
-	long call();
-}
-
-public static long longCall(LongCall cl) {
-	return cl.call();
-}
-
-
-
-public static void REGISTER_DELETION(Object obj, long swigCPtr, LongConsumer deleteFunction) {
-	CLEANER.register(obj, () -> deleteFunction.accept(swigCPtr));
-}
-
-
-public static final Object GLOBAL_DESTRUCTOR_LOCK = new Object();
-
   public static void _function_buffer_eval(SWIGTYPE_p_void raw) {
     core__JNI._function_buffer_eval(SWIGTYPE_p_void.getCPtr(raw));
   }

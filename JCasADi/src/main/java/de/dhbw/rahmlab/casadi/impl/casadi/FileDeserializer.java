@@ -11,6 +11,8 @@ package de.dhbw.rahmlab.casadi.impl.casadi;
 import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
+import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
+import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 public class FileDeserializer extends de.dhbw.rahmlab.casadi.impl.casadi.DeserializerBase {
   private transient long swigCPtr;
@@ -30,6 +32,7 @@ public class FileDeserializer extends de.dhbw.rahmlab.casadi.impl.casadi.Deseria
       if (super.swigCMemOwn) {
         super.swigCMemOwn = false;
         FileDeserializer.delete(swigCPtr);
+        super.cleanupPreventer.prevent();
       }
       swigCPtr = 0;
     }
@@ -38,13 +41,14 @@ public class FileDeserializer extends de.dhbw.rahmlab.casadi.impl.casadi.Deseria
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void finalize() {
+  protected void finalize() throws Throwable {
+	  super.finalize();
   }
 
   private static void delete(long swigCPtr) {
-	synchronized (GLOBAL_DESTRUCTOR_LOCK) {
+	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
         de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_FileDeserializer(swigCPtr);
-	}
+	// }
 }
 
   /**
