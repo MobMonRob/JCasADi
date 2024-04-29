@@ -23,10 +23,9 @@ final class CleaneablePhantomReference extends PhantomReference<Object> {
 		};
 	}
 
-	public static CleaneablePhantomReference create(Object referent, ReferenceQueue<Object> referenceQueue, Runnable cleanupAction) {
+	public static void createRegister(Object referent, ReferenceQueue<Object> referenceQueue, Runnable cleanupAction) {
 		var refBuilder = createRef(referent, referenceQueue, cleanupAction);
-		int index = registeredRefs.put(refBuilder);
-		return registeredRefs.get(index);
+		registeredRefs.put(refBuilder);
 	}
 
 	private final Runnable cleanupAction;
@@ -39,7 +38,10 @@ final class CleaneablePhantomReference extends PhantomReference<Object> {
 	}
 
 	/**
+	 * <pre>
 	 * At most invoked once by ManualCleaner.
+	 * A second invokation is wrong and must be avoided.
+	 * </pre>
 	 */
 	public void cleanup() {
 		try {
@@ -47,17 +49,5 @@ final class CleaneablePhantomReference extends PhantomReference<Object> {
 		} finally {
 			registeredRefs.remove(this.index);
 		}
-	}
-
-	/**
-	 * <pre>
-	 * At most invoked once by CleanupPreventer.prevent() when deleting proxy object.
-	 * Prevents enqueing and thus invokation by cleanup.
-	 * </pre>
-	 */
-	@Override
-	public void clear() {
-		super.clear();
-		registeredRefs.remove(this.index);
 	}
 }

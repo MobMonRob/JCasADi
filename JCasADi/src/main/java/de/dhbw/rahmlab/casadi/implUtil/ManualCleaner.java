@@ -10,12 +10,7 @@ public class ManualCleaner {
 	private final ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
 
 	public void register(Object referent, Runnable cleanupAction) {
-		CleaneablePhantomReference.create(referent, this.referenceQueue, cleanupAction);
-	}
-
-	public CleanupPreventer registerGetPreventer(Object referent, Runnable cleanupAction) {
-		CleaneablePhantomReference ref = CleaneablePhantomReference.create(referent, this.referenceQueue, cleanupAction);
-		return new CleanupPreventer(ref);
+		CleaneablePhantomReference.createRegister(referent, this.referenceQueue, cleanupAction);
 	}
 
 	public void cleanupUnreachable() {
