@@ -25,7 +25,6 @@ import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.$module.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
-import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 %}
 
 //Unknown Doxygen command
@@ -51,25 +50,18 @@ import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 // Fix JVM crashes due to CasADi not being thread-safe.
 
-// %pragma(java) modulecode=%{
-// %}
-
 // Adjusted definition from https://github.com/swig/swig/blob/v4.0.1/Lib/java/java.swg#L1204
 // Change if used SWIG version is different.
 %define SWIG_JAVABODY_PROXY_OWN(PTRCTOR_VISIBILITY, CPTR_VISIBILITY, TYPE...)
 // Base proxy classes
 %typemap(javabody) TYPE %{
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
-  // Prevents double free after invoking delete().
-  protected CleanupPreventer cleanupPreventer;
+  private final long swigCPtr;
 
   PTRCTOR_VISIBILITY $javaclassname(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, $javaclassname::delete);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, cPtr, $javaclassname::delete);
+  	}
   }
 
   /**
@@ -80,79 +72,47 @@ import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
   * </pre>
   */
   protected $javaclassname(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+	  }
   }
 
   CPTR_VISIBILITY static long getCPtr($javaclassname obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        $javaclassname.delete(swigCPtr);
-        this.cleanupPreventer.prevent();
-      }
-      swigCPtr = 0;
-    }
+    return obj.swigCPtr;
   }
 %}
 
 // Derived proxy classes
 %typemap(javabody_derived) TYPE %{
-  private transient long swigCPtr;
+  private final long swigCPtr;
 
   PTRCTOR_VISIBILITY $javaclassname(long cPtr, boolean cMemoryOwn) {
     super($imclassname.$javaclazznameSWIGUpcast(cPtr), cMemoryOwn, cPtr, $javaclassname::delete);
-    swigCPtr = cPtr;
+    this.swigCPtr = cPtr;
   }
   
   CPTR_VISIBILITY static long getCPtr($javaclassname obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  @Override
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (super.swigCMemOwn) {
-        super.swigCMemOwn = false;
-        $javaclassname.delete(swigCPtr);
-        super.cleanupPreventer.prevent();
-      }
-      swigCPtr = 0;
-    }
-    super.delete();
+    return obj.swigCPtr;
   }
 %}
 %enddef
 SWIG_JAVABODY_PROXY_OWN(public, public, SWIGTYPE)
 
-%typemap(javafinalize) SWIGTYPE %{
-  @SuppressWarnings("deprecation")
-  @Override
-  protected void finalize() throws Throwable {
-	  super.finalize();
-  }
-%}
+%typemap(javafinalize) SWIGTYPE "";
 
-// GLOBAL_DESTRUCTOR_LOCK not needed if single-threaded deletion is ensured.
-// %pragma(java) modulecode=%{
-//  public static final Object GLOBAL_DESTRUCTOR_LOCK = new Object();
+// %typemap(javafinalize) SWIGTYPE %{
+//   @SuppressWarnings("deprecation")
+//   @Override
+//   protected void finalize() throws Throwable {
+// 	  super.finalize();
+//   }
 // %}
 
 %typemap(javadestruct, methodname="delete", methodmodifiers="private static", parameters="long swigCPtr") SWIGTYPE {
-	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
-        $jnicall;
-	// }
+  $jnicall;
 }
 
 %typemap(javadestruct_derived, methodname="delete", methodmodifiers="private static", parameters="long swigCPtr") SWIGTYPE {
-	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
-        $jnicall;
-	// }
+  $jnicall;
 }

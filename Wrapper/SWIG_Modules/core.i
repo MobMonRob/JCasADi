@@ -1,4 +1,6 @@
-%module(directors="1") core__;
+%module core__;
+// To use directors, typemaps for them must be defined in _common.i to properly handle deletion.
+// %module(directors="1") core__;
 
 // Own generic .i files
 %include "_common.i"
