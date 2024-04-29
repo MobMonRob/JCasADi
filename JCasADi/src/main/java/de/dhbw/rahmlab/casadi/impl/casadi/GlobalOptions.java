@@ -12,7 +12,6 @@ import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
-import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 /**
  *  Collects global CasADi options<br>
@@ -31,17 +30,13 @@ import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
  *       
  */
 public class GlobalOptions {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
-  // Prevents double free after invoking delete().
-  protected CleanupPreventer cleanupPreventer;
+  private final long swigCPtr;
 
   public GlobalOptions(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, GlobalOptions::delete);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, cPtr, GlobalOptions::delete);
+  	}
   }
 
   /**
@@ -52,38 +47,18 @@ public class GlobalOptions {
   * </pre>
   */
   protected GlobalOptions(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+	  }
   }
 
   public static long getCPtr(GlobalOptions obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        GlobalOptions.delete(swigCPtr);
-        this.cleanupPreventer.prevent();
-      }
-      swigCPtr = 0;
-    }
-  }
-
-  @SuppressWarnings("deprecation")
-  @Override
-  protected void finalize() throws Throwable {
-	  super.finalize();
+    return obj.swigCPtr;
   }
 
   private static void delete(long swigCPtr) {
-	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_GlobalOptions(swigCPtr);
-	// }
+  de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_GlobalOptions(swigCPtr);
 }
 
   public static void setSimplificationOnTheFly(boolean flag) {

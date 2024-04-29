@@ -12,7 +12,6 @@ import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
-import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 /**
  *  Generic data type, can hold different types such as bool, casadi_int, std::string etc.<br>
@@ -23,17 +22,13 @@ import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
  *       
  */
 public class GenericType implements ISharedObject {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
-  // Prevents double free after invoking delete().
-  protected CleanupPreventer cleanupPreventer;
+  private final long swigCPtr;
 
   public GenericType(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, GenericType::delete);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, cPtr, GenericType::delete);
+  	}
   }
 
   /**
@@ -44,38 +39,18 @@ public class GenericType implements ISharedObject {
   * </pre>
   */
   protected GenericType(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+	  }
   }
 
   public static long getCPtr(GenericType obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        GenericType.delete(swigCPtr);
-        this.cleanupPreventer.prevent();
-      }
-      swigCPtr = 0;
-    }
-  }
-
-  @SuppressWarnings("deprecation")
-  @Override
-  protected void finalize() throws Throwable {
-	  super.finalize();
+    return obj.swigCPtr;
   }
 
   private static void delete(long swigCPtr) {
-	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_GenericType(swigCPtr);
-	// }
+  de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_GenericType(swigCPtr);
 }
 
   public long ISharedObject_GetInterfaceCPtr() {

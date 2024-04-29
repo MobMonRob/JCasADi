@@ -12,20 +12,15 @@ import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
-import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 public class OptiCallback {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
-  // Prevents double free after invoking delete().
-  protected CleanupPreventer cleanupPreventer;
+  private final long swigCPtr;
 
   public OptiCallback(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, OptiCallback::delete);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, cPtr, OptiCallback::delete);
+  	}
   }
 
   /**
@@ -36,67 +31,30 @@ public class OptiCallback {
   * </pre>
   */
   protected OptiCallback(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+	  }
   }
 
   public static long getCPtr(OptiCallback obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        OptiCallback.delete(swigCPtr);
-        this.cleanupPreventer.prevent();
-      }
-      swigCPtr = 0;
-    }
-  }
-
-  @SuppressWarnings("deprecation")
-  @Override
-  protected void finalize() throws Throwable {
-	  super.finalize();
+    return obj.swigCPtr;
   }
 
   private static void delete(long swigCPtr) {
-	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_OptiCallback(swigCPtr);
-	// }
+  de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_OptiCallback(swigCPtr);
 }
-
-  protected void swigDirectorDisconnect() {
-    swigCMemOwn = false;
-    delete();
-  }
-
-  public void swigReleaseOwnership() {
-    swigCMemOwn = false;
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiCallback_change_ownership(this, swigCPtr, false);
-  }
-
-  public void swigTakeOwnership() {
-    swigCMemOwn = true;
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiCallback_change_ownership(this, swigCPtr, true);
-  }
 
   public OptiCallback() {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_OptiCallback__SWIG_0(), true);
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiCallback_director_connect(this, swigCPtr, true, true);
   }
 
   public OptiCallback(de.dhbw.rahmlab.casadi.impl.casadi.OptiCallback obj) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_OptiCallback__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.OptiCallback.getCPtr(obj), obj), true);
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiCallback_director_connect(this, swigCPtr, true, true);
   }
 
   public void call(long i) {
-    if (getClass() == OptiCallback.class) de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiCallback_call(swigCPtr, this, i); else de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiCallback_callSwigExplicitOptiCallback(swigCPtr, this, i);
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiCallback_call(swigCPtr, this, i);
   }
 
 }

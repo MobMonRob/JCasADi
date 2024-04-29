@@ -12,7 +12,6 @@ import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
-import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 public interface IDmGenericMatrix extends IDmSparsityInterface {
   long IDmGenericMatrix_GetInterfaceCPtr();

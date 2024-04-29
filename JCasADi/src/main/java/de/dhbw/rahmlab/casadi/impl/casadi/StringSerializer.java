@@ -12,43 +12,21 @@ import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
-import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 public class StringSerializer extends de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase {
-  private transient long swigCPtr;
+  private final long swigCPtr;
 
   public StringSerializer(long cPtr, boolean cMemoryOwn) {
     super(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_StringSerializer_SWIGUpcast(cPtr), cMemoryOwn, cPtr, StringSerializer::delete);
-    swigCPtr = cPtr;
+    this.swigCPtr = cPtr;
   }
   
   public static long getCPtr(StringSerializer obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  @Override
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (super.swigCMemOwn) {
-        super.swigCMemOwn = false;
-        StringSerializer.delete(swigCPtr);
-        super.cleanupPreventer.prevent();
-      }
-      swigCPtr = 0;
-    }
-    super.delete();
-  }
-
-  @SuppressWarnings("deprecation")
-  @Override
-  protected void finalize() throws Throwable {
-	  super.finalize();
+    return obj.swigCPtr;
   }
 
   private static void delete(long swigCPtr) {
-	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_StringSerializer(swigCPtr);
-	// }
+  de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_StringSerializer(swigCPtr);
 }
 
   /**

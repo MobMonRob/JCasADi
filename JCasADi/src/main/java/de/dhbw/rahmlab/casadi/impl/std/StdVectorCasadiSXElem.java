@@ -12,20 +12,15 @@ import de.dhbw.rahmlab.casadi.impl.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
-import de.dhbw.rahmlab.casadi.implUtil.CleanupPreventer;
 
 public class StdVectorCasadiSXElem extends java.util.AbstractList<de.dhbw.rahmlab.casadi.impl.casadi.SXElem> implements java.util.RandomAccess {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
-  // Prevents double free after invoking delete().
-  protected CleanupPreventer cleanupPreventer;
+  private final long swigCPtr;
 
   public StdVectorCasadiSXElem(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, this.swigCPtr, StdVectorCasadiSXElem::delete);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, cPtr, StdVectorCasadiSXElem::delete);
+  	}
   }
 
   /**
@@ -36,38 +31,18 @@ public class StdVectorCasadiSXElem extends java.util.AbstractList<de.dhbw.rahmla
   * </pre>
   */
   protected StdVectorCasadiSXElem(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-	if (cMemoryOwn) {
-		this.cleanupPreventer = REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
-	}
+    this.swigCPtr = cPtr;
+	  if (cMemoryOwn) {
+		  REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
+	  }
   }
 
   public static long getCPtr(StdVectorCasadiSXElem obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        StdVectorCasadiSXElem.delete(swigCPtr);
-        this.cleanupPreventer.prevent();
-      }
-      swigCPtr = 0;
-    }
-  }
-
-  @SuppressWarnings("deprecation")
-  @Override
-  protected void finalize() throws Throwable {
-	  super.finalize();
+    return obj.swigCPtr;
   }
 
   private static void delete(long swigCPtr) {
-	// synchronized (GLOBAL_DESTRUCTOR_LOCK) {
-        de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_StdVectorCasadiSXElem(swigCPtr);
-	// }
+  de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_StdVectorCasadiSXElem(swigCPtr);
 }
 
   public StdVectorCasadiSXElem(de.dhbw.rahmlab.casadi.impl.casadi.SXElem[] initialElements) {

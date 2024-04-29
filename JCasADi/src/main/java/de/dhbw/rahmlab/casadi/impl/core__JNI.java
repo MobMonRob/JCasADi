@@ -4014,10 +4014,7 @@ static {
   public final static native long new_casadi_OptiCallback__SWIG_0();
   public final static native long new_casadi_OptiCallback__SWIG_1(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.OptiCallback jarg1_);
   public final static native void casadi_OptiCallback_call(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.OptiCallback jarg1_, long jarg2);
-  public final static native void casadi_OptiCallback_callSwigExplicitOptiCallback(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.OptiCallback jarg1_, long jarg2);
   public final static native void delete_casadi_OptiCallback(long jarg1);
-  public final static native void casadi_OptiCallback_director_connect(de.dhbw.rahmlab.casadi.impl.casadi.OptiCallback obj, long cptr, boolean mem_own, boolean weak_global);
-  public final static native void casadi_OptiCallback_change_ownership(de.dhbw.rahmlab.casadi.impl.casadi.OptiCallback obj, long cptr, boolean take_or_release);
   public final static native long new_casadi_OptiAdvanced__SWIG_0(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.Opti jarg1_);
   public final static native void delete_casadi_OptiAdvanced(long jarg1);
   public final static native long casadi_OptiAdvanced_casadi_solver(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.OptiAdvanced jarg1_);
@@ -4140,13 +4137,4 @@ static {
   public final static native long casadi_MetaCon_SWIGUpcast(long jarg1);
   public final static native long casadi_MetaVar_SWIGUpcast(long jarg1);
   public final static native long casadi_OptiAdvanced_SWIGUpcast(long jarg1);
-
-  public static void casadi_SwigDirector_casadi_OptiCallback_call(de.dhbw.rahmlab.casadi.impl.casadi.OptiCallback jself, long i) {
-    jself.call(i);
-  }
-
-  private final static native void swig_module_init();
-  static {
-    swig_module_init();
-  }
 }
