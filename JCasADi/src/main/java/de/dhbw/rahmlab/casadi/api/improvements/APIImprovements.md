@@ -33,8 +33,10 @@
     vs.\
     ``MX.times(A, x)``
 - Typecast teilweise nicht möglich (z. B. von MX zu DM)
-- Keine Möglichkeit „rootfinder“-Methode zu befüllen
+- Keine Möglichkeit „rootfinder, conic, nlpsol, integrator“-Methode zu befüllen
   - SWIGTYPE-Klasse existiert, um Java-Map zu repräsentieren nur Befüllen anscheinend nicht
+  - Bei rootfinder & integrator Verwendung von Functions möglich
+  - Nicht möglich Map Objekt zu übergeben
 - Funktionen in Python können für verschiedene Typen verwendet werden
   - Änderung des Inputtypen erfordert Anpassung der Methode/Funktion
 - Slicing-Syntax macht Code in Python lesbarer, wenn diese auf MX angewendet
@@ -47,3 +49,8 @@
   ``System.out.println(result.get(0).at(0,0));``
 - Ausgaben sind verschieden, da Typen verschieden sind\
   Siehe: Java ```NonlinearProgramming.java Exercise 1.5``` und zugehörige Python Lösung Exercise 1.5
+- Set-Methode für Submatrix kompliziert/unverstädnlich\
+  Java: ``rhs.set(MX.minus(rhs.at(3), new MX(gravity)), true, new IM(3));``\
+  vs.\
+  Python: ``rhs[3] = rhs[3] - g``\
+  Set Methode in Java liefert anderes Ergebnis (siehe Aufgabe Nlpsol 1.1)

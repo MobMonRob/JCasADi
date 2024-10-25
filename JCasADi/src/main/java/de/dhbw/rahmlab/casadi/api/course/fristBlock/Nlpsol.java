@@ -1,8 +1,10 @@
 package de.dhbw.rahmlab.casadi.api.course.fristBlock;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
+import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
+import static de.dhbw.rahmlab.casadi.impl.core__.integrator;
 import static de.dhbw.rahmlab.casadi.impl.core__.nlpsol;
 
 public class Nlpsol {
@@ -37,15 +39,15 @@ public class Nlpsol {
     static double m = 0.04593; // ball mass [kg]
     static double gravity = 9.81; // gravity [m/s^2]
     static double c = 17.5e-5; // friction [kg/m]
+    static MX p = MX.sym("p", 2);
+    static MX v = MX.sym("v", 2);
+    static MX states = MX.vertcat(new StdVectorMX(new MX[]{p, v}));
+    static MX speed = MX.norm_2(v);
+    static MX rhs = MX.vertcat(new StdVectorMX(new MX[]{v, MX.times(MX.times(new MX(-c), speed), MX.rdivide(v, new MX(m)))}));
 
     public static void exercise1_1() {
         DM.set_precision(6);
-        var p = MX.sym("p", 2);
-        var v = MX.sym("v", 2);
-        var states = MX.vertcat(new StdVectorMX(new MX[]{p, v}));
-        var speed = MX.norm_2(v);
-        var rhs = MX.vertcat(new StdVectorMX(new MX[]{v, MX.times(MX.times(new MX(-c), speed), MX.rdivide(v, new MX(m)))}));
-        //rhs.at(3) = MxSubIndex.minus(rhs.at(3), new MX(gravity)); -> does not work
+        rhs.set(MX.minus(rhs.at(3), new MX(gravity)), true, new IM(3)); // -> triggers wrong values
         var f = new Function("rhs", new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{p, v}))}), new StdVectorMX(new MX[]{rhs}));
         var result = new StdVectorMX();
         f.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0.0), new MX(0.0), new MX(35.0), new MX(30.0)}))}), result);
@@ -59,6 +61,51 @@ public class Nlpsol {
                 System.out.print(re.at(i, 0));
         }
         System.out.println("]");
+        // -> Wrong values at last (second & third) positions in the result MX
+        // My Result: [35, 30, -15.0792, -5.26917]
+        // Solution: [35, 30, -6.14737, -15.0792]
+    }
+
+    public static void exercise1_2() {
+        var ode = new Function("ode", new StdVectorMX(new MX[]{states}), new StdVectorMX(new MX[]{rhs}));
+        var options = new Dict();
+        options.put("tf", new GenericType(1));
+        System.out.println(states.dim_());
+        System.out.println(rhs.dim_());
+        var intg = integrator("intg", "cvodes", ode, options); // -> triggers error "DAE has wrong number of inputs"; Why?
+        System.out.println(intg);
+        var result = new StdVectorMX();
+        intg.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0.0), new MX(0.0), new MX(35.0), new MX(30.0)}))}), result);
+        System.out.println(result);
+    }
+
+    public static void exercise2_1() {
+        var X0 = MX.sym("X0", 4);
+        var fly1sec = new Function("fly1sec", new StdVectorMX(new MX[]{X0}), new StdVectorMX());
+    }
+
+    public static void exercise2_2() {
+
+    }
+
+    public static void exercise2_3() {
+
+    }
+
+    public static void exercise2_4() {
+
+    }
+
+    public static void exercise2_5() {
+
+    }
+
+    public static void exercise3_1() {
+
+    }
+
+    public static void exercise3_2() {
+
     }
 
     public static void main(String[] args) {
@@ -73,7 +120,8 @@ public class Nlpsol {
         // result = new StdVectorMX();
         // solver.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(2.5), new MX(3.0), new MX(0.75)}))}, new MX(0), new MX(0)), result);
         // System.out.println(result);
-        exercise1_1();
+        // exercise1_1();
+        exercise1_2();
     }
 
 }
