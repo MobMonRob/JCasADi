@@ -1,15 +1,9 @@
-package de.dhbw.rahmlab.casadi.api.course.fristBlock;
+package de.dhbw.rahmlab.casadi.api.jonas_experiments.improvements.course.fristBlock;
 
-import de.dhbw.rahmlab.casadi.impl.SWIGTYPE_p_std__mapT_std__string_casadi__MX_t;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
-import de.dhbw.rahmlab.casadi.impl.core__JNI;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
-import de.dhbw.rahmlab.casadi.impl.core__;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static de.dhbw.rahmlab.casadi.impl.casadi.DM.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.rootfinder;

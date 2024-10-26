@@ -1,10 +1,8 @@
-package de.dhbw.rahmlab.casadi.api.course.fristBlock;
+package de.dhbw.rahmlab.casadi.api.jonas_experiments.improvements.course.fristBlock;
 
 import de.dhbw.rahmlab.casadi.impl.SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiFunction;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
 import java.util.ArrayList;

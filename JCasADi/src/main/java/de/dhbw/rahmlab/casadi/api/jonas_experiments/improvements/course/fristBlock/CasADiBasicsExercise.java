@@ -1,12 +1,10 @@
-package de.dhbw.rahmlab.casadi.api.course.fristBlock;
+package de.dhbw.rahmlab.casadi.api.jonas_experiments.improvements.course.fristBlock;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
-
-import java.lang.Math.*;
 
 import static de.dhbw.rahmlab.casadi.impl.casadi.MX.vertcat;
 

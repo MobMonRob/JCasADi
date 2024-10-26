@@ -1,4 +1,4 @@
-package de.dhbw.rahmlab.casadi.api.course.fristBlock;
+package de.dhbw.rahmlab.casadi.api.jonas_experiments.improvements.course.fristBlock;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
@@ -76,16 +76,40 @@ public class Nlpsol {
         System.out.println(intg);
         var result = new StdVectorMX();
         intg.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0.0), new MX(0.0), new MX(35.0), new MX(30.0)}))}), result);
-        System.out.println(result);
+        System.out.println("xf" + result);
     }
 
     public static void exercise2_1() {
+        // integrator of exercise 1.2
+        var ode = new Function("ode", new StdVectorMX(new MX[]{states}), new StdVectorMX(new MX[]{rhs}));
+        var options = new Dict();
+        options.put("tf", new GenericType(1));
+        var intg = integrator("intg", "cvodes", ode, options); // same error as above
+
         var X0 = MX.sym("X0", 4);
-        var fly1sec = new Function("fly1sec", new StdVectorMX(new MX[]{X0}), new StdVectorMX());
+
+        var result = new StdVectorMX();
+        intg.call(new StdVectorMX(new MX[]{X0}), result);
+
+        var fly1sec = new Function("fly1sec", new StdVectorMX(new MX[]{X0}), new StdVectorMX(result));
+        result = new StdVectorMX();
+        fly1sec.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0.0), new MX(0.0), new MX(35.0), new MX(30.0)}))}), result);
+        System.out.println(result);
     }
 
     public static void exercise2_2() {
-
+        var X0 = MX.sym("X0", 4);
+        var T = MX.sym("T");
+        var ode_T = new Function("ode_T", new StdVectorMX(new MX[]{states}), new StdVectorMX(new MX[]{MX.times(T, rhs)})); // How to pass parameter 'p': T?
+        var options = new Dict();
+        options.put("tf", new GenericType(1));
+        var intg = integrator("intg", "cvodes", ode_T, options);
+        var result = new StdVectorMX();
+        intg.call(new StdVectorMX(new MX[]{X0}), result); // How to pass value for parameter p?
+        var fly = new Function("fly", new StdVectorMX(new MX[]{X0, T}), result);
+        result = new StdVectorMX();
+        fly.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0.0), new MX(0.0), new MX(35.0), new MX(30.0)})), new MX(5)}), result);
+        System.out.println(result);
     }
 
     public static void exercise2_3() {
@@ -122,6 +146,8 @@ public class Nlpsol {
         // System.out.println(result);
         // exercise1_1();
         exercise1_2();
+        exercise2_1();
+        exercise2_2();
     }
 
 }
