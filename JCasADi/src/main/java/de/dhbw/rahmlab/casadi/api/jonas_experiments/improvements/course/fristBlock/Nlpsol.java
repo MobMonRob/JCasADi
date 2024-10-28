@@ -4,8 +4,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
-import static de.dhbw.rahmlab.casadi.impl.core__.integrator;
-import static de.dhbw.rahmlab.casadi.impl.core__.nlpsol;
+import static de.dhbw.rahmlab.casadi.impl.core__.*;
 
 public class Nlpsol {
 
@@ -44,6 +43,9 @@ public class Nlpsol {
     static MX states = MX.vertcat(new StdVectorMX(new MX[]{p, v}));
     static MX speed = MX.norm_2(v);
     static MX rhs = MX.vertcat(new StdVectorMX(new MX[]{v, MX.times(MX.times(new MX(-c), speed), MX.rdivide(v, new MX(m)))}));
+    static MX T = MX.sym("T");
+    static MX theta = MX.sym("theta");
+    static MX v1 = MX.sym("v");
 
     public static void exercise1_1() {
         DM.set_precision(6);
@@ -97,9 +99,8 @@ public class Nlpsol {
         System.out.println(result);
     }
 
-    public static void exercise2_2() {
+    public static StdVectorMX exercise2_2(StdVectorMX input) {
         var X0 = MX.sym("X0", 4);
-        var T = MX.sym("T");
         var ode_T = new Function("ode_T", new StdVectorMX(new MX[]{states}), new StdVectorMX(new MX[]{MX.times(T, rhs)})); // How to pass parameter 'p': T?
         var options = new Dict();
         options.put("tf", new GenericType(1));
@@ -107,25 +108,80 @@ public class Nlpsol {
         var result = new StdVectorMX();
         intg.call(new StdVectorMX(new MX[]{X0}), result); // How to pass value for parameter p?
         var fly = new Function("fly", new StdVectorMX(new MX[]{X0, T}), result);
-        result = new StdVectorMX();
-        fly.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0.0), new MX(0.0), new MX(35.0), new MX(30.0)})), new MX(5)}), result);
-        System.out.println(result);
+        var res = new StdVectorMX();
+        fly.call(input, res);
+        System.out.println(res);
+        return res;
     }
 
-    public static void exercise2_3() {
+    public static Function exercise2_3() {
 
+        var theta_rad = MX.times(MX.rdivide(theta, new MX(180)), new MX(Math.PI));
+        var res = exercise2_2(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0), new MX(0), MX.times(v1, MX.cos(theta_rad)), MX.times(v1, MX.sin(theta_rad))})), T}));
+        var shoot = new Function("shoot", new StdVectorMX(new MX[]{v1, theta, T}), res);
+
+        var result = new StdVectorMX();
+        shoot.call(new StdVectorMX(new MX[]{new MX(50), new MX(30), new MX(5)}), result);
+        System.out.println(result); // [155.243, -11.0833, 22.6012, -23.8282]
+        return shoot;
     }
 
     public static void exercise2_4() {
+        var x = exercise2_3();
+        var result = new StdVectorMX();
 
+        x.call(new StdVectorMX(new MX[]{new MX(50), new MX(30), T}), result);
+
+        var height = result.get(1);
+
+        var rf = rootfinder("rf", "newton", new Function("", new StdVectorMX(new MX[]{T}), new StdVectorMX(new MX[]{height})));
+
+        result = new StdVectorMX();
+        rf.call(new StdVectorMX(new MX[]{new MX(5)}), result);
+        System.out.println(result); // T = 4.49773s; How to get value x? (res["x"])
     }
 
-    public static void exercise2_5() {
+    public static Function exercise2_5() {
+        var x = exercise2_3();
+        var result = new StdVectorMX();
+        x.call(new StdVectorMX(new MX[]{v1, theta, T}), result);
 
+        var height = result.get(1);
+
+        // How to define parameters?
+        // Corresponding Python-Code:
+        //    rf = rootfinder('rf','newton',{'x':T,'p':vertcat(v,theta),'g':height})
+        //    res = rf(x0=5,p=vertcat(v,theta))
+        var rf = rootfinder("rf", "newton", new Function("", new StdVectorMX(new MX[]{T, MX.vertcat(new StdVectorMX(new MX[]{v1, theta}))}), new StdVectorMX(new MX[]{height})));
+        result = new StdVectorMX();
+        rf.call(new StdVectorMX(new MX[]{new MX(5), MX.vertcat(new StdVectorMX(new MX[]{v, theta}))}), result);
+        var T_landing = result; // How to get value x? (T_landing = res["x"])
+        var res = new StdVectorMX();
+        x.call(new StdVectorMX(new MX[]{v1, theta, MX.vertcat(T_landing)}), res);
+
+        var shoot_distance = new Function("shoot_distance", new StdVectorMX(new MX[]{v1, theta}), new StdVectorMX(new MX[]{res.get(0)}));
+
+        var end_result = new StdVectorMX();
+        shoot_distance.call(new StdVectorMX(new MX[]{new MX(50), new MX(30)}), end_result);
+        System.out.println(end_result); // 143.533
+
+        return shoot_distance;
     }
 
     public static void exercise3_1() {
+        var f = exercise2_5();
+        var nlp = new Dict();
+        // nlp.put("x", new GenericType(theta));
+        var result = new StdVectorMX();
+        f.call(new StdVectorMX(new MX[]{new MX(30), theta}), result);
+        // nlp.put("f", new GenericType(-result));
 
+        // Cannot find any solution to pass expression to nlpsol()
+        var solver = nlpsol("solver", "ipopt", new Importer("", "", nlp));
+
+        result = new StdVectorMX();
+        solver.call(new StdVectorMX(new MX[]{new MX(30)}), result);
+        System.out.println(result); // 43.2223; How to extract x? (res["x"])
     }
 
     public static void exercise3_2() {
@@ -147,7 +203,7 @@ public class Nlpsol {
         // exercise1_1();
         exercise1_2();
         exercise2_1();
-        exercise2_2();
+        exercise2_2(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0.0), new MX(0.0), new MX(35.0), new MX(30.0)})), new MX(5)}));
     }
 
 }

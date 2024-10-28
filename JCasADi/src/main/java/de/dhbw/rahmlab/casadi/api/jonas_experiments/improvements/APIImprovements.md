@@ -25,7 +25,7 @@
     ``StdVectorMX input = new StdVectorMX(new MX[]{new MX(1), new MX(2)});``\
     ``StdVectorMX output = new StdVectorMX();``\
     ``f.call(input, output);``
-- call-Methoden verlangen eine Variable für Output
+- call-Methoden verlangen eine Variable für Output => Aufwending
   - In Python nicht nötig (siehe oben)
 - Bei Operationen (+, -, *, /, sin, cos, …) immer Angabe der Klasse benötigt
   - In Python nicht nötig\
@@ -54,3 +54,5 @@
   vs.\
   Python: ``rhs[3] = rhs[3] - g``\
   Set Methode in Java liefert anderes Ergebnis (siehe Aufgabe Nlpsol 1.1)
+- Angaben können in Java nicht so wie in Python gemacht werden, um auf einen bestimmten Wert zu verweisen:\
+  Python ``res["x"]`` (Solution Nlpsol.py Zeile: 86, 96, etc.)
