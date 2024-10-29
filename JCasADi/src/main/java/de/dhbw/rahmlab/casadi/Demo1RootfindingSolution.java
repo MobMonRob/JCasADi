@@ -33,7 +33,6 @@ public class Demo1RootfindingSolution {
         
         // Funktionsaufruf mit konstaten Argumenten
         StdVectorMX args1b = new StdVectorMX(new MX[]{new MX(-0.8),new MX(2d)});
-        StdVectorDouble args1 = new StdVectorDouble(new double[]{-0.8,2d});
         StdVectorMX result = new StdVectorMX();
         // Funktionaufruf mit symbolischem Argument
 	f.call(args1b, result);
@@ -52,6 +51,12 @@ public class Demo1RootfindingSolution {
         // für MX? oder sollte die toString()-Methode den symbolischen Ausdruck liefern?
         //System.out.println("f(2*x,y)=" + result.get(0).toString()); // sin(((2.*x)*y)
        
+        StdVectorDouble args1 = new StdVectorDouble(new double[]{-0.8,2d});
+        MX test = new MX(args1);
+        // cols = 1
+        System.out.println("cols = "+String.valueOf(test.get_sparsity().columns()));
+        // rows = 2
+        System.out.println("rows = "+String.valueOf(test.get_sparsity().rows()));
         
         // Ex 1.2
         
