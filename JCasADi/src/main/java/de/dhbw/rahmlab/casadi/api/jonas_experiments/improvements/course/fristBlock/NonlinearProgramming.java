@@ -301,7 +301,7 @@ public class NonlinearProgramming {
         mxMap.put("p", new MX(1e-6));
         rf.call(new StdMapStringToMX(mxMap), resul);
         for (int i = 0; i < 2; i++) {
-            System.out.println(resul.get("x").at(i).);
+            System.out.println(resul.get("x").at(i));
         }
     }
 
