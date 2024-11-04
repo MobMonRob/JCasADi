@@ -1,8 +1,8 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.improvements.course.fristBlock;
 
-import de.dhbw.rahmlab.casadi.impl.SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
+import de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
 import java.util.ArrayList;
@@ -188,7 +188,7 @@ public class NonlinearProgramming {
         qp_map.put("h", H.sparsity());
         qp_map.put("a", A.sparsity());
         // Finde keine Methode, um Map Objekt zu konvertieren oder SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t zu befüllen
-        SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t qp_struct = new SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t();
+        var qp_struct = new StdMapStringToSparsity();
         Function solver = conic("solver", "qrqp", qp_struct);
         System.out.println(solver.getClass().getName());
         System.out.println("----------- 1.8 -----------");

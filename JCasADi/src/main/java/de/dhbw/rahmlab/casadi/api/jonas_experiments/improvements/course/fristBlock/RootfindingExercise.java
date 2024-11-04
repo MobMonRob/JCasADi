@@ -2,8 +2,12 @@ package de.dhbw.rahmlab.casadi.api.jonas_experiments.improvements.course.fristBl
 
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
+import de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static de.dhbw.rahmlab.casadi.impl.casadi.DM.*;
 import static de.dhbw.rahmlab.casadi.impl.core__.rootfinder;
@@ -112,18 +116,20 @@ public class RootfindingExercise {
         }
         System.out.println(r);
         // 3.1
-        Function rfp = new Function("rfp", new StdVectorMX(new MX[]{X}), new StdVectorMX(new MX[]{gMX(X)}));
-//        Map<String, MX> map = new HashMap<>();
-//        map.put("x", X);
-//        map.put("g", gMX(X));
+        StdVectorDM arg3 = new StdVectorDM(new DM[]{vertcat(new StdVectorDM(new DM[]{x, y})), new DM()});
+//        Function rfp = new Function("rfp", new StdVectorMX(new MX[]{X}), new StdVectorMX(new MX[]{gMX(X)}));
+        Map<String, MX> map = new HashMap<>();
+        map.put("x", X);
+        map.put("g", gMX(X));
         // Finde keine Methode, um Map Objekt zu konvertieren oder SWIGTYPE_p_std__mapT_std__string_casadi__MX_t zu befüllen
 //        SWIGTYPE_p_std__mapT_std__string_casadi__MX_t rfp = new SWIGTYPE_p_std__mapT_std__string_casadi__MX_t();
+        StdMapStringToMX rfp = new StdMapStringToMX(map);
         Function rf = rootfinder("rf", "newton", rfp);
         System.out.println(rf.getClass().getName());
         System.out.println(rf);
         // 3.2
         StdVectorDM re = new StdVectorDM();
-        rf.call(arg, re);
+        rf.call(arg3, re);
         System.out.println(re);
         // 3.3
         System.out.println(rf.stats());
@@ -131,7 +137,7 @@ public class RootfindingExercise {
         Dict opt = new Dict();
         opt.put("print_iteration", new GenericType(true));
         rf = rootfinder("rf", "newton", rfp, opt);
-        rf.call(arg, re);
+        rf.call(arg3, re);
         System.out.println(re);
     }
 
