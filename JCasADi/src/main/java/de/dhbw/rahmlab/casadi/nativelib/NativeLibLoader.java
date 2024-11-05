@@ -18,9 +18,7 @@ public class NativeLibLoader {
 
 	private static void loadActually() {
 		try {
-			de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader.init(false);
-			de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader nativeLibLoader = de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader.getInstance();
-			List<NativeLib> loadedLibs = nativeLibLoader.load(NativeLibLoader.class);
+			List<NativeLib> loadedLibs = de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader.loadLibs(NativeLibLoader.class);
 
 			String os = System.getProperty("os.name").toLowerCase();
 			String delim;
