@@ -18,7 +18,16 @@ public class SXScalar {
     public SXScalar(SX sx){
         this.sx = sx;
     }
+    public SXScalar(double value){
+        this.sx = new SX(value);
+    }
     
+    public SXScalar div(SXScalar s){
+        return new SXScalar(SX.times(sx, SX.inv(s.sx)));
+    }
+    public SXScalar mul(SXScalar s){
+        return new SXScalar(SX.mtimes(sx, s.sx));
+    }
     public SXScalar muls(double s){
         return new SXScalar(SX.times(sx, new SX(s)));
     }
@@ -75,5 +84,20 @@ public class SXScalar {
     }
     public SXScalar sq(){
         return new SXScalar(SX.sq(sx));
+    }
+    public SXScalar exp(){
+        return new SXScalar(SX.exp(sx));
+    }
+    public SXScalar pow(double exp){
+        return new SXScalar(SX.pow(sx, new SX(exp)));
+    }
+    public SXScalar pow(SXScalar exp){
+        return new SXScalar(SX.pow(sx, exp.sx));
+    }
+    public static SXScalar pow(double base, SXScalar exp){
+        return new SXScalar(SX.pow(new SX(base), exp.sx));
+    }
+    public SXScalar negate(){
+        return new SXScalar(SX.times(sx, new SX(-1)));
     }
 }

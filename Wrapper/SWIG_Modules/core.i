@@ -161,8 +161,23 @@ typedef casadi::Slice Slice;
 typedef std::map< std::string, casadi::GenericType > casadi::Dict;
 typedef casadi::Dict Dict;
 // From: generic_type.hpp
+%rename(DictIter) std::map< std::string, casadi::GenericType >::iterator;
 // Weird error with dict::Iterator if namespace "casadi::" is missing!
 %template(Dict) std::map< std::string, casadi::GenericType >;
+
+%define MAP_WRAP(prefix, K, T)
+%rename("StdMapIter" ## prefix) std::map< K, T >::iterator;
+%template("StdMap" ## prefix) std::map< K, T >;
+%enddef
+
+MAP_WRAP("StringToMX", std::string, casadi::MX)
+typedef casadi::Matrix<casadi::SXElem> casadi::SX;
+MAP_WRAP("StringToSX", std::string, casadi::Matrix<casadi::SXElem>)
+typedef casadi::Matrix<double> casadi::DM;
+MAP_WRAP("StringToDM", std::string, casadi::Matrix<double>)
+MAP_WRAP("StringToSparsity", std::string, casadi::Sparsity)
+MAP_WRAP("StringToVectorDouble", std::string, std::vector<double>)
+MAP_WRAP("StringToVectorString", std::string, std::vector<std::string>)
 
 typedef casadi::GenericType GenericType;
 
@@ -284,6 +299,9 @@ typedef casadi::Matrix<casadi::SXElem> SX;
 //// Stop: SX
 
 //// Start: Function
+
+%ignore casadi::Function::buf_in;
+%ignore casadi::Function::buf_out;
 
 #undef SWIG
 	%include "casadi/core/function.hpp"
