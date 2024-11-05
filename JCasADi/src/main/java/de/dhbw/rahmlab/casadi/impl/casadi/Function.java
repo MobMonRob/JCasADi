@@ -122,12 +122,12 @@ public class Function implements ISharedObject {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_5(name, de.dhbw.rahmlab.casadi.impl.std.StdVectorSX.getCPtr(ex_in), ex_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorSX.getCPtr(ex_out), ex_out, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
   }
 
-  public Function(String name, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_6(name, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dict), de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public Function(String name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_6(name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dict), dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public Function(String name, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_7(name, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dict), de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
+  public Function(String name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out) {
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_7(name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dict), dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
   }
 
   /**
@@ -156,12 +156,12 @@ public class Function implements ISharedObject {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_11(name, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(ex_in), ex_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(ex_out), ex_out, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
   }
 
-  public Function(String name, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_12(name, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dict), de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public Function(String name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_12(name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dict), dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public Function(String name, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_13(name, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dict), de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
+  public Function(String name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out) {
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Function__SWIG_13(name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dict), dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
   }
 
   /**
@@ -723,12 +723,12 @@ public class Function implements ISharedObject {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorBool(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_is_diff_out__SWIG_1(swigCPtr, this), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.casadi.Function factory(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_out, SWIGTYPE_p_std__mapT_std__string_std__vectorT_std__string_t_t aux, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_factory__SWIG_0(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_in), s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_out), s_out, SWIGTYPE_p_std__mapT_std__string_std__vectorT_std__string_t_t.getCPtr(aux), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function factory(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_out, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToVectorString aux, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_factory__SWIG_0(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_in), s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_out), s_out, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToVectorString.getCPtr(aux), aux, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.casadi.Function factory(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_out, SWIGTYPE_p_std__mapT_std__string_std__vectorT_std__string_t_t aux) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_factory__SWIG_1(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_in), s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_out), s_out, SWIGTYPE_p_std__mapT_std__string_std__vectorT_std__string_t_t.getCPtr(aux)), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function factory(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_out, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToVectorString aux) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_factory__SWIG_1(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_in), s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_out), s_out, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToVectorString.getCPtr(aux), aux), true);
   }
 
   public de.dhbw.rahmlab.casadi.impl.casadi.Function factory(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_out) {
@@ -955,64 +955,40 @@ public class Function implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_8(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(OUTPUT), OUTPUT);
   }
 
-  public void call(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t arg, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t OUTPUT, boolean always_inline, boolean never_inline) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_9(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(OUTPUT), always_inline, never_inline);
+  public void call(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM OUTPUT, boolean always_inline, boolean never_inline) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_9(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(OUTPUT), OUTPUT, always_inline, never_inline);
   }
 
-  public void call(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t arg, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t OUTPUT, boolean always_inline) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_10(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(OUTPUT), always_inline);
+  public void call(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM OUTPUT, boolean always_inline) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_10(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(OUTPUT), OUTPUT, always_inline);
   }
 
-  public void call(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t arg, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t OUTPUT) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_11(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(OUTPUT));
+  public void call(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM OUTPUT) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_11(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(OUTPUT), OUTPUT);
   }
 
-  public void call(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t arg, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t OUTPUT, boolean always_inline, boolean never_inline) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_12(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(OUTPUT), always_inline, never_inline);
+  public void call(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX OUTPUT, boolean always_inline, boolean never_inline) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_12(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(OUTPUT), OUTPUT, always_inline, never_inline);
   }
 
-  public void call(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t arg, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t OUTPUT, boolean always_inline) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_13(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(OUTPUT), always_inline);
+  public void call(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX OUTPUT, boolean always_inline) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_13(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(OUTPUT), OUTPUT, always_inline);
   }
 
-  public void call(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t arg, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t OUTPUT) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_14(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(OUTPUT));
+  public void call(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX OUTPUT) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_14(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(OUTPUT), OUTPUT);
   }
 
-  public void call(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t arg, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t OUTPUT, boolean always_inline, boolean never_inline) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_15(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(OUTPUT), always_inline, never_inline);
+  public void call(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX OUTPUT, boolean always_inline, boolean never_inline) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_15(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(OUTPUT), OUTPUT, always_inline, never_inline);
   }
 
-  public void call(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t arg, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t OUTPUT, boolean always_inline) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_16(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(OUTPUT), always_inline);
+  public void call(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX OUTPUT, boolean always_inline) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_16(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(OUTPUT), OUTPUT, always_inline);
   }
 
-  public void call(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t arg, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t OUTPUT) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_17(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(arg), SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(OUTPUT));
-  }
-
-  public SWIGTYPE_p_std__vectorT_double_const_p_t buf_in(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble arg) {
-    return new SWIGTYPE_p_std__vectorT_double_const_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_in__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(arg), arg), true);
-  }
-
-  public SWIGTYPE_p_std__vectorT_double_p_t buf_out(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble res) {
-    return new SWIGTYPE_p_std__vectorT_double_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_out__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(res), res), true);
-  }
-
-  public SWIGTYPE_p_std__vectorT_double_p_t buf_out(SWIGTYPE_p_std__vectorT_std__vectorT_double_t_p_t res) {
-    return new SWIGTYPE_p_std__vectorT_double_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_out__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__vectorT_std__vectorT_double_t_p_t.getCPtr(res)), true);
-  }
-
-  public SWIGTYPE_p_std__vectorT_double_const_p_t buf_in(SWIGTYPE_p_std__mapT_std__string_std__vectorT_double_t_t arg) {
-    return new SWIGTYPE_p_std__vectorT_double_const_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_in__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_std__vectorT_double_t_t.getCPtr(arg)), true);
-  }
-
-  public SWIGTYPE_p_std__vectorT_double_p_t buf_out(SWIGTYPE_p_std__mapT_std__string_std__vectorT_double_t_t res) {
-    return new SWIGTYPE_p_std__vectorT_double_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_out__SWIG_2(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_std__vectorT_double_t_t.getCPtr(res)), true);
-  }
-
-  public SWIGTYPE_p_std__vectorT_double_p_t buf_out(SWIGTYPE_p_std__mapT_std__string_std__vectorT_double_t_p_t res) {
-    return new SWIGTYPE_p_std__vectorT_double_p_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_buf_out__SWIG_3(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_std__vectorT_double_t_p_t.getCPtr(res)), true);
+  public void call(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX OUTPUT) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_call__SWIG_17(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(OUTPUT), OUTPUT);
   }
 
   /**
@@ -1813,52 +1789,52 @@ public class Function implements ISharedObject {
    * <br>
    *         
    */
-  public SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t convert_in(de.dhbw.rahmlab.casadi.impl.std.StdVectorDM arg) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorDM.getCPtr(arg), arg), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM convert_in(de.dhbw.rahmlab.casadi.impl.std.StdVectorDM arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorDM.getCPtr(arg), arg), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorDM convert_in(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t arg) {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(arg)), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorDM convert_in(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(arg), arg), true);
   }
 
-  public SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t convert_out(de.dhbw.rahmlab.casadi.impl.std.StdVectorDM arg) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorDM.getCPtr(arg), arg), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM convert_out(de.dhbw.rahmlab.casadi.impl.std.StdVectorDM arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorDM.getCPtr(arg), arg), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorDM convert_out(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t arg) {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(arg)), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorDM convert_out(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(arg), arg), true);
   }
 
-  public SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t convert_in(de.dhbw.rahmlab.casadi.impl.std.StdVectorSX arg) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorSX.getCPtr(arg), arg), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX convert_in(de.dhbw.rahmlab.casadi.impl.std.StdVectorSX arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorSX.getCPtr(arg), arg), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorSX convert_in(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t arg) {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_3(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(arg)), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorSX convert_in(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(arg), arg), true);
   }
 
-  public SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t convert_out(de.dhbw.rahmlab.casadi.impl.std.StdVectorSX arg) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorSX.getCPtr(arg), arg), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX convert_out(de.dhbw.rahmlab.casadi.impl.std.StdVectorSX arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorSX.getCPtr(arg), arg), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorSX convert_out(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t arg) {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_3(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(arg)), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorSX convert_out(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(arg), arg), true);
   }
 
-  public SWIGTYPE_p_std__mapT_std__string_casadi__MX_t convert_in(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX arg) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MX_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_4(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(arg), arg), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX convert_in(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_4(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(arg), arg), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX convert_in(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t arg) {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_5(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(arg)), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX convert_in(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_in__SWIG_5(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(arg), arg), true);
   }
 
-  public SWIGTYPE_p_std__mapT_std__string_casadi__MX_t convert_out(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX arg) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MX_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_4(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(arg), arg), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX convert_out(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_4(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(arg), arg), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX convert_out(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t arg) {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_5(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(arg)), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX convert_out(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX arg) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Function_convert_out__SWIG_5(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(arg), arg), true);
   }
 
   /**

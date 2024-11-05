@@ -150,20 +150,20 @@ public class OptiAdvanced extends de.dhbw.rahmlab.casadi.impl.casadi.Opti {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiAdvanced_solve_prepare(swigCPtr, this);
   }
 
-  public SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t solve_actual(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t args) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiAdvanced_solve_actual(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(args)), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM solve_actual(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM args) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiAdvanced_solve_actual(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(args), args), true);
   }
 
-  public SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t arg() {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiAdvanced_arg(swigCPtr, this), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM arg() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiAdvanced_arg(swigCPtr, this), true);
   }
 
-  public void res(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t res) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiAdvanced_res__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(res));
+  public void res(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM res) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiAdvanced_res__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(res), res);
   }
 
-  public SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t res() {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiAdvanced_res__SWIG_1(swigCPtr, this), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM res() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiAdvanced_res__SWIG_1(swigCPtr, this), true);
   }
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX constraints() {

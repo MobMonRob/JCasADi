@@ -218,8 +218,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_0(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_0(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -228,16 +228,16 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_1(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_1(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_2(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_2(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_3(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_3(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.casadi.Function dae, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
@@ -248,20 +248,20 @@ public class core__ implements core__Constants {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_5(name, solver, de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(dae), dae), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, double t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tout, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_6(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tout), tout, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, double t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tout, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_6(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tout), tout, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, double t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tout) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_7(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tout), tout), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, double t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tout) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_7(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tout), tout), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, double t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tout, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_8(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tout), tout, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, double t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tout, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_8(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tout), tout, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, double t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tout) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_9(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tout), tout), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, double t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tout) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_9(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tout), tout), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.casadi.Function dae, double t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble tout, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
@@ -272,20 +272,20 @@ public class core__ implements core__Constants {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_11(name, solver, de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(dae), dae, t0, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(tout), tout), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, double t0, double tf, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_12(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), t0, tf, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, double t0, double tf, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_12(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, t0, tf, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, double t0, double tf) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_13(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), t0, tf), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, double t0, double tf) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_13(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, t0, tf), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, double t0, double tf, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_14(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), t0, tf, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, double t0, double tf, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_14(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, t0, tf, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, double t0, double tf) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_15(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), t0, tf), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, double t0, double tf) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.integrator__SWIG_15(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, t0, tf), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.Function integrator(String name, String solver, de.dhbw.rahmlab.casadi.impl.casadi.Function dae, double t0, double tf, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
@@ -431,8 +431,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function conic(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t qp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.conic__SWIG_0(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t.getCPtr(qp), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function conic(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSparsity qp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.conic__SWIG_0(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSparsity.getCPtr(qp), qp, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -441,24 +441,24 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function conic(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t qp) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.conic__SWIG_1(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t.getCPtr(qp)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function conic(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSparsity qp) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.conic__SWIG_1(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSparsity.getCPtr(qp), qp), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function qpsol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t qp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.qpsol__SWIG_0(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(qp), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function qpsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX qp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.qpsol__SWIG_0(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(qp), qp, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function qpsol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t qp) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.qpsol__SWIG_1(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(qp)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function qpsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX qp) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.qpsol__SWIG_1(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(qp), qp), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function qpsol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t qp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.qpsol__SWIG_2(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(qp), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function qpsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX qp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.qpsol__SWIG_2(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(qp), qp, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function qpsol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t qp) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.qpsol__SWIG_3(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(qp)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function qpsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX qp) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.qpsol__SWIG_3(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(qp), qp), true);
   }
 
   /**
@@ -583,8 +583,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function nlpsol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t nlp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.nlpsol__SWIG_0(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(nlp), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function nlpsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX nlp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.nlpsol__SWIG_0(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(nlp), nlp, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -593,16 +593,16 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function nlpsol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t nlp) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.nlpsol__SWIG_1(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(nlp)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function nlpsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX nlp) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.nlpsol__SWIG_1(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(nlp), nlp), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function nlpsol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t nlp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.nlpsol__SWIG_2(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(nlp), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function nlpsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX nlp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.nlpsol__SWIG_2(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(nlp), nlp, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function nlpsol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t nlp) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.nlpsol__SWIG_3(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(nlp)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function nlpsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX nlp) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.nlpsol__SWIG_3(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(nlp), nlp), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.Function nlpsol(String name, String solver, String fname, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
@@ -766,8 +766,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function rootfinder(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t rfp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.rootfinder__SWIG_0(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(rfp), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function rootfinder(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX rfp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.rootfinder__SWIG_0(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(rfp), rfp, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -776,16 +776,16 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function rootfinder(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t rfp) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.rootfinder__SWIG_1(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(rfp)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function rootfinder(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX rfp) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.rootfinder__SWIG_1(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(rfp), rfp), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function rootfinder(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t rfp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.rootfinder__SWIG_2(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(rfp), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function rootfinder(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX rfp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.rootfinder__SWIG_2(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(rfp), rfp, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function rootfinder(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t rfp) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.rootfinder__SWIG_3(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(rfp)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function rootfinder(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX rfp) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.rootfinder__SWIG_3(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(rfp), rfp), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.Function rootfinder(String name, String solver, de.dhbw.rahmlab.casadi.impl.casadi.Function f, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
@@ -925,8 +925,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dplesol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t st, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dplesol__SWIG_0(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t.getCPtr(st), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dplesol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSparsity st, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dplesol__SWIG_0(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSparsity.getCPtr(st), st, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -935,8 +935,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dplesol(String name, String solver, SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t st) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dplesol__SWIG_1(name, solver, SWIGTYPE_p_std__mapT_std__string_casadi__Sparsity_t.getCPtr(st)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dplesol(String name, String solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSparsity st) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dplesol__SWIG_1(name, solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSparsity.getCPtr(st), st), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX dplesol(de.dhbw.rahmlab.casadi.impl.casadi.MX A, de.dhbw.rahmlab.casadi.impl.casadi.MX V, String solver, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
@@ -1606,8 +1606,8 @@ public class core__ implements core__Constants {
    * <br>
    *       
    */
-  public static SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae_reduce_index(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, de.dhbw.rahmlab.casadi.impl.std.Dict OUTPUT, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MX_t(core__JNI.dae_reduce_index__SWIG_0(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(OUTPUT), OUTPUT, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae_reduce_index(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, de.dhbw.rahmlab.casadi.impl.std.Dict OUTPUT, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX(core__JNI.dae_reduce_index__SWIG_0(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(OUTPUT), OUTPUT, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
   /**
@@ -1667,16 +1667,16 @@ public class core__ implements core__Constants {
    * <br>
    *       
    */
-  public static SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae_reduce_index(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, de.dhbw.rahmlab.casadi.impl.std.Dict OUTPUT) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MX_t(core__JNI.dae_reduce_index__SWIG_1(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(OUTPUT), OUTPUT), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae_reduce_index(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, de.dhbw.rahmlab.casadi.impl.std.Dict OUTPUT) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX(core__JNI.dae_reduce_index__SWIG_1(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(OUTPUT), OUTPUT), true);
   }
 
-  public static SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae_reduce_index(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, de.dhbw.rahmlab.casadi.impl.std.Dict OUTPUT, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t(core__JNI.dae_reduce_index__SWIG_2(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(OUTPUT), OUTPUT, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae_reduce_index(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, de.dhbw.rahmlab.casadi.impl.std.Dict OUTPUT, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX(core__JNI.dae_reduce_index__SWIG_2(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(OUTPUT), OUTPUT, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public static SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae_reduce_index(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, de.dhbw.rahmlab.casadi.impl.std.Dict OUTPUT) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t(core__JNI.dae_reduce_index__SWIG_3(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(OUTPUT), OUTPUT), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae_reduce_index(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, de.dhbw.rahmlab.casadi.impl.std.Dict OUTPUT) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX(core__JNI.dae_reduce_index__SWIG_3(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(OUTPUT), OUTPUT), true);
   }
 
   /**
@@ -1696,44 +1696,12 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae_map_semi_expl(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae_red, de.dhbw.rahmlab.casadi.impl.casadi.Function arg2, de.dhbw.rahmlab.casadi.impl.casadi.Function arg3) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MX_t(core__JNI.dae_map_semi_expl__SWIG_0(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae_red), de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(arg2), arg2, de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(arg3), arg3), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae_map_semi_expl(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae_red, de.dhbw.rahmlab.casadi.impl.casadi.Function arg2, de.dhbw.rahmlab.casadi.impl.casadi.Function arg3) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX(core__JNI.dae_map_semi_expl__SWIG_0(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae_red), dae_red, de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(arg2), arg2, de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(arg3), arg3), true);
   }
 
-  public static SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae_map_semi_expl(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae_red, de.dhbw.rahmlab.casadi.impl.casadi.Function arg2, de.dhbw.rahmlab.casadi.impl.casadi.Function arg3) {
-    return new SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t(core__JNI.dae_map_semi_expl__SWIG_1(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae_red), de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(arg2), arg2, de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(arg3), arg3), true);
-  }
-
-  /**
-   *  Obtain a generator Function for producing consistent initial guesses of a reduced DAE<br>
-   * <br>
-   * dae Original (unreduced) DAE structure<br>
-   * dae_red Reduced DAE (see dae_reduce_index) <br>
-   * init_solver NLP solver plugin name for nlpsol used to construct an initial guess<br>
-   * init_strength Influence the nature of the NLP<br>
-   *               Structure with keys x_impl, dx_impl, z corresponding to inputs of init_gen<br>
-   *               Each key maps to a DM that should match the variable size corresponding to that key.<br>
-   *               For each variable the meaning of the corresponding DM value is as follows:<br>
-   *                When &gt;=0, indicates that the provided initial guess is used in a quadratic penalty (value used as weight)<br>
-   *                When -1, indicates that the provided initial guess must be observed (simple bound on variable)<br>
-   * init_solver_options NLP solver options to be passed to nlpsol<br>
-   * <br>
-   * @return init_gen A function to generate a consistent initial guess that can<br>
-   *             be used to pass to an integrator constructed from a semi explict reduced DAE<br>
-   *             Inputs:<br>
-   *               - x_impl, dx_impl, z: initial guesses in the original DAE space<br>
-   *               - p: parameters<br>
-   *               - t: time<br>
-   *             Outputs:<br>
-   *               - x0, z0: (semi explicit) integrator states and algebraic variables;<br>
-   *                         typically used as input for integrators<br>
-   * <br>
-   * @see dae_reduce_index<br>
-   * <br>
-   *   
-   */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae_red, String init_solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t init_strength, de.dhbw.rahmlab.casadi.impl.std.Dict init_solver_options) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_0(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae_red), init_solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(init_strength), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(init_solver_options), init_solver_options), true);
+  public static de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae_map_semi_expl(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae_red, de.dhbw.rahmlab.casadi.impl.casadi.Function arg2, de.dhbw.rahmlab.casadi.impl.casadi.Function arg3) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX(core__JNI.dae_map_semi_expl__SWIG_1(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae_red), dae_red, de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(arg2), arg2, de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(arg3), arg3), true);
   }
 
   /**
@@ -1764,8 +1732,8 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae_red, String init_solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t init_strength) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_1(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae_red), init_solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(init_strength)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae_red, String init_solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM init_strength, de.dhbw.rahmlab.casadi.impl.std.Dict init_solver_options) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_0(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae_red), dae_red, init_solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(init_strength), init_strength, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(init_solver_options), init_solver_options), true);
   }
 
   /**
@@ -1796,20 +1764,52 @@ public class core__ implements core__Constants {
    * <br>
    *   
    */
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dae_red, String init_solver) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_2(SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae), SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dae_red), init_solver), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae_red, String init_solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM init_strength) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_1(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae_red), dae_red, init_solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(init_strength), init_strength), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae_red, String init_solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t init_strength, de.dhbw.rahmlab.casadi.impl.std.Dict init_solver_options) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_3(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae_red), init_solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(init_strength), de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(init_solver_options), init_solver_options), true);
+  /**
+   *  Obtain a generator Function for producing consistent initial guesses of a reduced DAE<br>
+   * <br>
+   * dae Original (unreduced) DAE structure<br>
+   * dae_red Reduced DAE (see dae_reduce_index) <br>
+   * init_solver NLP solver plugin name for nlpsol used to construct an initial guess<br>
+   * init_strength Influence the nature of the NLP<br>
+   *               Structure with keys x_impl, dx_impl, z corresponding to inputs of init_gen<br>
+   *               Each key maps to a DM that should match the variable size corresponding to that key.<br>
+   *               For each variable the meaning of the corresponding DM value is as follows:<br>
+   *                When &gt;=0, indicates that the provided initial guess is used in a quadratic penalty (value used as weight)<br>
+   *                When -1, indicates that the provided initial guess must be observed (simple bound on variable)<br>
+   * init_solver_options NLP solver options to be passed to nlpsol<br>
+   * <br>
+   * @return init_gen A function to generate a consistent initial guess that can<br>
+   *             be used to pass to an integrator constructed from a semi explict reduced DAE<br>
+   *             Inputs:<br>
+   *               - x_impl, dx_impl, z: initial guesses in the original DAE space<br>
+   *               - p: parameters<br>
+   *               - t: time<br>
+   *             Outputs:<br>
+   *               - x0, z0: (semi explicit) integrator states and algebraic variables;<br>
+   *                         typically used as input for integrators<br>
+   * <br>
+   * @see dae_reduce_index<br>
+   * <br>
+   *   
+   */
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dae_red, String init_solver) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_2(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dae_red), dae_red, init_solver), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae_red, String init_solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t init_strength) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_4(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae_red), init_solver, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_double_t_t.getCPtr(init_strength)), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae_red, String init_solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM init_strength, de.dhbw.rahmlab.casadi.impl.std.Dict init_solver_options) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_3(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae_red), dae_red, init_solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(init_strength), init_strength, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(init_solver_options), init_solver_options), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae, SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t dae_red, String init_solver) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_5(SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae), SWIGTYPE_p_std__mapT_std__string_casadi__MatrixT_casadi__SXElem_t_t.getCPtr(dae_red), init_solver), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae_red, String init_solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM init_strength) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_4(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae_red), dae_red, init_solver, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToDM.getCPtr(init_strength), init_strength), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Function dae_init_gen(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX dae_red, String init_solver) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(core__JNI.dae_init_gen__SWIG_5(de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae), dae, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToSX.getCPtr(dae_red), dae_red, init_solver), true);
   }
 
   /**

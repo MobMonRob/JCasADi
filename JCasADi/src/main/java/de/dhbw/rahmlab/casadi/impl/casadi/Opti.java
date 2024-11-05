@@ -639,12 +639,12 @@ public class Opti implements ISharedObject {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Opti_to_function__SWIG_3(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(args), args, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(res), res, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.casadi.Function to_function(String name, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Opti_to_function__SWIG_4(swigCPtr, this, name, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dict), de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function to_function(String name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Opti_to_function__SWIG_4(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dict), dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  public de.dhbw.rahmlab.casadi.impl.casadi.Function to_function(String name, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Opti_to_function__SWIG_5(swigCPtr, this, name, SWIGTYPE_p_std__mapT_std__string_casadi__MX_t.getCPtr(dict), de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function to_function(String name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Opti_to_function__SWIG_5(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX.getCPtr(dict), dict, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
   }
 
   /**

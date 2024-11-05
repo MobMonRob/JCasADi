@@ -46,6 +46,14 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
 }
 
 
+  /**
+  * Convenience constructor to use with Map.of().
+  */
+  public Dict(java.util.Map<? extends String, ? extends de.dhbw.rahmlab.casadi.impl.casadi.GenericType> other) {
+    this();
+    this.putAll(other);
+  }
+
   public int size() {
     return sizeImpl();
   }
@@ -63,7 +71,7 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
       return null;
     }
 
-    Iterator itr = find((String) key);
+    de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter itr = find((String) key);
     if (itr.isNot(end())) {
       return itr.getValue();
     }
@@ -72,7 +80,7 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
   }
 
   public de.dhbw.rahmlab.casadi.impl.casadi.GenericType put(String key, de.dhbw.rahmlab.casadi.impl.casadi.GenericType value) {
-    Iterator itr = find(key);
+    de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter itr = find(key);
     if (itr.isNot(end())) {
       de.dhbw.rahmlab.casadi.impl.casadi.GenericType oldValue = itr.getValue();
       itr.setValue(value);
@@ -88,7 +96,7 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
       return null;
     }
 
-    Iterator itr = find((String) key);
+    de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter itr = find((String) key);
     if (itr.isNot(end())) {
       de.dhbw.rahmlab.casadi.impl.casadi.GenericType oldValue = itr.getValue();
       removeUnchecked(itr);
@@ -102,13 +110,13 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
     java.util.Set<Entry<String, de.dhbw.rahmlab.casadi.impl.casadi.GenericType>> setToReturn =
         new java.util.HashSet<Entry<String, de.dhbw.rahmlab.casadi.impl.casadi.GenericType>>();
 
-    Iterator itr = begin();
-    final Iterator end = end();
+    de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter itr = begin();
+    final de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter end = end();
     while (itr.isNot(end)) {
       setToReturn.add(new Entry<String, de.dhbw.rahmlab.casadi.impl.casadi.GenericType>() {
-        private Iterator iterator;
+        private de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter iterator;
 
-        private Entry<String, de.dhbw.rahmlab.casadi.impl.casadi.GenericType> init(Iterator iterator) {
+        private Entry<String, de.dhbw.rahmlab.casadi.impl.casadi.GenericType> init(de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter iterator) {
           this.iterator = iterator;
           return this;
         }
@@ -141,13 +149,13 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_std_Dict__SWIG_1(de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(other), other), true);
   }
 
-  static public class Iterator {
+  static public class DictIter {
     private final long swigCPtr;
   
-    public Iterator(long cPtr, boolean cMemoryOwn) {
+    public DictIter(long cPtr, boolean cMemoryOwn) {
       this.swigCPtr = cPtr;
   	  if (cMemoryOwn) {
-  		  REGISTER_DELETION(this, cPtr, Iterator::delete);
+  		  REGISTER_DELETION(this, cPtr, DictIter::delete);
     	}
     }
   
@@ -158,43 +166,43 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
     * Using this baseclass constructor for subtypes prevents that.
     * </pre>
     */
-    protected Iterator(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
+    protected DictIter(long cPtr, boolean cMemoryOwn, long subtype_cPtr, LongConsumer subtype_deleteFunction) {
       this.swigCPtr = cPtr;
   	  if (cMemoryOwn) {
   		  REGISTER_DELETION(this, subtype_cPtr, subtype_deleteFunction);
   	  }
     }
   
-    public static long getCPtr(Iterator obj) {
+    public static long getCPtr(DictIter obj) {
       return obj.swigCPtr;
     }
   
     private static void delete(long swigCPtr) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_Dict_Iterator(swigCPtr);
+    de.dhbw.rahmlab.casadi.impl.core__JNI.delete_std_Dict_DictIter(swigCPtr);
   }
   
-    private de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator getNextUnchecked() {
-      return new de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_Iterator_getNextUnchecked(swigCPtr, this), true);
+    private de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter getNextUnchecked() {
+      return new de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_DictIter_getNextUnchecked(swigCPtr, this), true);
     }
   
-    private boolean isNot(de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator other) {
-      return de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_Iterator_isNot(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator.getCPtr(other), other);
+    private boolean isNot(de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter other) {
+      return de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_DictIter_isNot(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter.getCPtr(other), other);
     }
   
     private String getKey() {
-      return de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_Iterator_getKey(swigCPtr, this);
+      return de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_DictIter_getKey(swigCPtr, this);
     }
   
     private de.dhbw.rahmlab.casadi.impl.casadi.GenericType getValue() {
-      return new de.dhbw.rahmlab.casadi.impl.casadi.GenericType(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_Iterator_getValue(swigCPtr, this), true);
+      return new de.dhbw.rahmlab.casadi.impl.casadi.GenericType(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_DictIter_getValue(swigCPtr, this), true);
     }
   
     private void setValue(de.dhbw.rahmlab.casadi.impl.casadi.GenericType newValue) {
-      de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_Iterator_setValue(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.GenericType.getCPtr(newValue), newValue);
+      de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_DictIter_setValue(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.GenericType.getCPtr(newValue), newValue);
     }
   
-    public Iterator(de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator other) {
-      this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_std_Iterator(de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator.getCPtr(other), other), true);
+    public DictIter(de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter other) {
+      this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_std_DictIter(de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter.getCPtr(other), other), true);
     }
   
   }
@@ -207,16 +215,16 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
     de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_clear(swigCPtr, this);
   }
 
-  private de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator find(String key) {
-    return new de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_find(swigCPtr, this, key), true);
+  private de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter find(String key) {
+    return new de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_find(swigCPtr, this, key), true);
   }
 
-  private de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator begin() {
-    return new de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_begin(swigCPtr, this), true);
+  private de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter begin() {
+    return new de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_begin(swigCPtr, this), true);
   }
 
-  private de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator end() {
-    return new de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_end(swigCPtr, this), true);
+  private de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter end() {
+    return new de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter(de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_end(swigCPtr, this), true);
   }
 
   private int sizeImpl() {
@@ -231,8 +239,8 @@ public class Dict extends java.util.AbstractMap<String, de.dhbw.rahmlab.casadi.i
     de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_putUnchecked(swigCPtr, this, key, de.dhbw.rahmlab.casadi.impl.casadi.GenericType.getCPtr(value), value);
   }
 
-  private void removeUnchecked(de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator itr) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_removeUnchecked(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.Dict.Iterator.getCPtr(itr), itr);
+  private void removeUnchecked(de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter itr) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.std_Dict_removeUnchecked(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.Dict.DictIter.getCPtr(itr), itr);
   }
 
 }
