@@ -20,8 +20,91 @@ public class Nlpsol {
     static MX speed = MX.norm_2(v);
     static MX rhs = MX.vertcat(new StdVectorMX(new MX[]{v, MX.times(MX.times(new MX(-c), speed), MX.rdivide(v, new MX(m)))}));
     static MX T = MX.sym("T");
+    static MX X0 = MX.sym("X0", 4);
+
     static MX theta = MX.sym("theta");
     static MX v1 = MX.sym("v");
+    static MX theta_rad = MX.times(MX.rdivide(theta, new MX(180)), new MX(Math.PI));
+
+    // integrator of 1.2
+    public static Function integrator1_2() {
+        Map<String, MX> inputMap = new StdMapStringToMX();
+        inputMap.put("x", states);
+        inputMap.put("ode", rhs);
+        var ode = new StdMapStringToMX(inputMap);
+        var options = new Dict();
+        options.put("tf", new GenericType(1));
+        var intg = integrator("intg", "cvodes", ode, options);
+        return intg;
+    }
+
+    // function of 2.2
+    public static Function fly2_2() {
+        Map<String, MX> ode_T = new HashMap<>();
+        ode_T.put("x", states);
+        ode_T.put("ode", MX.times(T, rhs));
+        ode_T.put("p", T);
+        var function_input = new StdMapStringToMX(ode_T);
+        var dict = new Dict();
+        dict.put("tf", new GenericType(1));
+        var intg = integrator("intg", "cvodes", function_input, dict);
+
+        Map<String, MX> outputMap = new StdMapStringToMX();
+        outputMap.put("x0", X0);
+        outputMap.put("p", T);
+        var result = new StdMapStringToMX();
+
+        intg.call(new StdMapStringToMX(outputMap), result);
+
+        var fly = new Function("fly", new StdVectorMX(new MX[]{X0, T}), new StdVectorMX(new MX[]{result.get("xf")}));
+        return fly;
+    }
+
+    // function of 2.3
+    public static Function shoot2_3(Function fly) {
+        var res = new StdVectorMX();
+        fly.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0), new MX(0), MX.times(v1, MX.cos(theta_rad)), MX.times(v1, MX.sin(theta_rad))})), T}), res);
+        var shoot = new Function("shoot", new StdVectorMX(new MX[]{v1, theta, T}), res);
+        return shoot;
+    }
+
+    // function of 2.5
+    public static Function shoot_distance2_5() {
+        var fly = fly2_2();
+        var x = shoot2_3(fly);
+        var result = new StdVectorMX();
+        x.call(new StdVectorMX(new MX[]{v1, theta, T}), result);
+
+        var height = result.get(0); // -> wrong size, see below/above
+        // corresponding python-code: height = x[1]
+
+        System.out.println("Height 2: " + result.size()); // -> wrong size
+        // Python = (4, 1)
+        // Java = 1
+
+        StdMapStringToMX inputMap = new StdMapStringToMX();
+        inputMap.put("x", T);
+        inputMap.put("p", MX.vertcat(new StdVectorMX(new MX[]{v1, theta})));
+        inputMap.put("g", height);
+        var rf = rootfinder("rf", "newton", inputMap); // -> Reason for Exception = height
+        // Exception: Dimension mismatch. Input size is 1, while output size is 4
+
+        var result1 = new StdMapStringToMX();
+
+        StdMapStringToMX outputMap = new StdMapStringToMX();
+        outputMap.put("x0", new MX(5));
+        outputMap.put("p", MX.vertcat(new StdVectorMX(new MX[]{v1, theta})));
+
+        rf.call(outputMap, result1);
+        var T_landing = result1.get("x");
+        var res = new StdVectorMX();
+
+        x.call(new StdVectorMX(new MX[]{v1, theta, T_landing}), res);
+
+        var shoot_distance = new Function("shoot_distance", new StdVectorMX(new MX[]{v1, theta}), new StdVectorMX(new MX[]{res.get(0)}));
+
+        return shoot_distance;
+    }
 
     // Exercise: NLP (Presentation)
     // minimize x^2 + 100 z^2
@@ -85,32 +168,17 @@ public class Nlpsol {
     }
 
     public static void exercise1_2() {
-        Map<String, MX> inputMap = new StdMapStringToMX();
-        inputMap.put("x", states);
-        inputMap.put("ode", rhs);
-        var ode = new StdMapStringToMX(inputMap);
-        var options = new Dict();
-        options.put("tf", new GenericType(1));
-        var intg = integrator("intg", "cvodes", ode, options);
+        var intg = integrator1_2();
         System.out.println(intg);
         var result = new StdMapStringToDM();
         Map<String, DM> outputMap = new StdMapStringToDM();
         outputMap.put("x0", DM.vertcat(new StdVectorDM(new DM[]{new DM(0), new DM(0), new DM(35), new DM(30)})));
         intg.call(new StdMapStringToDM(outputMap), result);
-        System.out.println("xf" + result.get("xf")); // -> Wrong values
+        System.out.println("(1.2) xf: " + result.get("xf")); // -> Wrong values
     }
 
     public static void exercise2_1() {
-        // integrator of exercise 1.2
-        Map<String, MX> inputMap = new StdMapStringToMX();
-        inputMap.put("x", states);
-        inputMap.put("ode", rhs);
-        var ode = new StdMapStringToMX(inputMap);
-        var options = new Dict();
-        options.put("tf", new GenericType(1));
-        var intg = integrator("intg", "cvodes", ode, options);
-
-        var X0 = MX.sym("X0", 4);
+        var intg = integrator1_2();
 
         var outputMap = new StdMapStringToMX();
         outputMap.put("x0", X0);
@@ -123,137 +191,126 @@ public class Nlpsol {
         var re = new StdVectorDM();
 
         fly1sec.call(new StdVectorDM(new DM[]{DM.vertcat(new StdVectorDM(new DM[]{new DM(0.0), new DM(0.0), new DM(35.0), new DM(30.0)}))}), re);
-        System.out.println(re); // -> Wrong values
+        System.out.println("2.1: " + re); // -> Wrong values
     }
 
-    public static Function exercise2_2() {
-        var X0 = MX.sym("X0", 4);
-        Map<String, MX> ode_T = new HashMap<>();
-        ode_T.put("x", states);
-        ode_T.put("ode", MX.times(T, rhs));
-        ode_T.put("p", T);
-        var function_input = new StdMapStringToMX(ode_T);
-        var dict = new Dict();
-        dict.put("tf", new GenericType(1));
-        var intg = integrator("intg", "cvodes", function_input, dict);
-
-        Map<String, MX> outputMap = new StdMapStringToMX();
-        outputMap.put("x0", X0);
-        outputMap.put("p", T);
-        var result = new StdMapStringToMX();
-
-        intg.call(new StdMapStringToMX(outputMap), result);
-
-        var fly = new Function("fly", new StdVectorMX(new MX[]{X0, T}), new StdVectorMX(new MX[]{result.get("xf")}));
+    public static void exercise2_2() {
+        var fly = fly2_2();
         var input1 = new StdVectorDM(new DM[]{DM.vertcat(new StdVectorDM(new DM[]{new DM(0), new DM(0), new DM(35), new DM(30)})), new DM(5)});
         var output = new StdVectorDM();
         fly.call(input1, output);
-        System.out.println(output);// -> Wrong values
-
-        return fly;
+        System.out.println(" 2.2: " + output);// -> Wrong values
     }
 
     public static void exercise2_3() {
-        var theta = MX.sym("theta");
-        var v = MX.sym("v");
-        var theta_rad = MX.times(MX.rdivide(theta, new MX(180)), new MX(Math.PI));
-
-        var fly = exercise2_2();
-        var res = new StdVectorMX();
-        fly.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0), new MX(0), MX.times(v, MX.cos(theta_rad)), MX.times(v, MX.sin(theta_rad))})), T}), res);
-
-        var shoot = new Function("shoot", new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{v, theta, T}))}), res);
-
-        var output = new StdVectorDM(new DM[]{DM.vertcat(new StdVectorDM(new DM[]{new DM(50), new DM(30), new DM(5)}))});
+        var fly = fly2_2();
+        var shoot = shoot2_3(fly);
+        var output = new StdVectorDM(new DM[]{new DM(50), new DM(30), new DM(5)});
         var result = new StdVectorDM();
-
         shoot.call(output, result);
-
-        System.out.println(result); // -> Wrong values
+        System.out.println("2.3: " + result); // -> Wrong values
     }
 
-//    public static void exercise2_4() {
-//        var x = exercise2_3();
-//        var result = new StdVectorMX();
-//
-//        x.call(new StdVectorMX(new MX[]{new MX(50), new MX(30), T}), result);
-//
-//        var height = result.get(1);
-//
-//        var rf = rootfinder("rf", "newton", new Function("", new StdVectorMX(new MX[]{T}), new StdVectorMX(new MX[]{height})));
-//
-//        result = new StdVectorMX();
-//        rf.call(new StdVectorMX(new MX[]{new MX(5)}), result);
-//        System.out.println(result); // T = 4.49773s; How to get value x? (res["x"])
-//    }
-//
-//    public static Function exercise2_5() {
-//        var x = exercise2_3();
-//        var result = new StdVectorMX();
-//        x.call(new StdVectorMX(new MX[]{v1, theta, T}), result);
-//
-//        var height = result.get(1);
-//
-//        // How to define parameters?
-//        // Corresponding Python-Code:
-//        //    rf = rootfinder('rf','newton',{'x':T,'p':vertcat(v,theta),'g':height})
-//        //    res = rf(x0=5,p=vertcat(v,theta))
-//        var rf = rootfinder("rf", "newton", new Function("", new StdVectorMX(new MX[]{T, MX.vertcat(new StdVectorMX(new MX[]{v1, theta}))}), new StdVectorMX(new MX[]{height})));
-//        result = new StdVectorMX();
-//        rf.call(new StdVectorMX(new MX[]{new MX(5), MX.vertcat(new StdVectorMX(new MX[]{v, theta}))}), result);
-//        var T_landing = result; // How to get value x? (T_landing = res["x"])
-//        var res = new StdVectorMX();
-//        x.call(new StdVectorMX(new MX[]{v1, theta, MX.vertcat(T_landing)}), res);
-//
-//        var shoot_distance = new Function("shoot_distance", new StdVectorMX(new MX[]{v1, theta}), new StdVectorMX(new MX[]{res.get(0)}));
-//
-//        var end_result = new StdVectorMX();
-//        shoot_distance.call(new StdVectorMX(new MX[]{new MX(50), new MX(30)}), end_result);
-//        System.out.println(end_result); // 143.533
-//
-//        return shoot_distance;
-//    }
+    public static void exercise2_4() {
+        var fly = fly2_2();
+        var x = shoot2_3(fly);
+        var result = new StdVectorMX();
 
-//    public static void exercise3_1() {
-//        var f = exercise2_5();
-//        var nlp = new Dict();
-//        // nlp.put("x", new GenericType(theta));
-//        var result = new StdVectorMX();
-//        f.call(new StdVectorMX(new MX[]{new MX(30), theta}), result);
-//        // nlp.put("f", new GenericType(-result));
-//
-//        // Cannot find any solution to pass expression to nlpsol()
-//        var solver = nlpsol("solver", "ipopt", new Importer("", "", nlp));
-//
-//        result = new StdVectorMX();
-//        solver.call(new StdVectorMX(new MX[]{new MX(30)}), result);
-//        System.out.println(result); // 43.2223; How to extract x? (res["x"])
-//    }
+        x.call(new StdVectorMX(new MX[]{new MX(50), new MX(30), T}), result);
+
+        var height = result.get(0); // -> wrong size, see below
+        // corresponding python-code: height = x[1]
+
+        System.out.println(result.size()); // -> wrong size
+        // Python = (4, 1)
+        // Java = 1
+
+        Map<String, MX> inputMap = new HashMap<>();
+        inputMap.put("x", T);
+        inputMap.put("g", height);
+
+        var rf = rootfinder("rf", "newton", new StdMapStringToMX(inputMap)); // -> Reason for Exception = height
+        // Exception: Dimension mismatch. Input size is 1, while output size is 4
+
+        var re = new StdMapStringToDM();
+
+        Map<String, DM> inputMp = new HashMap<>();
+        inputMp.put("x0", new DM(5));
+
+        rf.call(new StdMapStringToDM(inputMp), re);
+        System.out.println("2.4: " + re.get("x")); // T = 4.49773s; How to get value x? (res["x"])
+    }
+
+    public static void exercise2_5() {
+        var shoot_distance = shoot_distance2_5();
+        var end_result = new StdVectorDM();
+        shoot_distance.call(new StdVectorDM(new DM[]{new DM(50), new DM(30)}), end_result);
+        System.out.println(end_result); // 143.533
+    }
+
+    public static void exercise3_1() {
+        var shoot_distance = shoot_distance2_5();
+
+        var result_sd = new StdVectorMX();
+        shoot_distance.call(new StdVectorMX(new MX[]{new MX(30), theta}), result_sd);
+
+        StdMapStringToMX nlp = new StdMapStringToMX();
+        nlp.put("x", theta);
+        nlp.put("f", MX.times(new MX(-1), MX.vertcat(result_sd)));
+
+        var solver = nlpsol("solver", "ipopt", nlp);
+
+        var result = new StdMapStringToDM();
+        var outputMap = new StdMapStringToDM();
+        outputMap.put("x0", new DM(30));
+
+        solver.call(outputMap, result);
+        System.out.println(result.get("x")); // 43.2223
+    }
 
     public static void exercise3_2() {
+        var shoot_distance = shoot_distance2_5();
 
+        var cov_vtheta = MX.diag(MX.vertcat(new StdVectorMX(new MX[]{MX.pow(new MX(1), new MX(2)), MX.pow(new MX(1.2), new MX(2))})));
+
+        var result = new StdVectorMX();
+        shoot_distance.call(new StdVectorMX(new MX[]{v1, theta}), result);
+
+        var J = MX.jacobian(result.get(0), MX.vertcat(new StdVectorMX(new MX[]{v1, theta})));
+        // .get(0) correct?
+
+        // var sigma_shoot_distance = J @ cov_vtheat @ J.T;
+        // -> How to implement sigma_shoot_distance Variable in Java?
+
+        StdMapStringToMX nlp = new StdMapStringToMX();
+        nlp.put("x", MX.vertcat(new StdVectorMX(new MX[]{v1, theta})));
+        // nlp.put("f", result);
+        // nlp.put("f", sigma_shoot_distance);
+
+        var solver = nlpsol("solver", "ipopt", nlp);
+
+        StdMapStringToDM outputMap = new StdMapStringToDM();
+        outputMap.put("x0", DM.vertcat(new StdVectorDM(new DM[]{new DM(30), new DM(45)})));
+        outputMap.put("lbg", new DM(80));
+        outputMap.put("ubg", new DM(80));
+        var result1 = new StdMapStringToDM();
+
+        solver.call(outputMap, result1);
+
+        System.out.println(result1.get("x"));
     }
 
     public static void main(String[] args) {
-        // Function solver = nlpsol("solver", "ipopt", nlp);
-        // var result = new StdVectorMX();
-        // solver.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(2.5), new MX(3.0), new MX(0.75)}))}, new MX(0), new MX(0)), result);
-        // System.out.println(result);
-        // ---------------------------
-        // Dict options = new Dict();
-        // option.put("expand", new GenericType(true));
-        // option.put("print_level", new GenericType(0));
-        // result = new StdVectorMX();
-        // solver.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(2.5), new MX(3.0), new MX(0.75)}))}, new MX(0), new MX(0)), result);
-        // System.out.println(result);
-        // exercise1_1();
-        DM.set_precision(6);
+        exercise_presentation();
+        exercise1_1();
         exercise1_2();
         exercise2_1();
         exercise2_2();
         exercise2_3();
-        //exercise2_2(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0.0), new MX(0.0), new MX(35.0), new MX(30.0)})), new MX(5)}));
-        //exercise_presentation();
+        exercise2_4();
+        exercise2_5();
+        exercise3_1();
+        exercise3_2();
     }
 
 }
