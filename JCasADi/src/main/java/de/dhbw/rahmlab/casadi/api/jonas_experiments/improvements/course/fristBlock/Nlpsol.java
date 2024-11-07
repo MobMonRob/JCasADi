@@ -6,6 +6,7 @@ import de.dhbw.rahmlab.casadi.impl.std.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static de.dhbw.rahmlab.casadi.impl.casadi.MX.mtimes;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
 
 public class Nlpsol {
@@ -49,6 +50,8 @@ public class Nlpsol {
         dict.put("tf", new GenericType(1));
         var intg = integrator("intg", "cvodes", function_input, dict);
 
+        System.out.println(intg);
+
         Map<String, MX> outputMap = new StdMapStringToMX();
         outputMap.put("x0", X0);
         outputMap.put("p", T);
@@ -57,6 +60,9 @@ public class Nlpsol {
         intg.call(new StdMapStringToMX(outputMap), result);
 
         var fly = new Function("fly", new StdVectorMX(new MX[]{X0, T}), new StdVectorMX(new MX[]{result.get("xf")}));
+
+        System.out.println(fly);
+
         return fly;
     }
 
@@ -65,6 +71,7 @@ public class Nlpsol {
         var res = new StdVectorMX();
         fly.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0), new MX(0), MX.times(v1, MX.cos(theta_rad)), MX.times(v1, MX.sin(theta_rad))})), T}), res);
         var shoot = new Function("shoot", new StdVectorMX(new MX[]{v1, theta, T}), res);
+        System.out.println("shoot: " + shoot);
         return shoot;
     }
 
@@ -75,7 +82,7 @@ public class Nlpsol {
         var result = new StdVectorMX();
         x.call(new StdVectorMX(new MX[]{v1, theta, T}), result);
 
-        var height = result.get(0); // -> wrong size, see below/above
+        var height = MX.vertcat(result).at(1); // -> wrong size, see below/above
         // corresponding python-code: height = x[1]
 
         System.out.println("Height 2: " + result.size()); // -> wrong size
@@ -86,8 +93,8 @@ public class Nlpsol {
         inputMap.put("x", T);
         inputMap.put("p", MX.vertcat(new StdVectorMX(new MX[]{v1, theta})));
         inputMap.put("g", height);
-        var rf = rootfinder("rf", "newton", inputMap); // -> Reason for Exception = height
-        // Exception: Dimension mismatch. Input size is 1, while output size is 4
+        var rf = rootfinder("rf", "newton", inputMap);
+        System.out.println(rf);
 
         var result1 = new StdMapStringToMX();
 
@@ -100,6 +107,7 @@ public class Nlpsol {
         var res = new StdVectorMX();
 
         x.call(new StdVectorMX(new MX[]{v1, theta, T_landing}), res);
+        System.out.println(res);
 
         var shoot_distance = new Function("shoot_distance", new StdVectorMX(new MX[]{v1, theta}), new StdVectorMX(new MX[]{res.get(0)}));
 
@@ -147,21 +155,15 @@ public class Nlpsol {
 
     // Exercise sheet
     public static void exercise1_1() {
+        System.out.println(rhs.dim_());
         DM.set_precision(6);
         rhs.set(MX.minus(rhs.at(3), new MX(gravity)), true, new IM(3)); // -> triggers wrong values
         var f = new Function("rhs", new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{p, v}))}), new StdVectorMX(new MX[]{rhs}));
-        var result = new StdVectorMX();
-        f.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0.0), new MX(0.0), new MX(35.0), new MX(30.0)}))}), result);
+        System.out.println(f);
+        var result = new StdVectorDM();
+        f.call(new StdVectorDM(new DM[]{DM.vertcat(new StdVectorDM(new DM[]{new DM(0.0), new DM(0.0), new DM(35.0), new DM(30.0)}))}), result);
         System.out.println("rhs Dim: " + rhs.dim_());
-        var re = MX.vertcat(result);
-        System.out.print("[");
-        for (int i = 0; i < re.rows(); i++) {
-            if (i < 3)
-                System.out.print(re.at(i, 0) + ", ");
-            else
-                System.out.print(re.at(i, 0));
-        }
-        System.out.println("]");
+        System.out.println(DM.vertcat(result));
         // -> Wrong values at second & third position in the result MX
         // My Result: [35, 30, -15.0792, -5.26917]
         // Solution: [35, 30, -6.14737, -15.0792]
@@ -186,7 +188,18 @@ public class Nlpsol {
         var result = new StdMapStringToMX();
         intg.call(outputMap, result);
 
+        System.out.println(result);
+        // Output of result
+        // Python: {'adj_p': MX(0x0), 'adj_u': MX(0x0), 'adj_x0': MX(0x0), 'adj_z0': MX(0x0), 'qf': MX(0x1), 'xf': MX(@1=0x0, intg(X0, 0x1, 0x1, 0x1, @1, @1, @1){0}), 'zf': MX(0x1)}
+        // Java:   {adj_x0=0x0, adj_p=0x0, adj_u=0x0, xf=@1=0x0, intg(X0, 0x1, 0x1, 0x1, @1, @1, @1){0}, qf=0x1, zf=0x1, adj_z0=0x0}
+
+        System.out.println(result.get("xf"));
+        // Output of xf
+        // Python res["xf"]:      @1=0x0, intg(X0, 0x1, 0x1, 0x1, @1, @1, @1){0}
+        // Java result.get("xf"): @1=0x0, intg(X0, 0x1, 0x1, 0x1, @1, @1, @1){0}
+
         var fly1sec = new Function("fly1sec", new StdVectorMX(new MX[]{X0}), new StdVectorMX(new MX[]{result.get("xf")}));
+        System.out.println(fly1sec);
 
         var re = new StdVectorDM();
 
@@ -218,19 +231,18 @@ public class Nlpsol {
 
         x.call(new StdVectorMX(new MX[]{new MX(50), new MX(30), T}), result);
 
-        var height = result.get(0); // -> wrong size, see below
+        var height = MX.vertcat(result).at(1); // -> wrong size, see below
         // corresponding python-code: height = x[1]
 
-        System.out.println(result.size()); // -> wrong size
+        System.out.println("Shape: " + height.dim_()); // -> wrong size
         // Python = (4, 1)
-        // Java = 1
+        // Java = 1x1
 
         Map<String, MX> inputMap = new HashMap<>();
         inputMap.put("x", T);
         inputMap.put("g", height);
 
-        var rf = rootfinder("rf", "newton", new StdMapStringToMX(inputMap)); // -> Reason for Exception = height
-        // Exception: Dimension mismatch. Input size is 1, while output size is 4
+        var rf = rootfinder("rf", "newton", new StdMapStringToMX(inputMap));
 
         var re = new StdMapStringToDM();
 
@@ -239,13 +251,15 @@ public class Nlpsol {
 
         rf.call(new StdMapStringToDM(inputMp), re);
         System.out.println("2.4: " + re.get("x")); // T = 4.49773s; How to get value x? (res["x"])
+        // -> wrong value: -1.28631e-14
     }
 
     public static void exercise2_5() {
         var shoot_distance = shoot_distance2_5();
         var end_result = new StdVectorDM();
         shoot_distance.call(new StdVectorDM(new DM[]{new DM(50), new DM(30)}), end_result);
-        System.out.println(end_result); // 143.533
+        System.out.println("2.5: " + end_result); // 143.533
+        // -> wrong value: [[-5.5699e-13, -3.21578e-13, 43.3013, 25]]
     }
 
     public static void exercise3_1() {
@@ -276,16 +290,14 @@ public class Nlpsol {
         var result = new StdVectorMX();
         shoot_distance.call(new StdVectorMX(new MX[]{v1, theta}), result);
 
-        var J = MX.jacobian(result.get(0), MX.vertcat(new StdVectorMX(new MX[]{v1, theta})));
-        // .get(0) correct?
+        var J = MX.jacobian(MX.vertcat(result), MX.vertcat(new StdVectorMX(new MX[]{v1, theta})));
 
-        // var sigma_shoot_distance = J @ cov_vtheat @ J.T;
-        // -> How to implement sigma_shoot_distance Variable in Java?
+        var sigma_shoot_distance = mtimes(mtimes(J, cov_vtheta), J.T());
 
         StdMapStringToMX nlp = new StdMapStringToMX();
         nlp.put("x", MX.vertcat(new StdVectorMX(new MX[]{v1, theta})));
-        // nlp.put("f", result);
-        // nlp.put("f", sigma_shoot_distance);
+        nlp.put("g", MX.vertcat(result));
+        nlp.put("f", sigma_shoot_distance);
 
         var solver = nlpsol("solver", "ipopt", nlp);
 
@@ -301,16 +313,16 @@ public class Nlpsol {
     }
 
     public static void main(String[] args) {
-        exercise_presentation();
-        exercise1_1();
-        exercise1_2();
-        exercise2_1();
-        exercise2_2();
-        exercise2_3();
-        exercise2_4();
+//        exercise_presentation();
+//        exercise1_1();
+//        exercise1_2();
+//        exercise2_1();
+//        exercise2_2();
+//        exercise2_3();
+//        exercise2_4();
         exercise2_5();
-        exercise3_1();
-        exercise3_2();
+//        exercise3_1();
+//        exercise3_2();
     }
 
 }

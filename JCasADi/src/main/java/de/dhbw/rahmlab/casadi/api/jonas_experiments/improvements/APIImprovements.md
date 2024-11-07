@@ -56,3 +56,5 @@
   Set Methode in Java liefert anderes Ergebnis (siehe Aufgabe Nlpsol 1.1)
 - Angaben können in Java nicht so wie in Python gemacht werden, um auf einen bestimmten Wert zu verweisen:\
   Python ``res["x"]`` (Solution Nlpsol.py Zeile: 86, 96, etc.)
+
+Opti-Interface macht Code übersichtlicher, jedoch bestehen weiterhin Probleme, wie z. B. beim Erstellen von Expressions
