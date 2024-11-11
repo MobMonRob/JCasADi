@@ -5,7 +5,7 @@ import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
-import static de.dhbw.rahmlab.casadi.impl.casadi.MX.sum1;
+import static de.dhbw.rahmlab.casadi.impl.casadi.MX.*;
 
 public class OptiExercise {
 
@@ -114,7 +114,7 @@ public class OptiExercise {
         System.out.println(sol.value(x)); // correct values
     }
 
-    public static void exercise1_1and1_2() {
+    public static void exercise1_1and1_2and1_3() {
         var opti = new Opti();
         var x = opti.variable(N_numerical);
         var y = opti.variable(N_numerical);
@@ -135,12 +135,162 @@ public class OptiExercise {
         // We observe a band structure: there is only coupling between immediately neighbouring points in the objective.
         // We also note that there is no coupling between x and y.
 
-        var lag = MX.diag(MX.vertcat(new StdVectorMX(new MX[]{MX.plus(opti.f(), opti.lam_g().T()), opti.g()})));
-        System.out.println(lag);
+        System.out.println("1.3: ");
+        var lag = MX.plus(opti.f(), MX.mtimes(opti.lam_g().T(), opti.g()));
+        System.out.println(lag); // -> same output as Python
+
+        var grad_lag = sol.value(gradient(lag, opti.x()));
+        System.out.println(DM.norm_2(grad_lag)); // -> minimal difference
+        // Python: 1.833083207755712e-12
+        // Java:   1.03145e-09
+    }
+
+    public static void exercise2_1() {
+        var opti = new Opti();
+
+        var x = opti.variable(N_numerical);
+        var y = opti.variable(N_numerical);
+
+        var sum = MX.sum1(MX.pow(MX.minus(MX.sqrt(MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))), L), new MX(2)));
+        var V = MX.times(MX.times(new MX(0.5), D), sum);
+        V = MX.plus(V, MX.times(g, MX.sum1(MX.times(m, y))));
+
+        opti.minimize(V);
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+        opti.solver("qrsqp");
+
+        try {
+            var sol = opti.solve();
+            System.out.println("2.1: ");
+            System.out.println(sol);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        // Throws exception, but dont know if its the same one as in the python code
+        // maybe because through qrsqp
+    }
+
+    public static void exercise2_1band2_2() {
+        var opti = new Opti();
+
+        var x = opti.variable(N_numerical);
+        var y = opti.variable(N_numerical);
+
+        var sum = MX.sum1(MX.pow(MX.minus(MX.sqrt(MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))), L), new MX(2)));
+        var V = MX.times(MX.times(new MX(0.5), D), sum);
+        V = MX.plus(V, MX.times(g, MX.sum1(MX.times(m, y))));
+
+        opti.minimize(V);
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+        opti.solver("qrsqp");
+
+        opti.set_initial(x, lineSpace(-2.0, 2.0));
+        opti.set_initial(y, DM.zeros(N_numerical)); // test
+
+        var sol = opti.solve();
+
+        DM xValues = sol.value(x);
+        DM yValues = sol.value(y);
+
+        System.out.println("2.1: ");
+        System.out.println(xValues); // -> different values
+        System.out.println(yValues); // -> different values
+
+        System.out.println("---- 2.2 ----");
+        hessian(opti.f(), opti.x()).at(0).sparsity().spy(); // -> different output as python (only 1 star)
+    }
+
+    public static void exercise2_2() {
+        var opti = new Opti();
+
+        var z = opti.variable(2*N_numerical, 1);
+        var x = extractEverySecondElement(z, 0); // Elemente mit geraden Indizes
+        var y = extractEverySecondElement(z, 1);
+
+        var sum = MX.sum1(MX.pow(MX.minus(MX.sqrt(MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))), L), new MX(2)));
+        var V = MX.times(MX.times(new MX(0.5), D), sum);
+        V = MX.plus(V, MX.times(g, MX.sum1(MX.times(m, y))));
+
+        opti.minimize(V);
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+        opti.solver("qrsqp");
+
+        opti.set_initial(x, lineSpace(-2.0, 2.0));
+
+        var sol = opti.solve();
+
+        DM xValues = sol.value(x);
+        DM yValues = sol.value(y);
+        System.out.println("2.2: ");
+        System.out.println(xValues); // -> different values
+        System.out.println(yValues); // -> different values
+
+        hessian(opti.f(), opti.x()).at(0).sparsity().spy(); // -> different output as python (only 1 star)
+    }
+
+    // No implementation of task 2.3 because task focus on visualization
+
+    public static void exercise3_1() {
+        var opti = new Opti();
+
+        var x = opti.variable(N_numerical);
+        var y = opti.variable(N_numerical);
+
+        var sum = MX.sum1(MX.times(m, y));
+        opti.minimize(MX.times(g, sum));
+
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))})), MX.vertcat(new StdVectorMX(new MX[]{MX.pow(L, new MX(2))}))));
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+
+        opti.set_initial(x, lineSpace(-2.0, 2.0));
+        opti.set_initial(y, DM.times(new DM(-1), DM.sin(lineSpace(0, Math.PI))));
+
+        opti.solver("qrsqp");
+
+        var sol = opti.solve();
+
+        var J = jacobian(opti.g(), opti.x());
+
+        System.out.println(opti.debug().value(J));
+        DM JValues = sol.value(J);
+        // double[][] JArray = JValues.toString(); -> Two Array method is missing
+        // RealMatrix JMatrix = new Array2DRowRealMatrix(JArray);
+        // int rank = new SingularValueDecomposition(JMatrix).getRank();
+
+        // Ausgabe des Rangs
+        // System.out.println("Rank of Jacobian Matrix: " + rank);
+    }
+
+    private static MX extractEverySecondElement(MX z, int startIndex) {
+        int length = (int) z.size1_();
+        MX[] result = new MX[(length - startIndex + 1) / 2];
+
+        for (int i = startIndex, j = 0; i < length; i += 2, j++) {
+            result[j] = z.at(i);
+        }
+
+        return MX.vertcat(new StdVectorMX(result));
+    }
+
+    private static DM lineSpace(double start, double end) {
+        DM[] linspaceValues = new DM[(int) N_numerical];
+        for (int i = 0; i < N_numerical; i++) {
+            linspaceValues[i] = DM.plus(new DM(start), DM.times(new DM(i), DM.rdivide(DM.minus(new DM(end), new DM(start)), DM.minus(new DM(N_numerical), new DM(1)))));
+        }
+
+        return DM.vertcat(new StdVectorDM(linspaceValues));
     }
 
     public static void main(String[] args) {
-        exercise1_1and1_2();
+        exercise1_1and1_2and1_3();
+        exercise2_1();
+        exercise2_1band2_2();
+        exercise2_2();
+        exercise3_1();
     }
 
     // Notes:
