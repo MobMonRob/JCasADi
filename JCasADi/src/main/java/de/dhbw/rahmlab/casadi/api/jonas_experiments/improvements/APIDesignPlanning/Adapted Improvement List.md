@@ -111,6 +111,9 @@
 17. **Erstellung von Expressions ist aufwendig und fehleranfällig**
     - Das Erstellen von **Expressions** in JCasADi (insbesondere in Java) ist komplex, schwer lesbar und führt leicht zu Fehlern. Dies kann zu Verwirrung führen und die Wartbarkeit des Codes erschweren.
 
+18. **Keine Konvertierungsmethoden**
+    - Es gibt keine Möglichkeite ein DM beispielsweise in ein Array zu konvertieren
+
 ---
 
 **Zusammenfassung der wichtigsten Probleme**:

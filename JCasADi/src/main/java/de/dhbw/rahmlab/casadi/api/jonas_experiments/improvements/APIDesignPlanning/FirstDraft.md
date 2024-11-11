@@ -92,7 +92,7 @@ insbesondere auf die Werte der Variablen und ggf. die Lagrange-Multiplikatoren o
 1. `Solution`: Diese Klasse sollte den Wert der Optimierungsvariablen nach der Lösung des Problems enthalten.
 2. Möglichkeit, den Wert von Variablen nach dem Lösen des Problems zu extrahieren.
 
-### 7. **Zusätzliche Überlegungen**
+### 5. **Zusätzliche Überlegungen**
 
 - **Erweiterbarkeit**: API sollte flexible sein, d. h. Integration neuer Funktionen ermöglichen
 - **Benutzerfreundliche API**: Es wäre sinnvoll, Methoden hinzuzufügen, die es dem Benutzer ermöglichen, Ausdrücke einfach zu erstellen (z.B. für nicht-lineare Funktionen wie `x^2 + sin(y)` oder `exp(x + y)`).
