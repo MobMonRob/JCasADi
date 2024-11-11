@@ -234,6 +234,7 @@ public class OptiExercise {
     // No implementation of task 2.3 because task focus on visualization
 
     public static void exercise3_1() {
+        System.out.println("3.1: ");
         var opti = new Opti();
 
         var x = opti.variable(N_numerical);
@@ -255,13 +256,56 @@ public class OptiExercise {
 
         var J = jacobian(opti.g(), opti.x());
 
+        // -> different output in Python
         System.out.println(opti.debug().value(J));
         DM JValues = sol.value(J);
+        System.out.println(JValues);
         // double[][] JArray = JValues.toString(); -> Two Array method is missing
         // RealMatrix JMatrix = new Array2DRowRealMatrix(JArray);
         // int rank = new SingularValueDecomposition(JMatrix).getRank();
 
-        // Ausgabe des Rangs
+        // System.out.println("Rank of Jacobian Matrix: " + rank);
+    }
+
+    public static void exercise3_2() {
+        System.out.println("3.2: ");
+        var opti = new Opti();
+
+        var x = opti.variable(N_numerical);
+        var y = opti.variable(N_numerical);
+
+        var sum = MX.sum1(MX.times(m, y));
+        opti.minimize(MX.times(g, sum));
+
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))})), MX.vertcat(new StdVectorMX(new MX[]{MX.pow(L, new MX(2))}))));
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+
+        opti.set_initial(x, lineSpace(-2.0, 2.0));
+
+        opti.solver("qrsqp");
+
+        try {
+            var sol = opti.solve();
+            var J = jacobian(opti.g(), opti.x());
+            System.out.println(J.dim_());
+
+            System.out.println(opti.debug().value(J));
+            DM JValues = sol.value(J);
+            System.out.println(JValues);
+
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        // -> different output in python
+
+        var J = jacobian(opti.g(), opti.x());
+        System.out.println(J.dim_()); // -> Same shape as python
+
+        // double[][] JArray = JValues.toString(); -> Two Array method is missing
+        // RealMatrix JMatrix = new Array2DRowRealMatrix(JArray);
+        // int rank = new SingularValueDecomposition(JMatrix).getRank();
+
         // System.out.println("Rank of Jacobian Matrix: " + rank);
     }
 
@@ -286,11 +330,12 @@ public class OptiExercise {
     }
 
     public static void main(String[] args) {
-        exercise1_1and1_2and1_3();
-        exercise2_1();
-        exercise2_1band2_2();
-        exercise2_2();
-        exercise3_1();
+//        exercise1_1and1_2and1_3();
+//        exercise2_1();
+//        exercise2_1band2_2();
+//        exercise2_2();
+ //       exercise3_1();
+        exercise3_2();
     }
 
     // Notes:
