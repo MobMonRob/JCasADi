@@ -235,11 +235,10 @@ typedef std::vector<std::string> StringVector;
 
 %ignore casadi::GenericMatrix::sparsity; // %ignore casadi::Matrix::sparsity;
 
-%ignore casadi::SparsityInterface::mtimes; // %ignore casadi::Matrix::mtimes;
-%ignore casadi::SparsityInterface::vertsplit;
-%ignore casadi::SparsityInterface::diagsplit;
-%ignore casadi::SparsityInterface::horzsplit;
-%ignore casadi::SparsityInterface::horzsplit_n;
+%rename (mtimes_) casadi::SparsityInterface::mtimes; // %ignore casadi::Matrix::mtimes;
+%rename (vertsplit_) casadi::SparsityInterface::vertsplit;
+%rename (diagsplit_) casadi::SparsityInterface::diagsplit;
+%rename (horzsplit_) casadi::SparsityInterface::horzsplit;
 
 %rename (nnz_) casadi::GenericMatrix::nnz; // %ignore casadi::GenericMatrix::nnz;
 %rename (numel_) casadi::GenericMatrix::numel;
@@ -380,7 +379,7 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 
 		var freeMX = $typemap(jstype, casadi::MX).symvar(this);
 		var freeSX = freeMX.stream().map(freeVar -> $typemap(jstype, casadi::SX).sym(freeVar.name(), freeVar.rows(), freeVar.columns())).toList();
-		
+
 		var inSym = new $typemap(jstype, std::vector<casadi::MX>)(freeMX);
 		var outSym = new $typemap(jstype, std::vector<casadi::MX>)(java.util.List.of(this));
 
