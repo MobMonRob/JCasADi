@@ -97,6 +97,34 @@ public class SparsitySparsityInterface implements ISparsitySparsityInterface {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_offset__SWIG_1(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity.getCPtr(v), v), true);
   }
 
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity diagsplit_(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt output_offset) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_diagsplit___SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(output_offset), output_offset), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity diagsplit_(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_diagsplit___SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, incr), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity diagsplit_(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long incr1, long incr2) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_diagsplit___SWIG_2(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, incr1, incr2), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.casadi.Sparsity mtimes_(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity args) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_mtimes_(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity.getCPtr(args), args), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity horzsplit_(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_horzsplit_(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, incr), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity vertsplit_(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_vertsplit_(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, incr), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity horzsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long n) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_horzsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, n), true);
+  }
+
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity vertsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, long n) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_vertsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, n), true);
   }

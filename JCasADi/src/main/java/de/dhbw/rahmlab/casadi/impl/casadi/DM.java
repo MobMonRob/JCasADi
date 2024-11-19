@@ -1739,6 +1739,34 @@ public class DM implements IDmSparsityInterface, IDmGenericMatrix, IDmGenericExp
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DM_offset__SWIG_1(de.dhbw.rahmlab.casadi.impl.std.StdVectorDM.getCPtr(v), v), true);
   }
 
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorDM diagsplit_(de.dhbw.rahmlab.casadi.impl.casadi.DM x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt output_offset) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DM_diagsplit___SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(output_offset), output_offset), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorDM diagsplit_(de.dhbw.rahmlab.casadi.impl.casadi.DM x, long incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DM_diagsplit___SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, incr), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorDM diagsplit_(de.dhbw.rahmlab.casadi.impl.casadi.DM x, long incr1, long incr2) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DM_diagsplit___SWIG_2(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, incr1, incr2), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.casadi.DM mtimes_(de.dhbw.rahmlab.casadi.impl.std.StdVectorDM args) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DM_mtimes_(de.dhbw.rahmlab.casadi.impl.std.StdVectorDM.getCPtr(args), args), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorDM horzsplit_(de.dhbw.rahmlab.casadi.impl.casadi.DM x, long incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DM_horzsplit_(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, incr), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorDM vertsplit_(de.dhbw.rahmlab.casadi.impl.casadi.DM x, long incr) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DM_vertsplit_(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, incr), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorDM horzsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.DM x, long n) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DM_horzsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, n), true);
+  }
+
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorDM vertsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.DM x, long n) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DM_vertsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x, n), true);
   }

@@ -699,6 +699,34 @@ public class ImGenericMatrix implements IImSparsityInterface, IImGenericMatrix {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImGenericMatrix_offset__SWIG_1(SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t.getCPtr(v)), true);
   }
 
+  public static SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t diagsplit_(de.dhbw.rahmlab.casadi.impl.casadi.IM x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt output_offset) {
+    return new SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImGenericMatrix_diagsplit___SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(output_offset), output_offset), true);
+  }
+
+  public static SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t diagsplit_(de.dhbw.rahmlab.casadi.impl.casadi.IM x, long incr) {
+    return new SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImGenericMatrix_diagsplit___SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(x), x, incr), true);
+  }
+
+  public static SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t diagsplit_(de.dhbw.rahmlab.casadi.impl.casadi.IM x, long incr1, long incr2) {
+    return new SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImGenericMatrix_diagsplit___SWIG_2(de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(x), x, incr1, incr2), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.casadi.IM mtimes_(SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t args) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.IM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImGenericMatrix_mtimes_(SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t.getCPtr(args)), true);
+  }
+
+  public static SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t horzsplit_(de.dhbw.rahmlab.casadi.impl.casadi.IM x, long incr) {
+    return new SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImGenericMatrix_horzsplit_(de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(x), x, incr), true);
+  }
+
+  public static SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t vertsplit_(de.dhbw.rahmlab.casadi.impl.casadi.IM x, long incr) {
+    return new SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImGenericMatrix_vertsplit_(de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(x), x, incr), true);
+  }
+
+  public static SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t horzsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.IM x, long n) {
+    return new SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImGenericMatrix_horzsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(x), x, n), true);
+  }
+
   public static SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t vertsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.IM x, long n) {
     return new SWIGTYPE_p_std__vectorT_casadi__MatrixT_casadi_int_t_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_ImGenericMatrix_vertsplit_n(de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(x), x, n), true);
   }
