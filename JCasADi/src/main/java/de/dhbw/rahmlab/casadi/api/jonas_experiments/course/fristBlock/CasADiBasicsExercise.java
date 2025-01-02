@@ -1,4 +1,4 @@
-package de.dhbw.rahmlab.casadi.api.jonas_experiments.improvements.course.fristBlock;
+package de.dhbw.rahmlab.casadi.api.jonas_experiments.course.fristBlock;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
