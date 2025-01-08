@@ -1,12 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper;
 
-import de.dhbw.rahmlab.casadi.impl.casadi.Function;
-import de.dhbw.rahmlab.casadi.impl.casadi.MX;
-import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
+import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.*;
-
-import java.util.List;
 
 public class MXWrapper {
 
@@ -958,6 +953,7 @@ public class MXWrapper {
         return new MXWrapper(result);
     }
 
+    // ----- Get a submatrix, single argument -----
     /**
      * Get a submatrix using a single argument, of type Slice.
      *
@@ -970,6 +966,595 @@ public class MXWrapper {
      */
     public void get(MXWrapper OUTPUT, boolean ind1, Slice rr) {
         this.mx.get(OUTPUT.mx, ind1, rr);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, IM rr) {
+        this.mx.get(OUTPUT.mx, ind1, rr);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, Sparsity rr) {
+        this.mx.get(OUTPUT.mx, ind1, rr);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, MXWrapper rr) {
+        this.mx.get(OUTPUT.mx, ind1, rr.mx);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, long rr) {
+        this.mx.get(OUTPUT.mx, ind1, rr);
+    }
+
+    // ----- Get a submatrix, two arguments
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, Slice cc) {
+        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, IM cc) {
+        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, long cc) {
+        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, IM rr, Slice cc) {
+        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, long rr, Slice cc) {
+        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, IM rr, IM cc) {
+        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, long rr, long cc) {
+        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, MXWrapper rr, Slice cc) {
+        this.mx.get(OUTPUT.mx, ind1, rr.mx, cc);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, MXWrapper cc) {
+        this.mx.get(OUTPUT.mx, ind1,rr, cc.mx);
+    }
+
+    // TODO: Add Java doc
+    public void get(MXWrapper OUTPUT, boolean ind1, MXWrapper rr, MXWrapper cc) {
+        this.mx.get(OUTPUT.mx, ind1, rr.mx, cc.mx);
+    }
+
+    // ----- Set a submatrix, single argument -----
+    // TODO: Add Java doc
+    public void set(MXWrapper m, boolean ind1, Slice rr) {
+        this.mx.set(m.mx, ind1, rr);
+    }
+
+    // TODO: Add Java doc
+    public void set(MXWrapper m, boolean ind1, IM rr) {
+        this.mx.set(m.mx, ind1, rr);
+    }
+
+    // TODO: Add Java doc
+    public void set(MXWrapper m, boolean ind1, Sparsity sp) {
+        this.mx.set(m.mx, ind1, sp);
+    }
+
+    // ----- Set a submatrix, two arguments -----
+    // TODO: Add Java doc
+    public void set(MXWrapper m, boolean ind1, Slice rr, Slice cc) {
+        this.mx.set(m.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void set(MXWrapper m, boolean ind1, Slice rr, IM cc) {
+        this.mx.set(m.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void set(MXWrapper m, boolean ind1, IM rr, Slice cc) {
+        this.mx.set(m.mx, ind1, rr, cc);
+    }
+
+    // TODO: Add Java doc
+    public void set(MXWrapper m, boolean ind1, IM rr, IM cc) {
+        this.mx.set(m.mx, ind1, rr, cc);
+    }
+
+    // ----- Get a set of nonzeros -----
+    // TODO: Add Java doc
+    public void getNZ(MXWrapper OUTPUT, boolean ind1, Slice kk) {
+        this.mx.get_nz(OUTPUT.mx, ind1, kk);
+    }
+
+    // TODO: Add Java doc
+    public void getNZ(MXWrapper OUTPUT, boolean ind1, IM kk) {
+        this.mx.get_nz(OUTPUT.mx, ind1, kk);
+    }
+
+    // TODO: Add Java doc
+    public void getNZ(MXWrapper OUTPUT, boolean ind1, MXWrapper kk) {
+        this.mx.get_nz(OUTPUT.mx, ind1, kk.mx);
+    }
+
+    // TODO: Add Java doc
+    public void getNZ(MXWrapper OUTPUT, boolean ind1, long kk) {
+        this.mx.get_nz(OUTPUT.mx, ind1, kk);
+    }
+
+    // TODO: Add Java doc
+    public void getNZ(MXWrapper OUTPUT, boolean ind1, MXWrapper inner, Slice outer) {
+        this.mx.get_nz(OUTPUT.mx, ind1, inner.mx, outer);
+    }
+
+    // TODO: Add Java doc
+    public void getNZ(MXWrapper OUTPUT, boolean ind1, Slice inner, MXWrapper outer) {
+        this.mx.get_nz(OUTPUT.mx, ind1, inner, outer.mx);
+    }
+
+    // TODO: Add Java doc
+    public void getNZ(MXWrapper OUTPUT, boolean ind1, MXWrapper inner, MXWrapper outer) {
+        this.mx.get_nz(OUTPUT.mx, ind1, inner.mx, outer.mx);
+    }
+
+    // ----- Set a set of nonzeors -----
+    // TODO: Add Java doc
+    public void setNZ(MXWrapper m, boolean ind1, Slice kk) {
+        this.mx.set_nz(m.mx, ind1, kk);
+    }
+
+    // TODO: Add Java doc
+    public void setNZ(MXWrapper m, boolean ind1, IM kk) {
+        this.mx.set_nz(m.mx, ind1, kk);
+    }
+
+    // TODO: Add Java doc
+    public void setNZ(MXWrapper m, boolean ind1, MXWrapper kk) {
+        this.mx.set_nz(m.mx, ind1, kk.mx);
+    }
+
+    // TODO: Add Java doc
+    public void setNZ(MXWrapper m, boolean ind1, long kk) {
+        this.mx.set_nz(m.mx, ind1, kk);
+    }
+
+    /**
+     * Computes an Einstein dense tensor contraction between this MX object and another MX object.
+     * <br>
+     * This method computes the product:
+     * <br>
+     * C_c = A_a + B_b
+     * <br>
+     * where a, b, c are index/einstein notation in an encoded form.
+     * <br>
+     * For example, a matrix-matrix product may be written as:
+     * <br>
+     * C_ij = A_ik B_kj
+     * <br>
+     * The encoded form uses strictly negative numbers to indicate labels.
+     * <br>
+     * For the above example, we would have:
+     * <br>
+     * a {-1, -3} b {-3, -2} c {-1 -2}
+     *
+     * @param other The MXWrapper to contract with.
+     * @param C The resulting MXWrapper.
+     * @param dim_a Dimensions of this MX object.
+     * @param dim_b Dimensions of the other MX object.
+     * @param dim_c Dimensions of the resulting MX object.
+     * @param a Einstein notation for this MX object.
+     * @param b Einstein notation for the other MX object.
+     * @param c Einstein notation for the resulting MX object.
+     * @return MXWrapper. A new MXWrapper containing the result of the contraction.
+     */
+    public MXWrapper einstein(MXWrapper other, MXWrapper C,
+                              StdVectorCasadiInt dim_a, StdVectorCasadiInt dim_b,
+                              StdVectorCasadiInt dim_c, StdVectorCasadiInt a,
+                              StdVectorCasadiInt b, StdVectorCasadiInt c) {
+        return new MXWrapper(MX.einstein(this.mx, other.mx, C.mx, dim_a, dim_b, dim_c, a, b, c));
+    }
+
+    /**
+     * Computes an Einstein dense tensor contraction between this MX object and another MX object.
+     * <br>
+     * This method computes the product:
+     * <br>
+     * C_c = A_a + B_b
+     * <br>
+     * where a, b, c are index/einstein notation in an encoded form.
+     * <br>
+     * For example, a matrix-matrix product may be written as:
+     * <br>
+     * C_ij = A_ik B_kj
+     * <br>
+     * The encoded form uses strictly negative numbers to indicate labels.
+     * <br>
+     * For the above example, we would have:
+     * <br>
+     * a {-1, -3} b {-3, -2} c {-1 -2}
+     *
+     * @param other The MXWrapper to contract with.
+     * @param dim_a Dimensions of this MX object.
+     * @param dim_b Dimensions of the other MX object.
+     * @param dim_c Dimensions of the resulting MX object.
+     * @param a Einstein notation for this MX object.
+     * @param b Einstein notation for the other MX object.
+     * @param c Einstein notation for the resulting MX object.
+     * @return MXWrapper. A new MXWrapper containing the result of the contraction.
+     */
+    public MXWrapper einstein(MXWrapper other,
+                              StdVectorCasadiInt dim_a, StdVectorCasadiInt dim_b,
+                              StdVectorCasadiInt dim_c, StdVectorCasadiInt a,
+                              StdVectorCasadiInt b, StdVectorCasadiInt c) {
+        return new MXWrapper(MX.einstein(this.mx, other.mx, dim_a, dim_b, dim_c, a, b, c));
+    }
+
+    /**
+     * Checks if this MX object is equal to another MX object up to a specified depth.
+     *
+     * @param other The MXWrapper to compare with.
+     * @param depth The depth to which the comparison should be performed.
+     * @return boolean. true if the two MX objects are equal, false otherwise.
+     */
+    public boolean isEqual(MXWrapper other, long depth) {
+        return MX.is_equal(this.mx, other.mx, depth);
+    }
+
+    /**
+     * Checks if this MX object is equal to another MX object.
+     *
+     * @param other The MXWrapper to compare with.
+     * @return boolean. true if the two MX objects are equal, false otherwise.
+     */
+    public boolean isEqual(MXWrapper other) {
+        return MX.is_equal(this.mx, other.mx);
+    }
+
+    /**
+     * Computes the minimum value of this MX object.
+     *
+     * @return MXWrapper. A new MXWrapper containing the minimum value of the MX object.
+     */
+    public MXWrapper mmin() {
+        return new MXWrapper(MX.mmin(this.mx));
+    }
+
+    /**
+     * Computes the maximum value of this MX object.
+     *
+     * @return MXWrapper. A new MXWrapper containing the maximum value of the MX object.
+     */
+    public MXWrapper mmax() {
+        return new MXWrapper(MX.mmax(this.mx));
+    }
+
+    /**
+     * Horizontally concatenates this MX object with a vector of MX objects.
+     *
+     * @param mxVector The vector of MXWrapper objects to concatenate with.
+     * @return MXWrapper. A new MXWrapper containing the result of the horizontal concatenation.
+     */
+    public MXWrapper horzcat(StdVectorMX mxVector) {
+        return new MXWrapper(MX.horzcat(mxVector));
+    }
+
+    /**
+     * Creates a diagonal concatenation of a vector of MX objects.
+     *
+     * @param mxVector The vector of MXWrapper objects to concatenate diagonally.
+     * @return MXWrapper. A new MXWrapper containing the result of the diagonal concatenation.
+     */
+    public MXWrapper diagcat(StdVectorMX mxVector) {
+        return new MXWrapper(MX.diagcat(mxVector));
+    }
+
+    /**
+     * Vertically concatenates this MX object with a vector of MX objects.
+     *
+     * @param mxVector The vector of MXWrapper objects to concatenate with.
+     * @return MXWrapper. A new MXWrapper containing the result of the vertical concatenation.
+     */
+    public MXWrapper vertcat(StdVectorMX mxVector) {
+        return new MXWrapper(MX.vertcat(mxVector));
+    }
+
+    /**
+     * Horizontally splits this MX object at the specified offset.
+     *
+     * @param offset The offset at which to split the MX object.
+     * @return StdVectorMX. A vector of MXWrapper objects resulting from the horizontal split.
+     */
+    public StdVectorMX horzsplit(StdVectorCasadiInt offset) {
+        return new StdVectorMX(MX.horzsplit(this.mx, offset));
+    }
+
+    /**
+     * Diagonally splits this MX object at the specified offsets.
+     *
+     * @param offset1 The first offset for the diagonal split.
+     * @param offset2 The second offset for the diagonal split.
+     * @return StdVectorMX. A vector of MXWrapper objects resulting from the diagonal split.
+     */
+    public StdVectorMX diagsplit(StdVectorCasadiInt offset1, StdVectorCasadiInt offset2) {
+        return new StdVectorMX(MX.diagsplit(this.mx, offset1, offset2));
+    }
+
+    /**
+     * Vertically splits this MX object at the specified offset.
+     *
+     * @param offset The offset at which to split the MX object.
+     * @return StdVectorMX. A vector of MXWrapper objects resulting from the vertical split.
+     */
+    public StdVectorMX vertsplit(StdVectorCasadiInt offset) {
+        return new StdVectorMX(MX.vertsplit(this.mx, offset));
+    }
+
+    /**
+     * Block concatenates a vector of vectors of MX objects.
+     *
+     * @param mxVector The vector of vectors of MXWrapper objects to concatenate.
+     * @return MXWrapper. A new MXWrapper containing the result of the block concatenation.
+     */
+    public MXWrapper blockcat(StdVectorVectorMX mxVector) {
+        return new MXWrapper(MX.blockcat(mxVector));
+    }
+
+    /**
+     * Multiplies this MX object with another MX object.
+     *
+     * @param other The MXWrapper to multiply with.
+     * @return MXWrapper. A new MXWrapper containing the result of the multiplication.
+     */
+    public MXWrapper mtimes(MXWrapper other) {
+        return new MXWrapper(MX.mtimes(this.mx, other.mx));
+    }
+
+    /**
+     * Computes the multiply-accumulate operation: z = x + y * z.
+     *
+     * @param y The MXWrapper to multiply with.
+     * @param z The MXWrapper to accumulate into.
+     * @return MXWrapper. A new MXWrapper containing the result of the multiply-accumulate operation.
+     */
+    public MXWrapper mac(MXWrapper y, MXWrapper z) {
+        return new MXWrapper(MX.mac(this.mx, y.mx, z.mx));
+    }
+
+    /**
+     * Reshapes this MX object to the specified number of rows and columns.
+     *
+     * @param nrow The number of rows for the reshaped MX object.
+     * @param ncol The number of columns for the reshaped MX object.
+     * @return MXWrapper. A new MXWrapper containing the reshaped MX object.
+     */
+    public MXWrapper reshape(long nrow, long ncol) {
+        return new MXWrapper(MX.reshape(this.mx, nrow, ncol));
+    }
+
+    /**
+     * Reshapes this MX object according to the specified sparsity pattern.
+     *
+     * @param sp The Sparsity object defining the new sparsity pattern.
+     * @return MXWrapper. A new MXWrapper containing the reshaped MX object.
+     */
+    public MXWrapper reshape(Sparsity sp) {
+        return new MXWrapper(MX.reshape(this.mx, sp));
+    }
+
+    /**
+     * Casts this MX object to a new sparsity pattern.
+     *
+     * @param sp The Sparsity object defining the new sparsity pattern.
+     * @return MXWrapper. A new MXWrapper containing the sparsity-cast MX object.
+     */
+    public MXWrapper sparsityCast(Sparsity sp) {
+        return new MXWrapper(MX.sparsity_cast(this.mx, sp));
+    }
+
+    /**
+     * Computes the Kronecker product of this MX object with another MX object.
+     *
+     * @param b The MXWrapper to compute the Kronecker product with.
+     * @return MXWrapper. A new MXWrapper containing the result of the Kronecker product.
+     */
+    public MXWrapper kron(MXWrapper b) {
+        return new MXWrapper(MX.kron(this.mx, b.mx));
+    }
+
+    /**
+     * Computes the Jacobian matrix of this MX object with respect to a variable.
+     *
+     * @param x The MXWrapper representing the variable with respect to which to compute the Jacobian.
+     * @param opts Options for the Jacobian computation.
+     * @return MXWrapper. A new MXWrapper containing the Jacobian matrix.
+     */
+    public MXWrapper jacobian(MXWrapper x, Dict opts) {
+        return new MXWrapper(MX.jacobian(this.mx, x.mx, opts));
+    }
+
+    /**
+     * Computes the Jacobian matrix of this MX object with respect to a variable.
+     *
+     * @param x The MXWrapper representing the variable with respect to which to compute the Jacobian.
+     * @return MXWrapper. A new MXWrapper containing the Jacobian matrix.
+     */
+    public MXWrapper jacobian(MXWrapper x) {
+        return new MXWrapper(MX.jacobian(this.mx, x.mx));
+    }
+
+    /**
+     * Computes the Hessian matrix of this MX object with respect to a variable.
+     *
+     * @param x The MXWrapper representing the variable with respect to which to compute the Hessian.
+     * @param opts Options for the Hessian computation.
+     * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
+     */
+    public MXWrapper hessian(MXWrapper x, Dict opts) {
+        return new MXWrapper(MX.hessian(this.mx, x.mx, opts));
+    }
+
+    /**
+     * Computes the Hessian matrix of this MX object with respect to a variable.
+     *
+     * @param x The MXWrapper representing the variable with respect to which to compute the Hessian.
+     * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
+     */
+    public MXWrapper hessian(MXWrapper x) {
+        return new MXWrapper(MX.hessian(this.mx, x.mx));
+    }
+
+    /**
+     * Computes the Hessian matrix of this MX object with respect to two variables.
+     *
+     * @param x The MXWrapper representing the first variable.
+     * @param g The MXWrapper representing the second variable.
+     * @param opts Options for the Hessian computation.
+     * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
+     */
+    public MXWrapper hessian(MXWrapper x, MXWrapper g, Dict opts) {
+        return new MXWrapper(MX.hessian(this.mx, x.mx, g.mx, opts));
+    }
+
+    /**
+     * Computes the Hessian matrix of this MX object with respect to two variables.
+     *
+     * @param x The MXWrapper representing the first variable.
+     * @param g The MXWrapper representing the second variable.
+     * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
+     */
+    public MXWrapper hessian(MXWrapper x, MXWrapper g) {
+        return new MXWrapper(MX.hessian(this.mx, x.mx, g.mx));
+    }
+
+    /**
+     * Computes the forward mode of automatic differentiation for the given expression.
+     *
+     * @param ex The StdVectorMX representing the expression to differentiate.
+     * @param arg The StdVectorMX representing the arguments of the expression.
+     * @param v The StdVectorVectorMX representing the values for the forward mode.
+     * @param opts Options for the forward computation.
+     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the forward mode.
+     */
+    public StdVectorVectorMX forward(StdVectorMX ex, StdVectorMX arg, StdVectorVectorMX v, Dict opts) {
+        return new StdVectorVectorMX(MX.forward(ex, arg, v, opts));
+    }
+
+    /**
+     * Computes the forward mode of automatic differentiation for the given expression.
+     *
+     * @param ex The StdVectorMX representing the expression to differentiate.
+     * @param arg The StdVectorMX representing the arguments of the expression.
+     * @param v The StdVectorVectorMX representing the values for the forward mode.
+     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the forward mode.
+     */
+    public StdVectorVectorMX forward(StdVectorMX ex, StdVectorMX arg, StdVectorVectorMX v) {
+        return new StdVectorVectorMX(MX.forward(ex, arg, v));
+    }
+
+    /**
+     * Computes the reverse mode of automatic differentiation for the given expression.
+     *
+     * @param ex The StdVectorMX representing the expression to differentiate.
+     * @param arg The StdVectorMX representing the arguments of the expression.
+     * @param v The StdVectorVectorMX representing the values for the reverse mode.
+     * @param opts Options for the reverse computation.
+     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the reverse mode.
+     */
+    public StdVectorVectorMX reverse(StdVectorMX ex, StdVectorMX arg, StdVectorVectorMX v, Dict opts) {
+        return new StdVectorVectorMX(MX.reverse(ex, arg, v, opts));
+    }
+
+    /**
+     * Computes the reverse mode of automatic differentiation for the given expression.
+     *
+     * @param ex The StdVectorMX representing the expression to differentiate.
+     * @param arg The StdVectorMX representing the arguments of the expression.
+     * @param v The StdVectorVectorMX representing the values for the reverse mode.
+     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the reverse mode.
+     */
+    public StdVectorVectorMX reverse(StdVectorMX ex, StdVectorMX arg, StdVectorVectorMX v) {
+        return new StdVectorVectorMX(MX.reverse(ex, arg, v));
+    }
+
+    /**
+     * Determines which variables depend on the given expression.
+     *
+     * @param var The MXWrapper representing the variable.
+     * @param order The order of dependency to check.
+     * @param tr A boolean flag for additional options.
+     * @return StdVectorBool. A new StdVectorBool containing the dependency information.
+     */
+    public StdVectorBool whichDepends(MXWrapper var, long order, boolean tr) {
+        return new StdVectorBool(MX.which_depends(this.mx, var.mx, order, tr));
+    }
+
+    /**
+     * Determines which variables depend on the given expression.
+     *
+     * @param var The MXWrapper representing the variable.
+     * @param order The order of dependency to check.
+     * @return StdVectorBool. A new StdVectorBool containing the dependency information.
+     */
+    public StdVectorBool whichDepends(MXWrapper var, long order) {
+        return new StdVectorBool(MX.which_depends(this.mx, var.mx, order));
+    }
+
+    /**
+     * Determines which variables depend on the given expression.
+     *
+     * @param var The MXWrapper representing the variable.
+     * @return StdVectorBool. A new StdVectorBool containing the dependency information.
+     */
+    public StdVectorBool whichDepends(MXWrapper var) {
+        return new StdVectorBool(MX.which_depends(this.mx, var.mx));
+    }
+
+    /**
+     * Computes the sparsity pattern of the Jacobian matrix of this MX object with respect to a variable.
+     *
+     * @param x The MXWrapper representing the variable with respect to which to compute the Jacobian sparsity.
+     * @return Sparsity. A new Sparsity object containing the sparsity pattern of the Jacobian matrix.
+     */
+    public Sparsity jacobianSparsity(MXWrapper x) {
+        return new Sparsity(MX.jacobian_sparsity(this.mx, x.mx));
+    }
+
+    /**
+     * Substitutes a variable in this MX object with a given value.
+     *
+     * @param v The MXWrapper representing the variable to substitute.
+     * @param vdef The MXWrapper representing the value to substitute in.
+     * @return MXWrapper. A new MXWrapper containing the result of the substitution.
+     */
+    public MXWrapper substitute(MXWrapper v, MXWrapper vdef) {
+        return new MXWrapper(MX.substitute(this.mx, v.mx, vdef.mx));
+    }
+
+    /**
+     * Substitutes a vector of variables in a vector of expressions with given values.
+     *
+     * @param ex The StdVectorMX representing the expressions to substitute in.
+     * @param v The StdVectorMX representing the variables to substitute.
+     * @param vdef The StdVectorMX representing the values to substitute in.
+     * @return StdVectorMX. A new StdVectorMX containing the results of the substitutions.
+     */
+    public static StdVectorMX substitute(StdVectorMX ex, StdVectorMX v, StdVectorMX vdef) {
+        return new StdVectorMX(MX.substitute(ex, v, vdef));
     }
 
     public MXWrapper add(MXWrapper other) {
@@ -1097,16 +1682,6 @@ public class MXWrapper {
         return new MXWrapper(result);
     }
 
-    public MXWrapper kron(MXWrapper other) {
-        MX result = MX.kron(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper reshape(long rows, long cols) {
-        MX result = MX.reshape(this.mx, rows, cols);
-        return new MXWrapper(result);
-    }
-
     public MXWrapper densify() {
         MX result = MX.densify(this.mx);
         return new MXWrapper(result);
@@ -1118,27 +1693,10 @@ public class MXWrapper {
     }
 
     // TODO: Change to StdVectorMX
-    public MXWrapper blockcat(MXWrapper other) {
-        MX result = MX.blockcat(new StdVectorVectorMX());
-        return new MXWrapper(result);
-    }
-
-    // TODO: Change to StdVectorMX
-    public MXWrapper horzcat(MXWrapper other) {
-        MX result = MX.horzcat(new StdVectorMX());
-        return new MXWrapper(result);
-    }
-
-    // TODO: Change to StdVectorMX
-    public MXWrapper vertcat(MXWrapper other) {
-        MX result = MX.vertcat(new StdVectorMX());
-        return new MXWrapper(result);
-    }
-
-    // TODO: Change to StdVectorMX
     public MXWrapper blocksplit() {
-        MX result = MX.blockcat(new StdVectorVectorMX());
-        return new MXWrapper(result);
+        //MX result = MX.blocksplit(new StdVectorVectorMX());
+        //return new MXWrapper(result);
+        return null;
     }
 
     public MXWrapper norm_2() {
@@ -1163,16 +1721,6 @@ public class MXWrapper {
 
     public MXWrapper gradient(MXWrapper other) {
         MX result = MX.gradient(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper jacobian(MXWrapper other) {
-        MX result = MX.jacobian(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper hessian(MXWrapper other) {
-        MX result = MX.hessian(this.mx, other.mx);
         return new MXWrapper(result);
     }
 
@@ -1208,11 +1756,6 @@ public class MXWrapper {
         return new MXWrapper(result);
     }
 
-    public MXWrapper substitute(MXWrapper oldValue, MXWrapper newValue) {
-        MX result = MX.substitute(this.mx, oldValue.mx, newValue.mx);
-        return new MXWrapper(result);
-    }
-
     public MXWrapper solve(MXWrapper b) {
         MX result = MX.solve(this.mx, b.mx);
         return new MXWrapper(result);
@@ -1242,20 +1785,6 @@ public class MXWrapper {
     public MXWrapper mrdivide(MXWrapper other) {
         MX result = MX.mrdivide(this.mx, other.mx);
         return new MXWrapper(result);
-    }
-
-    // TODO: Change to StdVectorMX
-    public MXWrapper vertsplit(StdVectorCasadiInt offset) {
-        // MX result = MX.vertsplit(this.mx, offset);
-        // return new MXWrapper(result);
-        return null;
-    }
-
-    // TODO: Change to StdVectorMX
-    public MXWrapper horzsplit(int cols) {
-        // MX result = MX.horzsplit(this.mx, cols);
-        // return new MXWrapper(result);
-        return null;
     }
 
     // TODO: Change
