@@ -346,6 +346,22 @@ public class OptiExercise {
         MXWrapper wrapper2 = new MXBuilder().setValue(0.2).build();
         MXWrapper sum = wrapper.add(wrapper2);
         System.out.println(sum.getCasADiObject());
+
+        MXWrapper x = new MXBuilder().setName("X").setDimensions(2, 2).build();
+        MXWrapper y = new MXBuilder().setName("Y").setDimensions(2, 2).build();
+
+        MXWrapper sum1 = x.add(y);
+
+        System.out.println(sum1.getCasADiObject());
+
+        MXWrapper z = new MXBuilder().setName("Z").setDimensions(3, 1).build();
+        MXWrapper objective = z.T().mtimes(z);
+
+        System.out.println(objective.getCasADiObject());
+
+        MX z1 = MX.sym("Z", 3);
+        MX result = MX.mtimes(z1.T(), z1);
+        System.out.println(result);
     }
 
     // Notes:
