@@ -980,167 +980,429 @@ public class MXWrapper {
         this.mx.get(OUTPUT.mx, ind1, rr);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using a single argument of type IM.
+     * The specified IM defines the rows to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The IM used to define the rows of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, IM rr) {
         this.mx.get(OUTPUT.mx, ind1, rr);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using a single argument of type Sparsity.
+     * The specified Sparsity defines the rows to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The Sparsity used to define the rows of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, Sparsity rr) {
         this.mx.get(OUTPUT.mx, ind1, rr);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using a single argument of type MXWrapper.
+     * The specified MXWrapper defines the rows to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The MXWrapper used to define the rows of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, MXWrapper rr) {
         this.mx.get(OUTPUT.mx, ind1, rr.mx);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using a single argument of type long.
+     * The specified long defines the row index to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row index is inclusive.
+     * @param rr The long value representing the row index of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, long rr) {
         this.mx.get(OUTPUT.mx, ind1, rr);
     }
 
     // ----- Get a submatrix, two arguments
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using two arguments of type Slice.
+     * The specified slices define the rows and columns to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The slice used to define the rows of the submatrix.
+     * @param cc The slice used to define the columns of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, Slice cc) {
         this.mx.get(OUTPUT.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using a Slice for rows and an IM for columns.
+     * The specified Slice and IM define the rows and columns to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The slice used to define the rows of the submatrix.
+     * @param cc The IM used to define the columns of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, IM cc) {
         this.mx.get(OUTPUT.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using a Slice for rows and a long for columns.
+     * The specified Slice and long define the rows and the column index to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The slice used to define the rows of the submatrix.
+     * @param cc The long value representing the column index of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, long cc) {
         this.mx.get(OUTPUT.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using an IM for rows and a Slice for columns.
+     * The specified IM and Slice define the rows and columns to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The IM used to define the rows of the submatrix.
+     * @param cc The slice used to define the columns of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, IM rr, Slice cc) {
         this.mx.get(OUTPUT.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using a long for rows and a Slice for columns.
+     * The specified long and Slice define the row index and columns to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row index is inclusive.
+     * @param rr The long value representing the row index of the submatrix.
+     * @param cc The slice used to define the columns of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, long rr, Slice cc) {
         this.mx.get(OUTPUT.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using two IM arguments.
+     * The specified IMs define the rows and columns to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The IM used to define the rows of the submatrix.
+     * @param cc The IM used to define the columns of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, IM rr, IM cc) {
         this.mx.get(OUTPUT.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using two long arguments.
+     * The specified longs define the row and column indices to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row index is inclusive.
+     * @param rr The long value representing the row index of the submatrix.
+     * @param cc The long value representing the column index of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, long rr, long cc) {
         this.mx.get(OUTPUT.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using a MXWrapper for rows and a Slice for columns.
+     * The specified MXWrapper and Slice define the rows and columns to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The MXWrapper used to define the rows of the submatrix.
+     * @param cc The slice used to define the columns of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, MXWrapper rr, Slice cc) {
         this.mx.get(OUTPUT.mx, ind1, rr.mx, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using a Slice for rows and a MXWrapper for columns.
+     * The specified Slice and MXWrapper define the rows and columns to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The slice used to define the rows of the submatrix.
+     * @param cc The MXWrapper used to define the columns of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, MXWrapper cc) {
         this.mx.get(OUTPUT.mx, ind1,rr, cc.mx);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Extracts a submatrix from the current matrix using two MXWrapper arguments.
+     * The specified MXWrappers define the rows and columns to be included in the resulting submatrix.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The MXWrapper used to define the rows of the submatrix.
+     * @param cc The MXWrapper used to define the columns of the submatrix.
+     */
     public void get(MXWrapper OUTPUT, boolean ind1, MXWrapper rr, MXWrapper cc) {
         this.mx.get(OUTPUT.mx, ind1, rr.mx, cc.mx);
     }
 
     // ----- Set a submatrix, single argument -----
-    // TODO: Add Java doc
+    /**
+     * Sets a submatrix in the current matrix using a single argument of type Slice.
+     * The specified slice defines the rows to be set in the current matrix.
+     *
+     * @param m The matrix containing the values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The slice used to define the rows to be set.
+     */
     public void set(MXWrapper m, boolean ind1, Slice rr) {
         this.mx.set(m.mx, ind1, rr);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Sets a submatrix in the current matrix using a single argument of type IM.
+     * The specified IM defines the rows to be set in the current matrix.
+     *
+     * @param m The matrix containing the values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The IM used to define the rows to be set.
+     */
     public void set(MXWrapper m, boolean ind1, IM rr) {
         this.mx.set(m.mx, ind1, rr);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Sets a submatrix in the current matrix using a single argument of type Sparsity.
+     * The specified Sparsity defines the rows to be set in the current matrix.
+     *
+     * @param m The matrix containing the values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param sp The Sparsity used to define the rows to be set.
+     */
     public void set(MXWrapper m, boolean ind1, Sparsity sp) {
         this.mx.set(m.mx, ind1, sp);
     }
 
     // ----- Set a submatrix, two arguments -----
-    // TODO: Add Java doc
+    /**
+     * Sets a submatrix in the current matrix using two arguments of type Slice.
+     * The specified slices define the rows and columns to be set in the current matrix.
+     *
+     * @param m The matrix containing the values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The slice used to define the rows to be set.
+     * @param cc The slice used to define the columns to be set.
+     */
     public void set(MXWrapper m, boolean ind1, Slice rr, Slice cc) {
         this.mx.set(m.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Sets a submatrix in the current matrix using a Slice for rows and an IM for columns.
+     * The specified Slice and IM define the rows and columns to be set in the current matrix.
+     *
+     * @param m The matrix containing the values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The slice used to define the rows to be set.
+     * @param cc The IM used to define the columns to be set.
+     */
     public void set(MXWrapper m, boolean ind1, Slice rr, IM cc) {
         this.mx.set(m.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Sets a submatrix in the current matrix using an IM for rows and a Slice for columns.
+     * The specified IM and Slice define the rows and columns to be set in the current matrix.
+     *
+     * @param m The matrix containing the values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The IM used to define the rows to be set.
+     * @param cc The slice used to define the columns to be set.
+     */
     public void set(MXWrapper m, boolean ind1, IM rr, Slice cc) {
         this.mx.set(m.mx, ind1, rr, cc);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Sets a submatrix in the current matrix using two IM arguments.
+     * The specified IMs define the rows and columns to be set in the current matrix.
+     *
+     * @param m The matrix containing the values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The IM used to define the rows to be set.
+     * @param cc The IM used to define the columns to be set.
+     */
     public void set(MXWrapper m, boolean ind1, IM rr, IM cc) {
         this.mx.set(m.mx, ind1, rr, cc);
     }
 
     // ----- Get a set of nonzeros -----
-    // TODO: Add Java doc
+    /**
+     * Retrieves a set of non-zero elements from the current matrix using a single argument of type Slice.
+     * The specified slice defines the rows to be considered for non-zero extraction.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting non-zero elements.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param kk The slice used to define the rows for non-zero extraction.
+     */
     public void getNZ(MXWrapper OUTPUT, boolean ind1, Slice kk) {
         this.mx.get_nz(OUTPUT.mx, ind1, kk);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Retrieves a set of non-zero elements from the current matrix using a single argument of type IM.
+     * The specified IM defines the rows to be considered for non-zero extraction.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting non-zero elements.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param kk The IM used to define the rows for non-zero extraction.
+     */
     public void getNZ(MXWrapper OUTPUT, boolean ind1, IM kk) {
         this.mx.get_nz(OUTPUT.mx, ind1, kk);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Retrieves a set of non-zero elements from the current matrix using a single argument of type MXWrapper.
+     * The specified MXWrapper defines the rows to be considered for non-zero extraction.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting non-zero elements.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param kk The MXWrapper used to define the rows for non-zero extraction.
+     */
     public void getNZ(MXWrapper OUTPUT, boolean ind1, MXWrapper kk) {
         this.mx.get_nz(OUTPUT.mx, ind1, kk.mx);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Retrieves a set of non-zero elements from the current matrix using a single argument of type long.
+     * The specified long defines the row index to be considered for non-zero extraction.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting non-zero elements.
+     * @param ind1 A boolean indicating whether the row index is inclusive.
+     * @param kk The long value representing the row index for non-zero extraction.
+     */
     public void getNZ(MXWrapper OUTPUT, boolean ind1, long kk) {
         this.mx.get_nz(OUTPUT.mx, ind1, kk);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Retrieves a set of non-zero elements from the current matrix using an inner MXWrapper and an outer Slice.
+     * The specified MXWrapper and Slice define the rows and columns to be considered for non-zero extraction.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting non-zero elements.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param inner The MXWrapper used to define the rows for non-zero extraction.
+     * @param outer The slice used to define the columns for non-zero extraction.
+     */
     public void getNZ(MXWrapper OUTPUT, boolean ind1, MXWrapper inner, Slice outer) {
         this.mx.get_nz(OUTPUT.mx, ind1, inner.mx, outer);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Retrieves a set of non-zero elements from the current matrix using an inner Slice and an outer MXWrapper.
+     * The specified Slice and MXWrapper define the rows and columns to be considered for non-zero extraction.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting non-zero elements.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param inner The slice used to define the rows for non-zero extraction.
+     * @param outer The MXWrapper used to define the columns for non-zero extraction.
+     */
     public void getNZ(MXWrapper OUTPUT, boolean ind1, Slice inner, MXWrapper outer) {
         this.mx.get_nz(OUTPUT.mx, ind1, inner, outer.mx);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Retrieves a set of non-zero elements from the current matrix using two MXWrapper arguments.
+     * The specified MXWrappers define the rows and columns to be considered for non-zero extraction.
+     * The result is stored in the provided OUTPUT matrix.
+     *
+     * @param OUTPUT The matrix to store the resulting non-zero elements.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param inner The MXWrapper used to define the rows for non-zero extraction.
+     * @param outer The MXWrapper used to define the columns for non-zero extraction.
+     */
     public void getNZ(MXWrapper OUTPUT, boolean ind1, MXWrapper inner, MXWrapper outer) {
         this.mx.get_nz(OUTPUT.mx, ind1, inner.mx, outer.mx);
     }
 
     // ----- Set a set of nonzeors -----
-    // TODO: Add Java doc
+    /**
+     * Sets a set of non-zero elements in the current matrix using a single argument of type Slice.
+     * The specified slice defines the rows to be set in the current matrix.
+     *
+     * @param m The matrix containing the non-zero values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param kk The slice used to define the rows to be set.
+     */
     public void setNZ(MXWrapper m, boolean ind1, Slice kk) {
         this.mx.set_nz(m.mx, ind1, kk);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Sets a set of non-zero elements in the current matrix using a single argument of type IM.
+     * The specified IM defines the rows to be set in the current matrix.
+     *
+     * @param m The matrix containing the non-zero values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param kk The IM used to define the rows to be set.
+     */
     public void setNZ(MXWrapper m, boolean ind1, IM kk) {
         this.mx.set_nz(m.mx, ind1, kk);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Sets a set of non-zero elements in the current matrix using a single argument of type MXWrapper.
+     * The specified MXWrapper defines the rows to be set in the current matrix.
+     *
+     * @param m The matrix containing the non-zero values to set.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param kk The MXWrapper used to define the rows to be set.
+     */
     public void setNZ(MXWrapper m, boolean ind1, MXWrapper kk) {
         this.mx.set_nz(m.mx, ind1, kk.mx);
     }
 
-    // TODO: Add Java doc
+    /**
+     * Sets a set of non-zero elements in the current matrix using a single argument of type long.
+     * The specified long defines the row index to be set in the current matrix.
+     *
+     * @param m The matrix containing the non-zero values to set.
+     * @param ind1 A boolean indicating whether the row index is inclusive.
+     * @param kk The long value representing the row index to be set.
+     */
     public void setNZ(MXWrapper m, boolean ind1, long kk) {
         this.mx.set_nz(m.mx, ind1, kk);
     }
@@ -2594,7 +2856,7 @@ public class MXWrapper {
      * @param sparsity The Sparsity object representing the sparsity pattern of the variable.
      * @return MXWrapper. A new MXWrapper containing the created symbolic variable.
      */
-    public MXWrapper sym(String name, Sparsity sparsity) {
+    public MXWrapper _sym(String name, Sparsity sparsity) {
         return new MXWrapper(MX._sym(name, sparsity));
     }
 
@@ -3267,314 +3529,789 @@ public class MXWrapper {
         return new MXWrapper(MX.logsumexp(this.mx));
     }
 
+    /**
+     * Computes the Jacobian times a vector operation for the current expression.
+     *
+     * @param arg The MX object representing the argument for the Jacobian computation.
+     * @param v The MX object representing the vector to multiply with the Jacobian.
+     * @param tr A boolean indicating whether to transpose the result.
+     * @param opts The dictionary containing options for the operation.
+     * @return MXWrapper. A new MXWrapper containing the result of the Jacobian times vector operation.
+     */
+    public MXWrapper jtimes(MX arg, MX v, boolean tr, Dict opts) {
+        return new MXWrapper(MX.jtimes_(this.mx, arg, v, tr, opts));
+    }
+
+    /**
+     * Computes the Jacobian times a vector operation for the current expression.
+     *
+     * @param arg The MX object representing the argument for the Jacobian computation.
+     * @param v The MX object representing the vector to multiply with the Jacobian.
+     * @param tr A boolean indicating whether to transpose the result.
+     * @return MXWrapper. A new MXWrapper containing the result of the Jacobian times vector operation.
+     */
+    public MXWrapper jtimes(MX arg, MX v, boolean tr) {
+        return new MXWrapper(MX.jtimes_(this.mx, arg, v, tr));
+    }
+
+    /**
+     * Computes the Jacobian times a vector operation for the current expression.
+     *
+     * @param arg The MX object representing the argument for the Jacobian computation.
+     * @param v The MX object representing the vector to multiply with the Jacobian.
+     * @return MXWrapper. A new MXWrapper containing the result of the Jacobian times vector operation.
+     */
+    public MXWrapper jtimes(MX arg, MX v) {
+        return new MXWrapper(MX.jtimes_(this.mx, arg, v));
+    }
+
+    /**
+     * Computes the gradient of the expression represented by this MXWrapper with respect to the specified argument.
+     *
+     * @param arg The MX object representing the argument for the gradient computation.
+     * @param opts The dictionary containing options for the gradient computation.
+     * @return MXWrapper. A new MXWrapper containing the gradient of the expression.
+     */
+    public MXWrapper gradient(MX arg, Dict opts) {
+        return new MXWrapper(MX.gradient(this.mx, arg, opts));
+    }
+
+    /**
+     * Computes the gradient of the expression represented by this MXWrapper with respect to the specified argument.
+     *
+     * @param arg The MX object representing the argument for the gradient computation.
+     * @return MXWrapper. A new MXWrapper containing the gradient of the expression.
+     */
+    public MXWrapper gradient(MX arg) {
+        return new MXWrapper(MX.gradient(this.mx, arg));
+    }
+
+    /**
+     * Computes the tangent of the expression represented by this MXWrapper with respect to the specified argument.
+     *
+     * @param arg The MX object representing the argument for the tangent computation.
+     * @param opts The dictionary containing options for the tangent computation.
+     * @return MXWrapper. A new MXWrapper containing the tangent of the expression.
+     */
+    public MXWrapper tangent(MX arg, Dict opts) {
+        return new MXWrapper(MX.tangent(this.mx, arg, opts));
+    }
+
+    /**
+     * Computes the tangent of the expression represented by this MXWrapper with respect to the specified argument.
+     *
+     * @param arg The MX object representing the argument for the tangent computation.
+     * @return MXWrapper. A new MXWrapper containing the tangent of the expression.
+     */
+    public MXWrapper tangent(MX arg) {
+        return new MXWrapper(MX.tangent(this.mx, arg));
+    }
+
+    /**
+     * Computes the linearization of the given function around the specified point.
+     *
+     * @param x The MX object representing the point around which to linearize.
+     * @param x0 The MX object representing the initial guess.
+     * @param opts The dictionary containing options for the linearization.
+     * @return MXWrapper. A new MXWrapper containing the linearized function.
+     */
+    public MXWrapper linearize(MX x, MX x0, Dict opts) {
+        return new MXWrapper(MX.linearize(this.mx, x, x0, opts));
+    }
+
+    /**
+     * Computes the linearization of the given function around the specified point.
+     *
+     * @param x The MX object representing the point around which to linearize.
+     * @param x0 The MX object representing the initial guess.
+     * @return MXWrapper. A new MXWrapper containing the linearized function.
+     */
+    public MXWrapper linearize(MX x, MX x0) {
+        return new MXWrapper(MX.linearize(this.mx, x, x0));
+    }
+
+    /**
+     * Computes the matrix power of the given matrices.
+     *
+     * @param y The MX object representing the exponent matrix.
+     * @return MXWrapper. A new MXWrapper containing the result of the matrix power.
+     */
+    public MXWrapper mpower(MX y) {
+        return new MXWrapper(MX.mpower(this.mx, y));
+    }
+
+    /**
+     * Computes the second-order cone representation of the given matrices.
+     *
+     * @param y The MX object representing the second matrix.
+     * @return MXWrapper. A new MXWrapper containing the second-order cone representation.
+     */
+    public MXWrapper soc(MX y) {
+        return new MXWrapper(MX.soc(this.mx, y));
+    }
+
+    /**
+     * Creates an nrow-by-ncol symbolic primitive.
+     *
+     * @param name The name of the symbolic variable.
+     * @param nrow The number of rows for the symbolic primitive.
+     * @param ncol The number of columns for the symbolic primitive.
+     * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
+     */
+    public MXWrapper sym(String name, long nrow, long ncol) {
+        return new MXWrapper(MX.sym(name, nrow, ncol));
+    }
+
+    /**
+     * Creates an nrow-by-ncol symbolic primitive.
+     *
+     * @param name The name of the symbolic variable.
+     * @param nrow The number of rows for the symbolic primitive.
+     * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
+     */
+    public MXWrapper sym(String name, long nrow) {
+        return new MXWrapper(MX.sym(name, nrow));
+    }
+
+    /**
+     * Creates a symbolic primitive with the given name.
+     *
+     * @param name The name of the symbolic variable.
+     * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
+     */
+    public MXWrapper sym(String name) {
+        return new MXWrapper(MX.sym(name));
+    }
+
+    /**
+     * Creates a symbolic primitive with a given sparsity pattern.
+     *
+     * @param name The name of the symbolic variable.
+     * @param sp The Sparsity object representing the sparsity pattern.
+     * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
+     */
+    public MXWrapper sym(String name, Sparsity sp) {
+        return new MXWrapper(MX.sym(name, sp));
+    }
+
+    /**
+     * Creates a vector of length p with matrices that are symbolic primitives of given sparsity.
+     *
+     * @param name The name of the symbolic variable.
+     * @param sp The Sparsity object representing the sparsity pattern.
+     * @param p The length of the vector.
+     * @return StdVectorMX. A new StdVectorMX containing the symbolic primitives.
+     */
+    public StdVectorMX sym(String name, Sparsity sp, long p) {
+        return MX.sym(name, sp, p);
+    }
+
+    /**
+     * Creates a vector of length p with nrow-by-ncol symbolic primitives.
+     *
+     * @param name The name of the symbolic variable.
+     * @param nrow The number of rows for the symbolic primitives.
+     * @param ncol The number of columns for the symbolic primitives.
+     * @param p The length of the vector.
+     * @return StdVectorMX. A new StdVectorMX containing the symbolic primitives.
+     */
+    public StdVectorMX sym(String name, long nrow, long ncol, long p) {
+        return MX.sym(name, nrow, ncol, p);
+    }
+
+    /**
+     * Creates a vector of length r of vectors of length p with symbolic primitives of given sparsity.
+     *
+     * @param name The name of the symbolic variable.
+     * @param sp The Sparsity object representing the sparsity pattern.
+     * @param p The length of the inner vectors.
+     * @param r The length of the outer vector.
+     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the symbolic primitives.
+     */
+    public StdVectorVectorMX sym(String name, Sparsity sp, long p, long r) {
+        return MX.sym(name, sp, p, r);
+    }
+
+    /**
+     * Creates a vector of length r of vectors of length p with nrow-by-ncol symbolic primitives.
+     *
+     * @param name The name of the symbolic variable.
+     * @param nrow The number of rows for the symbolic primitives.
+     * @param ncol The number of columns for the symbolic primitives.
+     * @param p The length of the inner vectors.
+     * @param r The length of the outer vector.
+     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the symbolic primitives.
+     */
+    public StdVectorVectorMX sym(String name, long nrow, long ncol, long p, long r) {
+        return MX.sym(name, nrow, ncol, p, r);
+    }
+
+    /**
+     * Creates a dense matrix or a matrix with specified sparsity with all entries set to zero.
+     *
+     * @param nrow The number of rows for the matrix.
+     * @param ncol The number of columns for the matrix.
+     * @return MXWrapper. A new MXWrapper containing the created matrix.
+     */
+    public MXWrapper zeros(long nrow, long ncol) {
+        return new MXWrapper(MX.zeros(nrow, ncol));
+    }
+
+    /**
+     * Creates a dense matrix or a matrix with specified sparsity with all entries set to zero.
+     *
+     * @param nrow The number of rows for the matrix.
+     * @return MXWrapper. A new MXWrapper containing the created matrix.
+     */
+    public MXWrapper zeros(long nrow) {
+        return new MXWrapper(MX.zeros(nrow));
+    }
+
+    /**
+     * Creates a dense matrix or a matrix with specified sparsity with all entries set to zero.
+     *
+     * @return MXWrapper. A new MXWrapper containing the created matrix.
+     */
+    public MXWrapper zeros() {
+        return new MXWrapper(MX.zeros());
+    }
+
+    /**
+     * Creates a dense matrix or a matrix with specified sparsity with all entries set to zero.
+     *
+     * @param sp The Sparsity object representing the sparsity pattern.
+     * @return MXWrapper. A new MXWrapper containing the created matrix.
+     */
+    public MXWrapper zeros(Sparsity sp) {
+        return new MXWrapper(MX.zeros(sp));
+    }
+
+    /**
+     * Creates a dense matrix or a matrix with specified sparsity with all entries set to one.
+     *
+     * @param nrow The number of rows for the matrix.
+     * @param ncol The number of columns for the matrix.
+     * @return MXWrapper. A new MXWrapper containing the created matrix.
+     */
+    public MXWrapper ones(long nrow, long ncol) {
+        return new MXWrapper(MX.ones(nrow, ncol));
+    }
+
+    /**
+     * Creates a dense matrix or a matrix with specified sparsity with all entries set to one.
+     *
+     * @param nrow The number of rows for the matrix.
+     * @return MXWrapper. A new MXWrapper containing the created matrix.
+     */
+    public MXWrapper ones(long nrow) {
+        return new MXWrapper(MX.ones(nrow));
+    }
+
+    /**
+     * Creates a dense matrix or a matrix with specified sparsity with all entries set to one.
+     *
+     * @return MXWrapper. A new MXWrapper containing the created matrix.
+     */
+    public MXWrapper ones() {
+        return new MXWrapper(MX.ones());
+    }
+
+    /**
+     * Creates a dense matrix or a matrix with specified sparsity with all entries set to one.
+     *
+     * @param sp The Sparsity object representing the sparsity pattern.
+     * @return MXWrapper. A new MXWrapper containing the created matrix.
+     */
+    public MXWrapper ones(Sparsity sp) {
+        return new MXWrapper(MX.ones(sp));
+    }
+
+    /**
+     * Adds the matrix represented by this MXWrapper to another matrix.
+     *
+     * Addition: (other); this.mx + other
+     *
+     * @param other The MXWrapper representing the matrix to add.
+     * @return MXWrapper. A new MXWrapper containing the result of the addition.
+     */
     public MXWrapper add(MXWrapper other) {
         MX result = MX.plus(this.mx, other.mx);
         return new MXWrapper(result);
     }
 
+    /**
+     * Subtracts another matrix from the matrix represented by this MXWrapper.
+     *
+     * Subtraction: (other); this.mx - other
+     *
+     * @param other The MXWrapper representing the matrix to subtract.
+     * @return MXWrapper. A new MXWrapper containing the result of the subtraction.
+     */
     public MXWrapper subtract(MXWrapper other) {
         MX result = MX.minus(this.mx, other.mx);
         return new MXWrapper(result);
     }
 
+    /**
+     * Multiplies the matrix represented by this MXWrapper with another matrix.
+     *
+     * Elementwise multiplication: (other); this.mx .* other
+     *
+     * @param other The MXWrapper representing the matrix to multiply with.
+     * @return MXWrapper. A new MXWrapper containing the result of the multiplication.
+     */
     public MXWrapper multiply(MXWrapper other) {
         MX result = MX.times(this.mx, other.mx);
         return new MXWrapper(result);
     }
 
+    /**
+     * Divides the matrix represented by this MXWrapper by another matrix.
+     *
+     * Elementwise division: (other); this.mx ./ other
+     *
+     * @param other The MXWrapper representing the matrix to divide by.
+     * @return MXWrapper. A new MXWrapper containing the result of the division.
+     */
     public MXWrapper divide(MXWrapper other) {
         MX result = MX.rdivide(this.mx, other.mx);
         return new MXWrapper(result);
     }
 
-    public MXWrapper pow(MXWrapper other) {
-        MX result = MX.pow(this.mx, other.mx);
-        return new MXWrapper(result);
+    /**
+     * Performs a logical less than operation between the current MX expression and another MX expression.
+     *
+     * @param y The MXWrapper representing the second expression.
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper lt(MXWrapper y) {
+        return new MXWrapper(MX.lt(this.mx, y.mx));
     }
 
-    public MXWrapper lt(MXWrapper other) {
-        MX result = MX.lt(this.mx, other.mx);
-        return new MXWrapper(result);
+    /**
+     * Performs a logical less than or equal to operation between the current MX expression and another MX expression.
+     *
+     * @param y The MXWrapper representing the second expression.
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper le(MXWrapper y) {
+        return new MXWrapper(MX.le(this.mx, y.mx));
     }
 
-    public MXWrapper eq(MXWrapper other) {
-        MX result = MX.eq(this.mx, other.mx);
-        return new MXWrapper(result);
+    /**
+     * Performs a logical greater than operation between the current MX expression and another MX expression.
+     *
+     * @param y The MXWrapper representing the second expression.
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper gt(MXWrapper y) {
+        return new MXWrapper(MX.gt(this.mx, y.mx));
     }
 
+    /**
+     * Performs a logical greater than or equal to operation between the current MX expression and another MX expression.
+     *
+     * @param y The MXWrapper representing the second expression.
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper ge(MXWrapper y) {
+        return new MXWrapper(MX.ge(this.mx, y.mx));
+    }
+
+    /**
+     * Performs a logical equality check between the current MX expression and another MX expression.
+     *
+     * @param y The MXWrapper representing the second expression.
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper eq(MXWrapper y) {
+        return new MXWrapper(MX.eq(this.mx, y.mx));
+    }
+
+    /**
+     * Performs a logical not equal to check between the current MX expression and another MX expression.
+     *
+     * @param y The MXWrapper representing the second expression.
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper ne(MXWrapper y) {
+        return new MXWrapper(MX.ne(this.mx, y.mx));
+    }
+
+    /**
+     * Performs a logical AND operation between the current MX expression and another MX expression.
+     *
+     * Returns (an expression evaluating to) 1 if both
+     * expressions are nonzero and 0 otherwise
+     *
+     * @param y The MXWrapper representing the second expression.
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper logicAnd(MXWrapper y) {
+        return new MXWrapper(MX.logic_and(this.mx, y.mx));
+    }
+
+    /**
+     * Performs a logical OR operation between the current MX expression and another MX expression.
+     *
+     * Returns (an expression evaluating to) 1 if at
+     * least one expression is nonzero and 0 otherwise
+     *
+     * @param y The MXWrapper representing the second expression.
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper logicOr(MXWrapper y) {
+        return new MXWrapper(MX.logic_or(this.mx, y.mx));
+    }
+
+    /**
+     * Performs a logical NOT operation on the current MX expression.
+     *
+     * Returns (an expression evaluating to) 1 if
+     * expression is zero and 0 otherwise
+     *
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper logicNot() {
+        return new MXWrapper(MX.logic_not(this.mx));
+    }
+
+    /**
+     * Computes the absolute value of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the absolute value.
+     */
     public MXWrapper abs() {
-        MX result = MX.abs(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.abs(this.mx));
     }
 
+    /**
+     * Computes the square root of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the square root.
+     */
     public MXWrapper sqrt() {
-        MX result = MX.sqrt(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.sqrt(this.mx));
     }
 
+
+    /**
+     * Computes the square of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the square.
+     */
+    public MXWrapper sq() {
+        return new MXWrapper(MX.sq(this.mx));
+    }
+
+    /**
+     * Computes the sine of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the sine value.
+     */
     public MXWrapper sin() {
-        MX result = MX.sin(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.sin(this.mx));
     }
 
+    /**
+     * Computes the cosine of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the cosine value.
+     */
     public MXWrapper cos() {
-        MX result = MX.cos(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.cos(this.mx));
     }
 
-    public MXWrapper exp() {
-        MX result = MX.exp(this.mx);
-        return new MXWrapper(result);
-    }
-
+    /**
+     * Computes the tangent of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the tangent value.
+     */
     public MXWrapper tan() {
-        MX result = MX.tan(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.tan(this.mx));
     }
 
+    /**
+     * Computes the arc tangent of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the arc tangent value.
+     */
     public MXWrapper atan() {
-        MX result = MX.atan(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.atan(this.mx));
     }
 
+    /**
+     * Computes the arc sine of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the arc sine value.
+     */
     public MXWrapper asin() {
-        MX result = MX.asin(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.asin(this.mx));
     }
 
+    /**
+     * Computes the arc cosine of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the arc cosine value.
+     */
     public MXWrapper acos() {
-        MX result = MX.acos(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.acos(this.mx));
     }
 
-    public MXWrapper sinh() {
-        MX result = MX.sinh(this.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper cosh() {
-        MX result = MX.cosh(this.mx);
-        return new MXWrapper(result);
-    }
-
+    /**
+     * Computes the hyperbolic tangent of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the hyperbolic tangent value.
+     */
     public MXWrapper tanh() {
-        MX result = MX.tanh(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.tanh(this.mx));
     }
 
-    public MXWrapper expm1() {
-        MX result = MX.expm1(this.mx);
-        return new MXWrapper(result);
+    /**
+     * Computes the hyperbolic sine of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the hyperbolic sine value.
+     */
+    public MXWrapper sinh() {
+        return new MXWrapper(MX.sinh(this.mx));
     }
 
+    /**
+     * Computes the hyperbolic cosine of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the hyperbolic cosine value.
+     */
+    public MXWrapper cosh() {
+        return new MXWrapper(MX.cosh(this.mx));
+    }
+
+    /**
+     * Computes the inverse hyperbolic tangent of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the inverse hyperbolic tangent value.
+     */
+    public MXWrapper atanh() {
+        return new MXWrapper(MX.atanh(this.mx));
+    }
+
+    /**
+     * Computes the inverse hyperbolic sine of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the inverse hyperbolic sine value.
+     */
+    public MXWrapper asinh() {
+        return new MXWrapper(MX.asinh(this.mx));
+    }
+
+    /**
+     * Computes the inverse hyperbolic cosine of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the inverse hyperbolic cosine value.
+     */
+    public MXWrapper acosh() {
+        return new MXWrapper(MX.acosh(this.mx));
+    }
+
+    /**
+     * Computes the elementwise exponential of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the exponential value.
+     */
+    public MXWrapper exp() {
+        return new MXWrapper(MX.exp(this.mx));
+    }
+
+    /**
+     * Computes the natural logarithm of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the natural logarithm value.
+     */
+    public MXWrapper log() {
+        return new MXWrapper(MX.log(this.mx));
+    }
+
+    /**
+     * Computes the base-10 logarithm of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the base-10 logarithm value.
+     */
+    public MXWrapper log10() {
+        return new MXWrapper(MX.log10(this.mx));
+    }
+
+    /**
+     * Computes the natural logarithm of (1 + wrapped MX object).
+     *
+     * @return A new MXWrapper containing the logarithm value.
+     */
     public MXWrapper log1p() {
-        MX result = MX.log1p(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.log1p(this.mx));
     }
 
-    // TODO: Change to StdVectorMX
-    public MXWrapper blocksplit() {
-        //MX result = MX.blocksplit(new StdVectorVectorMX());
-        //return new MXWrapper(result);
-        return null;
+    /**
+     * Computes the elementwise exponential minus one of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the result of exp(x) - 1.
+     */
+    public MXWrapper expm1() {
+        return new MXWrapper(MX.expm1(this.mx));
     }
 
-    public MXWrapper norm_2() {
-        MX result = MX.norm_2(this.mx);
-        return new MXWrapper(result);
+    /**
+     * Computes the largest integer less than or equal to the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the floor value.
+     */
+    public MXWrapper floor() {
+        return new MXWrapper(MX.floor(this.mx));
     }
 
-    public MXWrapper norm_fro() {
-        MX result = MX.norm_fro(this.mx);
-        return new MXWrapper(result);
+    /**
+     * Computes the smallest integer greater than or equal to the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the ceiling value.
+     */
+    public MXWrapper ceil() {
+        return new MXWrapper(MX.ceil(this.mx));
     }
 
-    public MXWrapper norm_1() {
-        MX result = MX.norm_1(this.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper norm_inf() {
-        MX result = MX.norm_inf(this.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper gradient(MXWrapper other) {
-        MX result = MX.gradient(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    // TODO: Change to StdVectorMX
-    public MXWrapper forward() {
-        // MX result = MX.forward();
-        // return new MXWrapper(result);
-        return null;
-    }
-
-    // TODO: Change to StdVectorMX
-    public MXWrapper reverse() {
-        // MX result = MX.reverse(this.mx);
-        // return new MXWrapper(result);
-        return null;
-    }
-
-    // TODO: Add MX Objectes
-    public MXWrapper linearize() {
-        // MX result = MX.linearize(this.mx);
-        // return new MXWrapper(result);
-        return null;
-    }
-
-    // TODO: Revise logic
-    public MXWrapper if_else(MXWrapper condition, MXWrapper trueValue, MXWrapper falseValue) {
-        MX result = MX.if_else(condition.mx, trueValue.mx, falseValue.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper zeros(long size) {
-        MX result = MX.zeros(size);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper ones(long size) {
-        MX result = MX.ones(size);
-        return new MXWrapper(result);
-    }
-
-    // TODO: Change
-    public MXWrapper repmat(int rows, int cols) {
-        // MX result = MX.repmat(this.mx, rows, cols);
-        // return new MXWrapper(result);
-        return null;
-    }
-
-    // TODO: Change to A, Aplha, x, y
-    public MXWrapper rank1(MXWrapper v) {
-        // MX result = MX.rank1(this.mx, v.mx);
-        // return new MXWrapper(result);
-        return null;
-    }
-
-    public MXWrapper inv_minor() {
-        MX result = MX.inv_minor(this.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper inv_node() {
-        MX result = MX.inv_node(this.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper linspace(MXWrapper other, int steps) {
-        MX result = MX.linspace(this.mx, other.mx, steps);
-        return new MXWrapper(result);
-    }
-
-    // TODO: Change to StdVectorMX
-    public MXWrapper ad_forward() {
-        // MX result = MX.ad_forward(this.mx);
-        // return new MXWrapper(result);
-        return null;
-    }
-
-    // TODO: Change to StdVectorMX
-    public MXWrapper ad_reverse() {
-        // MX result = MX.ad_reverse(this.mx);
-        // return new MXWrapper(result);
-        return null;
-    }
-
-    // TODO: Add MX
-    public MXWrapper linearize(MXWrapper point) {
-        // MX result = MX.linearize(this.mx, point.mx);
-        // return new MXWrapper(result);
-        return null;
-    }
-
-    public MXWrapper if_else_zero(MXWrapper condition) {
-        MX result = MX.if_else_zero(this.mx, condition.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper logic_not() {
-        MX result = MX.logic_not(this.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper logic_and(MXWrapper other) {
-        MX result = MX.logic_and(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper logic_or(MXWrapper other) {
-        MX result = MX.logic_or(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper fmin(MXWrapper other) {
-        MX result = MX.fmin(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper fmax(MXWrapper other) {
-        MX result = MX.fmax(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper hypot(MXWrapper other) {
-        MX result = MX.hypot(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper sign() {
-        MX result = MX.sign(this.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper copysign(MXWrapper other) {
-        MX result = MX.copysign(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper constpow(MXWrapper other) {
-        MX result = MX.constpow(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
-    public MXWrapper atan2(MXWrapper other) {
-        MX result = MX.atan2(this.mx, other.mx);
-        return new MXWrapper(result);
-    }
-
+    /**
+     * Computes the error function of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the error function value.
+     */
     public MXWrapper erf() {
-        MX result = MX.erf(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.erf(this.mx));
     }
 
+    /**
+     * Computes the inverse error function of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the inverse error function value.
+     */
     public MXWrapper erfinv() {
-        MX result = MX.erfinv(this.mx);
-        return new MXWrapper(result);
+        return new MXWrapper(MX.erfinv(this.mx));
     }
 
-    public MXWrapper tangent(MXWrapper other) {
-        MX result = MX.tangent(this.mx, other.mx);
-        return new MXWrapper(result);
+    /**
+     * Computes the sign of the wrapped MX object.
+     *
+     * @return A new MXWrapper containing the sign value.
+     */
+    public MXWrapper sign() {
+        return new MXWrapper(MX.sign(this.mx));
     }
 
-    // TODO: Check Parameters
-    public MXWrapper bspline(MXWrapper other) {
-        // MX result = MX.bspline();
-        // return new MXWrapper(result);
-        return null;
+    /**
+     * Computes the elementwise power of the wrapped MX object raised to another MXWrapper.
+     *
+     * @param other The MXWrapper containing the exponent.
+     * @return A new MXWrapper containing the result of x^y.
+     */
+    public MXWrapper pow(MXWrapper other) {
+        return new MXWrapper(MX.pow(this.mx, other.mx));
     }
 
-    // TODO: Check Parameters
-    public MXWrapper bspline_dual() {
-        // MX result = MX.bspline_dual();
-        // return new MXWrapper(result);
-        return null;
+    /**
+     * Computes the remainder of the division of the wrapped MX object by another MXWrapper.
+     *
+     * @param other The MXWrapper containing the divisor.
+     * @return A new MXWrapper containing the remainder.
+     */
+    public MXWrapper mod(MXWrapper other) {
+        return new MXWrapper(MX.mod(this.mx, other.mx));
     }
 
+    /**
+     * Computes the remainder after division of the wrapped MX object by another MXWrapper.
+     *
+     * @param other The MXWrapper containing the divisor.
+     * @return A new MXWrapper containing the remainder.
+     */
+    public MXWrapper remainder(MXWrapper other) {
+        return new MXWrapper(MX.remainder(this.mx, other.mx));
+    }
+
+    /**
+     * Computes the two-argument arc tangent of the wrapped MX object and another MXWrapper.
+     *
+     * @param other The MXWrapper containing the x-coordinate.
+     * @return A new MXWrapper containing the arc tangent value.
+     */
+    public MXWrapper atan2(MXWrapper other) {
+        return new MXWrapper(MX.atan2(this.mx, other.mx));
+    }
+
+    /**
+     * Computes a conditional assignment of the wrapped MX object and another MXWrapper.
+     *
+     * @param other The MXWrapper containing the value to assign if the condition is true.
+     * @return A new MXWrapper containing the result of the conditional assignment.
+     */
+    public MXWrapper ifElseZero(MXWrapper other) {
+        return new MXWrapper(MX.if_else_zero(this.mx, other.mx));
+    }
+
+    /**
+     * Computes the minimum of the wrapped MX object and another MXWrapper.
+     *
+     * @param other The MXWrapper containing the value to compare.
+     * @return A new MXWrapper containing the minimum value.
+     */
+    public MXWrapper fmin(MXWrapper other) {
+        return new MXWrapper(MX.fmin(this.mx, other.mx));
+    }
+
+    /**
+     * Computes the maximum of the wrapped MX object and another MXWrapper.
+     *
+     * @param other The MXWrapper containing the value to compare.
+     * @return A new MXWrapper containing the maximum value.
+     */
+    public MXWrapper fmax(MXWrapper other) {
+        return new MXWrapper(MX.fmax(this.mx, other.mx));
+    }
+
+    /**
+     * Copies the sign of one wrapped MX object to another.
+     *
+     * @param other The MXWrapper containing the value whose sign is to be copied.
+     * @return A new MXWrapper containing the result of the sign copy.
+     */
+    public MXWrapper copysign(MXWrapper other) {
+        return new MXWrapper(MX.copysign(this.mx, other.mx));
+    }
+
+    /**
+     * Computes the elementwise power of the wrapped MX object raised to a constant power.
+     *
+     * @param other The MXWrapper containing the constant exponent.
+     * @return A new MXWrapper containing the result of x^y.
+     */
+    public MXWrapper constpow(MXWrapper other) {
+        return new MXWrapper(MX.constpow(this.mx, other.mx));
+    }
+
+    /**
+     * Computes the hypotenuse of the wrapped MX object and another MXWrapper.
+     *
+     * @param other The MXWrapper containing the other side of the triangle.
+     * @return A new MXWrapper containing the hypotenuse value.
+     */
+    public MXWrapper hypot(MXWrapper other) {
+        return new MXWrapper(MX.hypot(this.mx, other.mx));
+    }
+
+    /**
+     * Returns the associated CasADi object.
+     *
+     * This method retrieves the instance of type {@link MX}
+     * that is stored in this class. The CasADi object
+     * can be used for mathematical operations or further
+     * processing.
+     *
+     * @return the CasADi object of type {@link MX}
+     */
     public MX getCasADiObject() {
         return this.mx;
     }
