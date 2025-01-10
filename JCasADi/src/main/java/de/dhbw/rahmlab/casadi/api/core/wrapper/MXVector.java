@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a vector of MXWrapper objects, backed by a StdVectorMX.
+ * Represents a vector of MXWrapper objects, backed by a StdVectorMX {@link StdVectorMX}.
  */
 public class MXVector {
 
@@ -27,9 +27,7 @@ public class MXVector {
      */
     public MXVector(Iterable<MXWrapper> initialElements) {
         this.stdVectorMX = new StdVectorMX();
-        for (MXWrapper mxWrapper : initialElements) {
-            this.stdVectorMX.add(mxWrapper.getCasADiObject());
-        }
+        initialElements.forEach(this::add);
     }
 
     /**

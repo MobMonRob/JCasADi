@@ -6,14 +6,14 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX;
  * A collection that holds a vector of vectors (StdVectorVectorMX) {@link StdVectorVectorMX}
  * and provides methods to manipulate and access its elements.
  */
-public class VectorCollection {
+public class MXVectorCollection {
 
     private StdVectorVectorMX stdVectorVectorMX;
 
     /**
      * Constructs an empty VectorCollection.
      */
-    public VectorCollection() {
+    public MXVectorCollection() {
         this.stdVectorVectorMX = new StdVectorVectorMX();
     }
 
@@ -22,7 +22,7 @@ public class VectorCollection {
      *
      * @param initialElements an array of MXVector to initialize the collection
      */
-    public VectorCollection(MXVector[] initialElements) {
+    public MXVectorCollection(MXVector[] initialElements) {
         this.stdVectorVectorMX = new StdVectorVectorMX();
         for (MXVector vector : initialElements) {
             this.stdVectorVectorMX.add(vector.getCasADiObject());
@@ -34,9 +34,9 @@ public class VectorCollection {
      *
      * @param initialElements an iterable collection of MXVector to initialize the collection
      */
-    public VectorCollection(Iterable<MXVector> initialElements) {
+    public MXVectorCollection(Iterable<MXVector> initialElements) {
         this.stdVectorVectorMX = new StdVectorVectorMX();
-        initialElements.forEach(mxVector -> this.stdVectorVectorMX.add(mxVector.getCasADiObject()));
+        initialElements.forEach(this::add);
     }
 
     /**
@@ -44,7 +44,7 @@ public class VectorCollection {
      *
      * @param other the VectorCollection to copy
      */
-    public VectorCollection(VectorCollection other) {
+    public MXVectorCollection(MXVectorCollection other) {
         this.stdVectorVectorMX = new StdVectorVectorMX(other.getCasADiObject());
     }
 
@@ -54,7 +54,7 @@ public class VectorCollection {
      * @param index the index at which to initialize the collection
      * @param value the MXVector to initialize at the specified index
      */
-    public VectorCollection(int index, MXVector value) {
+    public MXVectorCollection(int index, MXVector value) {
         this.stdVectorVectorMX = new StdVectorVectorMX(index, value.getCasADiObject());
     }
 
@@ -63,7 +63,7 @@ public class VectorCollection {
      *
      * @param stdVectorVectorMX the StdVectorVectorMX instance to initialize the collection with
      */
-    public VectorCollection(StdVectorVectorMX stdVectorVectorMX) {
+    public MXVectorCollection(StdVectorVectorMX stdVectorVectorMX) {
         this.stdVectorVectorMX = stdVectorVectorMX;
     }
 
@@ -95,7 +95,7 @@ public class VectorCollection {
      * @param vector the MXVector to add
      * @return this VectorCollection for method chaining
      */
-    public VectorCollection add(int index, MXVector vector) {
+    public MXVectorCollection add(int index, MXVector vector) {
         this.stdVectorVectorMX.add(index, vector.getCasADiObject());
         return this;
     }
@@ -106,7 +106,7 @@ public class VectorCollection {
      * @param vector the MXVector to add
      * @return this VectorCollection for method chaining
      */
-    public VectorCollection add(MXVector vector) {
+    public MXVectorCollection add(MXVector vector) {
         this.stdVectorVectorMX.add(vector.getCasADiObject());
         return this;
     }

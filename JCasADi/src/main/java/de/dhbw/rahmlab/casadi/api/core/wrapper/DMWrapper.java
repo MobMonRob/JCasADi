@@ -40,7 +40,7 @@ public class DMWrapper {
 
     // Weitere Operationen (Inverse, Determinante etc.) können hier hinzugefügt werden
 
-    public DM getCasadiObject() {
+    public DM getCasADiObject() {
         return this.dm;
     }
 }

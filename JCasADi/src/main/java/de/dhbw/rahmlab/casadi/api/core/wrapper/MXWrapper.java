@@ -3,8 +3,6 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.*;
 
-import java.util.Vector;
-
 /**
  * A wrapper class for the MX object, representing a variable in the constraint model.
  */
@@ -65,7 +63,7 @@ public class MXWrapper {
      * @return MXWrapper
      */
     public static MXWrapper fromArray(double[] values) {
-        return new MXWrapper(new MX(new StdVectorDouble(values)));
+        return new MXWrapper(new MX(new DoubleVectorCollection(values).getCasADiObject()));
     }
 
     /**
@@ -75,7 +73,7 @@ public class MXWrapper {
      * @return MXWrapper
      */
     public static MXWrapper fromIterable(Iterable<Double> values) {
-        return new MXWrapper(new MX(new StdVectorDouble(values)));
+        return new MXWrapper(new MX(new DoubleVectorCollection(values).getCasADiObject()));
     }
 
     /**
@@ -176,8 +174,8 @@ public class MXWrapper {
      * This class provides a builder-like interface to set various parameters for the "erase" operation.
      */
     public static class EraseOperation {
-        private StdVectorCasadiInt rows;
-        private StdVectorCasadiInt cols;
+        private IntegerVectorCollection rows;
+        private IntegerVectorCollection cols;
         private Boolean indicator;
 
         /**
@@ -196,7 +194,7 @@ public class MXWrapper {
          * @param rows A vector of integers representing the rows to be erased.
          * @return The current instance of EraseOperation for method chaining.
          */
-        public EraseOperation setRows(StdVectorCasadiInt rows) {
+        public EraseOperation setRows(IntegerVectorCollection rows) {
             this.rows = rows;
             return this;
         }
@@ -207,7 +205,7 @@ public class MXWrapper {
          * @param cols A vector of integers representing the columns to be erased.
          * @return The current instance of EraseOperation for method chaining.
          */
-        public EraseOperation setCols(StdVectorCasadiInt cols) {
+        public EraseOperation setCols(IntegerVectorCollection cols) {
             this.cols = cols;
             return this;
         }
@@ -233,13 +231,13 @@ public class MXWrapper {
          */
         public void apply(MX mx) {
             if (rows != null && cols != null && indicator != null) {
-                mx.erase(rows, cols, indicator);
+                mx.erase(rows.getCasADiObject(), cols.getCasADiObject(), indicator);
             } else if (rows != null && cols != null) {
-                mx.erase(rows, cols);
+                mx.erase(rows.getCasADiObject(), cols.getCasADiObject());
             } else if (rows != null && indicator != null) {
-                mx.erase(rows, indicator);
+                mx.erase(rows.getCasADiObject(), indicator);
             } else if (rows != null) {
-                mx.erase(rows);
+                mx.erase(rows.getCasADiObject());
             }
         }
     }
@@ -271,8 +269,8 @@ public class MXWrapper {
     public static class EnlargeOperation {
         private long nrow;
         private long ncol;
-        private StdVectorCasadiInt rows;
-        private StdVectorCasadiInt cols;
+        private IntegerVectorCollection rows;
+        private IntegerVectorCollection cols;
         private Boolean indicator;
 
         /**
@@ -314,7 +312,7 @@ public class MXWrapper {
          * @param rows A vector of integers representing the rows to be inserted.
          * @return The current instance of EnlargeOperation for method chaining.
          */
-        public EnlargeOperation setRowIndices(StdVectorCasadiInt rows) {
+        public EnlargeOperation setRowIndices(IntegerVectorCollection rows) {
             this.rows = rows;
             return this;
         }
@@ -325,7 +323,7 @@ public class MXWrapper {
          * @param cols A vector of integers representing the columns to be inserted.
          * @return The current instance of EnlargeOperation for method chaining.
          */
-        public EnlargeOperation setColIndices(StdVectorCasadiInt cols) {
+        public EnlargeOperation setColIndices(IntegerVectorCollection cols) {
             this.cols = cols;
             return this;
         }
@@ -350,9 +348,9 @@ public class MXWrapper {
          */
         public void apply(MX mx) {
             if (rows != null && cols != null && indicator != null) {
-                mx.enlarge(nrow, ncol, rows, cols, indicator);
+                mx.enlarge(nrow, ncol, rows.getCasADiObject(), cols.getCasADiObject(), indicator);
             } else if (rows != null && cols != null) {
-                mx.enlarge(nrow, ncol, rows, cols);
+                mx.enlarge(nrow, ncol, rows.getCasADiObject(), cols.getCasADiObject());
             }
         }
     }
@@ -1441,10 +1439,10 @@ public class MXWrapper {
      * @return MXWrapper. A new MXWrapper containing the result of the contraction.
      */
     public MXWrapper einstein(MXWrapper other, MXWrapper C,
-                              StdVectorCasadiInt dim_a, StdVectorCasadiInt dim_b,
-                              StdVectorCasadiInt dim_c, StdVectorCasadiInt a,
-                              StdVectorCasadiInt b, StdVectorCasadiInt c) {
-        return new MXWrapper(MX.einstein(this.mx, other.mx, C.mx, dim_a, dim_b, dim_c, a, b, c));
+                              IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
+                              IntegerVectorCollection dim_c, IntegerVectorCollection a,
+                              IntegerVectorCollection b, IntegerVectorCollection c) {
+        return new MXWrapper(MX.einstein(this.mx, other.mx, C.mx, dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
     }
 
     /**
@@ -1476,10 +1474,10 @@ public class MXWrapper {
      * @return MXWrapper. A new MXWrapper containing the result of the contraction.
      */
     public MXWrapper einstein(MXWrapper other,
-                              StdVectorCasadiInt dim_a, StdVectorCasadiInt dim_b,
-                              StdVectorCasadiInt dim_c, StdVectorCasadiInt a,
-                              StdVectorCasadiInt b, StdVectorCasadiInt c) {
-        return new MXWrapper(MX.einstein(this.mx, other.mx, dim_a, dim_b, dim_c, a, b, c));
+                              IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
+                              IntegerVectorCollection dim_c, IntegerVectorCollection a,
+                              IntegerVectorCollection b, IntegerVectorCollection c) {
+        return new MXWrapper(MX.einstein(this.mx, other.mx, dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
     }
 
     /**
@@ -1557,8 +1555,8 @@ public class MXWrapper {
      * @param offset The offset at which to split the MX object.
      * @return MXVector. A vector of MXWrapper objects resulting from the horizontal split.
      */
-    public MXVector horzsplit(StdVectorCasadiInt offset) {
-        return new MXVector(MX.horzsplit(this.mx, offset));
+    public MXVector horzsplit(IntegerVectorCollection offset) {
+        return new MXVector(MX.horzsplit(this.mx, offset.getCasADiObject()));
     }
 
     /**
@@ -1568,8 +1566,8 @@ public class MXWrapper {
      * @param offset2 The second offset for the diagonal split.
      * @return MXVector. A vector of MXWrapper objects resulting from the diagonal split.
      */
-    public MXVector diagsplit(StdVectorCasadiInt offset1, StdVectorCasadiInt offset2) {
-        return new MXVector(MX.diagsplit(this.mx, offset1, offset2));
+    public MXVector diagsplit(IntegerVectorCollection offset1, IntegerVectorCollection offset2) {
+        return new MXVector(MX.diagsplit(this.mx, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
 
     /**
@@ -1578,8 +1576,8 @@ public class MXWrapper {
      * @param offset The offset at which to split the MX object.
      * @return MXVector. A vector of MXWrapper objects resulting from the vertical split.
      */
-    public MXVector vertsplit(StdVectorCasadiInt offset) {
-        return new MXVector(MX.vertsplit(this.mx, offset));
+    public MXVector vertsplit(IntegerVectorCollection offset) {
+        return new MXVector(MX.vertsplit(this.mx, offset.getCasADiObject()));
     }
 
     /**
@@ -1588,7 +1586,7 @@ public class MXWrapper {
      * @param mxVector The vector of vectors of MXWrapper objects to concatenate.
      * @return MXWrapper. A new MXWrapper containing the result of the block concatenation.
      */
-    public MXWrapper blockcat(VectorCollection mxVector) {
+    public MXWrapper blockcat(MXVectorCollection mxVector) {
         return new MXWrapper(MX.blockcat(mxVector.getCasADiObject()));
     }
 
@@ -1728,8 +1726,8 @@ public class MXWrapper {
      * @param opts Options for the forward computation.
      * @return VectorCollection. A new VectorCollection containing the result of the forward mode.
      */
-    public VectorCollection forward(MXVector ex, MXVector arg, VectorCollection v, Dict opts) {
-        return new VectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
+    public MXVectorCollection forward(MXVector ex, MXVector arg, MXVectorCollection v, Dict opts) {
+        return new MXVectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
     }
 
     /**
@@ -1740,8 +1738,8 @@ public class MXWrapper {
      * @param v The VectorCollection representing the values for the forward mode.
      * @return VectorCollection. A new VectorCollection containing the result of the forward mode.
      */
-    public VectorCollection forward(MXVector ex, MXVector arg, VectorCollection v) {
-        return new VectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
+    public MXVectorCollection forward(MXVector ex, MXVector arg, MXVectorCollection v) {
+        return new MXVectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     /**
@@ -1753,8 +1751,8 @@ public class MXWrapper {
      * @param opts Options for the reverse computation.
      * @return VectorCollection. A new VectorCollection containing the result of the reverse mode.
      */
-    public VectorCollection reverse(MXVector ex, MXVector arg, VectorCollection v, Dict opts) {
-        return new VectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
+    public MXVectorCollection reverse(MXVector ex, MXVector arg, MXVectorCollection v, Dict opts) {
+        return new MXVectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
     }
 
     /**
@@ -1765,8 +1763,8 @@ public class MXWrapper {
      * @param v The VectorCollection representing the values for the reverse mode.
      * @return VectorCollection. A new VectorCollection containing the result of the reverse mode.
      */
-    public VectorCollection reverse(MXVector ex, MXVector arg, VectorCollection v) {
-        return new VectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
+    public MXVectorCollection reverse(MXVector ex, MXVector arg, MXVectorCollection v) {
+        return new MXVectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     /**
@@ -1775,10 +1773,10 @@ public class MXWrapper {
      * @param var The MXWrapper representing the variable.
      * @param order The order of dependency to check.
      * @param tr A boolean flag for additional options.
-     * @return StdVectorBool. A new StdVectorBool containing the dependency information.
+     * @return BooleanVectorCollection. A new BooleanVectorCollection containing the dependency information.
      */
-    public StdVectorBool whichDepends(MXWrapper var, long order, boolean tr) {
-        return new StdVectorBool(MX.which_depends(this.mx, var.mx, order, tr));
+    public BooleanVectorCollection whichDepends(MXWrapper var, long order, boolean tr) {
+        return new BooleanVectorCollection(MX.which_depends(this.mx, var.mx, order, tr));
     }
 
     /**
@@ -1786,20 +1784,20 @@ public class MXWrapper {
      *
      * @param var The MXWrapper representing the variable.
      * @param order The order of dependency to check.
-     * @return StdVectorBool. A new StdVectorBool containing the dependency information.
+     * @return BooleanVectorCollection. A new BooleanVectorCollection containing the dependency information.
      */
-    public StdVectorBool whichDepends(MXWrapper var, long order) {
-        return new StdVectorBool(MX.which_depends(this.mx, var.mx, order));
+    public BooleanVectorCollection whichDepends(MXWrapper var, long order) {
+        return new BooleanVectorCollection(MX.which_depends(this.mx, var.mx, order));
     }
 
     /**
      * Determines which variables depend on the given expression.
      *
      * @param var The MXWrapper representing the variable.
-     * @return StdVectorBool. A new StdVectorBool containing the dependency information.
+     * @return BooleanVectorCollection. A new BooleanVectorCollection containing the dependency information.
      */
-    public StdVectorBool whichDepends(MXWrapper var) {
-        return new StdVectorBool(MX.which_depends(this.mx, var.mx));
+    public BooleanVectorCollection whichDepends(MXWrapper var) {
+        return new BooleanVectorCollection(MX.which_depends(this.mx, var.mx));
     }
 
     /**
@@ -2554,13 +2552,13 @@ public class MXWrapper {
      *
      * @param coeffs The DM representing the coefficients.
      * @param knots The StdVectorVectorDouble representing the knots.
-     * @param degree The StdVectorCasadiInt representing the degree.
+     * @param degree The IntegerVectorCollection representing the degree.
      * @param m The number of repetitions.
      * @param opts The dictionary containing options for the B-spline.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(DM coeffs, StdVectorVectorDouble knots, StdVectorCasadiInt degree, long m, Dict opts) {
-        MX result = MX.bspline(this.mx, coeffs, knots, degree, m, opts);
+    public MXWrapper bspline(DM coeffs, StdVectorVectorDouble knots, IntegerVectorCollection degree, long m, Dict opts) {
+        MX result = MX.bspline(this.mx, coeffs, knots, degree.getCasADiObject(), m, opts);
         return new MXWrapper(result);
     }
 
@@ -2569,12 +2567,12 @@ public class MXWrapper {
      *
      * @param coeffs The DM representing the coefficients.
      * @param knots The StdVectorVectorDouble representing the knots.
-     * @param degree The StdVectorCasadiInt representing the degree.
+     * @param degree The IntegerVectorCollection representing the degree.
      * @param m The number of repetitions.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(DM coeffs, StdVectorVectorDouble knots, StdVectorCasadiInt degree, long m) {
-        MX result = MX.bspline(this.mx, coeffs, knots, degree, m);
+    public MXWrapper bspline(DM coeffs, StdVectorVectorDouble knots, IntegerVectorCollection degree, long m) {
+        MX result = MX.bspline(this.mx, coeffs, knots, degree.getCasADiObject(), m);
         return new MXWrapper(result);
     }
 
@@ -2583,13 +2581,13 @@ public class MXWrapper {
      *
      * @param coeffs The MXWrapper representing the coefficients.
      * @param knots The StdVectorVectorDouble representing the knots.
-     * @param degree The StdVectorCasadiInt representing the degree.
+     * @param degree The IntegerVectorCollection representing the degree.
      * @param m The number of repetitions.
      * @param opts The dictionary containing options for the B-spline.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(MXWrapper coeffs, StdVectorVectorDouble knots, StdVectorCasadiInt degree, long m, Dict opts) {
-        MX result = MX.bspline(this.mx, coeffs.mx, knots, degree, m, opts);
+    public MXWrapper bspline(MXWrapper coeffs, StdVectorVectorDouble knots, IntegerVectorCollection degree, long m, Dict opts) {
+        MX result = MX.bspline(this.mx, coeffs.mx, knots, degree.getCasADiObject(), m, opts);
         return new MXWrapper(result);
     }
 
@@ -2598,12 +2596,12 @@ public class MXWrapper {
      *
      * @param coeffs The MXWrapper representing the coefficients.
      * @param knots The StdVectorVectorDouble representing the knots.
-     * @param degree The StdVectorCasadiInt representing the degree.
+     * @param degree The IntegerVectorCollection representing the degree.
      * @param m The number of repetitions.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(MXWrapper coeffs, StdVectorVectorDouble knots, StdVectorCasadiInt degree, long m) {
-        MX result = MX.bspline(this.mx, coeffs.mx, knots, degree, m);
+    public MXWrapper bspline(MXWrapper coeffs, StdVectorVectorDouble knots, IntegerVectorCollection degree, long m) {
+        MX result = MX.bspline(this.mx, coeffs.mx, knots, degree.getCasADiObject(), m);
         return new MXWrapper(result);
     }
 
@@ -2654,26 +2652,26 @@ public class MXWrapper {
     /**
      * Computes the dual B-spline for the given input and specified knots, degree, and options.
      *
-     * @param x The StdVectorDouble representing the input values.
+     * @param x The DoubleVectorCollection representing the input values.
      * @param knots The StdVectorVectorDouble representing the knots.
-     * @param degree The StdVectorCasadiInt representing the degree of the B-spline.
+     * @param degree The IntegerVectorCollection representing the degree of the B-spline.
      * @param opts The dictionary containing options for the B-spline computation.
      * @return DM. A new DM containing the dual B-spline result.
      */
-    public static DM bsplineDual(StdVectorDouble x, StdVectorVectorDouble knots, StdVectorCasadiInt degree, Dict opts) {
-        return MX.bspline_dual(x, knots, degree, opts);
+    public static DM bsplineDual(DoubleVectorCollection x, StdVectorVectorDouble knots, IntegerVectorCollection degree, Dict opts) {
+        return MX.bspline_dual(x.getCasADiObject(), knots, degree.getCasADiObject(), opts);
     }
 
     /**
      * Computes the dual B-spline for the given input and specified knots and degree.
      *
-     * @param x The StdVectorDouble representing the input values.
+     * @param x The DoubleVectorCollection representing the input values.
      * @param knots The StdVectorVectorDouble representing the knots.
-     * @param degree The StdVectorCasadiInt representing the degree of the B-spline.
+     * @param degree The IntegerVectorCollection representing the degree of the B-spline.
      * @return DM. A new DM containing the dual B-spline result.
      */
-    public static DM bsplineDual(StdVectorDouble x, StdVectorVectorDouble knots, StdVectorCasadiInt degree) {
-        return MX.bspline_dual(x, knots, degree);
+    public static DM bsplineDual(DoubleVectorCollection x, StdVectorVectorDouble knots, IntegerVectorCollection degree) {
+        return MX.bspline_dual(x.getCasADiObject(), knots, degree.getCasADiObject());
     }
 
     /**
@@ -2839,7 +2837,7 @@ public class MXWrapper {
      * @param fseed The VectorCollection representing the seed for forward mode.
      * @param fsens The VectorCollection to store the sensitivity results.
      */
-    public void adForward(VectorCollection fseed, VectorCollection fsens) {
+    public void adForward(MXVectorCollection fseed, MXVectorCollection fsens) {
         this.mx.ad_forward(fseed.getCasADiObject(), fsens.getCasADiObject());
     }
 
@@ -2849,7 +2847,7 @@ public class MXWrapper {
      * @param aseed The VectorCollection representing the seed for reverse mode.
      * @param asens The VectorCollection to store the sensitivity results.
      */
-    public void adReverse(VectorCollection aseed, VectorCollection asens) {
+    public void adReverse(MXVectorCollection aseed, MXVectorCollection asens) {
         this.mx.ad_reverse(aseed.getCasADiObject(), asens.getCasADiObject());
     }
 
@@ -2897,12 +2895,12 @@ public class MXWrapper {
     /**
      * Splits the given matrix into blocks based on specified vertical and horizontal offsets.
      *
-     * @param vert_offset The StdVectorCasadiInt representing vertical offsets.
-     * @param horz_offset The StdVectorCasadiInt representing horizontal offsets.
+     * @param vert_offset The IntegerVectorCollection representing vertical offsets.
+     * @param horz_offset The IntegerVectorCollection representing horizontal offsets.
      * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
-    public VectorCollection blocksplit(StdVectorCasadiInt vert_offset, StdVectorCasadiInt horz_offset) {
-        return new VectorCollection(MX.blocksplit(this.mx, vert_offset, horz_offset));
+    public MXVectorCollection blocksplit(IntegerVectorCollection vert_offset, IntegerVectorCollection horz_offset) {
+        return new MXVectorCollection(MX.blocksplit(this.mx, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
 
     /**
@@ -2912,8 +2910,8 @@ public class MXWrapper {
      * @param horz_incr The horizontal increment for splitting.
      * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
-    public VectorCollection blocksplit(long vert_incr, long horz_incr) {
-        return new VectorCollection(MX.blocksplit(this.mx, vert_incr, horz_incr));
+    public MXVectorCollection blocksplit(long vert_incr, long horz_incr) {
+        return new MXVectorCollection(MX.blocksplit(this.mx, vert_incr, horz_incr));
     }
 
     /**
@@ -2940,20 +2938,20 @@ public class MXWrapper {
      *
      * @param v The MXVector representing the vector.
      * @param vert A boolean indicating whether to compute vertical offsets.
-     * @return StdVectorCasadiInt. A new StdVectorCasadiInt containing the computed offsets.
+     * @return IntegerVectorCollection. A new IntegerVectorCollection containing the computed offsets.
      */
-    public static StdVectorCasadiInt offset(MXVector v, boolean vert) {
-        return MX.offset(v.getCasADiObject(), vert);
+    public static IntegerVectorCollection offset(MXVector v, boolean vert) {
+        return new IntegerVectorCollection(MX.offset(v.getCasADiObject(), vert));
     }
 
     /**
      * Computes the offsets for the given vector.
      *
      * @param v The MXVector representing the vector.
-     * @return StdVectorCasadiInt. A new StdVectorCasadiInt containing the computed offsets.
+     * @return IntegerVectorCollection. A new IntegerVectorCollection containing the computed offsets.
      */
-    public static StdVectorCasadiInt offset(MXVector v) {
-        return MX.offset(v.getCasADiObject());
+    public static IntegerVectorCollection offset(MXVector v) {
+        return new IntegerVectorCollection(MX.offset(v.getCasADiObject()));
     }
 
     /**
@@ -3242,19 +3240,19 @@ public class MXWrapper {
      * Gets the sparsity pattern of the matrix represented by this MXWrapper.
      * See the Sparsity class for details.
      *
-     * @return StdVectorCasadiInt. A new StdVectorCasadiInt containing the row indices of the sparsity pattern.
+     * @return IntegerVectorCollection. A new IntegerVectorCollection containing the row indices of the sparsity pattern.
      */
-    public StdVectorCasadiInt getRow() {
-        return new StdVectorCasadiInt(this.mx.get_row());
+    public IntegerVectorCollection getRow() {
+        return new IntegerVectorCollection(this.mx.get_row());
     }
 
     /**
      * Gets the column indices of the sparsity pattern of the matrix represented by this MXWrapper.
      *
-     * @return StdVectorCasadiInt. A new StdVectorCasadiInt containing the column indices of the sparsity pattern.
+     * @return IntegerVectorCollection. A new IntegerVectorCollection containing the column indices of the sparsity pattern.
      */
-    public StdVectorCasadiInt getColInd() {
-        return new StdVectorCasadiInt(this.mx.get_colind());
+    public IntegerVectorCollection getColInd() {
+        return new IntegerVectorCollection(this.mx.get_colind());
     }
 
     /**
@@ -3280,15 +3278,15 @@ public class MXWrapper {
     /**
      * Performs linear interpolation for the given input and specified knots, degree, and options.
      *
-     * @param x The StdVectorDouble representing the input values.
+     * @param x The DoubleVectorCollection representing the input values.
      * @param v The MXWrapper representing the values to interpolate.
-     * @param xq The StdVectorDouble representing the query points.
+     * @param xq The DoubleVectorCollection representing the query points.
      * @param mode The mode of interpolation.
      * @param equidistant A boolean indicating whether the input values are equidistant.
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
-    public MXWrapper interp1d(StdVectorDouble x, MXWrapper v, StdVectorDouble xq, String mode, boolean equidistant) {
-        return new MXWrapper(MX.interp1d(x, v.mx, xq, mode, equidistant));
+    public MXWrapper interp1d(DoubleVectorCollection x, MXWrapper v, DoubleVectorCollection xq, String mode, boolean equidistant) {
+        return new MXWrapper(MX.interp1d(x.getCasADiObject(), v.mx, xq.getCasADiObject(), mode, equidistant));
     }
 
     /**
@@ -3732,8 +3730,8 @@ public class MXWrapper {
      * @param r The length of the outer vector.
      * @return VectorCollection. A new VectorCollection containing the symbolic primitives.
      */
-    public VectorCollection sym(String name, Sparsity sp, long p, long r) {
-        return new VectorCollection(MX.sym(name, sp, p, r));
+    public MXVectorCollection sym(String name, Sparsity sp, long p, long r) {
+        return new MXVectorCollection(MX.sym(name, sp, p, r));
     }
 
     /**
@@ -3746,8 +3744,8 @@ public class MXWrapper {
      * @param r The length of the outer vector.
      * @return VectorCollection. A new VectorCollection containing the symbolic primitives.
      */
-    public VectorCollection sym(String name, long nrow, long ncol, long p, long r) {
-        return new VectorCollection(MX.sym(name, nrow, ncol, p, r));
+    public MXVectorCollection sym(String name, long nrow, long ncol, long p, long r) {
+        return new MXVectorCollection(MX.sym(name, nrow, ncol, p, r));
     }
 
     /**
