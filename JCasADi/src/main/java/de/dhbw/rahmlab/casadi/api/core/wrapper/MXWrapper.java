@@ -3,6 +3,8 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.*;
 
+import java.util.Vector;
+
 /**
  * A wrapper class for the MX object, representing a variable in the constraint model.
  */
@@ -32,7 +34,7 @@ public class MXWrapper {
      * @param dm
      */
     public MXWrapper(DMWrapper dm) {
-        this.mx = new MX(dm.getCasadiObject());
+        this.mx = new MX(dm.getCasADiObject());
     }
 
     /**
@@ -1586,8 +1588,8 @@ public class MXWrapper {
      * @param mxVector The vector of vectors of MXWrapper objects to concatenate.
      * @return MXWrapper. A new MXWrapper containing the result of the block concatenation.
      */
-    public MXWrapper blockcat(StdVectorVectorMX mxVector) {
-        return new MXWrapper(MX.blockcat(mxVector));
+    public MXWrapper blockcat(VectorCollection mxVector) {
+        return new MXWrapper(MX.blockcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -1722,12 +1724,12 @@ public class MXWrapper {
      *
      * @param ex The MXVector representing the expression to differentiate.
      * @param arg The MXVector representing the arguments of the expression.
-     * @param v The StdVectorVectorMX representing the values for the forward mode.
+     * @param v The VectorCollection representing the values for the forward mode.
      * @param opts Options for the forward computation.
-     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the forward mode.
+     * @return VectorCollection. A new VectorCollection containing the result of the forward mode.
      */
-    public StdVectorVectorMX forward(MXVector ex, MXVector arg, StdVectorVectorMX v, Dict opts) {
-        return new StdVectorVectorMX(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v, opts));
+    public VectorCollection forward(MXVector ex, MXVector arg, VectorCollection v, Dict opts) {
+        return new VectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
     }
 
     /**
@@ -1735,11 +1737,11 @@ public class MXWrapper {
      *
      * @param ex The MXVector representing the expression to differentiate.
      * @param arg The MXVector representing the arguments of the expression.
-     * @param v The StdVectorVectorMX representing the values for the forward mode.
-     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the forward mode.
+     * @param v The VectorCollection representing the values for the forward mode.
+     * @return VectorCollection. A new VectorCollection containing the result of the forward mode.
      */
-    public StdVectorVectorMX forward(MXVector ex, MXVector arg, StdVectorVectorMX v) {
-        return new StdVectorVectorMX(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v));
+    public VectorCollection forward(MXVector ex, MXVector arg, VectorCollection v) {
+        return new VectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     /**
@@ -1747,12 +1749,12 @@ public class MXWrapper {
      *
      * @param ex The MXVector representing the expression to differentiate.
      * @param arg The MXVector representing the arguments of the expression.
-     * @param v The StdVectorVectorMX representing the values for the reverse mode.
+     * @param v The VectorCollection representing the values for the reverse mode.
      * @param opts Options for the reverse computation.
-     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the reverse mode.
+     * @return VectorCollection. A new VectorCollection containing the result of the reverse mode.
      */
-    public StdVectorVectorMX reverse(MXVector ex, MXVector arg, StdVectorVectorMX v, Dict opts) {
-        return new StdVectorVectorMX(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v, opts));
+    public VectorCollection reverse(MXVector ex, MXVector arg, VectorCollection v, Dict opts) {
+        return new VectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
     }
 
     /**
@@ -1760,11 +1762,11 @@ public class MXWrapper {
      *
      * @param ex The MXVector representing the expression to differentiate.
      * @param arg The MXVector representing the arguments of the expression.
-     * @param v The StdVectorVectorMX representing the values for the reverse mode.
-     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the reverse mode.
+     * @param v The VectorCollection representing the values for the reverse mode.
+     * @return VectorCollection. A new VectorCollection containing the result of the reverse mode.
      */
-    public StdVectorVectorMX reverse(MXVector ex, MXVector arg, StdVectorVectorMX v) {
-        return new StdVectorVectorMX(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v));
+    public VectorCollection reverse(MXVector ex, MXVector arg, VectorCollection v) {
+        return new VectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     /**
@@ -2834,21 +2836,21 @@ public class MXWrapper {
     /**
      * Called from MXFunction to perform forward automatic differentiation.
      *
-     * @param fseed The StdVectorVectorMX representing the seed for forward mode.
-     * @param fsens The StdVectorVectorMX to store the sensitivity results.
+     * @param fseed The VectorCollection representing the seed for forward mode.
+     * @param fsens The VectorCollection to store the sensitivity results.
      */
-    public void adForward(StdVectorVectorMX fseed, StdVectorVectorMX fsens) {
-        this.mx.ad_forward(fseed, fsens);
+    public void adForward(VectorCollection fseed, VectorCollection fsens) {
+        this.mx.ad_forward(fseed.getCasADiObject(), fsens.getCasADiObject());
     }
 
     /**
      * Called from MXFunction to perform reverse automatic differentiation.
      *
-     * @param aseed The StdVectorVectorMX representing the seed for reverse mode.
-     * @param asens The StdVectorVectorMX to store the sensitivity results.
+     * @param aseed The VectorCollection representing the seed for reverse mode.
+     * @param asens The VectorCollection to store the sensitivity results.
      */
-    public void adReverse(StdVectorVectorMX aseed, StdVectorVectorMX asens) {
-        this.mx.ad_reverse(aseed, asens);
+    public void adReverse(VectorCollection aseed, VectorCollection asens) {
+        this.mx.ad_reverse(aseed.getCasADiObject(), asens.getCasADiObject());
     }
 
     /**
@@ -2897,10 +2899,10 @@ public class MXWrapper {
      *
      * @param vert_offset The StdVectorCasadiInt representing vertical offsets.
      * @param horz_offset The StdVectorCasadiInt representing horizontal offsets.
-     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the split blocks.
+     * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
-    public StdVectorVectorMX blocksplit(StdVectorCasadiInt vert_offset, StdVectorCasadiInt horz_offset) {
-        return MX.blocksplit(this.mx, vert_offset, horz_offset);
+    public VectorCollection blocksplit(StdVectorCasadiInt vert_offset, StdVectorCasadiInt horz_offset) {
+        return new VectorCollection(MX.blocksplit(this.mx, vert_offset, horz_offset));
     }
 
     /**
@@ -2908,10 +2910,10 @@ public class MXWrapper {
      *
      * @param vert_incr The vertical increment for splitting.
      * @param horz_incr The horizontal increment for splitting.
-     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the split blocks.
+     * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
-    public StdVectorVectorMX blocksplit(long vert_incr, long horz_incr) {
-        return MX.blocksplit(this.mx, vert_incr, horz_incr);
+    public VectorCollection blocksplit(long vert_incr, long horz_incr) {
+        return new VectorCollection(MX.blocksplit(this.mx, vert_incr, horz_incr));
     }
 
     /**
@@ -3728,10 +3730,10 @@ public class MXWrapper {
      * @param sp The Sparsity object representing the sparsity pattern.
      * @param p The length of the inner vectors.
      * @param r The length of the outer vector.
-     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the symbolic primitives.
+     * @return VectorCollection. A new VectorCollection containing the symbolic primitives.
      */
-    public StdVectorVectorMX sym(String name, Sparsity sp, long p, long r) {
-        return MX.sym(name, sp, p, r);
+    public VectorCollection sym(String name, Sparsity sp, long p, long r) {
+        return new VectorCollection(MX.sym(name, sp, p, r));
     }
 
     /**
@@ -3742,10 +3744,10 @@ public class MXWrapper {
      * @param ncol The number of columns for the symbolic primitives.
      * @param p The length of the inner vectors.
      * @param r The length of the outer vector.
-     * @return StdVectorVectorMX. A new StdVectorVectorMX containing the symbolic primitives.
+     * @return VectorCollection. A new VectorCollection containing the symbolic primitives.
      */
-    public StdVectorVectorMX sym(String name, long nrow, long ncol, long p, long r) {
-        return MX.sym(name, nrow, ncol, p, r);
+    public VectorCollection sym(String name, long nrow, long ncol, long p, long r) {
+        return new VectorCollection(MX.sym(name, nrow, ncol, p, r));
     }
 
     /**
