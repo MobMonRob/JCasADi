@@ -1,10 +1,12 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course.secondBlock;
 
 import de.dhbw.rahmlab.casadi.api.core.builder.MXBuilder;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.MXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
 import static de.dhbw.rahmlab.casadi.impl.casadi.MX.*;
@@ -362,6 +364,27 @@ public class OptiExercise {
         MX z1 = MX.sym("Z", 3);
         MX result = MX.mtimes(z1.T(), z1);
         System.out.println(result);
+
+        MXWrapper matrix = new MXBuilder().setValues(new double[]{1.0, 2.0, 3.0, 4.0}).buildFromValues();
+        System.out.println(matrix.getCasADiObject());
+
+        MX matrix2 = new MX(new StdVectorDouble(new double[]{1.0, 2.0, 3.0, 4.0}));
+        System.out.println(matrix2);
+
+        MXWrapper x1 = new MXBuilder().setName("X").setDimensions(2, 2).build();
+        MXWrapper y1 = new MXBuilder().setName("Y").setDimensions(2, 2).build();
+
+        MXVector vectorMX = new MXVector().add(x1).add(y1);
+
+        for(int i = 0; i < vectorMX.size(); i++) {
+            System.out.println(vectorMX.get(i).getCasADiObject());
+        }
+
+        StdVectorMX stdVectorMX = new StdVectorMX(new MX[]{x1.getCasADiObject(), y1.getCasADiObject()});
+
+        for(int i = 0; i < stdVectorMX.size(); i++) {
+            System.out.println(stdVectorMX.get(i));
+        }
     }
 
     // Notes:

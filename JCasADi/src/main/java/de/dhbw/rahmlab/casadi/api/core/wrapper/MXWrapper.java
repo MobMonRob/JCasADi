@@ -3,7 +3,9 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.*;
 
-// TODO: Bind StdVectorMX to MXWrapper
+/**
+ * A wrapper class for the MX object, representing a variable in the constraint model.
+ */
 public class MXWrapper {
 
     private MX mx;
@@ -608,10 +610,10 @@ public class MXWrapper {
      * This method returns a vector containing the symbolic primitives (basic components) of
      * the MX expression. These are the building blocks of the symbolic expression.
      *
-     * @return StdVectorMX. A vector of MX primitives.
+     * @return MXVector. A vector of MX primitives.
      */
-    public StdVectorMX primitives() {
-        return this.mx.primitives();
+    public MXVector primitives() {
+        return new MXVector(this.mx.primitives());
     }
 
     /**
@@ -621,10 +623,10 @@ public class MXWrapper {
      * (basic symbolic components) and returns them as a vector.
      *
      * @param x The MX expression to split into primitives.
-     * @return StdVectorMX. A vector of MX primitives representing the split expression.
+     * @return MXVector. A vector of MX primitives representing the split expression.
      */
-    public StdVectorMX splitPrimitives(MXWrapper x) {
-        return this.mx.split_primitives(x.getCasADiObject());
+    public MXVector splitPrimitives(MXWrapper x) {
+        return new MXVector(this.mx.split_primitives(x.getCasADiObject()));
     }
 
     /**
@@ -636,8 +638,8 @@ public class MXWrapper {
      * @param v A vector of MX primitives to join into a single expression.
      * @return MXWrapper
      */
-    public MXWrapper joinPrimitives(StdVectorMX v) {
-        return new MXWrapper(this.mx.join_primitives(v));
+    public MXWrapper joinPrimitives(MXVector v) {
+        return new MXWrapper(this.mx.join_primitives(v.getCasADiObject()));
     }
 
     /**
@@ -1523,8 +1525,8 @@ public class MXWrapper {
      * @param mxVector The vector of MXWrapper objects to concatenate with.
      * @return MXWrapper. A new MXWrapper containing the result of the horizontal concatenation.
      */
-    public MXWrapper horzcat(StdVectorMX mxVector) {
-        return new MXWrapper(MX.horzcat(mxVector));
+    public MXWrapper horzcat(MXVector mxVector) {
+        return new MXWrapper(MX.horzcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -1533,8 +1535,8 @@ public class MXWrapper {
      * @param mxVector The vector of MXWrapper objects to concatenate diagonally.
      * @return MXWrapper. A new MXWrapper containing the result of the diagonal concatenation.
      */
-    public MXWrapper diagcat(StdVectorMX mxVector) {
-        return new MXWrapper(MX.diagcat(mxVector));
+    public MXWrapper diagcat(MXVector mxVector) {
+        return new MXWrapper(MX.diagcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -1543,18 +1545,18 @@ public class MXWrapper {
      * @param mxVector The vector of MXWrapper objects to concatenate with.
      * @return MXWrapper. A new MXWrapper containing the result of the vertical concatenation.
      */
-    public MXWrapper vertcat(StdVectorMX mxVector) {
-        return new MXWrapper(MX.vertcat(mxVector));
+    public MXWrapper vertcat(MXVector mxVector) {
+        return new MXWrapper(MX.vertcat(mxVector.getCasADiObject()));
     }
 
     /**
      * Horizontally splits this MX object at the specified offset.
      *
      * @param offset The offset at which to split the MX object.
-     * @return StdVectorMX. A vector of MXWrapper objects resulting from the horizontal split.
+     * @return MXVector. A vector of MXWrapper objects resulting from the horizontal split.
      */
-    public StdVectorMX horzsplit(StdVectorCasadiInt offset) {
-        return new StdVectorMX(MX.horzsplit(this.mx, offset));
+    public MXVector horzsplit(StdVectorCasadiInt offset) {
+        return new MXVector(MX.horzsplit(this.mx, offset));
     }
 
     /**
@@ -1562,20 +1564,20 @@ public class MXWrapper {
      *
      * @param offset1 The first offset for the diagonal split.
      * @param offset2 The second offset for the diagonal split.
-     * @return StdVectorMX. A vector of MXWrapper objects resulting from the diagonal split.
+     * @return MXVector. A vector of MXWrapper objects resulting from the diagonal split.
      */
-    public StdVectorMX diagsplit(StdVectorCasadiInt offset1, StdVectorCasadiInt offset2) {
-        return new StdVectorMX(MX.diagsplit(this.mx, offset1, offset2));
+    public MXVector diagsplit(StdVectorCasadiInt offset1, StdVectorCasadiInt offset2) {
+        return new MXVector(MX.diagsplit(this.mx, offset1, offset2));
     }
 
     /**
      * Vertically splits this MX object at the specified offset.
      *
      * @param offset The offset at which to split the MX object.
-     * @return StdVectorMX. A vector of MXWrapper objects resulting from the vertical split.
+     * @return MXVector. A vector of MXWrapper objects resulting from the vertical split.
      */
-    public StdVectorMX vertsplit(StdVectorCasadiInt offset) {
-        return new StdVectorMX(MX.vertsplit(this.mx, offset));
+    public MXVector vertsplit(StdVectorCasadiInt offset) {
+        return new MXVector(MX.vertsplit(this.mx, offset));
     }
 
     /**
@@ -1718,51 +1720,51 @@ public class MXWrapper {
     /**
      * Computes the forward mode of automatic differentiation for the given expression.
      *
-     * @param ex The StdVectorMX representing the expression to differentiate.
-     * @param arg The StdVectorMX representing the arguments of the expression.
+     * @param ex The MXVector representing the expression to differentiate.
+     * @param arg The MXVector representing the arguments of the expression.
      * @param v The StdVectorVectorMX representing the values for the forward mode.
      * @param opts Options for the forward computation.
      * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the forward mode.
      */
-    public StdVectorVectorMX forward(StdVectorMX ex, StdVectorMX arg, StdVectorVectorMX v, Dict opts) {
-        return new StdVectorVectorMX(MX.forward(ex, arg, v, opts));
+    public StdVectorVectorMX forward(MXVector ex, MXVector arg, StdVectorVectorMX v, Dict opts) {
+        return new StdVectorVectorMX(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v, opts));
     }
 
     /**
      * Computes the forward mode of automatic differentiation for the given expression.
      *
-     * @param ex The StdVectorMX representing the expression to differentiate.
-     * @param arg The StdVectorMX representing the arguments of the expression.
+     * @param ex The MXVector representing the expression to differentiate.
+     * @param arg The MXVector representing the arguments of the expression.
      * @param v The StdVectorVectorMX representing the values for the forward mode.
      * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the forward mode.
      */
-    public StdVectorVectorMX forward(StdVectorMX ex, StdVectorMX arg, StdVectorVectorMX v) {
-        return new StdVectorVectorMX(MX.forward(ex, arg, v));
+    public StdVectorVectorMX forward(MXVector ex, MXVector arg, StdVectorVectorMX v) {
+        return new StdVectorVectorMX(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v));
     }
 
     /**
      * Computes the reverse mode of automatic differentiation for the given expression.
      *
-     * @param ex The StdVectorMX representing the expression to differentiate.
-     * @param arg The StdVectorMX representing the arguments of the expression.
+     * @param ex The MXVector representing the expression to differentiate.
+     * @param arg The MXVector representing the arguments of the expression.
      * @param v The StdVectorVectorMX representing the values for the reverse mode.
      * @param opts Options for the reverse computation.
      * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the reverse mode.
      */
-    public StdVectorVectorMX reverse(StdVectorMX ex, StdVectorMX arg, StdVectorVectorMX v, Dict opts) {
-        return new StdVectorVectorMX(MX.reverse(ex, arg, v, opts));
+    public StdVectorVectorMX reverse(MXVector ex, MXVector arg, StdVectorVectorMX v, Dict opts) {
+        return new StdVectorVectorMX(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v, opts));
     }
 
     /**
      * Computes the reverse mode of automatic differentiation for the given expression.
      *
-     * @param ex The StdVectorMX representing the expression to differentiate.
-     * @param arg The StdVectorMX representing the arguments of the expression.
+     * @param ex The MXVector representing the expression to differentiate.
+     * @param arg The MXVector representing the arguments of the expression.
      * @param v The StdVectorVectorMX representing the values for the reverse mode.
      * @return StdVectorVectorMX. A new StdVectorVectorMX containing the result of the reverse mode.
      */
-    public StdVectorVectorMX reverse(StdVectorMX ex, StdVectorMX arg, StdVectorVectorMX v) {
-        return new StdVectorVectorMX(MX.reverse(ex, arg, v));
+    public StdVectorVectorMX reverse(MXVector ex, MXVector arg, StdVectorVectorMX v) {
+        return new StdVectorVectorMX(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v));
     }
 
     /**
@@ -1822,13 +1824,13 @@ public class MXWrapper {
     /**
      * Substitutes a vector of variables in a vector of expressions with given values.
      *
-     * @param ex The StdVectorMX representing the expressions to substitute in.
-     * @param v The StdVectorMX representing the variables to substitute.
-     * @param vdef The StdVectorMX representing the values to substitute in.
-     * @return StdVectorMX. A new StdVectorMX containing the results of the substitutions.
+     * @param ex The MXVector representing the expressions to substitute in.
+     * @param v The MXVector representing the variables to substitute.
+     * @param vdef The MXVector representing the values to substitute in.
+     * @return MXVector. A new MXVector containing the results of the substitutions.
      */
-    public static StdVectorMX substitute(StdVectorMX ex, StdVectorMX v, StdVectorMX vdef) {
-        return new StdVectorMX(MX.substitute(ex, v, vdef));
+    public static MXVector substitute(MXVector ex, MXVector v, MXVector vdef) {
+        return new MXVector(MX.substitute(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject()));
     }
 
     /**
@@ -1838,13 +1840,13 @@ public class MXWrapper {
      * with the provided values. The substitution can be performed in reverse order
      * if specified.
      *
-     * @param variables The StdVectorMX representing the variables to substitute.
-     * @param values The StdVectorMX representing the values to substitute in.
-     * @param expressions The StdVectorMX representing the expressions to modify.
+     * @param variables The MXVector representing the variables to substitute.
+     * @param values The MXVector representing the values to substitute in.
+     * @param expressions The MXVector representing the expressions to modify.
      * @param reverse A boolean indicating whether to perform the substitution in reverse order.
      */
-    public static void substituteInPlace(StdVectorMX variables, StdVectorMX values, StdVectorMX expressions, boolean reverse) {
-        MX.substitute_inplace(variables, values, expressions, reverse);
+    public static void substituteInPlace(MXVector variables, MXVector values, MXVector expressions, boolean reverse) {
+        MX.substitute_inplace(variables.getCasADiObject(), values.getCasADiObject(), expressions.getCasADiObject(), reverse);
     }
 
     /**
@@ -2033,13 +2035,13 @@ public class MXWrapper {
      *
      * This method uses the provided options dictionary for extraction.
      *
-     * @param ex The StdVectorMX representing the expressions to extract from.
-     * @param v The StdVectorMX representing the variables.
-     * @param vdef The StdVectorMX representing the values to substitute.
+     * @param ex The MXVector representing the expressions to extract from.
+     * @param v The MXVector representing the variables.
+     * @param vdef The MXVector representing the values to substitute.
      * @param opts The dictionary containing options for extraction.
      */
-    public static void extract(StdVectorMX ex, StdVectorMX v, StdVectorMX vdef, Dict opts) {
-        MX.extract(ex, v, vdef, opts);
+    public static void extract(MXVector ex, MXVector v, MXVector vdef, Dict opts) {
+        MX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), opts);
     }
 
     /**
@@ -2047,25 +2049,25 @@ public class MXWrapper {
      *
      * This method does not use an options dictionary for extraction.
      *
-     * @param ex The StdVectorMX representing the expressions to extract from.
-     * @param v The StdVectorMX representing the variables.
-     * @param vdef The StdVectorMX representing the values to substitute.
+     * @param ex The MXVector representing the expressions to extract from.
+     * @param v The MXVector representing the variables.
+     * @param vdef The MXVector representing the values to substitute.
      */
-    public static void extract(StdVectorMX ex, StdVectorMX v, StdVectorMX vdef) {
-        MX.extract(ex, v, vdef);
+    public static void extract(MXVector ex, MXVector v, MXVector vdef) {
+        MX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject());
     }
 
     /**
      * Shares variables in the context of the given expressions.
      *
-     * @param ex The StdVectorMX representing the expressions.
-     * @param v The StdVectorMX representing the variables.
-     * @param vdef The StdVectorMX representing the default values.
+     * @param ex The MXVector representing the expressions.
+     * @param v The MXVector representing the variables.
+     * @param vdef The MXVector representing the default values.
      * @param v_prefix The prefix for variable names.
      * @param v_suffix The suffix for variable names.
      */
-    public static void shared(StdVectorMX ex, StdVectorMX v, StdVectorMX vdef, String v_prefix, String v_suffix) {
-        MX.shared(ex, v, vdef, v_prefix, v_suffix);
+    public static void shared(MXVector ex, MXVector v, MXVector vdef, String v_prefix, String v_suffix) {
+        MX.shared(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), v_prefix, v_suffix);
     }
 
     // TODO: Should this be static?
@@ -2100,13 +2102,13 @@ public class MXWrapper {
      * Evaluates a conditional expression based on the provided index.
      *
      * @param ind The MXWrapper representing the index.
-     * @param x The StdVectorMX representing the expressions.
+     * @param x The MXVector representing the expressions.
      * @param x_default The MXWrapper representing the default expression.
      * @param short_circuit A boolean indicating whether to use short-circuit evaluation.
      * @return MXWrapper. A new MXWrapper containing the result of the conditional expression.
      */
-    public static MXWrapper conditional(MXWrapper ind, StdVectorMX x, MXWrapper x_default, boolean short_circuit) {
-        MX result = MX.conditional(ind.mx, x, x_default.mx, short_circuit);
+    public static MXWrapper conditional(MXWrapper ind, MXVector x, MXWrapper x_default, boolean short_circuit) {
+        MX result = MX.conditional(ind.mx, x.getCasADiObject(), x_default.mx, short_circuit);
         return new MXWrapper(result);
     }
 
@@ -2114,12 +2116,12 @@ public class MXWrapper {
      * Evaluates a conditional expression based on the provided index.
      *
      * @param ind The MXWrapper representing the index.
-     * @param x The StdVectorMX representing the expressions.
+     * @param x The MXVector representing the expressions.
      * @param x_default The MXWrapper representing the default expression.
      * @return MXWrapper. A new MXWrapper containing the result of the conditional expression.
      */
-    public static MXWrapper conditional(MXWrapper ind, StdVectorMX x, MXWrapper x_default) {
-        MX result = MX.conditional(ind.mx, x, x_default.mx);
+    public static MXWrapper conditional(MXWrapper ind, MXVector x, MXWrapper x_default) {
+        MX result = MX.conditional(ind.mx, x.getCasADiObject(), x_default.mx);
         return new MXWrapper(result);
     }
     // End
@@ -2295,10 +2297,10 @@ public class MXWrapper {
     /**
      * Returns the symbolic variables in the expression represented by this MXWrapper.
      *
-     * @return StdVectorMX. A new StdVectorMX containing the symbolic variables.
+     * @return MXVector. A new MXVector containing the symbolic variables.
      */
-    public StdVectorMX symvar() {
-        return MX.symvar(this.mx);
+    public MXVector symvar() {
+        return new MXVector(MX.symvar(this.mx));
     }
 
     /**
@@ -2437,11 +2439,11 @@ public class MXWrapper {
     /**
      * Performs common subexpression elimination on the given expressions.
      *
-     * @param e The StdVectorMX representing the expressions.
-     * @return StdVectorMX. A new StdVectorMX containing the optimized expressions.
+     * @param e The MXVector representing the expressions.
+     * @return MXVector. A new MXVector containing the optimized expressions.
      */
-    public static StdVectorMX cse(StdVectorMX e) {
-        return MX.cse(e);
+    public static MXVector cse(MXVector e) {
+        return new MXVector(MX.cse(e.getCasADiObject()));
     }
 
     /**
@@ -2480,49 +2482,49 @@ public class MXWrapper {
     /**
      * Substitutes variables in the graph of the given expression.
      *
-     * @param v The StdVectorMX representing the variables.
-     * @param vdef The StdVectorMX representing the default values.
+     * @param v The MXVector representing the variables.
+     * @param vdef The MXVector representing the default values.
      * @return MXWrapper. A new MXWrapper containing the substituted expression.
      */
-    public MXWrapper graphSubstitute(StdVectorMX v, StdVectorMX vdef) {
-        MX result = MX.graph_substitute(this.mx, v, vdef);
+    public MXWrapper graphSubstitute(MXVector v, MXVector vdef) {
+        MX result = MX.graph_substitute(this.mx, v.getCasADiObject(), vdef.getCasADiObject());
         return new MXWrapper(result);
     }
 
     /**
      * Substitutes expressions in the graph.
      *
-     * @param ex The StdVectorMX representing the expressions to substitute.
-     * @param expr The StdVectorMX representing the expressions.
-     * @param exprs The StdVectorMX representing the expressions to substitute with.
-     * @return StdVectorMX. A new StdVectorMX containing the substituted expressions.
+     * @param ex The MXVector representing the expressions to substitute.
+     * @param expr The MXVector representing the expressions.
+     * @param exprs The MXVector representing the expressions to substitute with.
+     * @return MXVector. A new MXVector containing the substituted expressions.
      */
-    public static StdVectorMX graphSubstitute(StdVectorMX ex, StdVectorMX expr, StdVectorMX exprs) {
-        return MX.graph_substitute(ex, expr, exprs);
+    public static MXVector graphSubstitute(MXVector ex, MXVector expr, MXVector exprs) {
+        return new MXVector(MX.graph_substitute(ex.getCasADiObject(), expr.getCasADiObject(), exprs.getCasADiObject()));
     }
 
     /**
      * Expands the given matrix expression with boundary conditions and options.
      *
-     * @param boundary The StdVectorMX representing the boundary conditions.
+     * @param boundary The MXVector representing the boundary conditions.
      * @param options The dictionary containing options for the expansion.
      * @return MXWrapper. A new MXWrapper containing the expanded expression.
      */
-    public MXWrapper matrixExpand(StdVectorMX boundary, Dict options) {
-        MX result = MX.matrix_expand(this.mx, boundary, options);
+    public MXWrapper matrixExpand(MXVector boundary, Dict options) {
+        MX result = MX.matrix_expand(this.mx, boundary.getCasADiObject(), options);
         return new MXWrapper(result);
     }
 
     /**
      * Expands the given vector expression with specified boundary conditions and options.
      *
-     * @param e The StdVectorMX representing the vector expression to expand.
-     * @param boundary The StdVectorMX representing the boundary conditions.
+     * @param e The MXVector representing the vector expression to expand.
+     * @param boundary The MXVector representing the boundary conditions.
      * @param options The dictionary containing options for the expansion.
-     * @return StdVectorMX. A new StdVectorMX containing the expanded expressions.
+     * @return MXVector. A new MXVector containing the expanded expressions.
      */
-    public StdVectorMX matrixExpand(StdVectorMX e, StdVectorMX boundary, Dict options) {
-        return MX.matrix_expand(e, boundary, options);
+    public MXVector matrixExpand(MXVector e, MXVector boundary, Dict options) {
+        return new MXVector(MX.matrix_expand(e.getCasADiObject(), boundary.getCasADiObject(), options));
     }
 
     /**
@@ -2678,14 +2680,14 @@ public class MXWrapper {
      * Usually, you want to be using 'interpolant' instead.
      * Accepts lookup_mode option.
      *
-     * @param x The StdVectorMX representing the input values.
+     * @param x The MXVector representing the input values.
      * @param v The MXWrapper representing the values to interpolate.
-     * @param xq The StdVectorMX representing the query points.
+     * @param xq The MXVector representing the query points.
      * @param opts The dictionary containing options for the interpolation.
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
-    public static MXWrapper interpnLinear(StdVectorMX x, MXWrapper v, StdVectorMX xq, Dict opts) {
-        MX result = MX.interpn_linear(x, v.mx, xq, opts);
+    public static MXWrapper interpnLinear(MXVector x, MXWrapper v, MXVector xq, Dict opts) {
+        MX result = MX.interpn_linear(x.getCasADiObject(), v.mx, xq.getCasADiObject(), opts);
         return new MXWrapper(result);
     }
 
@@ -2694,13 +2696,13 @@ public class MXWrapper {
      *
      * Usually, you want to be using 'interpolant' instead.
      *
-     * @param x The StdVectorMX representing the input values.
+     * @param x MXVector representing the input values.
      * @param v The MXWrapper representing the values to interpolate.
-     * @param xq The StdVectorMX representing the query points.
+     * @param xq The MXVector representing the query points.
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
-    public static MXWrapper interpnLinear(StdVectorMX x, MXWrapper v, StdVectorMX xq) {
-        MX result = MX.interpn_linear(x, v.mx, xq);
+    public static MXWrapper interpnLinear(MXVector x, MXWrapper v, MXVector xq) {
+        MX result = MX.interpn_linear(x.getCasADiObject(), v.mx, xq.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2803,30 +2805,30 @@ public class MXWrapper {
      * Gets the function inputs for the specified function.
      *
      * @param f The Function object for which to get the inputs.
-     * @return StdVectorMX. A new StdVectorMX containing the function inputs.
+     * @return MXVector. A new MXVector containing the function inputs.
      */
-    public StdVectorMX getInput(Function f) {
-        return MX.get_input(f);
+    public MXVector getInput(Function f) {
+        return new MXVector(MX.get_input(f));
     }
 
     /**
      * Gets the free variables for the specified function.
      *
      * @param f The Function object for which to get the free variables.
-     * @return StdVectorMX. A new StdVectorMX containing the free variables.
+     * @return MXVector. A new MXVector containing the free variables.
      */
-    public StdVectorMX getFree(Function f) {
-        return MX.get_free(f);
+    public MXVector getFree(Function f) {
+        return new MXVector(MX.get_free(f));
     }
 
     /**
      * Evaluates the MX node with new symbolic dependencies.
      *
-     * @param arg The StdVectorMX representing the new symbolic dependencies.
-     * @param OUTPUT The StdVectorMX to store the output results.
+     * @param arg The MXVector representing the new symbolic dependencies.
+     * @param OUTPUT The MXVector to store the output results.
      */
-    public void evalMx(StdVectorMX arg, StdVectorMX OUTPUT) {
-        this.mx.eval_mx(arg, OUTPUT);
+    public void evalMx(MXVector arg, MXVector OUTPUT) {
+        this.mx.eval_mx(arg.getCasADiObject(), OUTPUT.getCasADiObject());
     }
 
     /**
@@ -2915,11 +2917,11 @@ public class MXWrapper {
     /**
      * Concatenates the given vector expressions into a single vector.
      *
-     * @param x The StdVectorMX representing the vector to concatenate.
+     * @param x The MXVector representing the vector to concatenate.
      * @return MXWrapper. A new MXWrapper containing the concatenated vector.
      */
-    public MXWrapper veccat(StdVectorMX x) {
-        return new MXWrapper(MX.veccat(x));
+    public MXWrapper veccat(MXVector x) {
+        return new MXWrapper(MX.veccat(x.getCasADiObject()));
     }
 
     /**
@@ -2934,32 +2936,32 @@ public class MXWrapper {
     /**
      * Computes the offsets for the given vector based on the specified orientation.
      *
-     * @param v The StdVectorMX representing the vector.
+     * @param v The MXVector representing the vector.
      * @param vert A boolean indicating whether to compute vertical offsets.
      * @return StdVectorCasadiInt. A new StdVectorCasadiInt containing the computed offsets.
      */
-    public static StdVectorCasadiInt offset(StdVectorMX v, boolean vert) {
-        return MX.offset(v, vert);
+    public static StdVectorCasadiInt offset(MXVector v, boolean vert) {
+        return MX.offset(v.getCasADiObject(), vert);
     }
 
     /**
      * Computes the offsets for the given vector.
      *
-     * @param v The StdVectorMX representing the vector.
+     * @param v The MXVector representing the vector.
      * @return StdVectorCasadiInt. A new StdVectorCasadiInt containing the computed offsets.
      */
-    public static StdVectorCasadiInt offset(StdVectorMX v) {
-        return MX.offset(v);
+    public static StdVectorCasadiInt offset(MXVector v) {
+        return MX.offset(v.getCasADiObject());
     }
 
     /**
      * Vertically splits the given matrix into n parts.
      *
      * @param n The number of parts to split into.
-     * @return StdVectorMX. A new StdVectorMX containing the split parts.
+     * @return MXVector. A new MXVector containing the split parts.
      */
-    public StdVectorMX vertsplit_n(long n) {
-        return MX.vertsplit_n(this.mx, n);
+    public MXVector vertsplit_n(long n) {
+        return new MXVector(MX.vertsplit_n(this.mx, n));
     }
 
     /**
@@ -3700,10 +3702,10 @@ public class MXWrapper {
      * @param name The name of the symbolic variable.
      * @param sp The Sparsity object representing the sparsity pattern.
      * @param p The length of the vector.
-     * @return StdVectorMX. A new StdVectorMX containing the symbolic primitives.
+     * @return MXVector. A new MXVector containing the symbolic primitives.
      */
-    public StdVectorMX sym(String name, Sparsity sp, long p) {
-        return MX.sym(name, sp, p);
+    public MXVector sym(String name, Sparsity sp, long p) {
+        return new MXVector(MX.sym(name, sp, p));
     }
 
     /**
@@ -3713,10 +3715,10 @@ public class MXWrapper {
      * @param nrow The number of rows for the symbolic primitives.
      * @param ncol The number of columns for the symbolic primitives.
      * @param p The length of the vector.
-     * @return StdVectorMX. A new StdVectorMX containing the symbolic primitives.
+     * @return MXVector. A new MXVector containing the symbolic primitives.
      */
-    public StdVectorMX sym(String name, long nrow, long ncol, long p) {
-        return MX.sym(name, nrow, ncol, p);
+    public MXVector sym(String name, long nrow, long ncol, long p) {
+        return new MXVector(MX.sym(name, nrow, ncol, p));
     }
 
     /**
