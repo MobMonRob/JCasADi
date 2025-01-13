@@ -2868,10 +2868,10 @@ public class MXWrapper {
      * Accesses a specific row of the matrix represented by this MXWrapper.
      *
      * @param rr The row index to access.
-     * @return MxSubIndex. An object representing the specified row of the matrix.
+     * @return MXSubIndexWrapper. An object representing the specified row of the matrix.
      */
-    public MxSubIndex at(int rr) {
-        return this.mx.at(rr);
+    public MXSubIndexWrapper at(int rr) {
+        return new MXSubIndexWrapper(this.mx.at(rr));
     }
 
     /**
@@ -2879,10 +2879,10 @@ public class MXWrapper {
      *
      * @param rr The row index of the element.
      * @param cc The column index of the element.
-     * @return MxSubMatrix. An object representing the specified element of the matrix.
+     * @return MXSubMatrixWrapper. An object representing the specified element of the matrix.
      */
-    public MxSubMatrix at(int rr, int cc) {
-        return this.mx.at(rr, cc);
+    public MXSubMatrixWrapper at(int rr, int cc) {
+        return new MXSubMatrixWrapper(this.mx.at(rr, cc));
     }
 
     /**
