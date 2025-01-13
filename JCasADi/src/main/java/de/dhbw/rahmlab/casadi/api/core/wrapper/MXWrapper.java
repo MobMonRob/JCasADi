@@ -969,210 +969,212 @@ public class MXWrapper {
 
     // ----- Get a submatrix, single argument -----
     /**
-     * Get a submatrix using a single argument, of type Slice.
+     * Gets a submatrix using a single argument, of type Slice.
      *
      * This method extracts a submatrix from the current matrix using the given slice
-     * along the row index. The result is stored in the provided OUTPUT matrix.
+     * along the row index.
      *
-     * @param OUTPUT The matrix to store the result.
      * @param ind1 A boolean indicating whether the indices are inclusive or not.
      * @param rr The slice used to extract the submatrix along the row dimension.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, Slice rr) {
-        this.mx.get(OUTPUT.mx, ind1, rr);
+    public MXWrapper get(boolean ind1, Slice rr) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using a single argument of type IM.
-     * The specified IM defines the rows to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The IM used to define the rows of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, IM rr) {
-        this.mx.get(OUTPUT.mx, ind1, rr);
+    public MXWrapper get(boolean ind1, IM rr) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using a single argument of type Sparsity.
-     * The specified Sparsity defines the rows to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The Sparsity used to define the rows of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, Sparsity rr) {
-        this.mx.get(OUTPUT.mx, ind1, rr);
+    public MXWrapper get(boolean ind1, Sparsity rr) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using a single argument of type MXWrapper.
-     * The specified MXWrapper defines the rows to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The MXWrapper used to define the rows of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, MXWrapper rr) {
-        this.mx.get(OUTPUT.mx, ind1, rr.mx);
+    public MXWrapper get(boolean ind1, MXWrapper rr) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr.mx);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using a single argument of type long.
-     * The specified long defines the row index to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
-     * @param ind1 A boolean indicating whether the row index is inclusive.
-     * @param rr The long value representing the row index of the submatrix.
+     * @param ind1 A boolean indicating whether the row indices are inclusive.
+     * @param rr The long value used to define the rows of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, long rr) {
-        this.mx.get(OUTPUT.mx, ind1, rr);
+    public MXWrapper get(boolean ind1, long rr) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr);
+        return output;
     }
 
     // ----- Get a submatrix, two arguments
     /**
      * Extracts a submatrix from the current matrix using two arguments of type Slice.
-     * The specified slices define the rows and columns to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The slice used to define the rows of the submatrix.
      * @param cc The slice used to define the columns of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, Slice cc) {
-        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    public MXWrapper get(boolean ind1, Slice rr, Slice cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr, cc);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using a Slice for rows and an IM for columns.
-     * The specified Slice and IM define the rows and columns to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The slice used to define the rows of the submatrix.
      * @param cc The IM used to define the columns of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, IM cc) {
-        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    public MXWrapper get(boolean ind1, Slice rr, IM cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr, cc);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using a Slice for rows and a long for columns.
-     * The specified Slice and long define the rows and the column index to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The slice used to define the rows of the submatrix.
      * @param cc The long value representing the column index of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, long cc) {
-        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    public MXWrapper get(boolean ind1, Slice rr, long cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr, cc);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using an IM for rows and a Slice for columns.
-     * The specified IM and Slice define the rows and columns to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The IM used to define the rows of the submatrix.
      * @param cc The slice used to define the columns of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, IM rr, Slice cc) {
-        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    public MXWrapper get(boolean ind1, IM rr, Slice cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr, cc);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using a long for rows and a Slice for columns.
-     * The specified long and Slice define the row index and columns to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row index is inclusive.
      * @param rr The long value representing the row index of the submatrix.
      * @param cc The slice used to define the columns of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, long rr, Slice cc) {
-        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    public MXWrapper get(boolean ind1, long rr, Slice cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr, cc);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using two IM arguments.
-     * The specified IMs define the rows and columns to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The IM used to define the rows of the submatrix.
      * @param cc The IM used to define the columns of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, IM rr, IM cc) {
-        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    public MXWrapper get(boolean ind1, IM rr, IM cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr, cc);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using two long arguments.
-     * The specified longs define the row and column indices to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row index is inclusive.
      * @param rr The long value representing the row index of the submatrix.
      * @param cc The long value representing the column index of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, long rr, long cc) {
-        this.mx.get(OUTPUT.mx, ind1, rr, cc);
+    public MXWrapper get(boolean ind1, long rr, long cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr, cc);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using a MXWrapper for rows and a Slice for columns.
-     * The specified MXWrapper and Slice define the rows and columns to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The MXWrapper used to define the rows of the submatrix.
      * @param cc The slice used to define the columns of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, MXWrapper rr, Slice cc) {
-        this.mx.get(OUTPUT.mx, ind1, rr.mx, cc);
+    public MXWrapper get(boolean ind1, MXWrapper rr, Slice cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr.mx, cc);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using a Slice for rows and a MXWrapper for columns.
-     * The specified Slice and MXWrapper define the rows and columns to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The slice used to define the rows of the submatrix.
      * @param cc The MXWrapper used to define the columns of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, Slice rr, MXWrapper cc) {
-        this.mx.get(OUTPUT.mx, ind1,rr, cc.mx);
+    public MXWrapper get(boolean ind1, Slice rr, MXWrapper cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr, cc.mx);
+        return output;
     }
 
     /**
      * Extracts a submatrix from the current matrix using two MXWrapper arguments.
-     * The specified MXWrappers define the rows and columns to be included in the resulting submatrix.
-     * The result is stored in the provided OUTPUT matrix.
      *
-     * @param OUTPUT The matrix to store the resulting submatrix.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The MXWrapper used to define the rows of the submatrix.
      * @param cc The MXWrapper used to define the columns of the submatrix.
+     * @return A new MXWrapper containing the extracted submatrix.
      */
-    public void get(MXWrapper OUTPUT, boolean ind1, MXWrapper rr, MXWrapper cc) {
-        this.mx.get(OUTPUT.mx, ind1, rr.mx, cc.mx);
+    public MXWrapper get(boolean ind1, MXWrapper rr, MXWrapper cc) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.mx, ind1, rr.mx, cc.mx);
+        return output;
     }
 
     // ----- Set a submatrix, single argument -----
