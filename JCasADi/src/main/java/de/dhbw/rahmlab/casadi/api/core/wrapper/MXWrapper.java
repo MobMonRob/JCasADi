@@ -57,12 +57,12 @@ public class MXWrapper {
     }
 
     /**
-     * double array constructor
+     * Varargs constructor for MXWrapper
      *
      * @param values
      * @return MXWrapper
      */
-    public static MXWrapper fromArray(double[] values) {
+    public static MXWrapper fromValues(double... values) {
         return new MXWrapper(new MX(new DoubleVector(values).getCasADiObject()));
     }
 
@@ -4214,6 +4214,23 @@ public class MXWrapper {
      */
     public MXWrapper pow(MXWrapper other) {
         return new MXWrapper(MX.pow(this.mx, other.mx));
+    }
+
+    /**
+     * Raises the current MX object to the power of the given exponent.
+     * This method accepts any subclass of {@link Number}, converting it to a double value.
+     * It then creates a new MX object with this double value and computes the power operation.
+     * The result is wrapped in a new {@code MXWrapper} instance and returned.
+     *
+     * @param exponent the exponent to which the current MX object is to be raised.
+     *                 This can be any object that extends from {@link Number} (e.g., Integer, Double, Float, Long).
+     * @return a new {@code MXWrapper} instance representing the result of the power operation.
+     * @param <T> a type parameter extending {@link Number}, allowing various numeric types to be used as the exponent.
+     */
+    public <T extends Number> MXWrapper pow(T exponent) {
+        double exp = exponent.doubleValue();
+        MX exponentMX = new MX(exp);
+        return new MXWrapper(MX.pow(this.mx, exponentMX));
     }
 
     /**

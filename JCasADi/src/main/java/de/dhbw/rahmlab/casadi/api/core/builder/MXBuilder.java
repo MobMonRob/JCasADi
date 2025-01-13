@@ -34,7 +34,19 @@ public class MXBuilder {
      * @param values the array of values to set
      * @return the current instance of MXBuilder
      */
-    public MXBuilder setValues(double[] values) {
+//    public MXBuilder setValues(double[] values) {
+//        this.values = values;
+//        this.value = Double.NaN;
+//        return this;
+//    }
+
+    /**
+     * Sets an array of values for the MX object using varargs.
+     *
+     * @param values the variable number of double values to set
+     * @return the current instance of MXBuilder
+     */
+    public MXBuilder setValues(double... values) {
         this.values = values;
         this.value = Double.NaN;
         return this;
@@ -50,6 +62,30 @@ public class MXBuilder {
     public MXBuilder setDimensions(long rows, long cols) {
         this.rows = rows;
         this.cols = cols;
+        return this;
+    }
+
+    /**
+     * Sets the number of rows for the MX object, treating it as a column vector.
+     *
+     * @param rows the number of rows
+     * @return the current instance of MXBuilder
+     */
+    public MXBuilder setRows(long rows) {
+        this.rows = rows;
+        this.cols = 1;
+        return this;
+    }
+
+    /**
+     * Sets the number of columns for the MX object, treating it as a row vector.
+     *
+     * @param cols the number of columns
+     * @return the current instance of MXBuilder
+     */
+    public MXBuilder setCols(long cols) {
+        this.cols = cols;
+        this.rows = 1;
         return this;
     }
 
@@ -80,7 +116,7 @@ public class MXBuilder {
      *
      * @return an MXWrapper containing the constructed MX object
      */
-    public MXWrapper buildFromValues() {
+    private MXWrapper buildFromValues() {
         if (values == null || values.length == 0) {
             return new MXWrapper(new MX(value));
         } else {
@@ -93,7 +129,7 @@ public class MXBuilder {
      *
      * @return an MXWrapper containing the symbolic MX object
      */
-    public MXWrapper buildSymbolic() {
+    private MXWrapper buildSymbolic() {
         return new MXWrapper(MX.sym(name, rows, cols));
     }
 
@@ -102,7 +138,7 @@ public class MXBuilder {
      *
      * @return an MXWrapper containing the zero matrix
      */
-    public MXWrapper buildZeroMatrix() {
+    private MXWrapper buildZeroMatrix() {
         return new MXWrapper(MX.zeros(rows, cols));
     }
 
@@ -111,7 +147,7 @@ public class MXBuilder {
      *
      * @return an MXWrapper containing the identity matrix
      */
-    public MXWrapper buildIdentityMatrix() {
+    private MXWrapper buildIdentityMatrix() {
         return new MXWrapper(MX.eye(rows));
     }
 
@@ -121,7 +157,7 @@ public class MXBuilder {
      * @return an MXWrapper containing the sparse matrix
      * @throws IllegalStateException if sparsity is not set
      */
-    public MXWrapper buildSparseMatrix() {
+    private MXWrapper buildSparseMatrix() {
         if (sparsity == null) {
             throw new IllegalStateException("Sparsity must be set for a sparse matrix.");
         }
@@ -140,6 +176,16 @@ public class MXBuilder {
             return buildZeroMatrix();
         } else if (values != null) {
             return buildFromValues();
+        } else if (rows > 0) {
+            this.cols = 1;
+            return buildSymbolic();
+        } else if (cols > 0) {
+            this.rows = 1;
+            return buildSymbolic();
+        } else if (rows > 0 && cols > 0 && rows == cols) {
+            return buildIdentityMatrix();
+        } else if (sparsity != null) {
+            return buildSparseMatrix();
         }
         return buildFromValues();
     }

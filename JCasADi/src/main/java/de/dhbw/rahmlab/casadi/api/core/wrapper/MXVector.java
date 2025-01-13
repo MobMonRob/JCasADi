@@ -229,11 +229,25 @@ public class MXVector {
      * @return the list of MXWrapper objects.
      */
     public List<MXWrapper> getMXWrappers() {
-        List<MXWrapper> list = new ArrayList<MXWrapper>();
+        List<MXWrapper> list = new ArrayList<>();
         for (int i = 0; i < this.size(); i++) {
             list.add(this.get(i));
         }
         return list;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < this.size(); i++) {
+            sb.append(this.get(i).toString());
+            if (i < this.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
 }
