@@ -63,7 +63,7 @@ public class MXWrapper {
      * @return MXWrapper
      */
     public static MXWrapper fromArray(double[] values) {
-        return new MXWrapper(new MX(new DoubleVectorCollection(values).getCasADiObject()));
+        return new MXWrapper(new MX(new DoubleVector(values).getCasADiObject()));
     }
 
     /**
@@ -73,7 +73,7 @@ public class MXWrapper {
      * @return MXWrapper
      */
     public static MXWrapper fromIterable(Iterable<Double> values) {
-        return new MXWrapper(new MX(new DoubleVectorCollection(values).getCasADiObject()));
+        return new MXWrapper(new MX(new DoubleVector(values).getCasADiObject()));
     }
 
     /**
@@ -2023,11 +2023,11 @@ public class MXWrapper {
     /**
      * Prints the operator represented by this MXWrapper.
      *
-     * @param args The StdVectorStdString containing additional arguments for printing.
+     * @param args The StringVectorCollection containing additional arguments for printing.
      * @return String. The string representation of the operator.
      */
-    public String printOperator(StdVectorStdString args) {
-        return MX.print_operator(this.mx, args);
+    public String printOperator(StringVectorCollection args) {
+        return MX.print_operator(this.mx, args.getCasADiObject());
     }
 
     /**
@@ -2551,14 +2551,14 @@ public class MXWrapper {
      * Computes the B-spline of the given expression with specified coefficients and knots.
      *
      * @param coeffs The DM representing the coefficients.
-     * @param knots The StdVectorVectorDouble representing the knots.
+     * @param knots The DoubleVectorCollection representing the knots.
      * @param degree The IntegerVectorCollection representing the degree.
      * @param m The number of repetitions.
      * @param opts The dictionary containing options for the B-spline.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(DM coeffs, StdVectorVectorDouble knots, IntegerVectorCollection degree, long m, Dict opts) {
-        MX result = MX.bspline(this.mx, coeffs, knots, degree.getCasADiObject(), m, opts);
+    public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, IntegerVectorCollection degree, long m, Dict opts) {
+        MX result = MX.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m, opts);
         return new MXWrapper(result);
     }
 
@@ -2566,13 +2566,13 @@ public class MXWrapper {
      * Computes the B-spline of the given expression with specified coefficients and knots.
      *
      * @param coeffs The DM representing the coefficients.
-     * @param knots The StdVectorVectorDouble representing the knots.
+     * @param knots The DoubleVectorCollection representing the knots.
      * @param degree The IntegerVectorCollection representing the degree.
      * @param m The number of repetitions.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(DM coeffs, StdVectorVectorDouble knots, IntegerVectorCollection degree, long m) {
-        MX result = MX.bspline(this.mx, coeffs, knots, degree.getCasADiObject(), m);
+    public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, IntegerVectorCollection degree, long m) {
+        MX result = MX.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m);
         return new MXWrapper(result);
     }
 
@@ -2580,14 +2580,14 @@ public class MXWrapper {
      * Computes the B-spline of the given expression with specified coefficients and knots.
      *
      * @param coeffs The MXWrapper representing the coefficients.
-     * @param knots The StdVectorVectorDouble representing the knots.
+     * @param knots The DoubleVectorCollection representing the knots.
      * @param degree The IntegerVectorCollection representing the degree.
      * @param m The number of repetitions.
      * @param opts The dictionary containing options for the B-spline.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(MXWrapper coeffs, StdVectorVectorDouble knots, IntegerVectorCollection degree, long m, Dict opts) {
-        MX result = MX.bspline(this.mx, coeffs.mx, knots, degree.getCasADiObject(), m, opts);
+    public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, IntegerVectorCollection degree, long m, Dict opts) {
+        MX result = MX.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m, opts);
         return new MXWrapper(result);
     }
 
@@ -2595,13 +2595,13 @@ public class MXWrapper {
      * Computes the B-spline of the given expression with specified coefficients and knots.
      *
      * @param coeffs The MXWrapper representing the coefficients.
-     * @param knots The StdVectorVectorDouble representing the knots.
+     * @param knots The DoubleVectorCollection representing the knots.
      * @param degree The IntegerVectorCollection representing the degree.
      * @param m The number of repetitions.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(MXWrapper coeffs, StdVectorVectorDouble knots, IntegerVectorCollection degree, long m) {
-        MX result = MX.bspline(this.mx, coeffs.mx, knots, degree.getCasADiObject(), m);
+    public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, IntegerVectorCollection degree, long m) {
+        MX result = MX.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m);
         return new MXWrapper(result);
     }
 
@@ -2652,26 +2652,26 @@ public class MXWrapper {
     /**
      * Computes the dual B-spline for the given input and specified knots, degree, and options.
      *
-     * @param x The DoubleVectorCollection representing the input values.
-     * @param knots The StdVectorVectorDouble representing the knots.
+     * @param x The DoubleVector representing the input values.
+     * @param knots The DoubleVectorCollection representing the knots.
      * @param degree The IntegerVectorCollection representing the degree of the B-spline.
      * @param opts The dictionary containing options for the B-spline computation.
      * @return DM. A new DM containing the dual B-spline result.
      */
-    public static DM bsplineDual(DoubleVectorCollection x, StdVectorVectorDouble knots, IntegerVectorCollection degree, Dict opts) {
-        return MX.bspline_dual(x.getCasADiObject(), knots, degree.getCasADiObject(), opts);
+    public static DM bsplineDual(DoubleVector x, DoubleVectorCollection knots, IntegerVectorCollection degree, Dict opts) {
+        return MX.bspline_dual(x.getCasADiObject(), knots.getCasADiObject(), degree.getCasADiObject(), opts);
     }
 
     /**
      * Computes the dual B-spline for the given input and specified knots and degree.
      *
-     * @param x The DoubleVectorCollection representing the input values.
-     * @param knots The StdVectorVectorDouble representing the knots.
+     * @param x The DoubleVector representing the input values.
+     * @param knots The DoubleVectorCollection representing the knots.
      * @param degree The IntegerVectorCollection representing the degree of the B-spline.
      * @return DM. A new DM containing the dual B-spline result.
      */
-    public static DM bsplineDual(DoubleVectorCollection x, StdVectorVectorDouble knots, IntegerVectorCollection degree) {
-        return MX.bspline_dual(x.getCasADiObject(), knots, degree.getCasADiObject());
+    public static DM bsplineDual(DoubleVector x, DoubleVectorCollection knots, IntegerVectorCollection degree) {
+        return MX.bspline_dual(x.getCasADiObject(), knots.getCasADiObject(), degree.getCasADiObject());
     }
 
     /**
@@ -3278,14 +3278,14 @@ public class MXWrapper {
     /**
      * Performs linear interpolation for the given input and specified knots, degree, and options.
      *
-     * @param x The DoubleVectorCollection representing the input values.
+     * @param x The DoubleVector representing the input values.
      * @param v The MXWrapper representing the values to interpolate.
-     * @param xq The DoubleVectorCollection representing the query points.
+     * @param xq The DoubleVector representing the query points.
      * @param mode The mode of interpolation.
      * @param equidistant A boolean indicating whether the input values are equidistant.
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
-    public MXWrapper interp1d(DoubleVectorCollection x, MXWrapper v, DoubleVectorCollection xq, String mode, boolean equidistant) {
+    public MXWrapper interp1d(DoubleVector x, MXWrapper v, DoubleVector xq, String mode, boolean equidistant) {
         return new MXWrapper(MX.interp1d(x.getCasADiObject(), v.mx, xq.getCasADiObject(), mode, equidistant));
     }
 

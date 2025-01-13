@@ -1,38 +1,52 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper;
 
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble;
 
 /**
- * A collection that holds a vector of double values (StdVectorDouble) {@link StdVectorDouble}
+ * A collection that holds a vector of DoubleVector values (StdVectorVectorDouble)
  * and provides methods to manipulate and access its elements.
  */
 public class DoubleVectorCollection {
 
-    private StdVectorDouble stdVectorDouble;
+    private StdVectorVectorDouble stdVectorVectorDouble;
 
     /**
      * Constructs an empty DoubleVectorCollection.
+     * Initializes an empty StdVectorVectorDouble to hold DoubleVector elements.
      */
     public DoubleVectorCollection() {
-        this.stdVectorDouble = new StdVectorDouble();
+        this.stdVectorVectorDouble = new StdVectorVectorDouble();
     }
 
     /**
-     * Constructs a DoubleVectorCollection with the specified initial double values.
+     * Constructs a DoubleVectorCollection with the specified initial DoubleVector values.
      *
-     * @param initialElements an array of double values to initialize the collection
+     * @param initialElements an array of DoubleVector values to initialize the collection
      */
-    public DoubleVectorCollection(double[] initialElements) {
-        this.stdVectorDouble = new StdVectorDouble(initialElements);
+    public DoubleVectorCollection(DoubleVector[] initialElements) {
+        this.stdVectorVectorDouble = new StdVectorVectorDouble();
+        for(DoubleVector element : initialElements) {
+            this.stdVectorVectorDouble.add(element.getCasADiObject());
+        }
     }
 
     /**
-     * Constructs a DoubleVectorCollection with the specified initial double values.
+     * Constructs a DoubleVectorCollection with the specified initial DoubleVector values.
      *
-     * @param initialElements an iterable collection of Double values to initialize the collection
+     * @param initialElements an iterable collection of DoubleVector values to initialize the collection
      */
-    public DoubleVectorCollection(Iterable<Double> initialElements) {
-        this.stdVectorDouble = new StdVectorDouble(initialElements);
+    public DoubleVectorCollection(Iterable<DoubleVector> initialElements) {
+        this.stdVectorVectorDouble = new StdVectorVectorDouble();
+        initialElements.forEach(this::add);
+    }
+
+    /**
+     * Constructs a DoubleVectorCollection from an existing StdVectorVectorDouble instance.
+     *
+     * @param stdVectorVectorDouble the StdVectorVectorDouble instance to initialize the collection with
+     */
+    public DoubleVectorCollection(StdVectorVectorDouble stdVectorVectorDouble) {
+        this.stdVectorVectorDouble = new StdVectorVectorDouble(stdVectorVectorDouble);
     }
 
     /**
@@ -41,139 +55,111 @@ public class DoubleVectorCollection {
      * @param other the DoubleVectorCollection to copy
      */
     public DoubleVectorCollection(DoubleVectorCollection other) {
-        this.stdVectorDouble = new StdVectorDouble(other.getCasADiObject());
-    }
-
-    /**
-     * Constructs a DoubleVectorCollection from an existing StdVectorDouble instance.
-     *
-     * This constructor initializes the DoubleVectorCollection using the
-     * provided StdVectorDouble instance. A new instance of StdVectorDouble
-     * is created as a copy of the provided instance, allowing for independent
-     * manipulation of the data.
-     *
-     * @param stdVectorDouble the StdVectorDouble instance to initialize the collection with
-     */
-    public DoubleVectorCollection(StdVectorDouble stdVectorDouble) {
-        this.stdVectorDouble = new StdVectorDouble(stdVectorDouble);
+        this.stdVectorVectorDouble = new StdVectorVectorDouble(other.getCasADiObject());
     }
 
     /**
      * Constructs a DoubleVectorCollection with a specified number of elements,
-     * all initialized to the same double value.
+     * all initialized to the same DoubleVector value.
      *
-     * This constructor creates a new StdVectorDouble with the specified count
-     * of elements, each initialized to the provided double value.
-     * This allows for the creation of a collection with a predefined size
-     * and default values.
-     *
-     * @param count the number of double elements to initialize in the collection
-     * @param value the double value to initialize each element with
+     * @param count the number of DoubleVector elements to initialize in the collection
+     * @param value the DoubleVector value to initialize each element with
      */
-    public DoubleVectorCollection(int count, double value) {
-        this.stdVectorDouble = new StdVectorDouble(count, value);
+    public DoubleVectorCollection(int count, DoubleVector value) {
+        this.stdVectorVectorDouble = new StdVectorVectorDouble(count, value.getCasADiObject());
     }
 
     /**
-     * Retrieves the double value at the specified index.
+     * Retrieves the DoubleVector value at the specified index.
      *
-     * @param index the index of the double value to retrieve
-     * @return the double value at the specified index
+     * @param index the index of the DoubleVector value to retrieve
+     * @return the DoubleVector value at the specified index
      */
-    public Double get(int index) {
-        return this.stdVectorDouble.get(index);
+    public DoubleVector get(int index) {
+        return new DoubleVector(this.stdVectorVectorDouble.get(index));
     }
 
     /**
-     * Sets the double value at the specified index and returns the previous value.
+     * Sets the DoubleVector value at the specified index and returns the previous value.
      *
-     * @param index the index at which to set the double value
-     * @param value the double value to set
-     * @return the previous double value at the specified index
+     * @param index the index at which to set the DoubleVector value
+     * @param value the DoubleVector value to set
+     * @return the previous DoubleVector value at the specified index
      */
-    public Double set(int index, Double value) {
-        return this.stdVectorDouble.set(index, value);
+    public DoubleVector set(int index, DoubleVector value) {
+        return new DoubleVector(this.stdVectorVectorDouble.set(index, value.getCasADiObject()));
     }
 
     /**
-     * Appends a double value to the end of the collection.
+     * Appends a DoubleVector value to the end of the collection.
      *
-     * This method adds the specified double value to the end of the
-     * underlying StdVectorDouble and returns the current instance of
-     * DoubleVectorCollection for method chaining.
-     *
-     * @param value the double value to be added to the collection
+     * @param value the DoubleVector value to be added to the collection
      * @return the current instance of DoubleVectorCollection for method chaining
      */
-    public DoubleVectorCollection add(Double value) {
-        this.stdVectorDouble.add(value);
+    public DoubleVectorCollection add(DoubleVector value) {
+        this.stdVectorVectorDouble.add(value.getCasADiObject());
         return this;
     }
 
     /**
-     * Inserts a double value at the specified index in the collection.
+     * Inserts a DoubleVector value at the specified index in the collection.
      *
-     * This method adds the specified double value at the given index
-     * in the underlying StdVectorDouble. If the index is out of bounds,
-     * an IndexOutOfBoundsException will be thrown. The method returns
-     * the current instance of DoubleVectorCollection for method chaining.
-     *
-     * @param index the index at which to insert the double value
-     * @param value the double value to be added to the collection
+     * @param index the index at which to insert the DoubleVector value
+     * @param value the DoubleVector value to be added to the collection
      * @return the current instance of DoubleVectorCollection for method chaining
      */
-    public DoubleVectorCollection add(int index, Double value) {
-        this.stdVectorDouble.add(index, value);
+    public DoubleVectorCollection add(int index, DoubleVector value) {
+        this.stdVectorVectorDouble.add(index, value.getCasADiObject());
         return this;
     }
 
     /**
-     * Removes the double value at the specified index and returns it.
+     * Removes the DoubleVector value at the specified index and returns it.
      *
-     * @param index the index of the double value to remove
-     * @return the removed double value
+     * @param index the index of the DoubleVector value to remove
+     * @return the removed DoubleVector value
      */
-    public Double remove(int index) {
-        return this.stdVectorDouble.remove(index);
+    public DoubleVector remove(int index) {
+        return new DoubleVector(this.stdVectorVectorDouble.remove(index));
     }
 
     /**
-     * Removes a range of double values from the collection.
+     * Removes a range of DoubleVector values from the collection.
      *
      * @param fromIndex the starting index of the range (inclusive)
      * @param toIndex the ending index of the range (exclusive)
      */
     public void removeRange(int fromIndex, int toIndex) {
         for (int i = toIndex - 1; i >= fromIndex; i--) {
-            this.stdVectorDouble.remove(i);
+            this.stdVectorVectorDouble.remove(i);
         }
     }
 
     /**
-     * Returns the number of double values in the collection.
+     * Returns the number of DoubleVector values in the collection.
      *
      * @return the size of the collection
      */
     public int size() {
-        return this.stdVectorDouble.size();
+        return this.stdVectorVectorDouble.size();
     }
 
     /**
-     * Returns the capacity of the underlying StdVectorDouble.
+     * Returns the capacity of the underlying StdVectorVectorDouble.
      *
      * @return the capacity of the collection
      */
     public long capacity() {
-        return this.stdVectorDouble.capacity();
+        return this.stdVectorVectorDouble.capacity();
     }
 
     /**
-     * Reserves space for the specified number of double values.
+     * Reserves space for the specified number of DoubleVector values.
      *
-     * @param n the number of double values to reserve space for
+     * @param n the number of DoubleVector values to reserve space for
      */
     public void reserve(long n) {
-        this.stdVectorDouble.reserve(n);
+        this.stdVectorVectorDouble.reserve(n);
     }
 
     /**
@@ -182,22 +168,23 @@ public class DoubleVectorCollection {
      * @return true if the collection is empty, false otherwise
      */
     public boolean isEmpty() {
-        return this.stdVectorDouble.isEmpty();
+        return this.stdVectorVectorDouble.isEmpty();
     }
 
     /**
-     * Clears the collection, removing all double values.
+     * Clears the collection, removing all DoubleVector values.
      */
     public void clear() {
-        this.stdVectorDouble.clear();
+        this.stdVectorVectorDouble.clear();
     }
 
     /**
-     * Returns the underlying StdVectorDouble object.
+     * Returns the underlying StdVectorVectorDouble object.
      *
-     * @return the StdVectorDouble instance
+     * @return the StdVectorVectorDouble instance
      */
-    public StdVectorDouble getCasADiObject() {
-        return this.stdVectorDouble;
+    public StdVectorVectorDouble getCasADiObject() {
+        return this.stdVectorVectorDouble;
     }
+
 }
