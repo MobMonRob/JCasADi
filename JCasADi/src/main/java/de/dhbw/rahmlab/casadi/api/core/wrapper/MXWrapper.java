@@ -3662,7 +3662,7 @@ public class MXWrapper {
      * @param ncol The number of columns for the symbolic primitive.
      * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
      */
-    public MXWrapper sym(String name, long nrow, long ncol) {
+    public static MXWrapper sym(String name, long nrow, long ncol) {
         return new MXWrapper(MX.sym(name, nrow, ncol));
     }
 
@@ -3673,7 +3673,7 @@ public class MXWrapper {
      * @param nrow The number of rows for the symbolic primitive.
      * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
      */
-    public MXWrapper sym(String name, long nrow) {
+    public static MXWrapper sym(String name, long nrow) {
         return new MXWrapper(MX.sym(name, nrow));
     }
 
@@ -3683,7 +3683,7 @@ public class MXWrapper {
      * @param name The name of the symbolic variable.
      * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
      */
-    public MXWrapper sym(String name) {
+    public static MXWrapper sym(String name) {
         return new MXWrapper(MX.sym(name));
     }
 
@@ -3694,7 +3694,7 @@ public class MXWrapper {
      * @param sp The Sparsity object representing the sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
      */
-    public MXWrapper sym(String name, Sparsity sp) {
+    public static MXWrapper sym(String name, Sparsity sp) {
         return new MXWrapper(MX.sym(name, sp));
     }
 
@@ -3706,7 +3706,7 @@ public class MXWrapper {
      * @param p The length of the vector.
      * @return MXVector. A new MXVector containing the symbolic primitives.
      */
-    public MXVector sym(String name, Sparsity sp, long p) {
+    public static MXVector sym(String name, Sparsity sp, long p) {
         return new MXVector(MX.sym(name, sp, p));
     }
 
@@ -3719,7 +3719,7 @@ public class MXWrapper {
      * @param p The length of the vector.
      * @return MXVector. A new MXVector containing the symbolic primitives.
      */
-    public MXVector sym(String name, long nrow, long ncol, long p) {
+    public static MXVector sym(String name, long nrow, long ncol, long p) {
         return new MXVector(MX.sym(name, nrow, ncol, p));
     }
 
@@ -3732,7 +3732,7 @@ public class MXWrapper {
      * @param r The length of the outer vector.
      * @return VectorCollection. A new VectorCollection containing the symbolic primitives.
      */
-    public MXVectorCollection sym(String name, Sparsity sp, long p, long r) {
+    public static MXVectorCollection sym(String name, Sparsity sp, long p, long r) {
         return new MXVectorCollection(MX.sym(name, sp, p, r));
     }
 
@@ -3746,7 +3746,7 @@ public class MXWrapper {
      * @param r The length of the outer vector.
      * @return VectorCollection. A new VectorCollection containing the symbolic primitives.
      */
-    public MXVectorCollection sym(String name, long nrow, long ncol, long p, long r) {
+    public static MXVectorCollection sym(String name, long nrow, long ncol, long p, long r) {
         return new MXVectorCollection(MX.sym(name, nrow, ncol, p, r));
     }
 
@@ -3844,6 +3844,22 @@ public class MXWrapper {
     }
 
     /**
+     * Adds the matrix represented by this MXWrapper to a specified Number (Integer, Double, etc.).
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the addition is returned as a new MXWrapper instance.
+     *
+     * @param number The Number to add (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the addition.
+     */
+    public <T extends Number> MXWrapper add(T number) {
+        double other = number.doubleValue();
+        MXWrapper summand = MXWrapper.fromValue(other);
+        MX result = MX.plus(this.mx, summand.getCasADiObject());
+        return new MXWrapper(result);
+    }
+
+    /**
      * Subtracts another matrix from the matrix represented by this MXWrapper.
      *
      * Subtraction: (other); this.mx - other
@@ -3853,6 +3869,22 @@ public class MXWrapper {
      */
     public MXWrapper subtract(MXWrapper other) {
         MX result = MX.minus(this.mx, other.mx);
+        return new MXWrapper(result);
+    }
+
+    /**
+     * Subtracts a specified Number (Integer, Double, etc.) from the matrix represented by this MXWrapper.
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the subtraction is returned as a new MXWrapper instance.
+     *
+     * @param number The Number to subtract (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the subtraction.
+     */
+    public <T extends Number> MXWrapper subtract(T number) {
+        double other = number.doubleValue();
+        MXWrapper subtrahend = MXWrapper.fromValue(other);
+        MX result = MX.minus(this.mx, subtrahend.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3870,6 +3902,22 @@ public class MXWrapper {
     }
 
     /**
+     * Multiplies the matrix represented by this MXWrapper by a specified Number (Integer, Double, etc.).
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the multiplication is returned as a new MXWrapper instance.
+     *
+     * @param number The Number to multiply by (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the multiplication.
+     */
+    public <T extends Number> MXWrapper multiply(T number) {
+        double other = number.doubleValue();
+        MXWrapper multiplicand = MXWrapper.fromValue(other);
+        MX result = MX.times(this.mx, multiplicand.getCasADiObject());
+        return new MXWrapper(result);
+    }
+
+    /**
      * Divides the matrix represented by this MXWrapper by another matrix.
      *
      * Elementwise division: (other); this.mx ./ other
@@ -3879,6 +3927,26 @@ public class MXWrapper {
      */
     public MXWrapper divide(MXWrapper other) {
         MX result = MX.rdivide(this.mx, other.mx);
+        return new MXWrapper(result);
+    }
+
+    /**
+     * Divides the matrix represented by this MXWrapper by a specified Number (Integer, Double, etc.).
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the division is returned as a new MXWrapper instance.
+     *
+     * @param number The Number to divide by (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the division.
+     * @throws ArithmeticException if the specified number is zero, as division by zero is not allowed.
+     */
+    public <T extends Number> MXWrapper divide(T number) {
+        double other = number.doubleValue();
+        if (other == 0) {
+            throw new ArithmeticException("Division by zero is not allowed.");
+        }
+        MXWrapper divisor = MXWrapper.fromValue(other);
+        MX result = MX.mtimes(this.mx, divisor.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3893,6 +3961,23 @@ public class MXWrapper {
     }
 
     /**
+     * Checks if the matrix represented by this MXWrapper is less than a specified Number (Integer, Double, etc.).
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the comparison is returned as a new MXWrapper instance
+     * representing a logical condition.
+     *
+     * @param number The Number to compare against (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the comparison.
+     */
+    public <T extends Number> MXWrapper lt(T number) {
+        double other = number.doubleValue();
+        MXWrapper threshold = MXWrapper.fromValue(other);
+        MX result = MX.lt(this.mx, threshold.getCasADiObject());
+        return new MXWrapper(result);
+    }
+
+    /**
      * Performs a logical less than or equal to operation between the current MX expression and another MX expression.
      *
      * @param y The MXWrapper representing the second expression.
@@ -3900,6 +3985,23 @@ public class MXWrapper {
      */
     public MXWrapper le(MXWrapper y) {
         return new MXWrapper(MX.le(this.mx, y.mx));
+    }
+
+    /**
+     * Checks if the matrix represented by this MXWrapper is less than or equal to a specified Number (Integer, Double, etc.).
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the comparison is returned as a new MXWrapper instance
+     * representing a logical condition.
+     *
+     * @param number The Number to compare against (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the comparison.
+     */
+    public <T extends Number> MXWrapper le(T number) {
+        double other = number.doubleValue();
+        MXWrapper threshold = MXWrapper.fromValue(other);
+        MX result = MX.le(this.mx, threshold.getCasADiObject());
+        return new MXWrapper(result);
     }
 
     /**
@@ -3913,6 +4015,23 @@ public class MXWrapper {
     }
 
     /**
+     * Checks if the matrix represented by this MXWrapper is greater than a specified Number (Integer, Double, etc.).
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the comparison is returned as a new MXWrapper instance
+     * representing a logical condition.
+     *
+     * @param number The Number to compare against (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the comparison.
+     */
+    public <T extends Number> MXWrapper gt(T number) {
+        double other = number.doubleValue();
+        MXWrapper threshold = MXWrapper.fromValue(other);
+        MX result = MX.gt(this.mx, threshold.getCasADiObject());
+        return new MXWrapper(result);
+    }
+
+    /**
      * Performs a logical greater than or equal to operation between the current MX expression and another MX expression.
      *
      * @param y The MXWrapper representing the second expression.
@@ -3920,6 +4039,23 @@ public class MXWrapper {
      */
     public MXWrapper ge(MXWrapper y) {
         return new MXWrapper(MX.ge(this.mx, y.mx));
+    }
+
+    /**
+     * Checks if the matrix represented by this MXWrapper is greater than or equal to a specified Number (Integer, Double, etc.).
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the comparison is returned as a new MXWrapper instance
+     * representing a logical condition.
+     *
+     * @param number The Number to compare against (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the comparison.
+     */
+    public <T extends Number> MXWrapper ge(T number) {
+        double other = number.doubleValue();
+        MXWrapper threshold = MXWrapper.fromValue(other);
+        MX result = MX.ge(this.mx, threshold.getCasADiObject());
+        return new MXWrapper(result);
     }
 
     /**
@@ -3940,6 +4076,23 @@ public class MXWrapper {
      */
     public MXWrapper ne(MXWrapper y) {
         return new MXWrapper(MX.ne(this.mx, y.mx));
+    }
+
+    /**
+     * Checks if the matrix represented by this MXWrapper is equal to a specified Number (Integer, Double, etc.).
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the comparison is returned as a new MXWrapper instance
+     * representing a logical condition.
+     *
+     * @param number The Number to compare against (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the comparison.
+     */
+    public <T extends Number> MXWrapper eq(T number) {
+        double other = number.doubleValue();
+        MXWrapper value = MXWrapper.fromValue(other);
+        MX result = MX.eq(this.mx, value.getCasADiObject());
+        return new MXWrapper(result);
     }
 
     /**

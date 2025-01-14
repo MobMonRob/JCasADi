@@ -130,7 +130,16 @@ public class MXBuilder {
      * @return an MXWrapper containing the symbolic MX object
      */
     private MXWrapper buildSymbolic() {
-        return new MXWrapper(MX.sym(name, rows, cols));
+        if (rows > 0 && cols > 0 && name != null && !name.isEmpty()) {
+            return MXWrapper.sym(name, rows, cols);
+        } else if (rows > 0 && name != null && !name.isEmpty()) {
+            return MXWrapper.sym(name, rows);
+        } else if (sparsity != null && name != null && !name.isEmpty()) {
+            return MXWrapper.sym(name, sparsity);
+        } else if (name != null && !name.isEmpty()) {
+            return MXWrapper.sym(name);
+        }
+        return new MXWrapper();
     }
 
     /**
