@@ -1,5 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
+import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
 import java.util.ArrayList;
@@ -8,7 +10,7 @@ import java.util.List;
 /**
  * Represents a vector of MXWrapper objects, backed by a StdVectorMX {@link StdVectorMX}.
  */
-public class MXVector {
+public class MXVector implements Vector {
 
     private StdVectorMX stdVectorMX;
 
@@ -35,10 +37,37 @@ public class MXVector {
      *
      * @param initialElements an array of MXWrapper objects to initialize the vector.
      */
-    public MXVector(MXWrapper[] initialElements) {
+//    public MXVector(MXWrapper[] initialElements) {
+//        this.stdVectorMX = new StdVectorMX();
+//        for (MXWrapper mxWrapper : initialElements) {
+//            this.stdVectorMX.add(mxWrapper.getCasADiObject());
+//        }
+//    }
+
+    /**
+     * Constructs an MXVector with the specified initial elements.
+     *
+     * @param initialElements a variable number of MXWrapper objects to initialize the vector.
+     */
+    public MXVector(MXWrapper... initialElements) {
         this.stdVectorMX = new StdVectorMX();
         for (MXWrapper mxWrapper : initialElements) {
             this.stdVectorMX.add(mxWrapper.getCasADiObject());
+        }
+    }
+
+    /**
+     * Constructs an MXVector with the specified initial numeric elements.
+     *
+     * @param initialElements a variable number of Number objects to initialize the vector.
+     *                        Accepts instances of Number, including Double and Integer.
+     *                        Note: Conversion to double may involve rounding.
+     */
+    public MXVector(Number... initialElements) {
+        this.stdVectorMX = new StdVectorMX();
+        for (Number number : initialElements) {
+            double value = number.doubleValue();
+            this.stdVectorMX.add(new MX(value));
         }
     }
 

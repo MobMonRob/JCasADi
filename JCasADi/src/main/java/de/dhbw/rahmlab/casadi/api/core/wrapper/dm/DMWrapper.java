@@ -1,9 +1,11 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 
-public class DMWrapper {
+public class DMWrapper implements Wrapper {
+
     private DM dm;
 
     public DMWrapper(DM dm) {

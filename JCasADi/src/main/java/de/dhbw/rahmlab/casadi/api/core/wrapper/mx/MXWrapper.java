@@ -1,6 +1,8 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.WrapperFactory;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.*;
@@ -8,7 +10,7 @@ import de.dhbw.rahmlab.casadi.impl.std.*;
 /**
  * A wrapper class for the MX object, representing a variable in the constraint model.
  */
-public class MXWrapper {
+public class MXWrapper implements Wrapper {
 
     private MX mx;
 
@@ -1529,7 +1531,8 @@ public class MXWrapper {
      * @param mxVector The vector of MXWrapper objects to concatenate with.
      * @return MXWrapper. A new MXWrapper containing the result of the horizontal concatenation.
      */
-    public MXWrapper horzcat(MXVector mxVector) {
+    @Deprecated
+    private MXWrapper horzcat(MXVector mxVector) {
         return new MXWrapper(MX.horzcat(mxVector.getCasADiObject()));
     }
 
@@ -1539,7 +1542,8 @@ public class MXWrapper {
      * @param mxVector The vector of MXWrapper objects to concatenate diagonally.
      * @return MXWrapper. A new MXWrapper containing the result of the diagonal concatenation.
      */
-    public MXWrapper diagcat(MXVector mxVector) {
+    @Deprecated
+    private MXWrapper diagcat(MXVector mxVector) {
         return new MXWrapper(MX.diagcat(mxVector.getCasADiObject()));
     }
 
@@ -1549,7 +1553,8 @@ public class MXWrapper {
      * @param mxVector The vector of MXWrapper objects to concatenate with.
      * @return MXWrapper. A new MXWrapper containing the result of the vertical concatenation.
      */
-    public MXWrapper vertcat(MXVector mxVector) {
+    @Deprecated
+    private MXWrapper vertcat(MXVector mxVector) {
         return new MXWrapper(MX.vertcat(mxVector.getCasADiObject()));
     }
 
@@ -1826,34 +1831,6 @@ public class MXWrapper {
     }
 
     /**
-     * Substitutes a vector of variables in a vector of expressions with given values.
-     *
-     * @param ex The MXVector representing the expressions to substitute in.
-     * @param v The MXVector representing the variables to substitute.
-     * @param vdef The MXVector representing the values to substitute in.
-     * @return MXVector. A new MXVector containing the results of the substitutions.
-     */
-    public static MXVector substitute(MXVector ex, MXVector v, MXVector vdef) {
-        return new MXVector(MX.substitute(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject()));
-    }
-
-    /**
-     * Substitutes variables in the given expressions in place with the specified values.
-     *
-     * This method modifies the expressions directly by substituting the variables
-     * with the provided values. The substitution can be performed in reverse order
-     * if specified.
-     *
-     * @param variables The MXVector representing the variables to substitute.
-     * @param values The MXVector representing the values to substitute in.
-     * @param expressions The MXVector representing the expressions to modify.
-     * @param reverse A boolean indicating whether to perform the substitution in reverse order.
-     */
-    public static void substituteInPlace(MXVector variables, MXVector values, MXVector expressions, boolean reverse) {
-        MX.substitute_inplace(variables.getCasADiObject(), values.getCasADiObject(), expressions.getCasADiObject(), reverse);
-    }
-
-    /**
      * Solves the linear equation system Ax = b.
      *
      * This method solves the equation system represented by the matrix A (this) and the vector b.
@@ -2032,46 +2009,6 @@ public class MXWrapper {
      */
     public String printOperator(StringVectorCollection args) {
         return MX.print_operator(this.mx, args.getCasADiObject());
-    }
-
-    /**
-     * Extracts values from the expressions represented by the given vectors.
-     *
-     * This method uses the provided options dictionary for extraction.
-     *
-     * @param ex The MXVector representing the expressions to extract from.
-     * @param v The MXVector representing the variables.
-     * @param vdef The MXVector representing the values to substitute.
-     * @param opts The dictionary containing options for extraction.
-     */
-    public static void extract(MXVector ex, MXVector v, MXVector vdef, Dict opts) {
-        MX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), opts);
-    }
-
-    /**
-     * Extracts values from the expressions represented by the given vectors.
-     *
-     * This method does not use an options dictionary for extraction.
-     *
-     * @param ex The MXVector representing the expressions to extract from.
-     * @param v The MXVector representing the variables.
-     * @param vdef The MXVector representing the values to substitute.
-     */
-    public static void extract(MXVector ex, MXVector v, MXVector vdef) {
-        MX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject());
-    }
-
-    /**
-     * Shares variables in the context of the given expressions.
-     *
-     * @param ex The MXVector representing the expressions.
-     * @param v The MXVector representing the variables.
-     * @param vdef The MXVector representing the default values.
-     * @param v_prefix The prefix for variable names.
-     * @param v_suffix The suffix for variable names.
-     */
-    public static void shared(MXVector ex, MXVector v, MXVector vdef, String v_prefix, String v_suffix) {
-        MX.shared(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), v_prefix, v_suffix);
     }
 
     // TODO: Should this be static?
@@ -2441,16 +2378,6 @@ public class MXWrapper {
     }
 
     /**
-     * Performs common subexpression elimination on the given expressions.
-     *
-     * @param e The MXVector representing the expressions.
-     * @return MXVector. A new MXVector containing the optimized expressions.
-     */
-    public static MXVector cse(MXVector e) {
-        return new MXVector(MX.cse(e.getCasADiObject()));
-    }
-
-    /**
      * Finds the specified expression in the context of this MXWrapper.
      *
      * @return MXWrapper. A new MXWrapper containing the found expression.
@@ -2493,18 +2420,6 @@ public class MXWrapper {
     public MXWrapper graphSubstitute(MXVector v, MXVector vdef) {
         MX result = MX.graph_substitute(this.mx, v.getCasADiObject(), vdef.getCasADiObject());
         return new MXWrapper(result);
-    }
-
-    /**
-     * Substitutes expressions in the graph.
-     *
-     * @param ex The MXVector representing the expressions to substitute.
-     * @param expr The MXVector representing the expressions.
-     * @param exprs The MXVector representing the expressions to substitute with.
-     * @return MXVector. A new MXVector containing the substituted expressions.
-     */
-    public static MXVector graphSubstitute(MXVector ex, MXVector expr, MXVector exprs) {
-        return new MXVector(MX.graph_substitute(ex.getCasADiObject(), expr.getCasADiObject(), exprs.getCasADiObject()));
     }
 
     /**
@@ -2924,7 +2839,8 @@ public class MXWrapper {
      * @param x The MXVector representing the vector to concatenate.
      * @return MXWrapper. A new MXWrapper containing the concatenated vector.
      */
-    public MXWrapper veccat(MXVector x) {
+    @Deprecated
+    private MXWrapper veccat(MXVector x) {
         return new MXWrapper(MX.veccat(x.getCasADiObject()));
     }
 
@@ -2935,27 +2851,6 @@ public class MXWrapper {
      */
     public MXWrapper vec() {
         return new MXWrapper(MX.vec(this.mx));
-    }
-
-    /**
-     * Computes the offsets for the given vector based on the specified orientation.
-     *
-     * @param v The MXVector representing the vector.
-     * @param vert A boolean indicating whether to compute vertical offsets.
-     * @return IntegerVectorCollection. A new IntegerVectorCollection containing the computed offsets.
-     */
-    public static IntegerVectorCollection offset(MXVector v, boolean vert) {
-        return new IntegerVectorCollection(MX.offset(v.getCasADiObject(), vert));
-    }
-
-    /**
-     * Computes the offsets for the given vector.
-     *
-     * @param v The MXVector representing the vector.
-     * @return IntegerVectorCollection. A new IntegerVectorCollection containing the computed offsets.
-     */
-    public static IntegerVectorCollection offset(MXVector v) {
-        return new IntegerVectorCollection(MX.offset(v.getCasADiObject()));
     }
 
     /**
@@ -4071,16 +3966,6 @@ public class MXWrapper {
     }
 
     /**
-     * Performs a logical not equal to check between the current MX expression and another MX expression.
-     *
-     * @param y The MXWrapper representing the second expression.
-     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
-     */
-    public MXWrapper ne(MXWrapper y) {
-        return new MXWrapper(MX.ne(this.mx, y.mx));
-    }
-
-    /**
      * Checks if the matrix represented by this MXWrapper is equal to a specified Number (Integer, Double, etc.).
      *
      * This method converts the provided Number to a double value using {@link Number#doubleValue()},
@@ -4094,6 +3979,33 @@ public class MXWrapper {
         double other = number.doubleValue();
         MXWrapper value = MXWrapper.fromValue(other);
         MX result = MX.eq(this.mx, value.getCasADiObject());
+        return new MXWrapper(result);
+    }
+
+    /**
+     * Performs a logical not equal to check between the current MX expression and another MX expression.
+     *
+     * @param y The MXWrapper representing the second expression.
+     * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
+     */
+    public MXWrapper ne(MXWrapper y) {
+        return new MXWrapper(MX.ne(this.mx, y.mx));
+    }
+
+    /**
+     * Checks if the matrix represented by this MXWrapper is not equal to a specified Number (Integer, Double, etc.).
+     *
+     * This method converts the provided Number to a double value using {@link Number#doubleValue()},
+     * which may involve rounding. The result of the comparison is returned as a new MXWrapper instance
+     * representing a logical condition.
+     *
+     * @param number The Number to compare against (can be Integer, Double, etc.).
+     * @return MXWrapper A new MXWrapper containing the result of the comparison.
+     */
+    public <T extends Number> MXWrapper ne(T number) {
+        double other = number.doubleValue();
+        MXWrapper value = MXWrapper.fromValue(other);
+        MX result = MX.ne(this.mx, value.getCasADiObject());
         return new MXWrapper(result);
     }
 
