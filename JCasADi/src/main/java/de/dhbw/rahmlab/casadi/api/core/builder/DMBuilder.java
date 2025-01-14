@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.builder;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 
 public class DMBuilder {

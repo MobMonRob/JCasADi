@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.builder;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;

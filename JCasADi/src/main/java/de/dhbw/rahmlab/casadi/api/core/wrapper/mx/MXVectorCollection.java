@@ -1,4 +1,4 @@
-package de.dhbw.rahmlab.casadi.api.core.wrapper;
+package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX;
 
