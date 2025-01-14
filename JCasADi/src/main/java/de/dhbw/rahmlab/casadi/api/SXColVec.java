@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api;
 
+import static de.dhbw.rahmlab.casadi.api.Util.toLongArr;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SXElem;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
@@ -20,7 +21,7 @@ public class SXColVec {
     }
     // not yet tested
     /**
-     * Creates a new SX column vector with the lenght of the given indizes and
+     * Creates a new SX column vector with the length of the given count of indizes and
      * sets the elements of the given sx into the elements of the created one.
      * 
      * @param sx
@@ -32,22 +33,32 @@ public class SXColVec {
         for (int i=0;i<indizes.length;i++){
             colElements[i] = sx.at(indizes[i]).scalar();
         }
-        StdVectorCasadiSXElem x = new 
-            StdVectorCasadiSXElem(colElements);
-        sx = new SX(x);
+        this.sx = new SX(new StdVectorCasadiSXElem(colElements));
     }
     public SXColVec(int rows, SXElem[] values, int[] indizes){
-        StdVectorCasadiSXElem elements = new StdVectorCasadiSXElem(values);
         Sparsity sparsity = createColVecSparsity(rows, indizes);
-        sx = new SX(sparsity, elements, true);
+        StdVectorCasadiSXElem elements = new StdVectorCasadiSXElem(values);
+        this.sx = new SX(sparsity, elements, true);
+    }
+    
+    /**
+     * Get the element of the column vector at the given index as a scalar.
+     * 
+     * @param index
+     * @return 
+     */
+    public SXScalar get(int index){
+        if (index >= sx.sparsity().rows()) throw new IllegalArgumentException("index "+String.valueOf(index)+" >= sx.rows()!");
+        return new SXScalar(sx.at(index));
     }
     
     private static Sparsity createColVecSparsity(int rows, int[] nonZeroIndizes) {
-        /*StdVectorCasadiInt row = new StdVectorCasadiInt(toLongArr(nonZeroIndizes));
+        //System.out.println("create col vec sparsity: rows="+String.valueOf(rows)+
+        //        " nonZeroIndizes.length="+String.valueOf(nonZeroIndizes.length));
         StdVectorCasadiInt colind = new StdVectorCasadiInt(new long[]{0, nonZeroIndizes.length});
-        Sparsity result = new Sparsity(rows, sparsity.getn_col(), colind, row);*/
+        StdVectorCasadiInt row = new StdVectorCasadiInt(toLongArr(nonZeroIndizes)); 
+        Sparsity result = new Sparsity((long) rows, 1l, colind, row);
         //result.spy();
-        //return result;
-        throw new RuntimeException("not yet implemented!");
+        return result;
     }
 }
