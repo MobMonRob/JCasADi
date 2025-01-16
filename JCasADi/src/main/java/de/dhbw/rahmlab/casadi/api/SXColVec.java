@@ -35,6 +35,14 @@ public class SXColVec {
         }
         this.sx = new SX(new StdVectorCasadiSXElem(colElements));
     }
+    /**
+     * Create a new sparse SX column vector with the given count of rows and sets the
+     * elements of the given sx into the the elements of the created one. 
+     * 
+     * @param rows count of rows of the new one
+     * @param values values to set into the new one
+     * @param indizes indizes where to set the given values
+     */
     public SXColVec(int rows, SXElem[] values, int[] indizes){
         Sparsity sparsity = createColVecSparsity(rows, indizes);
         StdVectorCasadiSXElem elements = new StdVectorCasadiSXElem(values);
