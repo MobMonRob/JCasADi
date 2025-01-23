@@ -1,8 +1,10 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Operation;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubMatrix;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.WrapperFactory;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.*;
@@ -10,7 +12,7 @@ import de.dhbw.rahmlab.casadi.impl.std.*;
 /**
  * A wrapper class for the MX object, representing a variable in the constraint model.
  */
-public class MXWrapper implements Wrapper {
+public class MXWrapper implements Wrapper<MXWrapper> {
 
     private MX mx;
 
@@ -124,11 +126,26 @@ public class MXWrapper implements Wrapper {
     }
 
     /**
+     * Returns the type name of the current MX instance.
+     *
+     * This method retrieves the type name associated with the MX object,
+     * which can be useful for identifying the specific type of the
+     * optimization problem or operation being handled by the MXWrapper.
+     *
+     * @return A string representing the type name of the MX instance.
+     */
+    @Override
+    public String typeName() {
+        return MX.type_name();
+    }
+
+    /**
      * Returns the sparsity pattern of the MX matrix.
      * Returns null if no sparsity pattern exists.
      *
      * @return sparsity
      */
+    @Override
     public Sparsity sparsity() {
         return this.mx.sparsity();
     }
@@ -138,6 +155,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean
      */
+    @Override
     public boolean nonzero() {
         return this.mx.__nonzero__();
     }
@@ -152,271 +170,95 @@ public class MXWrapper implements Wrapper {
     }
 
     /**
-     * Erase a submatrix (leaving structural zeros in its place)
+     * Erases elements from the matrix based on the specified row and column indices.
      *
-     * @param operation
-     * @return MXWrapper
+     * @param rr A collection of row indices to be erased.
+     * @param cc A collection of column indices to be erased.
+     * @param ind1 A boolean flag that determines the behavior of the erase operation.
      */
-    public MXWrapper erase (EraseOperation operation) {
-        operation.apply(this.mx);
-        return this;
+    @Override
+    public void erase(IntegerVectorCollection rr, IntegerVectorCollection cc, boolean ind1) {
+        this.mx.erase(rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     /**
-     * Static method to create an Erase operation
+     * Erases elements from the matrix based on the specified row and column indices.
      *
-     * @return EraseOperation
+     * @param rr A collection of row indices to be erased.
+     * @param cc A collection of column indices to be erased.
      */
-    public static EraseOperation erase() {
-        return new EraseOperation();
+    @Override
+    public void erase(IntegerVectorCollection rr, IntegerVectorCollection cc) {
+        this.mx.erase(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     /**
-     * First draft.
+     * Erases elements from the matrix based on the specified row indices.
      *
-     * A helper class to configure and apply an "erase" operation on an MX object.
-     * This class provides a builder-like interface to set various parameters for the "erase" operation.
+     * @param rr A collection of row indices to be erased.
+     * @param ind1 A boolean flag that determines the behavior of the erase operation.
      */
-    public static class EraseOperation {
-        private IntegerVectorCollection rows;
-        private IntegerVectorCollection cols;
-        private Boolean indicator;
-
-        /**
-         * Constructor for EraseOperation.
-         * Initializes all parameters to null.
-         */
-        private EraseOperation() {
-            this.rows = null;
-            this.cols = null;
-            this.indicator = null;
-        }
-
-        /**
-         * Sets the rows to be erased in the MX object.
-         *
-         * @param rows A vector of integers representing the rows to be erased.
-         * @return The current instance of EraseOperation for method chaining.
-         */
-        public EraseOperation setRows(IntegerVectorCollection rows) {
-            this.rows = rows;
-            return this;
-        }
-
-        /**
-         * Sets the columns to be erased in the MX object.
-         *
-         * @param cols A vector of integers representing the columns to be erased.
-         * @return The current instance of EraseOperation for method chaining.
-         */
-        public EraseOperation setCols(IntegerVectorCollection cols) {
-            this.cols = cols;
-            return this;
-        }
-
-        /**
-         * Sets the indicator for the erase operation.
-         * The indicator controls how the elements should be erased (e.g., structural zeros).
-         *
-         * @param indicator A boolean indicating how the elements are erased.
-         * @return The current instance of EraseOperation for method chaining.
-         */
-        public EraseOperation setIndicator(Boolean indicator) {
-            this.indicator = indicator;
-            return this;
-        }
-
-        /**
-         * Applies the erase operation on the given MX object using the specified parameters.
-         * This method checks the available parameters (rows, cols, and indicator) and calls
-         * the appropriate erase method on the MX object.
-         *
-         * @param mx The MX object on which the erase operation will be applied.
-         */
-        public void apply(MX mx) {
-            if (rows != null && cols != null && indicator != null) {
-                mx.erase(rows.getCasADiObject(), cols.getCasADiObject(), indicator);
-            } else if (rows != null && cols != null) {
-                mx.erase(rows.getCasADiObject(), cols.getCasADiObject());
-            } else if (rows != null && indicator != null) {
-                mx.erase(rows.getCasADiObject(), indicator);
-            } else if (rows != null) {
-                mx.erase(rows.getCasADiObject());
-            }
-        }
+    @Override
+    public void erase(IntegerVectorCollection rr, boolean ind1) {
+        this.mx.erase(rr.getCasADiObject(), ind1);
     }
 
     /**
-     * Method for enlarging the matrix
+     * Erases elements from the matrix based on the specified row indices.
      *
-     * @param operation
-     * @return MXWrapper
+     * @param rr A collection of row indices to be erased.
      */
-    public MXWrapper enlarge(EnlargeOperation operation) {
-        operation.apply(this.mx);
-        return this;
+    @Override
+    public void erase(IntegerVectorCollection rr) {
+        this.mx.erase(rr.getCasADiObject());
     }
 
     /**
-     * Static method to create an EnlargeOperation builder
+     * Enlarges the matrix to accommodate additional rows and columns.
      *
-     * @return EnlargeOperation
+     * @param nrow The number of rows to be added.
+     * @param ncol The number of columns to be added.
+     * @param rr A collection of row indices that will be used in the enlargement.
+     * @param cc A collection of column indices that will be used in the enlargement.
+     * @param ind1 A boolean flag that determines the behavior of the enlargement operation.
      */
-    public static EnlargeOperation enlarge() {
-        return new EnlargeOperation();
+    @Override
+    public void enlarge(long nrow, long ncol, IntegerVectorCollection rr, IntegerVectorCollection cc, boolean ind1) {
+        this.mx.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     /**
-     * Inner class to represent the parameters for enlarging the matrix.
-     * Provides a fluent API to configure the enlarge operation.
-     */
-    public static class EnlargeOperation {
-        private long nrow;
-        private long ncol;
-        private IntegerVectorCollection rows;
-        private IntegerVectorCollection cols;
-        private Boolean indicator;
-
-        /**
-         * default construtor
-         */
-        private EnlargeOperation() {
-            this.nrow = 0;
-            this.ncol = 0;
-            this.rows = null;
-            this.cols = null;
-            this.indicator = null;
-        }
-
-        /**
-         * Sets the number of rows for the enlarged matrix.
-         *
-         * @param nrow The number of rows.
-         * @return The current instance of EnlargeOperation for method chaining.
-         */
-        public EnlargeOperation setRows(long nrow) {
-            this.nrow = nrow;
-            return this;
-        }
-
-        /**
-         * Sets the number of columns for the enlarged matrix.
-         *
-         * @param ncol The number of columns.
-         * @return The current instance of EnlargeOperation for method chaining.
-         */
-        public EnlargeOperation setCols(long ncol) {
-            this.ncol = ncol;
-            return this;
-        }
-
-        /**
-         * Sets the rows to be inserted into the enlarged matrix.
-         *
-         * @param rows A vector of integers representing the rows to be inserted.
-         * @return The current instance of EnlargeOperation for method chaining.
-         */
-        public EnlargeOperation setRowIndices(IntegerVectorCollection rows) {
-            this.rows = rows;
-            return this;
-        }
-
-        /**
-         * Sets the columns to be inserted into the enlarged matrix.
-         *
-         * @param cols A vector of integers representing the columns to be inserted.
-         * @return The current instance of EnlargeOperation for method chaining.
-         */
-        public EnlargeOperation setColIndices(IntegerVectorCollection cols) {
-            this.cols = cols;
-            return this;
-        }
-
-        /**
-         * Sets the indicator for the enlargement operation.
-         * The indicator defines how the empty rows/columns should be handled (e.g., structural zeros).
-         *
-         * @param indicator A boolean indicating how to handle the empty rows and columns.
-         * @return The current instance of EnlargeOperation for method chaining.
-         */
-        public EnlargeOperation setIndicator(Boolean indicator) {
-            this.indicator = indicator;
-            return this;
-        }
-
-        /**
-         * Applies the enlarge operation to the given MX object.
-         * Depending on the set parameters, it calls the appropriate enlarge method.
-         *
-         * @param mx The MX object to which the enlarge operation will be applied.
-         */
-        public void apply(MX mx) {
-            if (rows != null && cols != null && indicator != null) {
-                mx.enlarge(nrow, ncol, rows.getCasADiObject(), cols.getCasADiObject(), indicator);
-            } else if (rows != null && cols != null) {
-                mx.enlarge(nrow, ncol, rows.getCasADiObject(), cols.getCasADiObject());
-            }
-        }
-    }
-
-    /**
-     * Method to get the dependency
+     * Enlarges the matrix to accommodate additional rows and columns.
      *
-     * @param operation
-     * @return MXWrapper
+     * @param nrow The number of rows to be added.
+     * @param ncol The number of columns to be added.
+     * @param rr A collection of row indices that will be used in the enlargement.
+     * @param cc A collection of column indices that will be used in the enlargement.
      */
-    public MXWrapper dep(DepOperation operation) {
-        operation.apply(mx);
-        return this;
+    @Override
+    public void enlarge(long nrow, long ncol, IntegerVectorCollection rr, IntegerVectorCollection cc) {
+        this.mx.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     /**
-     * Static method to create a DepOperation builder
+     * Creates a new MXWrapper instance that is dependent on the specified variable.
      *
-     * @return DepOperation
+     * @param ch The index of the variable to create a dependency on.
+     * @return A new MXWrapper instance that is dependent on the specified variable.
      */
-    public static DepOperation dep() {
-        return new DepOperation();
+    @Override
+    public MXWrapper dep(long ch) {
+        return new MXWrapper(this.mx.dep(ch));
     }
 
     /**
-     * Inner class to represent the parameters for the dep operation.
-     * Provides a fluent API to configure the dep operation.
+     * Creates a new MXWrapper instance that is dependent on the last variable.
+     *
+     * @return A new MXWrapper instance that is dependent on the last variable.
      */
-    public static class DepOperation {
-        private Long index;
-
-        /**
-         * default constructor
-         */
-        private DepOperation() {
-            this.index = null;
-        }
-
-        /**
-         * Sets the index for the nth dependency to be retrieved.
-         *
-         * @param index The index of the desired dependency.
-         * @return The current instance of DepOperation for method chaining.
-         */
-        public DepOperation setIndex(long index) {
-            this.index = index;
-            return this;
-        }
-
-        /**
-         * Applies the dep operation to the given MX object.
-         * Depending on whether an index is set, it calls the appropriate dep method.
-         *
-         * @param mx The MX object from which the dependency will be retrieved.
-         */
-        public void apply(MX mx) {
-            if (index != null) {
-                mx.dep(index);
-            } else {
-                mx.dep();
-            }
-        }
+    @Override
+    public MXWrapper dep() {
+        return new MXWrapper(this.mx.dep());
     }
 
     /**
@@ -449,6 +291,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of dependencies as a long.
      */
+    @Override
     public long nDep() {
         return this.mx.n_dep();
     }
@@ -459,6 +302,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return String. The name of the MX object as a String.
      */
+    @Override
     public String getName() {
         return this.mx.name();
     }
@@ -470,6 +314,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if the object is symbolic, false otherwise.
      */
+    @Override
     public boolean isSymbolic() {
         return this.mx.is_symbolic();
     }
@@ -480,6 +325,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if the object is constant, false otherwise.
      */
+    @Override
     public boolean isConstant() {
         return this.mx.is_constant();
     }
@@ -542,6 +388,7 @@ public class MXWrapper implements Wrapper {
      * @param op The operation code to check.
      * @return boolean. true if the object represents the given operation, false otherwise.
      */
+    @Override
     public boolean isOp(long op) {
         return this.mx.is_op(op);
     }
@@ -566,6 +413,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if the operation is commutative, false otherwise.
      */
+    @Override
     public boolean isCommutative() {
         return this.mx.is_commutative();
     }
@@ -591,6 +439,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if the object can be used as a function input, false otherwise.
      */
+    @Override
     public boolean isValidInput() {
         return this.mx.is_valid_input();
     }
@@ -654,6 +503,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if duplicate symbolic expressions are found, false otherwise.
      */
+    @Override
     public boolean hasDuplicates() {
         return this.mx.has_duplicates();
     }
@@ -664,6 +514,7 @@ public class MXWrapper implements Wrapper {
      * This method clears the temporary input flag for the expression, which can be used
      * to mark or unmark an expression during symbolic manipulation.
      */
+    @Override
     public void resetInput() {
         this.mx.reset_input();
     }
@@ -676,6 +527,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if the expression is an identity matrix, false otherwise.
      */
+    @Override
     public boolean isEye() {
         return this.mx.is_eye();
     }
@@ -688,6 +540,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if the expression is zero, false otherwise.
      */
+    @Override
     public boolean isZero() {
         return this.mx.is_zero();
     }
@@ -700,6 +553,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if the expression is one, false otherwise.
      */
+    @Override
     public boolean isOne() {
         return this.mx.is_one();
     }
@@ -712,6 +566,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if the expression is -1, false otherwise.
      */
+    @Override
     public boolean isMinusOne() {
         return this.mx.is_minus_one();
     }
@@ -735,6 +590,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. true if the expression is regular (no NaN or Inf), false otherwise.
      */
+    @Override
     public boolean isRegular() {
         return this.mx.is_regular();
     }
@@ -772,6 +628,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The operation type code as a long value.
      */
+    @Override
     public long op() {
         return this.mx.op();
     }
@@ -784,6 +641,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return Dict. A dictionary containing the information of the MX expression.
      */
+    @Override
     public Dict info() {
         return this.mx.info();
     }
@@ -826,6 +684,7 @@ public class MXWrapper implements Wrapper {
      * @param y The right operand (MX object).
      * @return MXWrapper
      */
+    @Override
     public MXWrapper binary(long op, MXWrapper x, MXWrapper y) {
         MX result = MX.binary(op, x.getCasADiObject(), y.getCasADiObject());
         return new MXWrapper(result);
@@ -842,6 +701,7 @@ public class MXWrapper implements Wrapper {
      * @param x The operand (MX object).
      * @return MXWrapper
      */
+    @Override
     public MXWrapper unary(long op, MXWrapper x) {
         MX result = MX.unary(op, x.getCasADiObject());
         return new MXWrapper(result);
@@ -856,6 +716,7 @@ public class MXWrapper implements Wrapper {
      * @param sp The sparsity pattern that defines the matrix structure.
      * @return MXWrapper
      */
+    @Override
     public MXWrapper inf(Sparsity sp) {
         MX result = MX.inf(sp);
         return new MXWrapper(result);
@@ -871,6 +732,7 @@ public class MXWrapper implements Wrapper {
      * @param ncol The number of columns of the matrix.
      * @return MXWrapper
      */
+    @Override
     public MXWrapper inf(long nrow, long ncol) {
         MX result = MX.inf(nrow, ncol);
         return new MXWrapper(result);
@@ -885,6 +747,7 @@ public class MXWrapper implements Wrapper {
      * @param nrow The number of rows of the matrix.
      * @return MXWrapper
      */
+    @Override
     public MXWrapper inf(long nrow) {
         MX result = MX.inf(nrow);
         return new MXWrapper(result);
@@ -897,6 +760,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper
      */
+    @Override
     public MXWrapper inf() {
         MX result = MX.inf();
         return new MXWrapper(result);
@@ -911,6 +775,7 @@ public class MXWrapper implements Wrapper {
      * @param sp The sparsity pattern that defines the matrix structure.
      * @return MXWrapper
      */
+    @Override
     public MXWrapper nan(Sparsity sp) {
         MX result = MX.nan(sp);
         return new MXWrapper(result);
@@ -926,6 +791,7 @@ public class MXWrapper implements Wrapper {
      * @param ncol The number of columns of the matrix.
      * @return MXWrapper
      */
+    @Override
     public MXWrapper nan(long nrow, long ncol) {
         MX result = MX.nan(nrow, ncol);
         return new MXWrapper(result);
@@ -940,6 +806,7 @@ public class MXWrapper implements Wrapper {
      * @param nrow The number of rows of the matrix.
      * @return MXWrapper
      */
+    @Override
     public MXWrapper nan(long nrow) {
         MX result = MX.nan(nrow);
         return new MXWrapper(result);
@@ -952,6 +819,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper
      */
+    @Override
     public MXWrapper nan() {
         MX result = MX.nan();
         return new MXWrapper(result);
@@ -966,6 +834,7 @@ public class MXWrapper implements Wrapper {
      * @param size The size of the identity matrix (number of rows and columns).
      * @return MXWrapperg
      */
+    @Override
     public MXWrapper eye(long size) {
         MX result = MX.eye(size);
         return new MXWrapper(result);
@@ -982,6 +851,7 @@ public class MXWrapper implements Wrapper {
      * @param rr The slice used to extract the submatrix along the row dimension.
      * @return A new MXWrapper containing the extracted submatrix.
      */
+    @Override
     public MXWrapper get(boolean ind1, Slice rr) {
         MXWrapper output = new MXWrapper();
         this.mx.get(output.mx, ind1, rr);
@@ -995,6 +865,7 @@ public class MXWrapper implements Wrapper {
      * @param rr The IM used to define the rows of the submatrix.
      * @return A new MXWrapper containing the extracted submatrix.
      */
+    @Override
     public MXWrapper get(boolean ind1, IM rr) {
         MXWrapper output = new MXWrapper();
         this.mx.get(output.mx, ind1, rr);
@@ -1005,12 +876,13 @@ public class MXWrapper implements Wrapper {
      * Extracts a submatrix from the current matrix using a single argument of type Sparsity.
      *
      * @param ind1 A boolean indicating whether the row indices are inclusive.
-     * @param rr The Sparsity used to define the rows of the submatrix.
+     * @param sp The Sparsity used to define the rows of the submatrix.
      * @return A new MXWrapper containing the extracted submatrix.
      */
-    public MXWrapper get(boolean ind1, Sparsity rr) {
+    @Override
+    public MXWrapper get(boolean ind1, Sparsity sp) {
         MXWrapper output = new MXWrapper();
-        this.mx.get(output.mx, ind1, rr);
+        this.mx.get(output.mx, ind1, sp);
         return output;
     }
 
@@ -1049,6 +921,7 @@ public class MXWrapper implements Wrapper {
      * @param cc The slice used to define the columns of the submatrix.
      * @return A new MXWrapper containing the extracted submatrix.
      */
+    @Override
     public MXWrapper get(boolean ind1, Slice rr, Slice cc) {
         MXWrapper output = new MXWrapper();
         this.mx.get(output.mx, ind1, rr, cc);
@@ -1063,6 +936,7 @@ public class MXWrapper implements Wrapper {
      * @param cc The IM used to define the columns of the submatrix.
      * @return A new MXWrapper containing the extracted submatrix.
      */
+    @Override
     public MXWrapper get(boolean ind1, Slice rr, IM cc) {
         MXWrapper output = new MXWrapper();
         this.mx.get(output.mx, ind1, rr, cc);
@@ -1091,6 +965,7 @@ public class MXWrapper implements Wrapper {
      * @param cc The slice used to define the columns of the submatrix.
      * @return A new MXWrapper containing the extracted submatrix.
      */
+    @Override
     public MXWrapper get(boolean ind1, IM rr, Slice cc) {
         MXWrapper output = new MXWrapper();
         this.mx.get(output.mx, ind1, rr, cc);
@@ -1119,6 +994,7 @@ public class MXWrapper implements Wrapper {
      * @param cc The IM used to define the columns of the submatrix.
      * @return A new MXWrapper containing the extracted submatrix.
      */
+    @Override
     public MXWrapper get(boolean ind1, IM rr, IM cc) {
         MXWrapper output = new MXWrapper();
         this.mx.get(output.mx, ind1, rr, cc);
@@ -1190,6 +1066,7 @@ public class MXWrapper implements Wrapper {
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The slice used to define the rows to be set.
      */
+    @Override
     public void set(MXWrapper m, boolean ind1, Slice rr) {
         this.mx.set(m.mx, ind1, rr);
     }
@@ -1202,6 +1079,7 @@ public class MXWrapper implements Wrapper {
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The IM used to define the rows to be set.
      */
+    @Override
     public void set(MXWrapper m, boolean ind1, IM rr) {
         this.mx.set(m.mx, ind1, rr);
     }
@@ -1214,6 +1092,7 @@ public class MXWrapper implements Wrapper {
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param sp The Sparsity used to define the rows to be set.
      */
+    @Override
     public void set(MXWrapper m, boolean ind1, Sparsity sp) {
         this.mx.set(m.mx, ind1, sp);
     }
@@ -1228,6 +1107,7 @@ public class MXWrapper implements Wrapper {
      * @param rr The slice used to define the rows to be set.
      * @param cc The slice used to define the columns to be set.
      */
+    @Override
     public void set(MXWrapper m, boolean ind1, Slice rr, Slice cc) {
         this.mx.set(m.mx, ind1, rr, cc);
     }
@@ -1241,6 +1121,7 @@ public class MXWrapper implements Wrapper {
      * @param rr The slice used to define the rows to be set.
      * @param cc The IM used to define the columns to be set.
      */
+    @Override
     public void set(MXWrapper m, boolean ind1, Slice rr, IM cc) {
         this.mx.set(m.mx, ind1, rr, cc);
     }
@@ -1254,6 +1135,7 @@ public class MXWrapper implements Wrapper {
      * @param rr The IM used to define the rows to be set.
      * @param cc The slice used to define the columns to be set.
      */
+    @Override
     public void set(MXWrapper m, boolean ind1, IM rr, Slice cc) {
         this.mx.set(m.mx, ind1, rr, cc);
     }
@@ -1267,6 +1149,7 @@ public class MXWrapper implements Wrapper {
      * @param rr The IM used to define the rows to be set.
      * @param cc The IM used to define the columns to be set.
      */
+    @Override
     public void set(MXWrapper m, boolean ind1, IM rr, IM cc) {
         this.mx.set(m.mx, ind1, rr, cc);
     }
@@ -1275,95 +1158,111 @@ public class MXWrapper implements Wrapper {
     /**
      * Retrieves a set of non-zero elements from the current matrix using a single argument of type Slice.
      * The specified slice defines the rows to be considered for non-zero extraction.
-     * The result is stored in the provided OUTPUT matrix.
+     * The result is returned as a new MXWrapper containing the non-zero elements.
      *
-     * @param OUTPUT The matrix to store the resulting non-zero elements.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
-     * @param kk The slice used to define the rows for non-zero extraction.
+     * @param k The slice used to define the rows for non-zero extraction.
+     * @return A new MXWrapper containing the resulting non-zero elements.
      */
-    public void getNZ(MXWrapper OUTPUT, boolean ind1, Slice kk) {
-        this.mx.get_nz(OUTPUT.mx, ind1, kk);
+    @Override
+    public MXWrapper getNZ(boolean ind1, Slice k) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get_nz(output.getCasADiObject(), ind1, k);
+        return output;
     }
 
     /**
      * Retrieves a set of non-zero elements from the current matrix using a single argument of type IM.
      * The specified IM defines the rows to be considered for non-zero extraction.
-     * The result is stored in the provided OUTPUT matrix.
+     * The result is returned as a new MXWrapper containing the non-zero elements.
      *
-     * @param OUTPUT The matrix to store the resulting non-zero elements.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
-     * @param kk The IM used to define the rows for non-zero extraction.
+     * @param k The IM used to define the rows for non-zero extraction.
+     * @return A new MXWrapper containing the resulting non-zero elements.
      */
-    public void getNZ(MXWrapper OUTPUT, boolean ind1, IM kk) {
-        this.mx.get_nz(OUTPUT.mx, ind1, kk);
+    @Override
+    public MXWrapper getNZ(boolean ind1, IM k) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get_nz(output.getCasADiObject(), ind1, k);
+        return output;
     }
 
     /**
      * Retrieves a set of non-zero elements from the current matrix using a single argument of type MXWrapper.
      * The specified MXWrapper defines the rows to be considered for non-zero extraction.
-     * The result is stored in the provided OUTPUT matrix.
+     * The result is returned as a new MXWrapper containing the non-zero elements.
      *
-     * @param OUTPUT The matrix to store the resulting non-zero elements.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param kk The MXWrapper used to define the rows for non-zero extraction.
+     * @return A new MXWrapper containing the resulting non-zero elements.
      */
-    public void getNZ(MXWrapper OUTPUT, boolean ind1, MXWrapper kk) {
-        this.mx.get_nz(OUTPUT.mx, ind1, kk.mx);
+    public MXWrapper getNZ(boolean ind1, MXWrapper kk) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get_nz(output.getCasADiObject(), ind1, kk.mx);
+        return output;
     }
 
     /**
      * Retrieves a set of non-zero elements from the current matrix using a single argument of type long.
      * The specified long defines the row index to be considered for non-zero extraction.
-     * The result is stored in the provided OUTPUT matrix.
+     * The result is returned as a new MXWrapper containing the non-zero elements.
      *
-     * @param OUTPUT The matrix to store the resulting non-zero elements.
      * @param ind1 A boolean indicating whether the row index is inclusive.
      * @param kk The long value representing the row index for non-zero extraction.
+     * @return A new MXWrapper containing the resulting non-zero elements.
      */
-    public void getNZ(MXWrapper OUTPUT, boolean ind1, long kk) {
-        this.mx.get_nz(OUTPUT.mx, ind1, kk);
+    public MXWrapper getNZ(boolean ind1, long kk) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get_nz(output.getCasADiObject(), ind1, kk);
+        return output;
     }
 
     /**
      * Retrieves a set of non-zero elements from the current matrix using an inner MXWrapper and an outer Slice.
      * The specified MXWrapper and Slice define the rows and columns to be considered for non-zero extraction.
-     * The result is stored in the provided OUTPUT matrix.
+     * The result is returned as a new MXWrapper containing the non-zero elements.
      *
-     * @param OUTPUT The matrix to store the resulting non-zero elements.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param inner The MXWrapper used to define the rows for non-zero extraction.
      * @param outer The slice used to define the columns for non-zero extraction.
+     * @return A new MXWrapper containing the resulting non-zero elements.
      */
-    public void getNZ(MXWrapper OUTPUT, boolean ind1, MXWrapper inner, Slice outer) {
-        this.mx.get_nz(OUTPUT.mx, ind1, inner.mx, outer);
+    public MXWrapper getNZ(boolean ind1, MXWrapper inner, Slice outer) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get_nz(output.getCasADiObject(), ind1, inner.mx, outer);
+        return output;
     }
 
     /**
      * Retrieves a set of non-zero elements from the current matrix using an inner Slice and an outer MXWrapper.
      * The specified Slice and MXWrapper define the rows and columns to be considered for non-zero extraction.
-     * The result is stored in the provided OUTPUT matrix.
+     * The result is returned as a new MXWrapper containing the non-zero elements.
      *
-     * @param OUTPUT The matrix to store the resulting non-zero elements.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param inner The slice used to define the rows for non-zero extraction.
      * @param outer The MXWrapper used to define the columns for non-zero extraction.
+     * @return A new MXWrapper containing the resulting non-zero elements.
      */
-    public void getNZ(MXWrapper OUTPUT, boolean ind1, Slice inner, MXWrapper outer) {
-        this.mx.get_nz(OUTPUT.mx, ind1, inner, outer.mx);
+    public MXWrapper getNZ(boolean ind1, Slice inner, MXWrapper outer) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get_nz(output.getCasADiObject(), ind1, inner, outer.mx);
+        return output;
     }
 
     /**
      * Retrieves a set of non-zero elements from the current matrix using two MXWrapper arguments.
      * The specified MXWrappers define the rows and columns to be considered for non-zero extraction.
-     * The result is stored in the provided OUTPUT matrix.
+     * The result is returned as a new MXWrapper containing the non-zero elements.
      *
-     * @param OUTPUT The matrix to store the resulting non-zero elements.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param inner The MXWrapper used to define the rows for non-zero extraction.
      * @param outer The MXWrapper used to define the columns for non-zero extraction.
+     * @return A new MXWrapper containing the resulting non-zero elements.
      */
-    public void getNZ(MXWrapper OUTPUT, boolean ind1, MXWrapper inner, MXWrapper outer) {
-        this.mx.get_nz(OUTPUT.mx, ind1, inner.mx, outer.mx);
+    public MXWrapper getNZ(boolean ind1, MXWrapper inner, MXWrapper outer) {
+        MXWrapper output = new MXWrapper();
+        this.mx.get_nz(output.getCasADiObject(), ind1, inner.mx, outer.mx);
+        return output;
     }
 
     // ----- Set a set of nonzeors -----
@@ -1373,10 +1272,11 @@ public class MXWrapper implements Wrapper {
      *
      * @param m The matrix containing the non-zero values to set.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
-     * @param kk The slice used to define the rows to be set.
+     * @param k The slice used to define the rows to be set.
      */
-    public void setNZ(MXWrapper m, boolean ind1, Slice kk) {
-        this.mx.set_nz(m.mx, ind1, kk);
+    @Override
+    public void setNZ(MXWrapper m, boolean ind1, Slice k) {
+        this.mx.set_nz(m.mx, ind1, k);
     }
 
     /**
@@ -1385,10 +1285,11 @@ public class MXWrapper implements Wrapper {
      *
      * @param m The matrix containing the non-zero values to set.
      * @param ind1 A boolean indicating whether the row indices are inclusive.
-     * @param kk The IM used to define the rows to be set.
+     * @param k The IM used to define the rows to be set.
      */
-    public void setNZ(MXWrapper m, boolean ind1, IM kk) {
-        this.mx.set_nz(m.mx, ind1, kk);
+    @Override
+    public void setNZ(MXWrapper m, boolean ind1, IM k) {
+        this.mx.set_nz(m.mx, ind1, k);
     }
 
     /**
@@ -1435,20 +1336,25 @@ public class MXWrapper implements Wrapper {
      * a {-1, -3} b {-3, -2} c {-1 -2}
      *
      * @param other The MXWrapper to contract with.
-     * @param C The resulting MXWrapper.
+     * @param C The MXWrapper to store the resulting contraction.
      * @param dim_a Dimensions of this MX object.
      * @param dim_b Dimensions of the other MX object.
      * @param dim_c Dimensions of the resulting MX object.
      * @param a Einstein notation for this MX object.
      * @param b Einstein notation for the other MX object.
      * @param c Einstein notation for the resulting MX object.
-     * @return MXWrapper. A new MXWrapper containing the result of the contraction.
+     * @return MXWrapper. The MXWrapper containing the result of the contraction.
      */
+    @Override
     public MXWrapper einstein(MXWrapper other, MXWrapper C,
                               IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
                               IntegerVectorCollection dim_c, IntegerVectorCollection a,
                               IntegerVectorCollection b, IntegerVectorCollection c) {
-        return new MXWrapper(MX.einstein(this.mx, other.mx, C.mx, dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
+        MX.einstein(this.mx, other.mx, C.mx,
+                dim_a.getCasADiObject(), dim_b.getCasADiObject(),
+                dim_c.getCasADiObject(), a.getCasADiObject(),
+                b.getCasADiObject(), c.getCasADiObject());
+        return C;
     }
 
     /**
@@ -1479,11 +1385,12 @@ public class MXWrapper implements Wrapper {
      * @param c Einstein notation for the resulting MX object.
      * @return MXWrapper. A new MXWrapper containing the result of the contraction.
      */
+    @Override
     public MXWrapper einstein(MXWrapper other,
                               IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
                               IntegerVectorCollection dim_c, IntegerVectorCollection a,
                               IntegerVectorCollection b, IntegerVectorCollection c) {
-        return new MXWrapper(MX.einstein(this.mx, other.mx, dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
+        return new MXWrapper(MX.einstein(this.mx, other.getCasADiObject(), dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
     }
 
     /**
@@ -1493,8 +1400,9 @@ public class MXWrapper implements Wrapper {
      * @param depth The depth to which the comparison should be performed.
      * @return boolean. true if the two MX objects are equal, false otherwise.
      */
+    @Override
     public boolean isEqual(MXWrapper other, long depth) {
-        return MX.is_equal(this.mx, other.mx, depth);
+        return MX.is_equal(this.mx, other.getCasADiObject(), depth);
     }
 
     /**
@@ -1503,8 +1411,9 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper to compare with.
      * @return boolean. true if the two MX objects are equal, false otherwise.
      */
+    @Override
     public boolean isEqual(MXWrapper other) {
-        return MX.is_equal(this.mx, other.mx);
+        return MX.is_equal(this.mx, other.getCasADiObject());
     }
 
     /**
@@ -1512,6 +1421,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the minimum value of the MX object.
      */
+    @Override
     public MXWrapper mmin() {
         return new MXWrapper(MX.mmin(this.mx));
     }
@@ -1521,6 +1431,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the maximum value of the MX object.
      */
+    @Override
     public MXWrapper mmax() {
         return new MXWrapper(MX.mmax(this.mx));
     }
@@ -1564,6 +1475,7 @@ public class MXWrapper implements Wrapper {
      * @param offset The offset at which to split the MX object.
      * @return MXVector. A vector of MXWrapper objects resulting from the horizontal split.
      */
+    @Override
     public MXVector horzsplit(IntegerVectorCollection offset) {
         return new MXVector(MX.horzsplit(this.mx, offset.getCasADiObject()));
     }
@@ -1575,6 +1487,7 @@ public class MXWrapper implements Wrapper {
      * @param offset2 The second offset for the diagonal split.
      * @return MXVector. A vector of MXWrapper objects resulting from the diagonal split.
      */
+    @Override
     public MXVector diagsplit(IntegerVectorCollection offset1, IntegerVectorCollection offset2) {
         return new MXVector(MX.diagsplit(this.mx, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
@@ -1585,6 +1498,7 @@ public class MXWrapper implements Wrapper {
      * @param offset The offset at which to split the MX object.
      * @return MXVector. A vector of MXWrapper objects resulting from the vertical split.
      */
+    @Override
     public MXVector vertsplit(IntegerVectorCollection offset) {
         return new MXVector(MX.vertsplit(this.mx, offset.getCasADiObject()));
     }
@@ -1605,6 +1519,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper to multiply with.
      * @return MXWrapper. A new MXWrapper containing the result of the multiplication.
      */
+    @Override
     public MXWrapper mtimes(MXWrapper other) {
         return new MXWrapper(MX.mtimes(this.mx, other.mx));
     }
@@ -1616,6 +1531,7 @@ public class MXWrapper implements Wrapper {
      * @param z The MXWrapper to accumulate into.
      * @return MXWrapper. A new MXWrapper containing the result of the multiply-accumulate operation.
      */
+    @Override
     public MXWrapper mac(MXWrapper y, MXWrapper z) {
         return new MXWrapper(MX.mac(this.mx, y.mx, z.mx));
     }
@@ -1627,6 +1543,7 @@ public class MXWrapper implements Wrapper {
      * @param ncol The number of columns for the reshaped MX object.
      * @return MXWrapper. A new MXWrapper containing the reshaped MX object.
      */
+    @Override
     public MXWrapper reshape(long nrow, long ncol) {
         return new MXWrapper(MX.reshape(this.mx, nrow, ncol));
     }
@@ -1637,6 +1554,7 @@ public class MXWrapper implements Wrapper {
      * @param sp The Sparsity object defining the new sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the reshaped MX object.
      */
+    @Override
     public MXWrapper reshape(Sparsity sp) {
         return new MXWrapper(MX.reshape(this.mx, sp));
     }
@@ -1647,6 +1565,7 @@ public class MXWrapper implements Wrapper {
      * @param sp The Sparsity object defining the new sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the sparsity-cast MX object.
      */
+    @Override
     public MXWrapper sparsityCast(Sparsity sp) {
         return new MXWrapper(MX.sparsity_cast(this.mx, sp));
     }
@@ -1657,6 +1576,7 @@ public class MXWrapper implements Wrapper {
      * @param b The MXWrapper to compute the Kronecker product with.
      * @return MXWrapper. A new MXWrapper containing the result of the Kronecker product.
      */
+    @Override
     public MXWrapper kron(MXWrapper b) {
         return new MXWrapper(MX.kron(this.mx, b.mx));
     }
@@ -1668,6 +1588,7 @@ public class MXWrapper implements Wrapper {
      * @param opts Options for the Jacobian computation.
      * @return MXWrapper. A new MXWrapper containing the Jacobian matrix.
      */
+    @Override
     public MXWrapper jacobian(MXWrapper x, Dict opts) {
         return new MXWrapper(MX.jacobian(this.mx, x.mx, opts));
     }
@@ -1678,6 +1599,7 @@ public class MXWrapper implements Wrapper {
      * @param x The MXWrapper representing the variable with respect to which to compute the Jacobian.
      * @return MXWrapper. A new MXWrapper containing the Jacobian matrix.
      */
+    @Override
     public MXWrapper jacobian(MXWrapper x) {
         return new MXWrapper(MX.jacobian(this.mx, x.mx));
     }
@@ -1689,6 +1611,7 @@ public class MXWrapper implements Wrapper {
      * @param opts Options for the Hessian computation.
      * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
      */
+    @Override
     public MXWrapper hessian(MXWrapper x, Dict opts) {
         return new MXWrapper(MX.hessian(this.mx, x.mx, opts));
     }
@@ -1699,6 +1622,7 @@ public class MXWrapper implements Wrapper {
      * @param x The MXWrapper representing the variable with respect to which to compute the Hessian.
      * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
      */
+    @Override
     public MXWrapper hessian(MXWrapper x) {
         return new MXWrapper(MX.hessian(this.mx, x.mx));
     }
@@ -1711,6 +1635,7 @@ public class MXWrapper implements Wrapper {
      * @param opts Options for the Hessian computation.
      * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
      */
+    @Override
     public MXWrapper hessian(MXWrapper x, MXWrapper g, Dict opts) {
         return new MXWrapper(MX.hessian(this.mx, x.mx, g.mx, opts));
     }
@@ -1722,58 +1647,9 @@ public class MXWrapper implements Wrapper {
      * @param g The MXWrapper representing the second variable.
      * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
      */
+    @Override
     public MXWrapper hessian(MXWrapper x, MXWrapper g) {
         return new MXWrapper(MX.hessian(this.mx, x.mx, g.mx));
-    }
-
-    /**
-     * Computes the forward mode of automatic differentiation for the given expression.
-     *
-     * @param ex The MXVector representing the expression to differentiate.
-     * @param arg The MXVector representing the arguments of the expression.
-     * @param v The VectorCollection representing the values for the forward mode.
-     * @param opts Options for the forward computation.
-     * @return VectorCollection. A new VectorCollection containing the result of the forward mode.
-     */
-    public MXVectorCollection forward(MXVector ex, MXVector arg, MXVectorCollection v, Dict opts) {
-        return new MXVectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
-    }
-
-    /**
-     * Computes the forward mode of automatic differentiation for the given expression.
-     *
-     * @param ex The MXVector representing the expression to differentiate.
-     * @param arg The MXVector representing the arguments of the expression.
-     * @param v The VectorCollection representing the values for the forward mode.
-     * @return VectorCollection. A new VectorCollection containing the result of the forward mode.
-     */
-    public MXVectorCollection forward(MXVector ex, MXVector arg, MXVectorCollection v) {
-        return new MXVectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
-    }
-
-    /**
-     * Computes the reverse mode of automatic differentiation for the given expression.
-     *
-     * @param ex The MXVector representing the expression to differentiate.
-     * @param arg The MXVector representing the arguments of the expression.
-     * @param v The VectorCollection representing the values for the reverse mode.
-     * @param opts Options for the reverse computation.
-     * @return VectorCollection. A new VectorCollection containing the result of the reverse mode.
-     */
-    public MXVectorCollection reverse(MXVector ex, MXVector arg, MXVectorCollection v, Dict opts) {
-        return new MXVectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
-    }
-
-    /**
-     * Computes the reverse mode of automatic differentiation for the given expression.
-     *
-     * @param ex The MXVector representing the expression to differentiate.
-     * @param arg The MXVector representing the arguments of the expression.
-     * @param v The VectorCollection representing the values for the reverse mode.
-     * @return VectorCollection. A new VectorCollection containing the result of the reverse mode.
-     */
-    public MXVectorCollection reverse(MXVector ex, MXVector arg, MXVectorCollection v) {
-        return new MXVectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     /**
@@ -1784,6 +1660,7 @@ public class MXWrapper implements Wrapper {
      * @param tr A boolean flag for additional options.
      * @return BooleanVectorCollection. A new BooleanVectorCollection containing the dependency information.
      */
+    @Override
     public BooleanVectorCollection whichDepends(MXWrapper var, long order, boolean tr) {
         return new BooleanVectorCollection(MX.which_depends(this.mx, var.mx, order, tr));
     }
@@ -1795,6 +1672,7 @@ public class MXWrapper implements Wrapper {
      * @param order The order of dependency to check.
      * @return BooleanVectorCollection. A new BooleanVectorCollection containing the dependency information.
      */
+    @Override
     public BooleanVectorCollection whichDepends(MXWrapper var, long order) {
         return new BooleanVectorCollection(MX.which_depends(this.mx, var.mx, order));
     }
@@ -1805,6 +1683,7 @@ public class MXWrapper implements Wrapper {
      * @param var The MXWrapper representing the variable.
      * @return BooleanVectorCollection. A new BooleanVectorCollection containing the dependency information.
      */
+    @Override
     public BooleanVectorCollection whichDepends(MXWrapper var) {
         return new BooleanVectorCollection(MX.which_depends(this.mx, var.mx));
     }
@@ -1815,6 +1694,7 @@ public class MXWrapper implements Wrapper {
      * @param x The MXWrapper representing the variable with respect to which to compute the Jacobian sparsity.
      * @return Sparsity. A new Sparsity object containing the sparsity pattern of the Jacobian matrix.
      */
+    @Override
     public Sparsity jacobianSparsity(MXWrapper x) {
         return new Sparsity(MX.jacobian_sparsity(this.mx, x.mx));
     }
@@ -1826,6 +1706,7 @@ public class MXWrapper implements Wrapper {
      * @param vdef The MXWrapper representing the value to substitute in.
      * @return MXWrapper. A new MXWrapper containing the result of the substitution.
      */
+    @Override
     public MXWrapper substitute(MXWrapper v, MXWrapper vdef) {
         return new MXWrapper(MX.substitute(this.mx, v.mx, vdef.mx));
     }
@@ -1838,6 +1719,7 @@ public class MXWrapper implements Wrapper {
      * @param b The MXWrapper representing the right-hand side vector b.
      * @return MXWrapper. A new MXWrapper containing the solution vector x.
      */
+    @Override
     public MXWrapper solve(MXWrapper b) {
         MX result = MX.solve(this.mx, b.mx);
         return new MXWrapper(result);
@@ -1854,6 +1736,7 @@ public class MXWrapper implements Wrapper {
      * @param dict The dictionary containing additional options for the solver.
      * @return MXWrapper. A new MXWrapper containing the solution vector x.
      */
+    @Override
     public MXWrapper solve(MXWrapper b, String lsolver, Dict dict) {
         MX result = MX.solve(this.mx, b.mx, lsolver, dict);
         return new MXWrapper(result);
@@ -1878,6 +1761,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the inverse minor of the matrix.
      */
+    @Override
     public MXWrapper invMinor() {
         MX result = MX.inv_minor(this.mx);
         return new MXWrapper(result);
@@ -1903,6 +1787,7 @@ public class MXWrapper implements Wrapper {
      * @param dict The dictionary containing additional options for the solver.
      * @return MXWrapper. A new MXWrapper containing the inverse of the matrix.
      */
+    @Override
     public MXWrapper inv(String lsolver, Dict dict) {
         MX result = MX.inv(this.mx, lsolver, dict);
         return new MXWrapper(result);
@@ -1926,6 +1811,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the inverse of the matrix.
      */
+    @Override
     public MXWrapper inv() {
         MX result = MX.inv(this.mx);
         return new MXWrapper(result);
@@ -1941,6 +1827,7 @@ public class MXWrapper implements Wrapper {
      * @param dict The dictionary containing additional options for the solver.
      * @return MXWrapper. A new MXWrapper containing the pseudo-inverse of the matrix.
      */
+    @Override
     public MXWrapper pinv(String lsolver, Dict dict) {
         MX result = MX.pinv(this.mx, lsolver, dict);
         return new MXWrapper(result);
@@ -1966,6 +1853,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the pseudo-inverse of the matrix.
      */
+    @Override
     public MXWrapper pinv() {
         MX result = MX.pinv(this.mx);
         return new MXWrapper(result);
@@ -1977,6 +1865,7 @@ public class MXWrapper implements Wrapper {
      * @param t The MXWrapper representing the time parameter.
      * @return MXWrapper. A new MXWrapper containing the matrix exponential of A at time t.
      */
+    @Override
     public MXWrapper expmConst(MXWrapper t) {
         MX result = MX.expm_const(this.mx, t.mx);
         return new MXWrapper(result);
@@ -1987,6 +1876,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the matrix exponential of A.
      */
+    @Override
     public MXWrapper expm() {
         MX result = MX.expm(this.mx);
         return new MXWrapper(result);
@@ -1997,6 +1887,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of nodes in the expression.
      */
+    @Override
     public long nNodes() {
         return MX.n_nodes(this.mx);
     }
@@ -2007,65 +1898,10 @@ public class MXWrapper implements Wrapper {
      * @param args The StringVectorCollection containing additional arguments for printing.
      * @return String. The string representation of the operator.
      */
+    @Override
     public String printOperator(StringVectorCollection args) {
         return MX.print_operator(this.mx, args.getCasADiObject());
     }
-
-    // TODO: Should this be static?
-    /**
-     * Evaluates a conditional expression based on the provided condition.
-     *
-     * @param cond The MXWrapper representing the condition.
-     * @param if_true The MXWrapper representing the expression if the condition is true.
-     * @param if_false The MXWrapper representing the expression if the condition is false.
-     * @param short_circuit A boolean indicating whether to use short-circuit evaluation.
-     * @return MXWrapper. A new MXWrapper containing the result of the conditional expression.
-     */
-    public static MXWrapper ifElse(MXWrapper cond, MXWrapper if_true, MXWrapper if_false, boolean short_circuit) {
-        MX result = MX.if_else(cond.mx, if_true.mx, if_false.mx, short_circuit);
-        return new MXWrapper(result);
-    }
-
-    /**
-     * Evaluates a conditional expression based on the provided condition.
-     *
-     * @param cond The MXWrapper representing the condition.
-     * @param if_true The MXWrapper representing the expression if the condition is true.
-     * @param if_false The MXWrapper representing the expression if the condition is false.
-     * @return MXWrapper. A new MXWrapper containing the result of the conditional expression.
-     */
-    public static MXWrapper ifElse(MXWrapper cond, MXWrapper if_true, MXWrapper if_false) {
-        MX result = MX.if_else(cond.mx, if_true.mx, if_false.mx);
-        return new MXWrapper(result);
-    }
-
-    /**
-     * Evaluates a conditional expression based on the provided index.
-     *
-     * @param ind The MXWrapper representing the index.
-     * @param x The MXVector representing the expressions.
-     * @param x_default The MXWrapper representing the default expression.
-     * @param short_circuit A boolean indicating whether to use short-circuit evaluation.
-     * @return MXWrapper. A new MXWrapper containing the result of the conditional expression.
-     */
-    public static MXWrapper conditional(MXWrapper ind, MXVector x, MXWrapper x_default, boolean short_circuit) {
-        MX result = MX.conditional(ind.mx, x.getCasADiObject(), x_default.mx, short_circuit);
-        return new MXWrapper(result);
-    }
-
-    /**
-     * Evaluates a conditional expression based on the provided index.
-     *
-     * @param ind The MXWrapper representing the index.
-     * @param x The MXVector representing the expressions.
-     * @param x_default The MXWrapper representing the default expression.
-     * @return MXWrapper. A new MXWrapper containing the result of the conditional expression.
-     */
-    public static MXWrapper conditional(MXWrapper ind, MXVector x, MXWrapper x_default) {
-        MX result = MX.conditional(ind.mx, x.getCasADiObject(), x_default.mx);
-        return new MXWrapper(result);
-    }
-    // End
 
     /**
      * Checks if the expression represented by this MXWrapper depends on the given argument.
@@ -2073,6 +1909,7 @@ public class MXWrapper implements Wrapper {
      * @param arg The MXWrapper representing the argument.
      * @return boolean. True if this expression depends on the argument, false otherwise.
      */
+    @Override
     public boolean dependsOn(MXWrapper arg) {
         return MX.depends_on(this.mx, arg.mx);
     }
@@ -2082,6 +1919,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the simplified expression.
      */
+    @Override
     public MXWrapper simplify() {
         MX result = MX.simplify(this.mx);
         return new MXWrapper(result);
@@ -2093,6 +1931,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the result of the dot product.
      */
+    @Override
     public MXWrapper dot(MXWrapper y) {
         MX result = MX.dot(this.mx, y.mx);
         return new MXWrapper(result);
@@ -2104,6 +1943,7 @@ public class MXWrapper implements Wrapper {
      * @param b The MXWrapper representing the divisor.
      * @return MXWrapper. A new MXWrapper containing the result of the right division.
      */
+    @Override
     public MXWrapper mrdivide(MXWrapper b) {
         MX result = MX.mrdivide(this.mx, b.mx);
         return new MXWrapper(result);
@@ -2115,6 +1955,7 @@ public class MXWrapper implements Wrapper {
      * @param b The MXWrapper representing the divisor.
      * @return MXWrapper. A new MXWrapper containing the result of the left division.
      */
+    @Override
     public MXWrapper mldivide(MXWrapper b) {
         MX result = MX.mldivide(this.mx, b.mx);
         return new MXWrapper(result);
@@ -2125,6 +1966,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the 2-norm of the expression.
      */
+    @Override
     public MXWrapper norm2() {
         MX result = MX.norm_2(this.mx);
         return new MXWrapper(result);
@@ -2135,6 +1977,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the Frobenius norm of the expression.
      */
+    @Override
     public MXWrapper normFro() {
         MX result = MX.norm_fro(this.mx);
         return new MXWrapper(result);
@@ -2145,6 +1988,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the 1-norm of the expression.
      */
+    @Override
     public MXWrapper norm1() {
         MX result = MX.norm_1(this.mx);
         return new MXWrapper(result);
@@ -2155,6 +1999,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the infinity norm of the expression.
      */
+    @Override
     public MXWrapper normInf() {
         MX result = MX.norm_inf(this.mx);
         return new MXWrapper(result);
@@ -2166,6 +2011,7 @@ public class MXWrapper implements Wrapper {
      * @param B The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the united expression.
      */
+    @Override
     public MXWrapper unite(MXWrapper B) {
         MX result = MX.unite(this.mx, B.mx);
         return new MXWrapper(result);
@@ -2176,6 +2022,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the trace of the expression.
      */
+    @Override
     public MXWrapper trace() {
         MX result = MX.trace(this.mx);
         return new MXWrapper(result);
@@ -2186,6 +2033,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the diagonal of the expression.
      */
+    @Override
     public MXWrapper diag() {
         MX result = MX.diag(this.mx);
         return new MXWrapper(result);
@@ -2196,6 +2044,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the sum of the elements.
      */
+    @Override
     public MXWrapper sum2() {
         MX result = MX.sum2(this.mx);
         return new MXWrapper(result);
@@ -2206,30 +2055,30 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the sum of the elements along the first dimension.
      */
+    @Override
     public MXWrapper sum1() {
         MX result = MX.sum1(this.mx);
         return new MXWrapper(result);
     }
 
-    // TODO: Should this be static?
     /**
      * Evaluates a polynomial at the given point.
      *
-     * @param p The MXWrapper representing the polynomial coefficients.
      * @param x The MXWrapper representing the point at which to evaluate the polynomial.
      * @return MXWrapper. A new MXWrapper containing the result of the polynomial evaluation.
      */
-    public static MXWrapper polyval(MXWrapper p, MXWrapper x) {
-        MX result = MX.polyval(p.mx, x.mx);
+    @Override
+    public MXWrapper polyval(MXWrapper x) {
+        MX result = MX.polyval(this.mx, x.mx);
         return new MXWrapper(result);
     }
-    // End
 
     /**
      * Computes the determinant of the expression represented by this MXWrapper.
      *
      * @return MXWrapper. A new MXWrapper containing the determinant of the expression.
      */
+    @Override
     public MXWrapper det() {
         MX result = MX.det(this.mx);
         return new MXWrapper(result);
@@ -2240,6 +2089,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXVector. A new MXVector containing the symbolic variables.
      */
+    @Override
     public MXVector symvar() {
         return new MXVector(MX.symvar(this.mx));
     }
@@ -2249,6 +2099,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the null space of the matrix.
      */
+    @Override
     public MXWrapper nullspace() {
         MX result = MX.nullspace(this.mx);
         return new MXWrapper(result);
@@ -2261,6 +2112,7 @@ public class MXWrapper implements Wrapper {
      * @param m The dimension along which to sum.
      * @return MXWrapper. A new MXWrapper containing the result of the repeated sum.
      */
+    @Override
     public MXWrapper repsum(long n, long m) {
         MX result = MX.repsum(this.mx, n, m);
         return new MXWrapper(result);
@@ -2272,6 +2124,7 @@ public class MXWrapper implements Wrapper {
      * @param n The number of repetitions.
      * @return MXWrapper. A new MXWrapper containing the result of the repeated sum.
      */
+    @Override
     public MXWrapper repsum(long n) {
         MX result = MX.repsum(this.mx, n);
         return new MXWrapper(result);
@@ -2283,6 +2136,7 @@ public class MXWrapper implements Wrapper {
      * @param val The value to fill in the dense matrix.
      * @return MXWrapper. A new MXWrapper containing the densified matrix.
      */
+    @Override
     public MXWrapper densify(MXWrapper val) {
         MX result = MX.densify(this.mx, val.mx);
         return new MXWrapper(result);
@@ -2293,6 +2147,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the densified matrix.
      */
+    @Override
     public MXWrapper densify() {
         MX result = MX.densify(this.mx);
         return new MXWrapper(result);
@@ -2305,6 +2160,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the third matrix.
      * @return MXWrapper. A new MXWrapper containing the result of the bilinear form.
      */
+    @Override
     public MXWrapper _bilin(MXWrapper x, MXWrapper y) {
         MX result = MX._bilin(this.mx, x.mx, y.mx);
         return new MXWrapper(result);
@@ -2318,6 +2174,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second matrix.
      * @return MXWrapper. A new MXWrapper containing the result of the rank-1 update.
      */
+    @Override
     public MXWrapper _rank1(MXWrapper alpha, MXWrapper x, MXWrapper y) {
         MX result = MX._rank1(this.mx, alpha.mx, x.mx, y.mx);
         return new MXWrapper(result);
@@ -2330,6 +2187,7 @@ public class MXWrapper implements Wrapper {
      * @param intersect A boolean indicating whether to intersect the sparsity.
      * @return MXWrapper. A new MXWrapper containing the projected expression.
      */
+    @Override
     public MXWrapper project(Sparsity sp, boolean intersect) {
         MX result = MX.project(this.mx, sp, intersect);
         return new MXWrapper(result);
@@ -2341,6 +2199,7 @@ public class MXWrapper implements Wrapper {
      * @param sp The Sparsity structure to project onto.
      * @return MXWrapper. A new MXWrapper containing the projected expression.
      */
+    @Override
     public MXWrapper project(Sparsity sp) {
         MX result = MX.project(this.mx, sp);
         return new MXWrapper(result);
@@ -2352,6 +2211,7 @@ public class MXWrapper implements Wrapper {
      * @param axis The axis along which to compute the cumulative sum.
      * @return MXWrapper. A new MXWrapper containing the cumulative sum.
      */
+    @Override
     public MXWrapper cumsum(long axis) {
         MX result = MX.cumsum(this.mx, axis);
         return new MXWrapper(result);
@@ -2362,6 +2222,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the cumulative sum.
      */
+    @Override
     public MXWrapper cumsum() {
         MX result = MX.cumsum(this.mx);
         return new MXWrapper(result);
@@ -2372,6 +2233,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the result of the log-sum-exponential.
      */
+    @Override
     public MXWrapper _logsumexp() {
         MX result = MX._logsumexp(this.mx);
         return new MXWrapper(result);
@@ -2462,6 +2324,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return DM. A new DM containing the evaluated result.
      */
+    @Override
     public DMWrapper evalf() {
         return new DMWrapper(MX.evalf(this.mx));
     }
@@ -2569,44 +2432,18 @@ public class MXWrapper implements Wrapper {
     }
 
     /**
-     * Computes the dual B-spline for the given input and specified knots, degree, and options.
-     *
-     * @param x The DoubleVector representing the input values.
-     * @param knots The DoubleVectorCollection representing the knots.
-     * @param degree The IntegerVectorCollection representing the degree of the B-spline.
-     * @param opts The dictionary containing options for the B-spline computation.
-     * @return DM. A new DM containing the dual B-spline result.
-     */
-    public static DM bsplineDual(DoubleVector x, DoubleVectorCollection knots, IntegerVectorCollection degree, Dict opts) {
-        return MX.bspline_dual(x.getCasADiObject(), knots.getCasADiObject(), degree.getCasADiObject(), opts);
-    }
-
-    /**
-     * Computes the dual B-spline for the given input and specified knots and degree.
-     *
-     * @param x The DoubleVector representing the input values.
-     * @param knots The DoubleVectorCollection representing the knots.
-     * @param degree The IntegerVectorCollection representing the degree of the B-spline.
-     * @return DM. A new DM containing the dual B-spline result.
-     */
-    public static DM bsplineDual(DoubleVector x, DoubleVectorCollection knots, IntegerVectorCollection degree) {
-        return MX.bspline_dual(x.getCasADiObject(), knots.getCasADiObject(), degree.getCasADiObject());
-    }
-
-    /**
      * Performs low-level access to inlined linear interpolation.
      *
      * Usually, you want to be using 'interpolant' instead.
      * Accepts lookup_mode option.
      *
      * @param x The MXVector representing the input values.
-     * @param v The MXWrapper representing the values to interpolate.
      * @param xq The MXVector representing the query points.
      * @param opts The dictionary containing options for the interpolation.
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
-    public static MXWrapper interpnLinear(MXVector x, MXWrapper v, MXVector xq, Dict opts) {
-        MX result = MX.interpn_linear(x.getCasADiObject(), v.mx, xq.getCasADiObject(), opts);
+    public MXWrapper interpnLinear(MXVector x, MXVector xq, Dict opts) {
+        MX result = MX.interpn_linear(x.getCasADiObject(), this.mx, xq.getCasADiObject(), opts);
         return new MXWrapper(result);
     }
 
@@ -2616,12 +2453,11 @@ public class MXWrapper implements Wrapper {
      * Usually, you want to be using 'interpolant' instead.
      *
      * @param x MXVector representing the input values.
-     * @param v The MXWrapper representing the values to interpolate.
      * @param xq The MXVector representing the query points.
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
-    public static MXWrapper interpnLinear(MXVector x, MXWrapper v, MXVector xq) {
-        MX result = MX.interpn_linear(x.getCasADiObject(), v.mx, xq.getCasADiObject());
+    public MXWrapper interpnLinear(MXVector x, MXVector xq) {
+        MX result = MX.interpn_linear(x.getCasADiObject(), this.mx, xq.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2631,6 +2467,7 @@ public class MXWrapper implements Wrapper {
      * @param b The MXWrapper representing the expression to print alongside this one.
      * @return MXWrapper. A new MXWrapper containing the result of the print operation.
      */
+    @Override
     public MXWrapper printMe(MXWrapper b) {
         return new MXWrapper(this.mx.printme(b.mx));
     }
@@ -2699,6 +2536,7 @@ public class MXWrapper implements Wrapper {
      *
      * @param eq_depth The maximum depth for equality checks.
      */
+    @Override
     public void setMaxDepth(long eq_depth) {
         MX.set_max_depth(eq_depth);
     }
@@ -2707,6 +2545,7 @@ public class MXWrapper implements Wrapper {
      * Sets or resets the depth to which equalities are being checked for simplifications
      * to the default value.
      */
+    @Override
     public void setMaxDepth() {
         MX.set_max_depth();
     }
@@ -2716,38 +2555,9 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The current maximum depth for equality checks.
      */
+    @Override
     public long getMaxDepth() {
         return MX.get_max_depth();
-    }
-
-    /**
-     * Gets the function inputs for the specified function.
-     *
-     * @param f The Function object for which to get the inputs.
-     * @return MXVector. A new MXVector containing the function inputs.
-     */
-    public MXVector getInput(Function f) {
-        return new MXVector(MX.get_input(f));
-    }
-
-    /**
-     * Gets the free variables for the specified function.
-     *
-     * @param f The Function object for which to get the free variables.
-     * @return MXVector. A new MXVector containing the free variables.
-     */
-    public MXVector getFree(Function f) {
-        return new MXVector(MX.get_free(f));
-    }
-
-    /**
-     * Evaluates the MX node with new symbolic dependencies.
-     *
-     * @param arg The MXVector representing the new symbolic dependencies.
-     * @param OUTPUT The MXVector to store the output results.
-     */
-    public void evalMx(MXVector arg, MXVector OUTPUT) {
-        this.mx.eval_mx(arg.getCasADiObject(), OUTPUT.getCasADiObject());
     }
 
     /**
@@ -2777,6 +2587,7 @@ public class MXWrapper implements Wrapper {
      * @param sparsity The Sparsity object representing the sparsity pattern of the variable.
      * @return MXWrapper. A new MXWrapper containing the created symbolic variable.
      */
+    @Override
     public MXWrapper _sym(String name, Sparsity sparsity) {
         return new MXWrapper(MX._sym(name, sparsity));
     }
@@ -2787,7 +2598,8 @@ public class MXWrapper implements Wrapper {
      * @param rr The row index to access.
      * @return MXSubIndexWrapper. An object representing the specified row of the matrix.
      */
-    public MXSubIndexWrapper at(int rr) {
+    @Override
+    public SubIndex at(int rr) {
         return new MXSubIndexWrapper(this.mx.at(rr));
     }
 
@@ -2798,7 +2610,8 @@ public class MXWrapper implements Wrapper {
      * @param cc The column index of the element.
      * @return MXSubMatrixWrapper. An object representing the specified element of the matrix.
      */
-    public MXSubMatrixWrapper at(int rr, int cc) {
+    @Override
+    public SubMatrix at(int rr, int cc) {
         return new MXSubMatrixWrapper(this.mx.at(rr, cc));
     }
 
@@ -2807,6 +2620,7 @@ public class MXWrapper implements Wrapper {
      *
      * @param other The MXWrapper containing the values to assign.
      */
+    @Override
     public void assign(MXWrapper other) {
         this.mx.assign(other.mx);
     }
@@ -2818,6 +2632,7 @@ public class MXWrapper implements Wrapper {
      * @param horz_offset The IntegerVectorCollection representing horizontal offsets.
      * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
+    @Override
     public MXVectorCollection blocksplit(IntegerVectorCollection vert_offset, IntegerVectorCollection horz_offset) {
         return new MXVectorCollection(MX.blocksplit(this.mx, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
@@ -2829,6 +2644,7 @@ public class MXWrapper implements Wrapper {
      * @param horz_incr The horizontal increment for splitting.
      * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
+    @Override
     public MXVectorCollection blocksplit(long vert_incr, long horz_incr) {
         return new MXVectorCollection(MX.blocksplit(this.mx, vert_incr, horz_incr));
     }
@@ -2849,6 +2665,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the vector representation.
      */
+    @Override
     public MXWrapper vec() {
         return new MXWrapper(MX.vec(this.mx));
     }
@@ -2859,6 +2676,7 @@ public class MXWrapper implements Wrapper {
      * @param n The number of parts to split into.
      * @return MXVector. A new MXVector containing the split parts.
      */
+    @Override
     public MXVector vertsplit_n(long n) {
         return new MXVector(MX.vertsplit_n(this.mx, n));
     }
@@ -2878,6 +2696,7 @@ public class MXWrapper implements Wrapper {
      * @param more A boolean indicating whether to include additional information.
      * @return String. The string representation of the MX object.
      */
+    @Override
     public String toString(boolean more) {
         return this.mx.toString(more);
     }
@@ -2887,6 +2706,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return String. The string representation of the MX object.
      */
+    @Override
     public String toString() {
         return this.mx.toString();
     }
@@ -2923,6 +2743,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of non-zero elements.
      */
+    @Override
     public long nnz() {
         return mx.nnz_();
     }
@@ -2932,6 +2753,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of non-zero elements in the lower triangular half.
      */
+    @Override
     public long nnzLower() {
         return mx.nnz_lower_();
     }
@@ -2941,6 +2763,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of non-zero elements in the upper triangular half.
      */
+    @Override
     public long nnzUpper() {
         return mx.nnz_upper_();
     }
@@ -2950,6 +2773,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of non-zero elements on the diagonal.
      */
+    @Override
     public long nnzDiag() {
         return mx.nnz_diag();
     }
@@ -2959,6 +2783,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The total number of elements.
      */
+    @Override
     public long numel() {
         return mx.numel_();
     }
@@ -2968,6 +2793,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of rows in the matrix.
      */
+    @Override
     public long size1() {
         return mx.size1_();
     }
@@ -2977,6 +2803,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of rows in the matrix.
      */
+    @Override
     public long rows() {
         return mx.rows();
     }
@@ -2986,6 +2813,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of columns in the matrix.
      */
+    @Override
     public long size2() {
         return mx.size2_();
     }
@@ -2995,6 +2823,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The number of columns in the matrix.
      */
+    @Override
     public long columns() {
         return mx.columns();
     }
@@ -3007,6 +2836,7 @@ public class MXWrapper implements Wrapper {
      * @param withNz A boolean indicating whether to include the number of non-zero elements.
      * @return String. The string representation of the dimensions.
      */
+    @Override
     public String dim(boolean withNz) {
         return this.mx.dim_(withNz);
     }
@@ -3018,6 +2848,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return String. The string representation of the dimensions.
      */
+    @Override
     public String dim() {
         return this.mx.dim_();
     }
@@ -3028,6 +2859,7 @@ public class MXWrapper implements Wrapper {
      * @param axis The dimension along which to get the size.
      * @return long. The size along the specified dimension.
      */
+    @Override
     public long size(long axis) {
         return this.mx.size_(axis);
     }
@@ -3039,6 +2871,7 @@ public class MXWrapper implements Wrapper {
      * @param both A boolean indicating whether to check both dimensions.
      * @return boolean. True if the sparsity is empty, false otherwise.
      */
+    @Override
     public boolean isEmpty(boolean both) {
         return this.mx.is_empty_(both);
     }
@@ -3049,6 +2882,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. True if the sparsity is empty, false otherwise.
      */
+    @Override
     public boolean isEmpty() {
         return this.mx.is_empty_();
     }
@@ -3058,6 +2892,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. True if the matrix is dense, false otherwise.
      */
+    @Override
     public boolean isDense() {
         return this.mx.is_dense_();
     }
@@ -3068,6 +2903,7 @@ public class MXWrapper implements Wrapper {
      * @param scalarAndDense A boolean indicating whether to check for both scalar and dense.
      * @return boolean. True if the matrix is scalar, false otherwise.
      */
+    @Override
     public boolean isScalar(boolean scalarAndDense) {
         return this.mx.is_scalar_(scalarAndDense);
     }
@@ -3077,6 +2913,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. True if the matrix is scalar, false otherwise.
      */
+    @Override
     public boolean isScalar() {
         return this.mx.is_scalar_();
     }
@@ -3086,6 +2923,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. True if the matrix is square, false otherwise.
      */
+    @Override
     public boolean isSquare() {
         return this.mx.is_square();
     }
@@ -3095,6 +2933,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. True if the matrix is a vector, false otherwise.
      */
+    @Override
     public boolean isVector() {
         return this.mx.is_vector_();
     }
@@ -3104,6 +2943,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. True if the matrix is a row vector, false otherwise.
      */
+    @Override
     public boolean isRow() {
         return this.mx.is_row_();
     }
@@ -3113,6 +2953,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. True if the matrix is a column vector, false otherwise.
      */
+    @Override
     public boolean isColumn() {
         return this.mx.is_column_();
     }
@@ -3122,6 +2963,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. True if the matrix is upper triangular, false otherwise.
      */
+    @Override
     public boolean isTriu() {
         return this.mx.is_triu_();
     }
@@ -3131,6 +2973,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return boolean. True if the matrix is lower triangular, false otherwise.
      */
+    @Override
     public boolean isTril() {
         return this.mx.is_tril_();
     }
@@ -3141,6 +2984,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return IntegerVectorCollection. A new IntegerVectorCollection containing the row indices of the sparsity pattern.
      */
+    @Override
     public IntegerVectorCollection getRow() {
         return new IntegerVectorCollection(this.mx.get_row());
     }
@@ -3150,6 +2994,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return IntegerVectorCollection. A new IntegerVectorCollection containing the column indices of the sparsity pattern.
      */
+    @Override
     public IntegerVectorCollection getColInd() {
         return new IntegerVectorCollection(this.mx.get_colind());
     }
@@ -3160,6 +3005,7 @@ public class MXWrapper implements Wrapper {
      * @param el The element index for which to retrieve the row.
      * @return long. The row index of the specified element.
      */
+    @Override
     public long row(long el) {
         return this.mx.row_(el);
     }
@@ -3170,6 +3016,7 @@ public class MXWrapper implements Wrapper {
      * @param col The column index for which to retrieve the column index.
      * @return long. The column index of the specified column.
      */
+    @Override
     public long colind(long col) {
         return this.mx.colind_(col);
     }
@@ -3178,14 +3025,14 @@ public class MXWrapper implements Wrapper {
      * Performs linear interpolation for the given input and specified knots, degree, and options.
      *
      * @param x The DoubleVector representing the input values.
-     * @param v The MXWrapper representing the values to interpolate.
      * @param xq The DoubleVector representing the query points.
      * @param mode The mode of interpolation.
      * @param equidistant A boolean indicating whether the input values are equidistant.
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
-    public MXWrapper interp1d(DoubleVector x, MXWrapper v, DoubleVector xq, String mode, boolean equidistant) {
-        return new MXWrapper(MX.interp1d(x.getCasADiObject(), v.mx, xq.getCasADiObject(), mode, equidistant));
+    @Override
+    public MXWrapper interp1d(DoubleVector x, DoubleVector xq, String mode, boolean equidistant) {
+        return new MXWrapper(MX.interp1d(x.getCasADiObject(), this.mx, xq.getCasADiObject(), mode, equidistant));
     }
 
     /**
@@ -3193,6 +3040,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return long. The rank of the matrix.
      */
+    @Override
     public long sprank() {
         return MX.sprank(this.mx);
     }
@@ -3203,6 +3051,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second matrix.
      * @return long. The 0-norm of the product.
      */
+    @Override
     public long norm0Mul(MXWrapper y) {
         return MX.norm_0_mul(this.mx, y.mx);
     }
@@ -3213,6 +3062,7 @@ public class MXWrapper implements Wrapper {
      * @param includeDiagonal A boolean indicating whether to include the diagonal.
      * @return MXWrapper. A new MXWrapper containing the lower triangular part.
      */
+    @Override
     public MXWrapper tril(boolean includeDiagonal) {
         return new MXWrapper(MX.tril(this.mx, includeDiagonal));
     }
@@ -3222,6 +3072,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the lower triangular part.
      */
+    @Override
     public MXWrapper tril() {
         return new MXWrapper(MX.tril(this.mx));
     }
@@ -3241,6 +3092,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the upper triangular part.
      */
+    @Override
     public MXWrapper triu() {
         return new MXWrapper(MX.triu(this.mx));
     }
@@ -3250,6 +3102,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the sum of squares.
      */
+    @Override
     public MXWrapper sumsqr() {
         return new MXWrapper(MX.sumsqr(this.mx));
     }
@@ -3257,13 +3110,12 @@ public class MXWrapper implements Wrapper {
     /**
      * Creates a linearly spaced vector between two points.
      *
-     * @param a The starting point.
      * @param b The ending point.
      * @param nsteps The number of steps.
      * @return MXWrapper. A new MXWrapper containing the linearly spaced vector.
      */
-    public MXWrapper linspace(MXWrapper a, MXWrapper b, long nsteps) {
-        return new MXWrapper(MX.linspace(a.mx, b.mx, nsteps));
+    public MXWrapper linspace(MXWrapper b, long nsteps) {
+        return new MXWrapper(MX.linspace(this.mx, b.mx, nsteps));
     }
 
     /**
@@ -3273,6 +3125,7 @@ public class MXWrapper implements Wrapper {
      * @param dim The dimension along which to compute the cross product.
      * @return MXWrapper. A new MXWrapper containing the result of the cross product.
      */
+    @Override
     public MXWrapper cross(MXWrapper b, long dim) {
         return new MXWrapper(MX.cross(this.mx, b.mx, dim));
     }
@@ -3283,6 +3136,7 @@ public class MXWrapper implements Wrapper {
      * @param b The MXWrapper representing the second matrix.
      * @return MXWrapper. A new MXWrapper containing the result of the cross product.
      */
+    @Override
     public MXWrapper cross(MXWrapper b) {
         return new MXWrapper(MX.cross(this.mx, b.mx));
     }
@@ -3292,6 +3146,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the skew-symmetric matrix.
      */
+    @Override
     public MXWrapper skew() {
         return new MXWrapper(MX.skew(this.mx));
     }
@@ -3301,7 +3156,8 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the inverse skew-symmetric matrix.
      */
-    public MXWrapper inv_skew() {
+    @Override
+    public MXWrapper invSkew() {
         return new MXWrapper(MX.inv_skew(this.mx));
     }
 
@@ -3310,6 +3166,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the symmetric matrix.
      */
+    @Override
     public MXWrapper tril2symm() {
         return new MXWrapper(MX.tril2symm(this.mx));
     }
@@ -3319,6 +3176,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the symmetric matrix.
      */
+    @Override
     public MXWrapper triu2symm() {
         return new MXWrapper(MX.triu2symm(this.mx));
     }
@@ -3330,6 +3188,7 @@ public class MXWrapper implements Wrapper {
      * @param axis The axis along which to compute the difference.
      * @return MXWrapper. A new MXWrapper containing the result of the difference.
      */
+    @Override
     public MXWrapper diff(long n, long axis) {
         return new MXWrapper(MX.diff(this.mx, n, axis));
     }
@@ -3340,6 +3199,7 @@ public class MXWrapper implements Wrapper {
      * @param n The number of times to compute the difference.
      * @return MXWrapper. A new MXWrapper containing the result of the difference.
      */
+    @Override
     public MXWrapper diff(long n) {
         return new MXWrapper(MX.diff(this.mx, n));
     }
@@ -3349,6 +3209,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the result of the difference.
      */
+    @Override
     public MXWrapper diff() {
         return new MXWrapper(MX.diff(this.mx));
     }
@@ -3359,6 +3220,7 @@ public class MXWrapper implements Wrapper {
      * @param var The MXWrapper representing the variable.
      * @return boolean. True if the expression is linear, false otherwise.
      */
+    @Override
     public boolean isLinear(MXWrapper var) {
         return MX.is_linear(this.mx, var.mx);
     }
@@ -3369,6 +3231,7 @@ public class MXWrapper implements Wrapper {
      * @param var The MXWrapper representing the variable.
      * @return boolean. True if the expression is quadratic, false otherwise.
      */
+    @Override
     public boolean isQuadratic(MXWrapper var) {
         return MX.is_quadratic(this.mx, var.mx);
     }
@@ -3382,6 +3245,7 @@ public class MXWrapper implements Wrapper {
      * @param c The MXWrapper to store the constant term.
      * @param check A boolean indicating whether to check the coefficients.
      */
+    @Override
     public void quadraticCoeff(MXWrapper var, MXWrapper A, MXWrapper b, MXWrapper c, boolean check) {
         MX.quadratic_coeff(this.mx, var.mx, A.mx, b.mx, c.mx, check);
     }
@@ -3394,6 +3258,7 @@ public class MXWrapper implements Wrapper {
      * @param b The MXWrapper to store the constant term.
      * @param check A boolean indicating whether to check the coefficients.
      */
+    @Override
     public void linearCoeff(MXWrapper var, MXWrapper A, MXWrapper b, boolean check) {
         MX.linear_coeff(this.mx, var.mx, A.mx, b.mx, check);
     }
@@ -3405,6 +3270,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second matrix.
      * @return MXWrapper. A new MXWrapper containing the result of the bilinear form.
      */
+    @Override
     public MXWrapper bilin(MXWrapper x, MXWrapper y) {
         return new MXWrapper(MX.bilin(this.mx, x.mx, y.mx));
     }
@@ -3417,6 +3283,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second matrix.
      * @return MXWrapper. A new MXWrapper containing the result of the rank-1 update.
      */
+    @Override
     public MXWrapper rank1(MXWrapper alpha, MXWrapper x, MXWrapper y) {
         return new MXWrapper(MX.rank1(this.mx, alpha.mx, x.mx, y.mx));
     }
@@ -3426,6 +3293,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the result of the log-sum-exponential.
      */
+    @Override
     public MXWrapper logsumexp() {
         return new MXWrapper(MX.logsumexp(this.mx));
     }
@@ -3433,122 +3301,133 @@ public class MXWrapper implements Wrapper {
     /**
      * Computes the Jacobian times a vector operation for the current expression.
      *
-     * @param arg The MX object representing the argument for the Jacobian computation.
-     * @param v The MX object representing the vector to multiply with the Jacobian.
+     * @param arg The MXWrapper representing the argument for the Jacobian computation.
+     * @param v The MXWrapper representing the vector to multiply with the Jacobian.
      * @param tr A boolean indicating whether to transpose the result.
      * @param opts The dictionary containing options for the operation.
      * @return MXWrapper. A new MXWrapper containing the result of the Jacobian times vector operation.
      */
-    public MXWrapper jtimes(MX arg, MX v, boolean tr, Dict opts) {
-        return new MXWrapper(MX.jtimes_(this.mx, arg, v, tr, opts));
+    @Override
+    public MXWrapper jtimes(MXWrapper arg, MXWrapper v, boolean tr, Dict opts) {
+        return new MXWrapper(MX.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject(), tr, opts));
     }
 
     /**
      * Computes the Jacobian times a vector operation for the current expression.
      *
-     * @param arg The MX object representing the argument for the Jacobian computation.
-     * @param v The MX object representing the vector to multiply with the Jacobian.
+     * @param arg The MXWrapper representing the argument for the Jacobian computation.
+     * @param v The MXWrapper representing the vector to multiply with the Jacobian.
      * @param tr A boolean indicating whether to transpose the result.
      * @return MXWrapper. A new MXWrapper containing the result of the Jacobian times vector operation.
      */
-    public MXWrapper jtimes(MX arg, MX v, boolean tr) {
-        return new MXWrapper(MX.jtimes_(this.mx, arg, v, tr));
+    @Override
+    public MXWrapper jtimes(MXWrapper arg, MXWrapper v, boolean tr) {
+        return new MXWrapper(MX.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject(), tr));
     }
 
     /**
      * Computes the Jacobian times a vector operation for the current expression.
      *
-     * @param arg The MX object representing the argument for the Jacobian computation.
-     * @param v The MX object representing the vector to multiply with the Jacobian.
+     * @param arg The MXWrapper representing the argument for the Jacobian computation.
+     * @param v The MXWrapper representing the vector to multiply with the Jacobian.
      * @return MXWrapper. A new MXWrapper containing the result of the Jacobian times vector operation.
      */
-    public MXWrapper jtimes(MX arg, MX v) {
-        return new MXWrapper(MX.jtimes_(this.mx, arg, v));
+    @Override
+    public MXWrapper jtimes(MXWrapper arg, MXWrapper v) {
+        return new MXWrapper(MX.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     /**
      * Computes the gradient of the expression represented by this MXWrapper with respect to the specified argument.
      *
-     * @param arg The MX object representing the argument for the gradient computation.
+     * @param arg The MXWrapper representing the argument for the gradient computation.
      * @param opts The dictionary containing options for the gradient computation.
      * @return MXWrapper. A new MXWrapper containing the gradient of the expression.
      */
-    public MXWrapper gradient(MX arg, Dict opts) {
-        return new MXWrapper(MX.gradient(this.mx, arg, opts));
+    @Override
+    public MXWrapper gradient(MXWrapper arg, Dict opts) {
+        return new MXWrapper(MX.gradient(this.mx, arg.getCasADiObject(), opts));
     }
 
     /**
      * Computes the gradient of the expression represented by this MXWrapper with respect to the specified argument.
      *
-     * @param arg The MX object representing the argument for the gradient computation.
+     * @param arg The MXWrapper representing the argument for the gradient computation.
      * @return MXWrapper. A new MXWrapper containing the gradient of the expression.
      */
-    public MXWrapper gradient(MX arg) {
-        return new MXWrapper(MX.gradient(this.mx, arg));
+    @Override
+    public MXWrapper gradient(MXWrapper arg) {
+        return new MXWrapper(MX.gradient(this.mx, arg.getCasADiObject()));
     }
 
     /**
      * Computes the tangent of the expression represented by this MXWrapper with respect to the specified argument.
      *
-     * @param arg The MX object representing the argument for the tangent computation.
+     * @param arg The MXWrapper representing the argument for the tangent computation.
      * @param opts The dictionary containing options for the tangent computation.
      * @return MXWrapper. A new MXWrapper containing the tangent of the expression.
      */
-    public MXWrapper tangent(MX arg, Dict opts) {
-        return new MXWrapper(MX.tangent(this.mx, arg, opts));
+    @Override
+    public MXWrapper tangent(MXWrapper arg, Dict opts) {
+        return new MXWrapper(MX.tangent(this.mx, arg.getCasADiObject(), opts));
     }
 
     /**
      * Computes the tangent of the expression represented by this MXWrapper with respect to the specified argument.
      *
-     * @param arg The MX object representing the argument for the tangent computation.
+     * @param arg The MXWrapper representing the argument for the tangent computation.
      * @return MXWrapper. A new MXWrapper containing the tangent of the expression.
      */
-    public MXWrapper tangent(MX arg) {
-        return new MXWrapper(MX.tangent(this.mx, arg));
+    @Override
+    public MXWrapper tangent(MXWrapper arg) {
+        return new MXWrapper(MX.tangent(this.mx, arg.getCasADiObject()));
     }
 
     /**
      * Computes the linearization of the given function around the specified point.
      *
-     * @param x The MX object representing the point around which to linearize.
-     * @param x0 The MX object representing the initial guess.
+     * @param x The MXWrapper representing the point around which to linearize.
+     * @param x0 The MXWrapper representing the initial guess.
      * @param opts The dictionary containing options for the linearization.
      * @return MXWrapper. A new MXWrapper containing the linearized function.
      */
-    public MXWrapper linearize(MX x, MX x0, Dict opts) {
-        return new MXWrapper(MX.linearize(this.mx, x, x0, opts));
+    @Override
+    public MXWrapper linearize(MXWrapper x, MXWrapper x0, Dict opts) {
+        return new MXWrapper(MX.linearize(this.mx, x.getCasADiObject(), x0.getCasADiObject(), opts));
     }
 
     /**
      * Computes the linearization of the given function around the specified point.
      *
-     * @param x The MX object representing the point around which to linearize.
-     * @param x0 The MX object representing the initial guess.
+     * @param x The MXWrapper representing the point around which to linearize.
+     * @param x0 The MXWrapper representing the initial guess.
      * @return MXWrapper. A new MXWrapper containing the linearized function.
      */
-    public MXWrapper linearize(MX x, MX x0) {
-        return new MXWrapper(MX.linearize(this.mx, x, x0));
+    @Override
+    public MXWrapper linearize(MXWrapper x, MXWrapper x0) {
+        return new MXWrapper(MX.linearize(this.mx, x.getCasADiObject(), x0.getCasADiObject()));
     }
 
     /**
      * Computes the matrix power of the given matrices.
      *
-     * @param y The MX object representing the exponent matrix.
+     * @param y The MXWrapper representing the exponent matrix.
      * @return MXWrapper. A new MXWrapper containing the result of the matrix power.
      */
-    public MXWrapper mpower(MX y) {
-        return new MXWrapper(MX.mpower(this.mx, y));
+    @Override
+    public MXWrapper mpower(MXWrapper y) {
+        return new MXWrapper(MX.mpower(this.mx, y.getCasADiObject()));
     }
 
     /**
      * Computes the second-order cone representation of the given matrices.
      *
-     * @param y The MX object representing the second matrix.
+     * @param y The MXWrapper representing the second matrix.
      * @return MXWrapper. A new MXWrapper containing the second-order cone representation.
      */
-    public MXWrapper soc(MX y) {
-        return new MXWrapper(MX.soc(this.mx, y));
+    @Override
+    public MXWrapper soc(MXWrapper y) {
+        return new MXWrapper(MX.soc(this.mx, y.getCasADiObject()));
     }
 
     /**
@@ -3654,6 +3533,7 @@ public class MXWrapper implements Wrapper {
      * @param ncol The number of columns for the matrix.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
+    @Override
     public MXWrapper zeros(long nrow, long ncol) {
         return new MXWrapper(MX.zeros(nrow, ncol));
     }
@@ -3664,6 +3544,7 @@ public class MXWrapper implements Wrapper {
      * @param nrow The number of rows for the matrix.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
+    @Override
     public MXWrapper zeros(long nrow) {
         return new MXWrapper(MX.zeros(nrow));
     }
@@ -3673,6 +3554,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
+    @Override
     public MXWrapper zeros() {
         return new MXWrapper(MX.zeros());
     }
@@ -3683,6 +3565,7 @@ public class MXWrapper implements Wrapper {
      * @param sp The Sparsity object representing the sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
+    @Override
     public MXWrapper zeros(Sparsity sp) {
         return new MXWrapper(MX.zeros(sp));
     }
@@ -3694,6 +3577,7 @@ public class MXWrapper implements Wrapper {
      * @param ncol The number of columns for the matrix.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
+    @Override
     public MXWrapper ones(long nrow, long ncol) {
         return new MXWrapper(MX.ones(nrow, ncol));
     }
@@ -3704,6 +3588,7 @@ public class MXWrapper implements Wrapper {
      * @param nrow The number of rows for the matrix.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
+    @Override
     public MXWrapper ones(long nrow) {
         return new MXWrapper(MX.ones(nrow));
     }
@@ -3713,6 +3598,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
+    @Override
     public MXWrapper ones() {
         return new MXWrapper(MX.ones());
     }
@@ -3723,6 +3609,7 @@ public class MXWrapper implements Wrapper {
      * @param sp The Sparsity object representing the sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
+    @Override
     public MXWrapper ones(Sparsity sp) {
         return new MXWrapper(MX.ones(sp));
     }
@@ -3735,6 +3622,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper representing the matrix to add.
      * @return MXWrapper. A new MXWrapper containing the result of the addition.
      */
+    @Override
     public MXWrapper add(MXWrapper other) {
         MX result = MX.plus(this.mx, other.mx);
         return new MXWrapper(result);
@@ -3749,6 +3637,7 @@ public class MXWrapper implements Wrapper {
      * @param number The Number to add (can be Integer, Double, etc.).
      * @return MXWrapper A new MXWrapper containing the result of the addition.
      */
+    @Override
     public <T extends Number> MXWrapper add(T number) {
         double other = number.doubleValue();
         MXWrapper summand = MXWrapper.fromValue(other);
@@ -3764,6 +3653,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper representing the matrix to subtract.
      * @return MXWrapper. A new MXWrapper containing the result of the subtraction.
      */
+    @Override
     public MXWrapper subtract(MXWrapper other) {
         MX result = MX.minus(this.mx, other.mx);
         return new MXWrapper(result);
@@ -3778,6 +3668,7 @@ public class MXWrapper implements Wrapper {
      * @param number The Number to subtract (can be Integer, Double, etc.).
      * @return MXWrapper A new MXWrapper containing the result of the subtraction.
      */
+    @Override
     public <T extends Number> MXWrapper subtract(T number) {
         double other = number.doubleValue();
         MXWrapper subtrahend = MXWrapper.fromValue(other);
@@ -3793,6 +3684,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper representing the matrix to multiply with.
      * @return MXWrapper. A new MXWrapper containing the result of the multiplication.
      */
+    @Override
     public MXWrapper multiply(MXWrapper other) {
         MX result = MX.times(this.mx, other.mx);
         return new MXWrapper(result);
@@ -3807,6 +3699,7 @@ public class MXWrapper implements Wrapper {
      * @param number The Number to multiply by (can be Integer, Double, etc.).
      * @return MXWrapper A new MXWrapper containing the result of the multiplication.
      */
+    @Override
     public <T extends Number> MXWrapper multiply(T number) {
         double other = number.doubleValue();
         MXWrapper multiplicand = MXWrapper.fromValue(other);
@@ -3822,6 +3715,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper representing the matrix to divide by.
      * @return MXWrapper. A new MXWrapper containing the result of the division.
      */
+    @Override
     public MXWrapper divide(MXWrapper other) {
         MX result = MX.rdivide(this.mx, other.mx);
         return new MXWrapper(result);
@@ -3837,6 +3731,7 @@ public class MXWrapper implements Wrapper {
      * @return MXWrapper A new MXWrapper containing the result of the division.
      * @throws ArithmeticException if the specified number is zero, as division by zero is not allowed.
      */
+    @Override
     public <T extends Number> MXWrapper divide(T number) {
         double other = number.doubleValue();
         if (other == 0) {
@@ -3853,6 +3748,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
      */
+    @Override
     public MXWrapper lt(MXWrapper y) {
         return new MXWrapper(MX.lt(this.mx, y.mx));
     }
@@ -3867,6 +3763,7 @@ public class MXWrapper implements Wrapper {
      * @param number The Number to compare against (can be Integer, Double, etc.).
      * @return MXWrapper A new MXWrapper containing the result of the comparison.
      */
+    @Override
     public <T extends Number> MXWrapper lt(T number) {
         double other = number.doubleValue();
         MXWrapper threshold = MXWrapper.fromValue(other);
@@ -3880,6 +3777,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
      */
+    @Override
     public MXWrapper le(MXWrapper y) {
         return new MXWrapper(MX.le(this.mx, y.mx));
     }
@@ -3894,6 +3792,7 @@ public class MXWrapper implements Wrapper {
      * @param number The Number to compare against (can be Integer, Double, etc.).
      * @return MXWrapper A new MXWrapper containing the result of the comparison.
      */
+    @Override
     public <T extends Number> MXWrapper le(T number) {
         double other = number.doubleValue();
         MXWrapper threshold = MXWrapper.fromValue(other);
@@ -3907,6 +3806,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
      */
+    @Override
     public MXWrapper gt(MXWrapper y) {
         return new MXWrapper(MX.gt(this.mx, y.mx));
     }
@@ -3921,6 +3821,7 @@ public class MXWrapper implements Wrapper {
      * @param number The Number to compare against (can be Integer, Double, etc.).
      * @return MXWrapper A new MXWrapper containing the result of the comparison.
      */
+    @Override
     public <T extends Number> MXWrapper gt(T number) {
         double other = number.doubleValue();
         MXWrapper threshold = MXWrapper.fromValue(other);
@@ -3934,6 +3835,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
      */
+    @Override
     public MXWrapper ge(MXWrapper y) {
         return new MXWrapper(MX.ge(this.mx, y.mx));
     }
@@ -3948,6 +3850,7 @@ public class MXWrapper implements Wrapper {
      * @param number The Number to compare against (can be Integer, Double, etc.).
      * @return MXWrapper A new MXWrapper containing the result of the comparison.
      */
+    @Override
     public <T extends Number> MXWrapper ge(T number) {
         double other = number.doubleValue();
         MXWrapper threshold = MXWrapper.fromValue(other);
@@ -3961,6 +3864,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
      */
+    @Override
     public MXWrapper eq(MXWrapper y) {
         return new MXWrapper(MX.eq(this.mx, y.mx));
     }
@@ -3975,6 +3879,7 @@ public class MXWrapper implements Wrapper {
      * @param number The Number to compare against (can be Integer, Double, etc.).
      * @return MXWrapper A new MXWrapper containing the result of the comparison.
      */
+    @Override
     public <T extends Number> MXWrapper eq(T number) {
         double other = number.doubleValue();
         MXWrapper value = MXWrapper.fromValue(other);
@@ -3988,6 +3893,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
      */
+    @Override
     public MXWrapper ne(MXWrapper y) {
         return new MXWrapper(MX.ne(this.mx, y.mx));
     }
@@ -4002,6 +3908,7 @@ public class MXWrapper implements Wrapper {
      * @param number The Number to compare against (can be Integer, Double, etc.).
      * @return MXWrapper A new MXWrapper containing the result of the comparison.
      */
+    @Override
     public <T extends Number> MXWrapper ne(T number) {
         double other = number.doubleValue();
         MXWrapper value = MXWrapper.fromValue(other);
@@ -4018,6 +3925,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
      */
+    @Override
     public MXWrapper logicAnd(MXWrapper y) {
         return new MXWrapper(MX.logic_and(this.mx, y.mx));
     }
@@ -4031,6 +3939,7 @@ public class MXWrapper implements Wrapper {
      * @param y The MXWrapper representing the second expression.
      * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
      */
+    @Override
     public MXWrapper logicOr(MXWrapper y) {
         return new MXWrapper(MX.logic_or(this.mx, y.mx));
     }
@@ -4043,6 +3952,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return MXWrapper. A new MXWrapper containing the result of the logical operation.
      */
+    @Override
     public MXWrapper logicNot() {
         return new MXWrapper(MX.logic_not(this.mx));
     }
@@ -4052,6 +3962,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the absolute value.
      */
+    @Override
     public MXWrapper abs() {
         return new MXWrapper(MX.abs(this.mx));
     }
@@ -4061,6 +3972,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the square root.
      */
+    @Override
     public MXWrapper sqrt() {
         return new MXWrapper(MX.sqrt(this.mx));
     }
@@ -4071,6 +3983,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the square.
      */
+    @Override
     public MXWrapper sq() {
         return new MXWrapper(MX.sq(this.mx));
     }
@@ -4080,6 +3993,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the sine value.
      */
+    @Override
     public MXWrapper sin() {
         return new MXWrapper(MX.sin(this.mx));
     }
@@ -4089,6 +4003,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the cosine value.
      */
+    @Override
     public MXWrapper cos() {
         return new MXWrapper(MX.cos(this.mx));
     }
@@ -4098,6 +4013,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the tangent value.
      */
+    @Override
     public MXWrapper tan() {
         return new MXWrapper(MX.tan(this.mx));
     }
@@ -4107,6 +4023,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the arc tangent value.
      */
+    @Override
     public MXWrapper atan() {
         return new MXWrapper(MX.atan(this.mx));
     }
@@ -4116,6 +4033,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the arc sine value.
      */
+    @Override
     public MXWrapper asin() {
         return new MXWrapper(MX.asin(this.mx));
     }
@@ -4125,6 +4043,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the arc cosine value.
      */
+    @Override
     public MXWrapper acos() {
         return new MXWrapper(MX.acos(this.mx));
     }
@@ -4134,6 +4053,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the hyperbolic tangent value.
      */
+    @Override
     public MXWrapper tanh() {
         return new MXWrapper(MX.tanh(this.mx));
     }
@@ -4143,6 +4063,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the hyperbolic sine value.
      */
+    @Override
     public MXWrapper sinh() {
         return new MXWrapper(MX.sinh(this.mx));
     }
@@ -4152,6 +4073,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the hyperbolic cosine value.
      */
+    @Override
     public MXWrapper cosh() {
         return new MXWrapper(MX.cosh(this.mx));
     }
@@ -4161,6 +4083,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the inverse hyperbolic tangent value.
      */
+    @Override
     public MXWrapper atanh() {
         return new MXWrapper(MX.atanh(this.mx));
     }
@@ -4170,6 +4093,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the inverse hyperbolic sine value.
      */
+    @Override
     public MXWrapper asinh() {
         return new MXWrapper(MX.asinh(this.mx));
     }
@@ -4179,6 +4103,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the inverse hyperbolic cosine value.
      */
+    @Override
     public MXWrapper acosh() {
         return new MXWrapper(MX.acosh(this.mx));
     }
@@ -4188,6 +4113,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the exponential value.
      */
+    @Override
     public MXWrapper exp() {
         return new MXWrapper(MX.exp(this.mx));
     }
@@ -4197,6 +4123,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the natural logarithm value.
      */
+    @Override
     public MXWrapper log() {
         return new MXWrapper(MX.log(this.mx));
     }
@@ -4206,6 +4133,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the base-10 logarithm value.
      */
+    @Override
     public MXWrapper log10() {
         return new MXWrapper(MX.log10(this.mx));
     }
@@ -4215,6 +4143,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the logarithm value.
      */
+    @Override
     public MXWrapper log1p() {
         return new MXWrapper(MX.log1p(this.mx));
     }
@@ -4224,6 +4153,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the result of exp(x) - 1.
      */
+    @Override
     public MXWrapper expm1() {
         return new MXWrapper(MX.expm1(this.mx));
     }
@@ -4233,6 +4163,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the floor value.
      */
+    @Override
     public MXWrapper floor() {
         return new MXWrapper(MX.floor(this.mx));
     }
@@ -4242,6 +4173,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the ceiling value.
      */
+    @Override
     public MXWrapper ceil() {
         return new MXWrapper(MX.ceil(this.mx));
     }
@@ -4251,6 +4183,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the error function value.
      */
+    @Override
     public MXWrapper erf() {
         return new MXWrapper(MX.erf(this.mx));
     }
@@ -4260,6 +4193,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the inverse error function value.
      */
+    @Override
     public MXWrapper erfinv() {
         return new MXWrapper(MX.erfinv(this.mx));
     }
@@ -4269,6 +4203,7 @@ public class MXWrapper implements Wrapper {
      *
      * @return A new MXWrapper containing the sign value.
      */
+    @Override
     public MXWrapper sign() {
         return new MXWrapper(MX.sign(this.mx));
     }
@@ -4279,6 +4214,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the exponent.
      * @return A new MXWrapper containing the result of x^y.
      */
+    @Override
     public MXWrapper pow(MXWrapper other) {
         return new MXWrapper(MX.pow(this.mx, other.mx));
     }
@@ -4294,6 +4230,7 @@ public class MXWrapper implements Wrapper {
      * @return a new {@code MXWrapper} instance representing the result of the power operation.
      * @param <T> a type parameter extending {@link Number}, allowing various numeric types to be used as the exponent.
      */
+    @Override
     public <T extends Number> MXWrapper pow(T exponent) {
         double exp = exponent.doubleValue();
         MX exponentMX = new MX(exp);
@@ -4306,6 +4243,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the divisor.
      * @return A new MXWrapper containing the remainder.
      */
+    @Override
     public MXWrapper mod(MXWrapper other) {
         return new MXWrapper(MX.mod(this.mx, other.mx));
     }
@@ -4316,6 +4254,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the divisor.
      * @return A new MXWrapper containing the remainder.
      */
+    @Override
     public MXWrapper remainder(MXWrapper other) {
         return new MXWrapper(MX.remainder(this.mx, other.mx));
     }
@@ -4326,6 +4265,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the x-coordinate.
      * @return A new MXWrapper containing the arc tangent value.
      */
+    @Override
     public MXWrapper atan2(MXWrapper other) {
         return new MXWrapper(MX.atan2(this.mx, other.mx));
     }
@@ -4336,6 +4276,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the value to assign if the condition is true.
      * @return A new MXWrapper containing the result of the conditional assignment.
      */
+    @Override
     public MXWrapper ifElseZero(MXWrapper other) {
         return new MXWrapper(MX.if_else_zero(this.mx, other.mx));
     }
@@ -4346,6 +4287,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the value to compare.
      * @return A new MXWrapper containing the minimum value.
      */
+    @Override
     public MXWrapper fmin(MXWrapper other) {
         return new MXWrapper(MX.fmin(this.mx, other.mx));
     }
@@ -4356,6 +4298,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the value to compare.
      * @return A new MXWrapper containing the maximum value.
      */
+    @Override
     public MXWrapper fmax(MXWrapper other) {
         return new MXWrapper(MX.fmax(this.mx, other.mx));
     }
@@ -4366,6 +4309,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the value whose sign is to be copied.
      * @return A new MXWrapper containing the result of the sign copy.
      */
+    @Override
     public MXWrapper copysign(MXWrapper other) {
         return new MXWrapper(MX.copysign(this.mx, other.mx));
     }
@@ -4376,6 +4320,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the constant exponent.
      * @return A new MXWrapper containing the result of x^y.
      */
+    @Override
     public MXWrapper constpow(MXWrapper other) {
         return new MXWrapper(MX.constpow(this.mx, other.mx));
     }
@@ -4386,6 +4331,7 @@ public class MXWrapper implements Wrapper {
      * @param other The MXWrapper containing the other side of the triangle.
      * @return A new MXWrapper containing the hypotenuse value.
      */
+    @Override
     public MXWrapper hypot(MXWrapper other) {
         return new MXWrapper(MX.hypot(this.mx, other.mx));
     }

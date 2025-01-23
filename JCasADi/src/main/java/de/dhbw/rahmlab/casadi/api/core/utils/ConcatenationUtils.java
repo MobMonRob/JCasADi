@@ -1,5 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.utils;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVectorCollection;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
@@ -8,6 +10,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
@@ -104,11 +107,21 @@ public class ConcatenationUtils {
         }
     }
 
-    // TODO: Updated method
+    /**
+     * Creates a block concatenation of the given collection.
+     *
+     * @param collection The collection of CasADi objects to concatenate.
+     * @return A new Wrapper containing the result of the block concatenation.
+     * @throws IllegalArgumentException if the collection type is unsupported.
+     */
     @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T blockcat(Object collection) {
+    public static <T extends Wrapper> T blockcat(Collection collection) {
         if (collection instanceof MXVectorCollection) {
             return (T) new MXWrapper(MX.blockcat(((MXVectorCollection) collection).getCasADiObject()));
+        } else if (collection instanceof DMVectorCollection) {
+            return (T) new DMWrapper(DM.blockcat(((DMVectorCollection) collection).getCasADiObject()));
+        } else if (collection instanceof SXVectorCollection) {
+            return (T) new SXWrapper(SX.blockcat(((SXVectorCollection) collection).getCasADiObject()));
         } else {
             throw new IllegalArgumentException("Unsupported CasADi object type: " + collection.getClass());
         }

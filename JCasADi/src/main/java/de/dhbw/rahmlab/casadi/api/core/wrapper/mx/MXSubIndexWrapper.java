@@ -1,12 +1,13 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
 import de.dhbw.rahmlab.casadi.impl.casadi.MxSubIndex;
 
 /**
  * Wrapper class for MxSubIndex to provide a more user-friendly interface for CasADi operations.
  * This class extends MXWrapper and allows for operations on sub-indices of matrices.
  */
-public class MXSubIndexWrapper extends MXWrapper {
+public class MXSubIndexWrapper extends MXWrapper implements SubIndex {
 
     private MxSubIndex mxSubIndex;
 

@@ -1,12 +1,13 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX;
 
 /**
  * A collection that holds a vector of vectors (StdVectorVectorMX) {@link StdVectorVectorMX}
  * and provides methods to manipulate and access its elements.
  */
-public class MXVectorCollection {
+public class MXVectorCollection implements Collection {
 
     private StdVectorVectorMX stdVectorVectorMX;
 
