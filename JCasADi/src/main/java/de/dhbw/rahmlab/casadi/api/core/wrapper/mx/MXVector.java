@@ -4,13 +4,15 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 
-import java.util.ArrayList;
+import java.util.AbstractList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Represents a vector of MXWrapper objects, backed by a StdVectorMX {@link StdVectorMX}.
  */
-public class MXVector implements Vector {
+public class MXVector extends AbstractList<MXWrapper> implements Vector<MXWrapper> {
 
     private StdVectorMX stdVectorMX;
 
@@ -31,18 +33,6 @@ public class MXVector implements Vector {
         this.stdVectorMX = new StdVectorMX();
         initialElements.forEach(this::add);
     }
-
-    /**
-     * Constructs an MXVector with the specified initial elements.
-     *
-     * @param initialElements an array of MXWrapper objects to initialize the vector.
-     */
-//    public MXVector(MXWrapper[] initialElements) {
-//        this.stdVectorMX = new StdVectorMX();
-//        for (MXWrapper mxWrapper : initialElements) {
-//            this.stdVectorMX.add(mxWrapper.getCasADiObject());
-//        }
-//    }
 
     /**
      * Constructs an MXVector with the specified initial elements.
@@ -77,7 +67,7 @@ public class MXVector implements Vector {
      * @param stdVectorMX the StdVectorMX to use as the backing vector.
      */
     public MXVector(StdVectorMX stdVectorMX) {
-        this.stdVectorMX = stdVectorMX;
+        this.stdVectorMX = new StdVectorMX(stdVectorMX);
     }
 
     /**
@@ -105,6 +95,7 @@ public class MXVector implements Vector {
      * @param index the index of the element to retrieve.
      * @return the MXWrapper at the specified index.
      */
+    @Override
     public MXWrapper get(int index) {
         return new MXWrapper(this.stdVectorMX.get(index));
     }
@@ -116,6 +107,7 @@ public class MXVector implements Vector {
      * @param element the new MXWrapper to set.
      * @return the previous MXWrapper at the specified index.
      */
+    @Override
     public MXWrapper set(int index, MXWrapper element) {
         return new MXWrapper(this.stdVectorMX.set(index, element.getCasADiObject()));
     }
@@ -126,8 +118,9 @@ public class MXVector implements Vector {
      * @param element the MXWrapper to add.
      * @return the current MXVector instance for method chaining.
      */
-    public MXVector add(MXWrapper element) {
-        stdVectorMX.add(element.getCasADiObject());
+    @Override
+    public MXVector insert(MXWrapper element) {
+        this.stdVectorMX.add(element.getCasADiObject());
         return this;
     }
 
@@ -138,7 +131,8 @@ public class MXVector implements Vector {
      * @param element the MXWrapper to add.
      * @return the current MXVector instance for method chaining.
      */
-    public MXVector add(int index, MXWrapper element) {
+    @Override
+    public MXVector insert(int index, MXWrapper element) {
         stdVectorMX.add(index, element.getCasADiObject());
         return this;
     }
@@ -149,9 +143,10 @@ public class MXVector implements Vector {
      * @param element the MXWrapper to add after clearing.
      * @return the current MXVector instance for method chaining.
      */
+    @Override
     public MXVector clearAndAdd(MXWrapper element) {
-        clear();
-        return add(element);
+        this.clear();
+        return this.insert(element);
     }
 
     /**
@@ -161,9 +156,10 @@ public class MXVector implements Vector {
      * @param element the MXWrapper to add.
      * @return the current MXVector instance for method chaining.
      */
+    @Override
     public MXVector reserveAndAdd(long n, MXWrapper element) {
-        reserve(n);
-        return add(element);
+        this.reserve(n);
+        return this.insert(element);
     }
 
     /**
@@ -172,6 +168,7 @@ public class MXVector implements Vector {
      * @param index the index of the element to remove.
      * @return the removed MXWrapper.
      */
+    @Override
     public MXWrapper remove(int index) {
         return new MXWrapper(this.stdVectorMX.remove(index));
     }
@@ -184,14 +181,14 @@ public class MXVector implements Vector {
      * @param toIndex the ending index of the range to remove (exclusive).
      * @throws IndexOutOfBoundsException if the specified indices are out of range.
      */
+    @Override
     public void removeRange(int fromIndex, int toIndex) {
         if (fromIndex < 0 || toIndex > size() || fromIndex >= toIndex) {
             throw new IndexOutOfBoundsException("Invalid range: fromIndex=" + fromIndex + ", toIndex=" + toIndex);
         }
 
-        // Loop to remove elements from the end to the start to avoid index shifting issues
         for (int i = toIndex - 1; i >= fromIndex; i--) {
-            remove(i);
+            this.remove(i);
         }
     }
 
@@ -200,6 +197,7 @@ public class MXVector implements Vector {
      *
      * @return the size of the vector.
      */
+    @Override
     public int size() {
         return this.stdVectorMX.size();
     }
@@ -209,6 +207,7 @@ public class MXVector implements Vector {
      *
      * @return the capacity of the vector.
      */
+    @Override
     public long capacity() {
         return this.stdVectorMX.capacity();
     }
@@ -218,6 +217,7 @@ public class MXVector implements Vector {
      *
      * @param n the number of elements to reserve space for.
      */
+    @Override
     public void reserve(long n) {
         this.stdVectorMX.reserve(n);
     }
@@ -227,6 +227,7 @@ public class MXVector implements Vector {
      *
      * @return true if the vector is empty, false otherwise.
      */
+    @Override
     public boolean isEmpty() {
         return this.stdVectorMX.isEmpty();
     }
@@ -234,6 +235,7 @@ public class MXVector implements Vector {
     /**
      * Clears all elements from the vector.
      */
+    @Override
     public void clear() {
         this.stdVectorMX.clear();
     }
@@ -257,14 +259,55 @@ public class MXVector implements Vector {
      *
      * @return the list of MXWrapper objects.
      */
-    public List<MXWrapper> getMXWrappers() {
-        List<MXWrapper> list = new ArrayList<>();
-        for (int i = 0; i < this.size(); i++) {
-            list.add(this.get(i));
-        }
-        return list;
+    @Override
+    public List<MXWrapper> getWrappers() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .collect(Collectors.toList());
     }
 
+    /**
+     * Adds a new MXWrapper element to the end of the vector.
+     *
+     * This method overrides the add method from the AbstractList class.
+     * It adds the specified MXWrapper element to the underlying StdVectorMX
+     * and returns true if the operation is successful. Unlike the add method
+     * in AbstractList, which returns a boolean indicating success, this method
+     * specifically handles MXWrapper objects.
+     *
+     * @param element the MXWrapper to add to the vector
+     * @return true if the element was successfully added
+     */
+    public boolean add(MXWrapper element) {
+        return this.stdVectorMX.add(element.getCasADiObject());
+    }
+
+    /**
+     * Inserts a new MXWrapper element at the specified index in the vector.
+     *
+     * This method overrides the add method from the AbstractList class.
+     * It adds the specified MXWrapper element at the given index in the
+     * underlying StdVectorMX. Unlike the add method in AbstractList, which
+     * does not allow for returning a value, this method specifically deals
+     * with MXWrapper objects and does not return any value.
+     *
+     * @param index the index at which to insert the MXWrapper element
+     * @param element the MXWrapper to add to the vector
+     */
+    public void add(int index, MXWrapper element) {
+        this.stdVectorMX.add(index, element.getCasADiObject());
+    }
+
+    /**
+     * Returns a string representation of the MXVector.
+     *
+     * This method constructs a comma-separated list of the MXWrapper elements
+     * contained in the vector, enclosed in square brackets. It overrides the
+     * default toString method to provide a meaningful representation of the
+     * MXVector's contents.
+     *
+     * @return a string representation of the MXVector
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
