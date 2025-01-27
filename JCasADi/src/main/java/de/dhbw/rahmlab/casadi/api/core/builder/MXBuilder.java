@@ -1,6 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.builder;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.MatrixBuilder;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
@@ -9,7 +10,7 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 /**
  * Builder class for creating MXWrapper objects.
  */
-public class MXBuilder {
+public class MXBuilder implements MatrixBuilder<MXBuilder> {
     private double value;
     private double[] values;
     private long rows;
@@ -24,6 +25,7 @@ public class MXBuilder {
      * @param value the constant value to set
      * @return the current instance of MXBuilder
      */
+    @Override
     public MXBuilder setValue(double value) {
         this.value = value;
         this.values = null;
@@ -36,6 +38,7 @@ public class MXBuilder {
      * @param values the variable number of double values to set
      * @return the current instance of MXBuilder
      */
+    @Override
     public MXBuilder setValues(double... values) {
         this.values = values;
         this.value = Double.NaN;
@@ -49,6 +52,7 @@ public class MXBuilder {
      * @param cols the number of columns
      * @return the current instance of MXBuilder
      */
+    @Override
     public MXBuilder setDimensions(long rows, long cols) {
         this.rows = rows;
         this.cols = cols;
@@ -61,6 +65,7 @@ public class MXBuilder {
      * @param rows the number of rows
      * @return the current instance of MXBuilder
      */
+    @Override
     public MXBuilder setRows(long rows) {
         this.rows = rows;
         this.cols = 1;
@@ -73,6 +78,7 @@ public class MXBuilder {
      * @param cols the number of columns
      * @return the current instance of MXBuilder
      */
+    @Override
     public MXBuilder setCols(long cols) {
         this.cols = cols;
         this.rows = 1;
@@ -90,6 +96,7 @@ public class MXBuilder {
      * @param identitySize the size of the identity matrix to set
      * @return the current instance of MXBuilder, allowing for method chaining
      */
+    @Override
     public MXBuilder setIdentitySize(long identitySize) {
         this.identitySize = identitySize;
         return this;
@@ -101,6 +108,7 @@ public class MXBuilder {
      * @param sparsity the sparsity structure to set
      * @return the current instance of MXBuilder
      */
+    @Override
     public MXBuilder setSparsity(Sparsity sparsity) {
         this.sparsity = sparsity;
         return this;
@@ -112,6 +120,7 @@ public class MXBuilder {
      * @param name the name to set
      * @return the current instance of MXBuilder
      */
+    @Override
     public MXBuilder setName(String name) {
         this.name = name;
         return this;
@@ -122,6 +131,7 @@ public class MXBuilder {
      *
      * @return an MXWrapper containing the constructed MX object
      */
+    @Override
     public MXWrapper buildFromValues() {
         if (values == null || values.length == 0) {
             return new MXWrapper(new MX(value));
@@ -141,6 +151,7 @@ public class MXBuilder {
      * @return an MXWrapper containing the constructed symbolic MX object
      * @throws IllegalArgumentException if the name is not set or is empty
      */
+    @Override
     public MXWrapper buildSymbolic() {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name must be set for symbolic MX.");
@@ -165,6 +176,7 @@ public class MXBuilder {
      *
      * @return a MXWrapper containing the constructed matrix or vector filled with ones
      */
+    @Override
     public DMWrapper buildOnes() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.ones(rows, cols);
@@ -187,6 +199,7 @@ public class MXBuilder {
      *
      * @return a MXWrapper containing the constructed matrix or vector filled with NaN
      */
+    @Override
     public MXWrapper buildNaN() {
         if (rows > 0 && cols > 0) {
             return MXWrapper.nan(rows, cols);
@@ -209,6 +222,7 @@ public class MXBuilder {
      *
      * @return a MXWrapper containing the constructed matrix or vector filled with Infinity
      */
+    @Override
     public MXWrapper buildInf() {
         if (rows > 0 && cols > 0) {
             return MXWrapper.inf(rows, cols);
@@ -226,6 +240,7 @@ public class MXBuilder {
      *
      * @return an MXWrapper containing the zero matrix
      */
+    @Override
     public MXWrapper buildZeroMatrix() {
         if (rows > 0 && cols > 0) {
             return MXWrapper.zeros(rows, cols);
@@ -243,6 +258,7 @@ public class MXBuilder {
      *
      * @return an MXWrapper containing the identity matrix
      */
+    @Override
     public MXWrapper buildIdentityMatrix() {
         return MXWrapper.eye(identitySize);
     }
@@ -253,6 +269,7 @@ public class MXBuilder {
      * @return an MXWrapper containing the sparse matrix
      * @throws IllegalStateException if sparsity is not set
      */
+    @Override
     public MXWrapper buildSparseMatrix() {
         if (sparsity == null) {
             throw new IllegalStateException("Sparsity must be set for a sparse matrix.");
@@ -265,6 +282,7 @@ public class MXBuilder {
      *
      * @return an MXWrapper containing the constructed MX object
      */
+    @Override
     public MXWrapper build() {
         if (sparsity != null && values != null) {
             return MXWrapper.fromSparsityAndValues(sparsity, buildFromValues());

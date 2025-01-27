@@ -1,6 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.builder;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.MatrixBuilder;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
@@ -8,7 +9,7 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 /**
  * Builder class for creating DMWrapper objects.
  */
-public class DMBuilder {
+public class DMBuilder implements MatrixBuilder<DMBuilder> {
     private double value;
     private double[] values;
     private long rows;
@@ -23,6 +24,7 @@ public class DMBuilder {
      * @param value the constant value to set
      * @return the current instance of DMBuilder
      */
+    @Override
     public DMBuilder setValue(double value) {
         this.value = value;
         this.values = null;
@@ -35,6 +37,7 @@ public class DMBuilder {
      * @param values the variable number of double values to set
      * @return the current instance of DMBuilder
      */
+    @Override
     public DMBuilder setValues(double... values) {
         this.values = values;
         this.value = Double.NaN;
@@ -48,6 +51,7 @@ public class DMBuilder {
      * @param cols the number of columns
      * @return the current instance of DMBuilder
      */
+    @Override
     public DMBuilder setDimensions(long rows, long cols) {
         this.rows = rows;
         this.cols = cols;
@@ -60,6 +64,7 @@ public class DMBuilder {
      * @param rows the number of rows
      * @return the current instance of DMBuilder
      */
+    @Override
     public DMBuilder setRows(long rows) {
         this.rows = rows;
         this.cols = 1;
@@ -72,6 +77,7 @@ public class DMBuilder {
      * @param cols the number of columns
      * @return the current instance of DMBuilder
      */
+    @Override
     public DMBuilder setCols(long cols) {
         this.cols = cols;
         this.rows = 1;
@@ -89,6 +95,7 @@ public class DMBuilder {
      * @param identitySize the size of the identity matrix to set
      * @return the current instance of DMBuilder, allowing for method chaining
      */
+    @Override
     public DMBuilder setIdentitySize(long identitySize) {
         this.identitySize = identitySize;
         return this;
@@ -100,6 +107,7 @@ public class DMBuilder {
      * @param name the name to set
      * @return the current instance of DMBuilder
      */
+    @Override
     public DMBuilder setName(String name) {
         this.name = name;
         return this;
@@ -111,6 +119,7 @@ public class DMBuilder {
      * @param sparsity the sparsity structure to set
      * @return the current instance of DMBuilder
      */
+    @Override
     public DMBuilder setSparsity(Sparsity sparsity) {
         this.sparsity = sparsity;
         return this;
@@ -121,6 +130,7 @@ public class DMBuilder {
      *
      * @return a DMWrapper containing the constructed DM object
      */
+    @Override
     public DMWrapper buildFromValues() {
         if (values == null || values.length == 0) {
             return new DMWrapper(new DM(value));
@@ -141,6 +151,7 @@ public class DMBuilder {
      * @return a DMWrapper containing the constructed symbolic DM object
      * @throws IllegalArgumentException if the name is not set
      */
+    @Override
     public DMWrapper buildSymbolic() {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name must be set for symbolic DM.");
@@ -166,6 +177,7 @@ public class DMBuilder {
      *
      * @return a DMWrapper containing the constructed matrix or vector filled with ones
      */
+    @Override
     public DMWrapper buildOnes() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.ones(rows, cols);
@@ -188,6 +200,7 @@ public class DMBuilder {
      *
      * @return a DMWrapper containing the constructed matrix or vector filled with NaN
      */
+    @Override
     public DMWrapper buildNaN() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.nan(rows, cols);
@@ -210,6 +223,7 @@ public class DMBuilder {
      *
      * @return a DMWrapper containing the constructed matrix or vector filled with Infinity
      */
+    @Override
     public DMWrapper buildInf() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.inf(rows, cols);
@@ -249,6 +263,7 @@ public class DMBuilder {
      *
      * @return a DMWrapper containing the zero matrix
      */
+    @Override
     public DMWrapper buildZeroMatrix() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.zeros(rows, cols);
@@ -266,6 +281,7 @@ public class DMBuilder {
      *
      * @return a DMWrapper containing the identity matrix
      */
+    @Override
     public DMWrapper buildIdentityMatrix() {
         return DMWrapper.eye(identitySize);
     }
@@ -279,6 +295,7 @@ public class DMBuilder {
      * @return a DMWrapper containing the constructed sparse matrix
      * @throws IllegalArgumentException if the sparsity structure is not set
      */
+    @Override
     public DMWrapper buildSparseMatrix() {
         if (sparsity == null) {
             throw new IllegalArgumentException("Sparsity must be set for identity matrix.");
@@ -291,6 +308,7 @@ public class DMBuilder {
      *
      * @return a DMWrapper containing the constructed DM object
      */
+    @Override
     public DMWrapper build() {
         if (sparsity != null && values != null) {
             return DMWrapper.fromSparsityAndValues(sparsity, buildFromValues());
