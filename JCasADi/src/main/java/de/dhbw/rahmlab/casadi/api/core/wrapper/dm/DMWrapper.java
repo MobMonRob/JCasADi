@@ -466,9 +466,9 @@ public class DMWrapper implements Wrapper<DMWrapper> {
 
     @Override
     public DMWrapper einstein(DMWrapper other, DMWrapper C,
-               IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
-               IntegerVectorCollection dim_c, IntegerVectorCollection a,
-               IntegerVectorCollection b, IntegerVectorCollection c) {
+                              IntegerVector dim_a, IntegerVector dim_b,
+                              IntegerVector dim_c, IntegerVector a,
+                              IntegerVector b, IntegerVector c) {
         return new DMWrapper(DM.einstein(this.dm, other.getCasADiObject(), C.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
                 a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
@@ -476,9 +476,9 @@ public class DMWrapper implements Wrapper<DMWrapper> {
 
     @Override
     public DMWrapper einstein(DMWrapper other,
-               IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
-               IntegerVectorCollection dim_c, IntegerVectorCollection a,
-               IntegerVectorCollection b, IntegerVectorCollection c) {
+                              IntegerVector dim_a, IntegerVector dim_b,
+                              IntegerVector dim_c, IntegerVector a,
+                              IntegerVector b, IntegerVector c) {
         return new DMWrapper(DM.einstein(this.dm, other.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
                 a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
@@ -500,17 +500,17 @@ public class DMWrapper implements Wrapper<DMWrapper> {
     }
 
     @Override
-    public DMVector horzsplit(IntegerVectorCollection offset) {
+    public DMVector horzsplit(IntegerVector offset) {
         return new DMVector(DM.horzsplit(this.dm, offset.getCasADiObject()));
     }
 
     @Override
-    public DMVector vertsplit(IntegerVectorCollection offset) {
+    public DMVector vertsplit(IntegerVector offset) {
         return new DMVector(DM.vertsplit(this.dm, offset.getCasADiObject()));
     }
 
     @Override
-    public DMVector diagsplit(IntegerVectorCollection offset1, IntegerVectorCollection offset2) {
+    public DMVector diagsplit(IntegerVector offset1, IntegerVector offset2) {
         return new DMVector(DM.diagsplit(this.dm, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
 
@@ -596,18 +596,18 @@ public class DMWrapper implements Wrapper<DMWrapper> {
     }
 
     @Override
-    public BooleanVectorCollection whichDepends(DMWrapper var, long order, boolean tr) {
-        return new BooleanVectorCollection(DM.which_depends(this.dm, var.getCasADiObject(), order, tr));
+    public BooleanVector whichDepends(DMWrapper var, long order, boolean tr) {
+        return new BooleanVector(DM.which_depends(this.dm, var.getCasADiObject(), order, tr));
     }
 
     @Override
-    public BooleanVectorCollection whichDepends(DMWrapper var, long order) {
-        return new BooleanVectorCollection(DM.which_depends(this.dm, var.getCasADiObject(), order));
+    public BooleanVector whichDepends(DMWrapper var, long order) {
+        return new BooleanVector(DM.which_depends(this.dm, var.getCasADiObject(), order));
     }
 
     @Override
-    public BooleanVectorCollection whichDepends(DMWrapper var) {
-        return new BooleanVectorCollection(DM.which_depends(this.dm, var.getCasADiObject()));
+    public BooleanVector whichDepends(DMWrapper var) {
+        return new BooleanVector(DM.which_depends(this.dm, var.getCasADiObject()));
     }
 
     public DMWrapper taylor(DMWrapper x, DMWrapper a, long order) {
@@ -618,7 +618,7 @@ public class DMWrapper implements Wrapper<DMWrapper> {
         return new DMWrapper(DM.mtaylor(this.dm, x.getCasADiObject(), a.getCasADiObject(), order));
     }
 
-    public DMWrapper mtaylor(DMWrapper x, DMWrapper a, long order, IntegerVectorCollection orderContributions) {
+    public DMWrapper mtaylor(DMWrapper x, DMWrapper a, long order, IntegerVector orderContributions) {
         return new DMWrapper(DM.mtaylor(this.dm, x.getCasADiObject(), a.getCasADiObject(), order, orderContributions.getCasADiObject()));
     }
 
@@ -639,19 +639,19 @@ public class DMWrapper implements Wrapper<DMWrapper> {
         return new DMWrapper(DM.evalf(this.dm));
     }
 
-    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, IntegerVectorCollection prinv, IntegerVectorCollection pc, boolean amd) {
+    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, IntegerVector prinv, IntegerVector pc, boolean amd) {
         DM.qr_sparse(this.dm, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), amd);
     }
 
-    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, IntegerVectorCollection prinv, IntegerVectorCollection pc) {
+    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, IntegerVector prinv, IntegerVector pc) {
         DM.qr_sparse(this.dm, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject());
     }
 
-    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, IntegerVectorCollection prinv, IntegerVectorCollection pc, boolean tr) {
+    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, IntegerVector prinv, IntegerVector pc, boolean tr) {
         return new DMWrapper(DM.qr_solve(this.dm, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), tr));
     }
 
-    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, IntegerVectorCollection prinv, IntegerVectorCollection pc) {
+    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, IntegerVector prinv, IntegerVector pc) {
         return new DMWrapper(DM.qr_solve(this.dm, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject()));
     }
 
@@ -659,7 +659,7 @@ public class DMWrapper implements Wrapper<DMWrapper> {
         DM.qr(this.dm, Q.getCasADiObject(), R.getCasADiObject());
     }
 
-    public void ldl(DMWrapper D, DMWrapper LT, IntegerVectorCollection p, boolean amd) {
+    public void ldl(DMWrapper D, DMWrapper LT, IntegerVector p, boolean amd) {
         DM.ldl(this.dm, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject(), amd);
     }
 
@@ -760,36 +760,36 @@ public class DMWrapper implements Wrapper<DMWrapper> {
     }
 
     @Override
-    public void erase(IntegerVectorCollection rr, IntegerVectorCollection cc, boolean ind1) {
+    public void erase(IntegerVector rr, IntegerVector cc, boolean ind1) {
         this.dm.erase(rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     @Override
-    public void erase(IntegerVectorCollection rr, IntegerVectorCollection cc) {
+    public void erase(IntegerVector rr, IntegerVector cc) {
         this.dm.erase(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void erase(IntegerVectorCollection rr, boolean ind1) {
+    public void erase(IntegerVector rr, boolean ind1) {
         this.dm.erase(rr.getCasADiObject(), ind1);
     }
 
     @Override
-    public void erase(IntegerVectorCollection rr) {
+    public void erase(IntegerVector rr) {
         this.dm.erase(rr.getCasADiObject());
     }
 
-    public void remove(IntegerVectorCollection rr, IntegerVectorCollection cc) {
+    public void remove(IntegerVector rr, IntegerVector cc) {
         this.dm.remove(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVectorCollection rr, IntegerVectorCollection cc, boolean ind1) {
+    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc, boolean ind1) {
         this.dm.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVectorCollection rr, IntegerVectorCollection cc) {
+    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc) {
         this.dm.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
@@ -802,49 +802,40 @@ public class DMWrapper implements Wrapper<DMWrapper> {
         return this.dm.sparsity();
     }
 
-    @Override
-    public DMWrapper inf(Sparsity sp) {
+    public static DMWrapper inf(Sparsity sp) {
         return new DMWrapper(DM.inf(sp));
     }
 
-    @Override
-    public DMWrapper inf(long nrow, long ncol) {
+    public static DMWrapper inf(long nrow, long ncol) {
         return new DMWrapper(DM.inf(nrow, ncol));
     }
 
-    @Override
-    public DMWrapper inf(long nrow) {
+    public static DMWrapper inf(long nrow) {
         return new DMWrapper(DM.inf(nrow));
     }
 
-    @Override
-    public DMWrapper inf() {
+    public static DMWrapper inf() {
         return new DMWrapper(DM.inf());
     }
 
-    @Override
-    public DMWrapper nan(Sparsity sp) {
+    public static DMWrapper nan(Sparsity sp) {
         return new DMWrapper(DM.nan(sp));
     }
 
-    @Override
-    public DMWrapper nan(long nrow, long ncol) {
+    public static DMWrapper nan(long nrow, long ncol) {
         return new DMWrapper(DM.nan(nrow, ncol));
     }
 
-    @Override
-    public DMWrapper nan(long nrow) {
+    public static DMWrapper nan(long nrow) {
         return new DMWrapper(DM.nan(nrow));
     }
 
-    @Override
-    public DMWrapper nan() {
+    public static DMWrapper nan() {
         return new DMWrapper(DM.nan());
     }
 
-    @Override
-    public DMWrapper eye(long n) {
-        return new DMWrapper(DM.eye(n));
+    public static DMWrapper eye(long size) {
+        return new DMWrapper(DM.eye(size));
     }
 
     public long elementHash() {
@@ -1006,7 +997,7 @@ public class DMWrapper implements Wrapper<DMWrapper> {
     }
 
     @Override
-    public DMVectorCollection blocksplit(IntegerVectorCollection vert_offset, IntegerVectorCollection horz_offset) {
+    public DMVectorCollection blocksplit(IntegerVector vert_offset, IntegerVector horz_offset) {
         return new DMVectorCollection(DM.blocksplit(this.dm, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
 
@@ -1149,13 +1140,13 @@ public class DMWrapper implements Wrapper<DMWrapper> {
     }
 
     @Override
-    public IntegerVectorCollection getRow() {
-        return new IntegerVectorCollection(this.dm.get_row());
+    public IntegerVector getRow() {
+        return new IntegerVector(this.dm.get_row());
     }
 
     @Override
-    public IntegerVectorCollection getColInd() {
-        return new IntegerVectorCollection(this.dm.get_colind());
+    public IntegerVector getColInd() {
+        return new IntegerVector(this.dm.get_colind());
     }
 
     @Override
@@ -1388,43 +1379,35 @@ public class DMWrapper implements Wrapper<DMWrapper> {
         return new DMVectorCollection(DM.sym(name, nrow, ncol, p, r));
     }
 
-    @Override
-    public DMWrapper zeros(long nrow, long ncol) {
+    public static DMWrapper zeros(long nrow, long ncol) {
         return new DMWrapper(DM.zeros(nrow, ncol));
     }
 
-    @Override
-    public DMWrapper zeros(long nrow) {
+    public static DMWrapper zeros(long nrow) {
         return new DMWrapper(DM.zeros(nrow));
     }
 
-    @Override
-    public DMWrapper zeros() {
+    public static DMWrapper zeros() {
         return new DMWrapper(DM.zeros());
     }
 
-    @Override
-    public DMWrapper zeros(Sparsity sp) {
+    public static DMWrapper zeros(Sparsity sp) {
         return new DMWrapper(DM.zeros(sp));
     }
 
-    @Override
-    public DMWrapper ones(long nrow, long ncol) {
+    public static DMWrapper ones(long nrow, long ncol) {
         return new DMWrapper(DM.ones(nrow, ncol));
     }
 
-    @Override
-    public DMWrapper ones(long nrow) {
+    public static DMWrapper ones(long nrow) {
         return new DMWrapper(DM.ones(nrow));
     }
 
-    @Override
-    public DMWrapper ones() {
+    public static DMWrapper ones() {
         return new DMWrapper(DM.ones());
     }
 
-    @Override
-    public DMWrapper ones(Sparsity sp) {
+    public static DMWrapper ones(Sparsity sp) {
         return new DMWrapper(DM.ones(sp));
     }
 

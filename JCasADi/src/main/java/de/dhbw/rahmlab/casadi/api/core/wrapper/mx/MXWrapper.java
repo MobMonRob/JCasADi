@@ -1,6 +1,5 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Operation;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubMatrix;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
@@ -177,7 +176,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param ind1 A boolean flag that determines the behavior of the erase operation.
      */
     @Override
-    public void erase(IntegerVectorCollection rr, IntegerVectorCollection cc, boolean ind1) {
+    public void erase(IntegerVector rr, IntegerVector cc, boolean ind1) {
         this.mx.erase(rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
@@ -188,7 +187,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param cc A collection of column indices to be erased.
      */
     @Override
-    public void erase(IntegerVectorCollection rr, IntegerVectorCollection cc) {
+    public void erase(IntegerVector rr, IntegerVector cc) {
         this.mx.erase(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
@@ -199,7 +198,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param ind1 A boolean flag that determines the behavior of the erase operation.
      */
     @Override
-    public void erase(IntegerVectorCollection rr, boolean ind1) {
+    public void erase(IntegerVector rr, boolean ind1) {
         this.mx.erase(rr.getCasADiObject(), ind1);
     }
 
@@ -209,7 +208,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param rr A collection of row indices to be erased.
      */
     @Override
-    public void erase(IntegerVectorCollection rr) {
+    public void erase(IntegerVector rr) {
         this.mx.erase(rr.getCasADiObject());
     }
 
@@ -223,7 +222,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param ind1 A boolean flag that determines the behavior of the enlargement operation.
      */
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVectorCollection rr, IntegerVectorCollection cc, boolean ind1) {
+    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc, boolean ind1) {
         this.mx.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
@@ -236,7 +235,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param cc A collection of column indices that will be used in the enlargement.
      */
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVectorCollection rr, IntegerVectorCollection cc) {
+    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc) {
         this.mx.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
@@ -716,8 +715,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param sp The sparsity pattern that defines the matrix structure.
      * @return MXWrapper
      */
-    @Override
-    public MXWrapper inf(Sparsity sp) {
+    public static MXWrapper inf(Sparsity sp) {
         MX result = MX.inf(sp);
         return new MXWrapper(result);
     }
@@ -732,8 +730,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param ncol The number of columns of the matrix.
      * @return MXWrapper
      */
-    @Override
-    public MXWrapper inf(long nrow, long ncol) {
+    public static MXWrapper inf(long nrow, long ncol) {
         MX result = MX.inf(nrow, ncol);
         return new MXWrapper(result);
     }
@@ -747,8 +744,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param nrow The number of rows of the matrix.
      * @return MXWrapper
      */
-    @Override
-    public MXWrapper inf(long nrow) {
+    public static MXWrapper inf(long nrow) {
         MX result = MX.inf(nrow);
         return new MXWrapper(result);
     }
@@ -760,8 +756,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      *
      * @return MXWrapper
      */
-    @Override
-    public MXWrapper inf() {
+    public static MXWrapper inf() {
         MX result = MX.inf();
         return new MXWrapper(result);
     }
@@ -775,8 +770,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param sp The sparsity pattern that defines the matrix structure.
      * @return MXWrapper
      */
-    @Override
-    public MXWrapper nan(Sparsity sp) {
+    public static MXWrapper nan(Sparsity sp) {
         MX result = MX.nan(sp);
         return new MXWrapper(result);
     }
@@ -791,8 +785,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param ncol The number of columns of the matrix.
      * @return MXWrapper
      */
-    @Override
-    public MXWrapper nan(long nrow, long ncol) {
+    public static MXWrapper nan(long nrow, long ncol) {
         MX result = MX.nan(nrow, ncol);
         return new MXWrapper(result);
     }
@@ -806,8 +799,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param nrow The number of rows of the matrix.
      * @return MXWrapper
      */
-    @Override
-    public MXWrapper nan(long nrow) {
+    public static MXWrapper nan(long nrow) {
         MX result = MX.nan(nrow);
         return new MXWrapper(result);
     }
@@ -819,8 +811,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      *
      * @return MXWrapper
      */
-    @Override
-    public MXWrapper nan() {
+    public static MXWrapper nan() {
         MX result = MX.nan();
         return new MXWrapper(result);
     }
@@ -834,8 +825,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param size The size of the identity matrix (number of rows and columns).
      * @return MXWrapperg
      */
-    @Override
-    public MXWrapper eye(long size) {
+    public static MXWrapper eye(long size) {
         MX result = MX.eye(size);
         return new MXWrapper(result);
     }
@@ -1347,9 +1337,9 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      */
     @Override
     public MXWrapper einstein(MXWrapper other, MXWrapper C,
-                              IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
-                              IntegerVectorCollection dim_c, IntegerVectorCollection a,
-                              IntegerVectorCollection b, IntegerVectorCollection c) {
+                              IntegerVector dim_a, IntegerVector dim_b,
+                              IntegerVector dim_c, IntegerVector a,
+                              IntegerVector b, IntegerVector c) {
         MX.einstein(this.mx, other.mx, C.mx,
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(),
                 dim_c.getCasADiObject(), a.getCasADiObject(),
@@ -1387,9 +1377,9 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      */
     @Override
     public MXWrapper einstein(MXWrapper other,
-                              IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
-                              IntegerVectorCollection dim_c, IntegerVectorCollection a,
-                              IntegerVectorCollection b, IntegerVectorCollection c) {
+                              IntegerVector dim_a, IntegerVector dim_b,
+                              IntegerVector dim_c, IntegerVector a,
+                              IntegerVector b, IntegerVector c) {
         return new MXWrapper(MX.einstein(this.mx, other.getCasADiObject(), dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
     }
 
@@ -1476,7 +1466,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return MXVector. A vector of MXWrapper objects resulting from the horizontal split.
      */
     @Override
-    public MXVector horzsplit(IntegerVectorCollection offset) {
+    public MXVector horzsplit(IntegerVector offset) {
         return new MXVector(MX.horzsplit(this.mx, offset.getCasADiObject()));
     }
 
@@ -1488,7 +1478,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return MXVector. A vector of MXWrapper objects resulting from the diagonal split.
      */
     @Override
-    public MXVector diagsplit(IntegerVectorCollection offset1, IntegerVectorCollection offset2) {
+    public MXVector diagsplit(IntegerVector offset1, IntegerVector offset2) {
         return new MXVector(MX.diagsplit(this.mx, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
 
@@ -1499,7 +1489,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return MXVector. A vector of MXWrapper objects resulting from the vertical split.
      */
     @Override
-    public MXVector vertsplit(IntegerVectorCollection offset) {
+    public MXVector vertsplit(IntegerVector offset) {
         return new MXVector(MX.vertsplit(this.mx, offset.getCasADiObject()));
     }
 
@@ -1661,8 +1651,8 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return BooleanVectorCollection. A new BooleanVectorCollection containing the dependency information.
      */
     @Override
-    public BooleanVectorCollection whichDepends(MXWrapper var, long order, boolean tr) {
-        return new BooleanVectorCollection(MX.which_depends(this.mx, var.mx, order, tr));
+    public BooleanVector whichDepends(MXWrapper var, long order, boolean tr) {
+        return new BooleanVector(MX.which_depends(this.mx, var.mx, order, tr));
     }
 
     /**
@@ -1673,8 +1663,8 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return BooleanVectorCollection. A new BooleanVectorCollection containing the dependency information.
      */
     @Override
-    public BooleanVectorCollection whichDepends(MXWrapper var, long order) {
-        return new BooleanVectorCollection(MX.which_depends(this.mx, var.mx, order));
+    public BooleanVector whichDepends(MXWrapper var, long order) {
+        return new BooleanVector(MX.which_depends(this.mx, var.mx, order));
     }
 
     /**
@@ -1684,8 +1674,8 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return BooleanVectorCollection. A new BooleanVectorCollection containing the dependency information.
      */
     @Override
-    public BooleanVectorCollection whichDepends(MXWrapper var) {
-        return new BooleanVectorCollection(MX.which_depends(this.mx, var.mx));
+    public BooleanVector whichDepends(MXWrapper var) {
+        return new BooleanVector(MX.which_depends(this.mx, var.mx));
     }
 
     /**
@@ -2339,7 +2329,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param opts The dictionary containing options for the B-spline.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, IntegerVectorCollection degree, long m, Dict opts) {
+    public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, IntegerVector degree, long m, Dict opts) {
         MX result = MX.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m, opts);
         return new MXWrapper(result);
     }
@@ -2353,7 +2343,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param m The number of repetitions.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, IntegerVectorCollection degree, long m) {
+    public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, IntegerVector degree, long m) {
         MX result = MX.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m);
         return new MXWrapper(result);
     }
@@ -2368,7 +2358,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param opts The dictionary containing options for the B-spline.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, IntegerVectorCollection degree, long m, Dict opts) {
+    public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, IntegerVector degree, long m, Dict opts) {
         MX result = MX.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m, opts);
         return new MXWrapper(result);
     }
@@ -2382,7 +2372,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param m The number of repetitions.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, IntegerVectorCollection degree, long m) {
+    public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, IntegerVector degree, long m) {
         MX result = MX.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m);
         return new MXWrapper(result);
     }
@@ -2633,7 +2623,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
     @Override
-    public MXVectorCollection blocksplit(IntegerVectorCollection vert_offset, IntegerVectorCollection horz_offset) {
+    public MXVectorCollection blocksplit(IntegerVector vert_offset, IntegerVector horz_offset) {
         return new MXVectorCollection(MX.blocksplit(this.mx, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
 
@@ -2985,8 +2975,8 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return IntegerVectorCollection. A new IntegerVectorCollection containing the row indices of the sparsity pattern.
      */
     @Override
-    public IntegerVectorCollection getRow() {
-        return new IntegerVectorCollection(this.mx.get_row());
+    public IntegerVector getRow() {
+        return new IntegerVector(this.mx.get_row());
     }
 
     /**
@@ -2995,8 +2985,8 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return IntegerVectorCollection. A new IntegerVectorCollection containing the column indices of the sparsity pattern.
      */
     @Override
-    public IntegerVectorCollection getColInd() {
-        return new IntegerVectorCollection(this.mx.get_colind());
+    public IntegerVector getColInd() {
+        return new IntegerVector(this.mx.get_colind());
     }
 
     /**
@@ -3533,8 +3523,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param ncol The number of columns for the matrix.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    @Override
-    public MXWrapper zeros(long nrow, long ncol) {
+    public static MXWrapper zeros(long nrow, long ncol) {
         return new MXWrapper(MX.zeros(nrow, ncol));
     }
 
@@ -3544,8 +3533,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param nrow The number of rows for the matrix.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    @Override
-    public MXWrapper zeros(long nrow) {
+    public static MXWrapper zeros(long nrow) {
         return new MXWrapper(MX.zeros(nrow));
     }
 
@@ -3554,8 +3542,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      *
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    @Override
-    public MXWrapper zeros() {
+    public static MXWrapper zeros() {
         return new MXWrapper(MX.zeros());
     }
 
@@ -3565,8 +3552,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param sp The Sparsity object representing the sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    @Override
-    public MXWrapper zeros(Sparsity sp) {
+    public static MXWrapper zeros(Sparsity sp) {
         return new MXWrapper(MX.zeros(sp));
     }
 
@@ -3577,8 +3563,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param ncol The number of columns for the matrix.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    @Override
-    public MXWrapper ones(long nrow, long ncol) {
+    public static MXWrapper ones(long nrow, long ncol) {
         return new MXWrapper(MX.ones(nrow, ncol));
     }
 
@@ -3588,8 +3573,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param nrow The number of rows for the matrix.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    @Override
-    public MXWrapper ones(long nrow) {
+    public static MXWrapper ones(long nrow) {
         return new MXWrapper(MX.ones(nrow));
     }
 
@@ -3598,8 +3582,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      *
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    @Override
-    public MXWrapper ones() {
+    public static MXWrapper ones() {
         return new MXWrapper(MX.ones());
     }
 
@@ -3609,8 +3592,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @param sp The Sparsity object representing the sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    @Override
-    public MXWrapper ones(Sparsity sp) {
+    public static MXWrapper ones(Sparsity sp) {
         return new MXWrapper(MX.ones(sp));
     }
 

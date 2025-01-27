@@ -6,61 +6,61 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorBool;
  * A collection that holds a vector of boolean values (StdVectorBool) {@link StdVectorBool}
  * and provides methods to manipulate and access its elements.
  */
-public class BooleanVectorCollection {
+public class BooleanVector {
 
     private StdVectorBool stdVectorBool;
 
     /**
-     * Constructs an empty BooleanVectorCollection.
+     * Constructs an empty BooleanVector.
      */
-    public BooleanVectorCollection() {
+    public BooleanVector() {
         this.stdVectorBool = new StdVectorBool();
     }
 
     /**
-     * Constructs a BooleanVectorCollection with the specified initial boolean values.
+     * Constructs a BooleanVector with the specified initial boolean values.
      *
      * @param initialElements an array of boolean values to initialize the collection
      */
-    public BooleanVectorCollection(boolean[] initialElements) {
+    public BooleanVector(boolean[] initialElements) {
         this.stdVectorBool = new StdVectorBool(initialElements);
     }
 
     /**
-     * Constructs a BooleanVectorCollection with the specified initial boolean values.
+     * Constructs a BooleanVector with the specified initial boolean values.
      *
      * @param initialElements an iterable collection of Boolean values to initialize the collection
      */
-    public BooleanVectorCollection(Iterable<Boolean> initialElements) {
+    public BooleanVector(Iterable<Boolean> initialElements) {
         this.stdVectorBool = new StdVectorBool();
         initialElements.forEach(this::add);
     }
 
     /**
-     * Constructs a BooleanVectorCollection as a copy of another BooleanVectorCollection.
+     * Constructs a BooleanVector as a copy of another BooleanVector.
      *
-     * @param other the BooleanVectorCollection to copy
+     * @param other the BooleanVector to copy
      */
-    public BooleanVectorCollection(BooleanVectorCollection other) {
+    public BooleanVector(BooleanVector other) {
         this.stdVectorBool = new StdVectorBool(other.getCasADiObject());
     }
 
     /**
-     * Constructs a BooleanVectorCollection from an existing StdVectorBool instance.
+     * Constructs a BooleanVector from an existing StdVectorBool instance.
      *
-     * This constructor initializes the BooleanVectorCollection using the
+     * This constructor initializes the BooleanVector using the
      * provided StdVectorBool instance. The underlying data structure will
      * directly reference the given instance, allowing for manipulation
      * of the same data.
      *
      * @param stdVectorBool the StdVectorBool instance to initialize the collection with
      */
-    public BooleanVectorCollection(StdVectorBool stdVectorBool) {
+    public BooleanVector(StdVectorBool stdVectorBool) {
         this.stdVectorBool = stdVectorBool;
     }
 
     /**
-     * Constructs a BooleanVectorCollection with a specified number of elements,
+     * Constructs a BooleanVector with a specified number of elements,
      * all initialized to the same boolean value.
      *
      * This constructor creates a new StdVectorBool with the specified count
@@ -71,7 +71,7 @@ public class BooleanVectorCollection {
      * @param count the number of boolean elements to initialize in the collection
      * @param value the boolean value to initialize each element with
      */
-    public BooleanVectorCollection(int count, boolean value) {
+    public BooleanVector(int count, boolean value) {
         this.stdVectorBool = new StdVectorBool(count, value);
     }
 
@@ -102,7 +102,7 @@ public class BooleanVectorCollection {
      * @param value the boolean value to add
      * @return true if the value was added successfully
      */
-    public BooleanVectorCollection add(Boolean value) {
+    public BooleanVector add(Boolean value) {
         this.stdVectorBool.add(value);
         return this;
     }
@@ -113,7 +113,7 @@ public class BooleanVectorCollection {
      * @param index the index at which to add the boolean value
      * @param value the boolean value to add
      */
-    public BooleanVectorCollection add(int index, Boolean value) {
+    public BooleanVector add(int index, Boolean value) {
         this.stdVectorBool.add(index, value);
         return this;
     }

@@ -6,60 +6,60 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt;
  * A collection that holds a vector of integer values (StdVectorCasadiInt) {@link StdVectorCasadiInt}
  * and provides methods to manipulate and access its elements.
  */
-public class IntegerVectorCollection {
+public class IntegerVector {
 
     private StdVectorCasadiInt stdVectorCasadiInt;
 
     /**
-     * Constructs an empty IntegerVectorCollection.
+     * Constructs an empty IntegerVector.
      */
-    public IntegerVectorCollection() {
+    public IntegerVector() {
         this.stdVectorCasadiInt = new StdVectorCasadiInt();
     }
 
     /**
-     * Constructs an IntegerVectorCollection with the specified initial integer values.
+     * Constructs an IntegerVector with the specified initial integer values.
      *
      * @param initialElements an array of long values to initialize the collection
      */
-    public IntegerVectorCollection(long[] initialElements) {
+    public IntegerVector(long[] initialElements) {
         this.stdVectorCasadiInt = new StdVectorCasadiInt(initialElements);
     }
 
     /**
-     * Constructs an IntegerVectorCollection with the specified initial integer values.
+     * Constructs an IntegerVector with the specified initial integer values.
      *
      * @param initialElements an iterable collection of Long values to initialize the collection
      */
-    public IntegerVectorCollection(Iterable<Long> initialElements) {
+    public IntegerVector(Iterable<Long> initialElements) {
         this.stdVectorCasadiInt = new StdVectorCasadiInt(initialElements);
     }
 
     /**
-     * Constructs an IntegerVectorCollection as a copy of another IntegerVectorCollection.
+     * Constructs an IntegerVector as a copy of another IntegerVector.
      *
-     * @param other the IntegerVectorCollection to copy
+     * @param other the IntegerVector to copy
      */
-    public IntegerVectorCollection(IntegerVectorCollection other) {
+    public IntegerVector(IntegerVector other) {
         this.stdVectorCasadiInt = new StdVectorCasadiInt(other.getCasADiObject());
     }
 
     /**
-     * Constructs an IntegerVectorCollection from an existing StdVectorCasadiInt instance.
+     * Constructs an IntegerVector from an existing StdVectorCasadiInt instance.
      *
-     * This constructor initializes the IntegerVectorCollection using the
+     * This constructor initializes the IntegerVector using the
      * provided StdVectorCasadiInt instance. The underlying data structure will
      * directly reference the given instance, allowing for manipulation
      * of the same data.
      *
      * @param stdVectorCasadiInt the StdVectorCasadiInt instance to initialize the collection with
      */
-    public IntegerVectorCollection(StdVectorCasadiInt stdVectorCasadiInt) {
+    public IntegerVector(StdVectorCasadiInt stdVectorCasadiInt) {
         this.stdVectorCasadiInt = stdVectorCasadiInt;
     }
 
     /**
-     * Constructs an IntegerVectorCollection with a specified number of elements,
+     * Constructs an IntegerVector with a specified number of elements,
      * all initialized to the same long value.
      *
      * This constructor creates a new StdVectorCasadiInt with the specified count
@@ -70,7 +70,7 @@ public class IntegerVectorCollection {
      * @param count the number of integer elements to initialize in the collection
      * @param value the long value to initialize each element with
      */
-    public IntegerVectorCollection(int count, long value) {
+    public IntegerVector(int count, long value) {
         this.stdVectorCasadiInt = new StdVectorCasadiInt(count, value);
     }
 
@@ -99,9 +99,9 @@ public class IntegerVectorCollection {
      * Adds an integer value to the end of the collection.
      *
      * @param value the long value to add
-     * @return this IntegerVectorCollection for method chaining
+     * @return this IntegerVector for method chaining
      */
-    public IntegerVectorCollection add(Long value) {
+    public IntegerVector add(Long value) {
         this.stdVectorCasadiInt.add(value);
         return this;
     }
@@ -111,9 +111,9 @@ public class IntegerVectorCollection {
      *
      * @param index the index at which to add the integer value
      * @param value the long value to add
-     * @return this IntegerVectorCollection for method chaining
+     * @return this IntegerVector for method chaining
      */
-    public IntegerVectorCollection add(int index, Long value) {
+    public IntegerVector add(int index, Long value) {
         this.stdVectorCasadiInt.add(index, value);
         return this;
     }

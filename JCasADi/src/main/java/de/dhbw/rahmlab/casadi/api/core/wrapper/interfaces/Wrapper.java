@@ -1,9 +1,9 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.BooleanVectorCollection;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.std.BooleanVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVectorCollection;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.StringVectorCollection;
 import de.dhbw.rahmlab.casadi.impl.casadi.IM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
@@ -18,17 +18,17 @@ public interface Wrapper<T extends Wrapper> {
 
     boolean nonzero();
 
-    void erase(IntegerVectorCollection rr, IntegerVectorCollection cc, boolean ind1);
+    void erase(IntegerVector rr, IntegerVector cc, boolean ind1);
 
-    void erase(IntegerVectorCollection rr, IntegerVectorCollection cc);
+    void erase(IntegerVector rr, IntegerVector cc);
 
-    void erase(IntegerVectorCollection rr, boolean ind1);
+    void erase(IntegerVector rr, boolean ind1);
 
-    void erase(IntegerVectorCollection rr);
+    void erase(IntegerVector rr);
 
-    void enlarge(long nrow, long ncol, IntegerVectorCollection rr, IntegerVectorCollection cc, boolean ind1);
+    void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc, boolean ind1);
 
-    void enlarge(long nrow, long ncol, IntegerVectorCollection rr, IntegerVectorCollection cc);
+    void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc);
 
     T dep(long ch);
 
@@ -70,24 +70,6 @@ public interface Wrapper<T extends Wrapper> {
 
     T unary(long op, T x);
 
-    T inf(Sparsity sp);
-
-    T inf(long nrow, long ncol);
-
-    T inf(long nrow);
-
-    T inf();
-
-    T nan(Sparsity sp);
-
-    T nan(long nrow, long ncol);
-
-    T nan(long nrow);
-
-    T nan();
-
-    T eye(long n);
-
     T get(boolean ind1, Slice rr);
 
     T get(boolean ind1, IM rr);
@@ -125,14 +107,14 @@ public interface Wrapper<T extends Wrapper> {
     void setNZ(T m, boolean ind1, IM k);
 
     T einstein(T other, T C,
-               IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
-               IntegerVectorCollection dim_c, IntegerVectorCollection a,
-               IntegerVectorCollection b, IntegerVectorCollection c);
+               IntegerVector dim_a, IntegerVector dim_b,
+               IntegerVector dim_c, IntegerVector a,
+               IntegerVector b, IntegerVector c);
 
     T einstein(T other,
-               IntegerVectorCollection dim_a, IntegerVectorCollection dim_b,
-               IntegerVectorCollection dim_c, IntegerVectorCollection a,
-               IntegerVectorCollection b, IntegerVectorCollection c);
+               IntegerVector dim_a, IntegerVector dim_b,
+               IntegerVector dim_c, IntegerVector a,
+               IntegerVector b, IntegerVector c);
 
     boolean isEqual(T other, long depth);
 
@@ -142,11 +124,11 @@ public interface Wrapper<T extends Wrapper> {
 
     T mmax();
 
-    Vector horzsplit(IntegerVectorCollection offset);
+    Vector horzsplit(IntegerVector offset);
 
-    Vector diagsplit(IntegerVectorCollection offset1, IntegerVectorCollection offset2);
+    Vector diagsplit(IntegerVector offset1, IntegerVector offset2);
 
-    Vector vertsplit(IntegerVectorCollection offset);
+    Vector vertsplit(IntegerVector offset);
 
     T mtimes(T other);
 
@@ -172,11 +154,11 @@ public interface Wrapper<T extends Wrapper> {
 
     T hessian(T x, T g);
 
-    BooleanVectorCollection whichDepends(T var, long order, boolean tr);
+    BooleanVector whichDepends(T var, long order, boolean tr);
 
-    BooleanVectorCollection whichDepends(T var, long order);
+    BooleanVector whichDepends(T var, long order);
 
-    BooleanVectorCollection whichDepends(T var);
+    BooleanVector whichDepends(T var);
 
     Sparsity jacobianSparsity(T x);
 
@@ -282,7 +264,7 @@ public interface Wrapper<T extends Wrapper> {
 
     void assign(T other);
 
-    Collection blocksplit(IntegerVectorCollection vert_offset, IntegerVectorCollection horz_offset);
+    Collection blocksplit(IntegerVector vert_offset, IntegerVector horz_offset);
 
     Collection blocksplit(long vert_incr, long horz_incr);
 
@@ -340,9 +322,9 @@ public interface Wrapper<T extends Wrapper> {
 
     boolean isTril();
 
-    IntegerVectorCollection getRow();
+    IntegerVector getRow();
 
-    IntegerVectorCollection getColInd();
+    IntegerVector getColInd();
 
     long row(long el);
 
@@ -417,22 +399,6 @@ public interface Wrapper<T extends Wrapper> {
     T mpower(T y);
 
     T soc(T y);
-
-    T zeros(long nrow, long ncol);
-
-    T zeros(long nrow);
-
-    T zeros();
-
-    T zeros(Sparsity sp);
-
-    T ones(long nrow, long ncol);
-
-    T ones(long nrow);
-
-    T ones();
-
-    T ones(Sparsity sp);
 
     T add(T other);
 
