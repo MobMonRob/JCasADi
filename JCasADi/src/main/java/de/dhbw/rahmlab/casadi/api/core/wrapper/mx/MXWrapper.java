@@ -7,13 +7,15 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.*;
+import javax.constraints.*;
 
 /**
  * A wrapper class for the MX object, representing a variable in the constraint model.
  */
-public class MXWrapper implements Wrapper<MXWrapper> {
+public class MXWrapper implements Wrapper<MXWrapper>, ConstrainedVariable {
 
     private MX mx;
+    private String id;
 
     /**
      * default constructor
@@ -1889,7 +1891,7 @@ public class MXWrapper implements Wrapper<MXWrapper> {
      * @return String. The string representation of the operator.
      */
     @Override
-    public String printOperator(StringVectorCollection args) {
+    public String printOperator(StringVector args) {
         return MX.print_operator(this.mx, args.getCasADiObject());
     }
 
@@ -4331,4 +4333,94 @@ public class MXWrapper implements Wrapper<MXWrapper> {
     public MX getCasADiObject() {
         return this.mx;
     }
+
+    //------ Test ------
+
+    // TODO: Implement method
+    @Override
+    public Problem getProblem() {
+        return null;
+    }
+
+    /**
+     * Sets the name of the symbolic variable represented by this MXWrapper.
+     * This method creates a new symbolic primitive with the specified name
+     * and updates the internal MX object to reflect this change.
+     *
+     * @param var1 The new name for the symbolic variable.
+     */
+    @Override
+    public void setName(String var1) {
+        MXWrapper newVariable = MXWrapper.sym(var1);
+        this.mx = newVariable.getCasADiObject();
+    }
+
+    /**
+     * Returns the unique identifier for this constrained variable.
+     * The ID can be used to distinguish this variable from others
+     * within the optimization problem or constraint model.
+     *
+     * @return The ID of the constrained variable.
+     */
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    /**
+     * Sets the unique identifier for this constrained variable.
+     * This ID can be used to reference the variable in constraints
+     * and for debugging purposes.
+     *
+     * @param var1 The unique identifier to set for this variable.
+     */
+    @Override
+    public void setId(String var1) {
+        this.id = var1;
+    }
+
+    /**
+     * Returns the implementation object associated with this MXWrapper.
+     * In this case, it returns the current instance of MXWrapper itself,
+     * which represents the implementation of the constrained variable.
+     *
+     * @return The implementation object (MXWrapper) associated with this variable.
+     */
+    @Override
+    public Object getImpl() {
+        return this;
+    }
+
+    /**
+     * Sets the implementation object for this MXWrapper.
+     * This method accepts either another MXWrapper or an MX object.
+     * If the provided object is of type MXWrapper, its CasADi object is used.
+     * If it is of type MX, it is directly assigned to the internal MX object.
+     *
+     * @param var1 The implementation object to set, which can be an instance of MXWrapper or MX.
+     * @throws IllegalArgumentException if the provided object is neither an MXWrapper nor an MX.
+     */
+    @Override
+    public void setImpl(Object var1) {
+        if (var1 instanceof MXWrapper) {
+            this.mx = ((MXWrapper) var1).getCasADiObject();
+        } else if (var1 instanceof MX) {
+            this.mx = (MX) var1;
+        } else {
+            throw new IllegalArgumentException("The implementation must be an instance of MXWrapper or MX.");
+        }
+    }
+
+    // TODO: Implement method
+    @Override
+    public void setObject(Object var1) {
+
+    }
+
+    // TODO: Implement method
+    @Override
+    public Object getObject() {
+        return null;
+    }
+
 }

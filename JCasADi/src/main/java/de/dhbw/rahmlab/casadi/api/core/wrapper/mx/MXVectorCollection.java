@@ -3,11 +3,13 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX;
 
+import java.util.Arrays;
+
 /**
  * A collection that holds a vector of vectors (StdVectorVectorMX) {@link StdVectorVectorMX}
  * and provides methods to manipulate and access its elements.
  */
-public class MXVectorCollection implements Collection {
+public class MXVectorCollection implements Collection<MXVectorCollection, MXVector> {
 
     private StdVectorVectorMX stdVectorVectorMX;
 
@@ -23,11 +25,11 @@ public class MXVectorCollection implements Collection {
      *
      * @param initialElements an array of MXVector to initialize the collection
      */
-    public MXVectorCollection(MXVector[] initialElements) {
+    public MXVectorCollection(MXVector... initialElements) {
         this.stdVectorVectorMX = new StdVectorVectorMX();
-        for (MXVector vector : initialElements) {
-            this.stdVectorVectorMX.add(vector.getCasADiObject());
-        }
+        Arrays.stream(initialElements).forEach(
+                element -> this.stdVectorVectorMX.add(element.getCasADiObject())
+        );
     }
 
     /**
@@ -65,7 +67,7 @@ public class MXVectorCollection implements Collection {
      * @param stdVectorVectorMX the StdVectorVectorMX instance to initialize the collection with
      */
     public MXVectorCollection(StdVectorVectorMX stdVectorVectorMX) {
-        this.stdVectorVectorMX = stdVectorVectorMX;
+        this.stdVectorVectorMX = new StdVectorVectorMX(stdVectorVectorMX);
     }
 
     /**
@@ -74,7 +76,8 @@ public class MXVectorCollection implements Collection {
      * @param index the index of the MXVector to retrieve
      * @return the MXVector at the specified index
      */
-    public MXVector getMXVector(int index) {
+    @Override
+    public MXVector getVector(int index) {
         return new MXVector(this.stdVectorVectorMX.get(index));
     }
 
@@ -85,7 +88,8 @@ public class MXVectorCollection implements Collection {
      * @param vector the MXVector to set
      * @return the previous MXVector at the specified index
      */
-    public MXVector setMXVector(int index, MXVector vector) {
+    @Override
+    public MXVector setVector(int index, MXVector vector) {
         return new MXVector(this.stdVectorVectorMX.set(index, vector.getCasADiObject()));
     }
 
@@ -96,6 +100,7 @@ public class MXVectorCollection implements Collection {
      * @param vector the MXVector to add
      * @return this VectorCollection for method chaining
      */
+    @Override
     public MXVectorCollection add(int index, MXVector vector) {
         this.stdVectorVectorMX.add(index, vector.getCasADiObject());
         return this;
@@ -107,6 +112,7 @@ public class MXVectorCollection implements Collection {
      * @param vector the MXVector to add
      * @return this VectorCollection for method chaining
      */
+    @Override
     public MXVectorCollection add(MXVector vector) {
         this.stdVectorVectorMX.add(vector.getCasADiObject());
         return this;
@@ -118,6 +124,7 @@ public class MXVectorCollection implements Collection {
      * @param index the index of the MXVector to remove
      * @return the removed MXVector
      */
+    @Override
     public MXVector remove(int index) {
         return new MXVector(this.stdVectorVectorMX.remove(index));
     }
@@ -128,6 +135,7 @@ public class MXVectorCollection implements Collection {
      * @param fromIndex the starting index of the range (inclusive)
      * @param toIndex the ending index of the range (exclusive)
      */
+    @Override
     public void removeRange(int fromIndex, int toIndex) {
         for (int i = toIndex - 1; i >= fromIndex; i--) {
             this.stdVectorVectorMX.remove(i);
@@ -139,6 +147,7 @@ public class MXVectorCollection implements Collection {
      *
      * @return the size of the collection
      */
+    @Override
     public int size() {
         return this.stdVectorVectorMX.size();
     }
@@ -148,6 +157,7 @@ public class MXVectorCollection implements Collection {
      *
      * @return the capacity of the collection
      */
+    @Override
     public long capacity() {
         return this.stdVectorVectorMX.capacity();
     }
@@ -157,6 +167,7 @@ public class MXVectorCollection implements Collection {
      *
      * @param n the number of MXVectors to reserve space for
      */
+    @Override
     public void reserve(long n) {
         this.stdVectorVectorMX.reserve(n);
     }
@@ -166,6 +177,7 @@ public class MXVectorCollection implements Collection {
      *
      * @return true if the collection is empty, false otherwise
      */
+    @Override
     public boolean isEmpty() {
         return this.stdVectorVectorMX.isEmpty();
     }
@@ -173,6 +185,7 @@ public class MXVectorCollection implements Collection {
     /**
      * Clears the collection, removing all MXVectors.
      */
+    @Override
     public void clear() {
         this.stdVectorVectorMX.clear();
     }

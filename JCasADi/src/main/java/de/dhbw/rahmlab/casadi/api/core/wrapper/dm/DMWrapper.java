@@ -1,14 +1,19 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 
-public class DMWrapper implements Wrapper<DMWrapper> {
+import javax.constraints.ConstrainedVariable;
+import javax.constraints.Problem;
+
+public class DMWrapper implements Wrapper<DMWrapper>, ConstrainedVariable, NumericValue {
 
     private DM dm;
+    private String id;
 
     public DMWrapper() {
         this.dm = new DM();
@@ -340,7 +345,7 @@ public class DMWrapper implements Wrapper<DMWrapper> {
     }
 
     @Override
-    public String printOperator(StringVectorCollection args) {
+    public String printOperator(StringVector args) {
         return DM.print_operator(this.dm, args.getCasADiObject());
     }
 
@@ -729,7 +734,7 @@ public class DMWrapper implements Wrapper<DMWrapper> {
         return DM.type_name();
     }
 
-    public void printSplit(StringVectorCollection arg0, StringVectorCollection arg1) {
+    public void printSplit(StringVector arg0, StringVector arg1) {
         this.dm.print_split(arg0.getCasADiObject(), arg1.getCasADiObject());
     }
 
@@ -1747,6 +1752,95 @@ public class DMWrapper implements Wrapper<DMWrapper> {
 
     public DM getCasADiObject() {
         return this.dm;
+    }
+
+    // ---- Test -----
+
+    // TODO: Implement method
+    @Override
+    public Problem getProblem() {
+        return null;
+    }
+
+    /**
+     * Sets the name of the symbolic variable represented by this DMWrapper.
+     * This method creates a new symbolic primitive with the specified name
+     * and updates the internal DM object to reflect this change.
+     *
+     * @param var1 The new name for the symbolic variable.
+     */
+    @Override
+    public void setName(String var1) {
+        DMWrapper newVariable = DMWrapper.sym(var1);
+        this.dm = newVariable.getCasADiObject();
+    }
+
+    /**
+     * Returns the unique identifier for this constrained variable.
+     * The ID can be used to distinguish this variable from others
+     * within the optimization problem or constraint model.
+     *
+     * @return The ID of the constrained variable.
+     */
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    /**
+     * Sets the unique identifier for this constrained variable.
+     * This ID can be used to reference the variable in constraints
+     * and for debugging purposes.
+     *
+     * @param var1 The unique identifier to set for this variable.
+     */
+    @Override
+    public void setId(String var1) {
+        this.id = var1;
+    }
+
+    /**
+     * Returns the implementation object associated with this DMWrapper.
+     * In this case, it returns the current instance of DMWrapper itself,
+     * which represents the implementation of the constrained variable.
+     *
+     * @return The implementation object (DMWrapper) associated with this variable.
+     */
+    @Override
+    public Object getImpl() {
+        return this;
+    }
+
+    /**
+     * Sets the implementation object for this DMWrapper.
+     * This method accepts either another DMWrapper or a DM object.
+     * If the provided object is of type DMWrapper, its CasADi object is used.
+     * If it is of type DM, it is directly assigned to the internal DM object.
+     *
+     * @param var1 The implementation object to set, which can be an instance of DMWrapper or DM.
+     * @throws IllegalArgumentException if the provided object is neither a DMWrapper nor a DM.
+     */
+    @Override
+    public void setImpl(Object var1) {
+        if (var1 instanceof DMWrapper) {
+            this.dm = ((DMWrapper) var1).getCasADiObject();
+        } else if (var1 instanceof DM) {
+            this.dm = (DM) var1;
+        } else {
+            throw new IllegalArgumentException("The implementation must be an instance of DMWrapper or DM.");
+        }
+    }
+
+    // TODO: Implement method
+    @Override
+    public void setObject(Object var1) {
+
+    }
+
+    // TODO: Implement method
+    @Override
+    public Object getObject() {
+        return null;
     }
 
 }

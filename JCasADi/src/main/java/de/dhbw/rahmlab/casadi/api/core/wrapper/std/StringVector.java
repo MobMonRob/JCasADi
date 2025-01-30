@@ -3,64 +3,64 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.std;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
 
 /**
- * A collection that holds a vector of string values (StdVectorStdString) {@link StdVectorStdString}
- * and provides methods to manipulate and access its elements.
+ * A vector of string values (StdVectorStdString) {@link StdVectorStdString}
+ * with provides methods to manipulate and access its elements.
  */
-public class StringVectorCollection {
+public class StringVector {
 
     private StdVectorStdString stdVectorStdString;
 
     /**
-     * Constructs an empty StringVectorCollection.
+     * Constructs an empty StringVector.
      */
-    public StringVectorCollection() {
+    public StringVector() {
         this.stdVectorStdString = new StdVectorStdString();
     }
 
     /**
-     * Constructs a StringVectorCollection with the specified initial string values.
+     * Constructs a StringVector with the specified initial string values.
      *
-     * @param initialElements an array of string values to initialize the collection
+     * @param initialElements an array of string values to initialize the vector
      */
-    public StringVectorCollection(String[] initialElements) {
+    public StringVector(String[] initialElements) {
         this.stdVectorStdString = new StdVectorStdString(initialElements);
     }
 
     /**
-     * Constructs a StringVectorCollection with the specified initial string values.
+     * Constructs a StringVector with the specified initial string values.
      *
-     * @param initialElements an iterable collection of String values to initialize the collection
+     * @param initialElements an iterable collection of String values to initialize the vector
      */
-    public StringVectorCollection(Iterable<String> initialElements) {
+    public StringVector(Iterable<String> initialElements) {
         this.stdVectorStdString = new StdVectorStdString(initialElements);
     }
 
     /**
-     * Constructs a StringVectorCollection as a copy of another StringVectorCollection.
+     * Constructs a StringVector as a copy of another StringVector.
      *
-     * @param other the StringVectorCollection to copy
+     * @param other the StringVector to copy
      */
-    public StringVectorCollection(StringVectorCollection other) {
+    public StringVector(StringVector other) {
         this.stdVectorStdString = new StdVectorStdString(other.getCasADiObject());
     }
 
     /**
-     * Constructs a StringVectorCollection from an existing StdVectorStdString instance.
+     * Constructs a StringVector from an existing StdVectorStdString instance.
      *
-     * @param stdVectorStdString the StdVectorStdString instance to initialize the collection with
+     * @param stdVectorStdString the StdVectorStdString instance to initialize the vector with
      */
-    public StringVectorCollection(StdVectorStdString stdVectorStdString) {
+    public StringVector(StdVectorStdString stdVectorStdString) {
         this.stdVectorStdString = new StdVectorStdString(stdVectorStdString);
     }
 
     /**
-     * Constructs a StringVectorCollection with a specified number of elements,
+     * Constructs a StringVector with a specified number of elements,
      * all initialized to the same string value.
      *
-     * @param count the number of string elements to initialize in the collection
+     * @param count the number of string elements to initialize in the vector
      * @param value the string value to initialize each element with
      */
-    public StringVectorCollection(int count, String value) {
+    public StringVector(int count, String value) {
         this.stdVectorStdString = new StdVectorStdString(count, value);
     }
 
@@ -86,12 +86,12 @@ public class StringVectorCollection {
     }
 
     /**
-     * Adds a string value to the end of the collection.
+     * Adds a string value to the end of the vector.
      *
      * @param value the string value to add
-     * @return this collection for method chaining
+     * @return this vector for method chaining
      */
-    public StringVectorCollection add(String value) {
+    public StringVector add(String value) {
         this.stdVectorStdString.add(value);
         return this;
     }
@@ -102,7 +102,7 @@ public class StringVectorCollection {
      * @param index the index at which to add the string value
      * @param value the string value to add
      */
-    public StringVectorCollection add(int index, String value) {
+    public StringVector add(int index, String value) {
         this.stdVectorStdString.add(index, value);
         return this;
     }
@@ -118,7 +118,7 @@ public class StringVectorCollection {
     }
 
     /**
-     * Removes a range of string values from the collection.
+     * Removes a range of string values from the vector.
      *
      * @param fromIndex the starting index of the range (inclusive)
      * @param toIndex the ending index of the range (exclusive)
@@ -130,9 +130,9 @@ public class StringVectorCollection {
     }
 
     /**
-     * Returns the number of string values in the collection.
+     * Returns the number of string values in the vector.
      *
-     * @return the size of the collection
+     * @return the size of the vector
      */
     public int size() {
         return this.stdVectorStdString.size();
@@ -141,7 +141,7 @@ public class StringVectorCollection {
     /**
      * Returns the capacity of the underlying StdVectorStdString.
      *
-     * @return the capacity of the collection
+     * @return the capacity of the vector
      */
     public long capacity() {
         return this.stdVectorStdString.capacity();
@@ -157,16 +157,16 @@ public class StringVectorCollection {
     }
 
     /**
-     * Checks if the collection is empty.
+     * Checks if the vector is empty.
      *
-     * @return true if the collection is empty, false otherwise
+     * @return true if the vector is empty, false otherwise
      */
     public boolean isEmpty() {
         return this.stdVectorStdString.isEmpty();
     }
 
     /**
-     * Clears the collection, removing all string values.
+     * Clears the Vector, removing all string values.
      */
     public void clear() {
         this.stdVectorStdString.clear();

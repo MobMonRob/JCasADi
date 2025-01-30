@@ -3,7 +3,9 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.sx;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 
-public class SXWrapper implements Wrapper<SXWrapper> {
+import javax.constraints.ConstrainedVariable;
+
+public class SXWrapper implements Wrapper<SXWrapper>, ConstrainedVariable {
 
     private SX sx;
 

@@ -1,12 +1,13 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.std;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble;
 
 /**
  * A collection that holds a vector of DoubleVector values (StdVectorVectorDouble)
  * and provides methods to manipulate and access its elements.
  */
-public class DoubleVectorCollection {
+public class DoubleVectorCollection implements Collection<DoubleVectorCollection, DoubleVector> {
 
     private StdVectorVectorDouble stdVectorVectorDouble;
 
@@ -75,7 +76,8 @@ public class DoubleVectorCollection {
      * @param index the index of the DoubleVector value to retrieve
      * @return the DoubleVector value at the specified index
      */
-    public DoubleVector get(int index) {
+    @Override
+    public DoubleVector getVector(int index) {
         return new DoubleVector(this.stdVectorVectorDouble.get(index));
     }
 
@@ -86,7 +88,8 @@ public class DoubleVectorCollection {
      * @param value the DoubleVector value to set
      * @return the previous DoubleVector value at the specified index
      */
-    public DoubleVector set(int index, DoubleVector value) {
+    @Override
+    public DoubleVector setVector(int index, DoubleVector value) {
         return new DoubleVector(this.stdVectorVectorDouble.set(index, value.getCasADiObject()));
     }
 
@@ -96,6 +99,7 @@ public class DoubleVectorCollection {
      * @param value the DoubleVector value to be added to the collection
      * @return the current instance of DoubleVectorCollection for method chaining
      */
+    @Override
     public DoubleVectorCollection add(DoubleVector value) {
         this.stdVectorVectorDouble.add(value.getCasADiObject());
         return this;
@@ -108,6 +112,7 @@ public class DoubleVectorCollection {
      * @param value the DoubleVector value to be added to the collection
      * @return the current instance of DoubleVectorCollection for method chaining
      */
+    @Override
     public DoubleVectorCollection add(int index, DoubleVector value) {
         this.stdVectorVectorDouble.add(index, value.getCasADiObject());
         return this;
@@ -119,6 +124,7 @@ public class DoubleVectorCollection {
      * @param index the index of the DoubleVector value to remove
      * @return the removed DoubleVector value
      */
+    @Override
     public DoubleVector remove(int index) {
         return new DoubleVector(this.stdVectorVectorDouble.remove(index));
     }
@@ -129,6 +135,7 @@ public class DoubleVectorCollection {
      * @param fromIndex the starting index of the range (inclusive)
      * @param toIndex the ending index of the range (exclusive)
      */
+    @Override
     public void removeRange(int fromIndex, int toIndex) {
         for (int i = toIndex - 1; i >= fromIndex; i--) {
             this.stdVectorVectorDouble.remove(i);
@@ -140,6 +147,7 @@ public class DoubleVectorCollection {
      *
      * @return the size of the collection
      */
+    @Override
     public int size() {
         return this.stdVectorVectorDouble.size();
     }
@@ -149,6 +157,7 @@ public class DoubleVectorCollection {
      *
      * @return the capacity of the collection
      */
+    @Override
     public long capacity() {
         return this.stdVectorVectorDouble.capacity();
     }
@@ -158,6 +167,7 @@ public class DoubleVectorCollection {
      *
      * @param n the number of DoubleVector values to reserve space for
      */
+    @Override
     public void reserve(long n) {
         this.stdVectorVectorDouble.reserve(n);
     }
@@ -167,6 +177,7 @@ public class DoubleVectorCollection {
      *
      * @return true if the collection is empty, false otherwise
      */
+    @Override
     public boolean isEmpty() {
         return this.stdVectorVectorDouble.isEmpty();
     }
@@ -174,6 +185,7 @@ public class DoubleVectorCollection {
     /**
      * Clears the collection, removing all DoubleVector values.
      */
+    @Override
     public void clear() {
         this.stdVectorVectorDouble.clear();
     }
