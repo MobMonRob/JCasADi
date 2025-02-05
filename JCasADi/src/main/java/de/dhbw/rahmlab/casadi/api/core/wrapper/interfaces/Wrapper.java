@@ -518,4 +518,6 @@ public interface Wrapper<T extends Wrapper> {
 
     T hypot(T other);
 
+    T negate();
+
 }

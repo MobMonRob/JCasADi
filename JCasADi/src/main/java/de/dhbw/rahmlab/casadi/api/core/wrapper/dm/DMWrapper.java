@@ -1735,6 +1735,12 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.hypot(this.dm, other.dm));
     }
 
+    @Override
+    public DMWrapper negate() {
+        DMWrapper sign = DMWrapper.fromValue(-1);
+        return new DMWrapper(DM.times(this.dm, sign.getCasADiObject()));
+    }
+
     public DM getCasADiObject() {
         return this.dm;
     }

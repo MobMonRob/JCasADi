@@ -1735,6 +1735,12 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return new SXWrapper(SX.hypot(this.sx, other.getCasADiObject()));
     }
 
+    @Override
+    public SXWrapper negate() {
+        SXWrapper sign = new SXWrapper(-1);
+        return new SXWrapper(SX.times(this.sx, sign.getCasADiObject()));
+    }
+
     public SX getCasADiObject() {
         return this.sx;
     }

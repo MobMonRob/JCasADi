@@ -4316,6 +4316,20 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     }
 
     /**
+     * Negates the current MXWrapper object.
+     *
+     * <p>This method creates a new MXWrapper that represents the negation of the current
+     * MXWrapper. It multiplies the current CasADi object by -1 to achieve this.</p>
+     *
+     * @return A new MXWrapper containing the negated value of the current object.
+     */
+    @Override
+    public MXWrapper negate() {
+        MXWrapper sign = MXWrapper.fromValue(-1);
+        return new MXWrapper(MX.times(this.mx, sign.getCasADiObject()));
+    }
+
+    /**
      * Returns the associated CasADi object.
      *
      * This method retrieves the instance of type {@link MX}
