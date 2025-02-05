@@ -24,7 +24,7 @@ public class DoubleVectorCollection implements Collection<DoubleVectorCollection
      *
      * @param initialElements an array of DoubleVector values to initialize the collection
      */
-    public DoubleVectorCollection(DoubleVector[] initialElements) {
+    public DoubleVectorCollection(DoubleVector... initialElements) {
         this.stdVectorVectorDouble = new StdVectorVectorDouble();
         for(DoubleVector element : initialElements) {
             this.stdVectorVectorDouble.add(element.getCasADiObject());

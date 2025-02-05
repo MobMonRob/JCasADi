@@ -8,6 +8,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble;
 
 import javax.constraints.ConstrainedVariable;
 import javax.constraints.Problem;
@@ -40,6 +41,12 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
 
     public SXWrapper(Number value) {
         this.sx = new SX(value.doubleValue());
+    }
+
+    public SXWrapper(Number... numbers) {
+        DoubleVector vec = new DoubleVector();
+        Arrays.stream(numbers).forEach(number -> vec.add(number.doubleValue()));
+        this.sx = new SX(new DoubleVectorCollection(vec).getCasADiObject());
     }
 
     public SXWrapper(DoubleVectorCollection m) {
