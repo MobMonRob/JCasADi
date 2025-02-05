@@ -4,7 +4,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.BooleanVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.StringVectorCollection;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.std.StringVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.IM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
@@ -66,9 +66,9 @@ public interface Wrapper<T extends Wrapper> {
 
     Dict info();
 
-    T binary(long op, T x, T y);
+    T binary(long op, T y);
 
-    T unary(long op, T x);
+    T unary(long op);
 
     T get(boolean ind1, Slice rr);
 
@@ -124,11 +124,11 @@ public interface Wrapper<T extends Wrapper> {
 
     T mmax();
 
-    Vector horzsplit(IntegerVector offset);
+    <S extends Vector> S horzsplit(IntegerVector offset);
 
-    Vector diagsplit(IntegerVector offset1, IntegerVector offset2);
+    <S extends Vector> S diagsplit(IntegerVector offset1, IntegerVector offset2);
 
-    Vector vertsplit(IntegerVector offset);
+    <S extends Vector> S vertsplit(IntegerVector offset);
 
     T mtimes(T other);
 
@@ -184,7 +184,7 @@ public interface Wrapper<T extends Wrapper> {
 
     long nNodes();
 
-    String printOperator(StringVectorCollection args);
+    String printOperator(StringVector args);
 
     boolean dependsOn(T arg);
 
@@ -218,7 +218,7 @@ public interface Wrapper<T extends Wrapper> {
 
     T det();
 
-    <N extends Vector> N symvar();
+    <S extends Vector> S symvar();
 
     T nullspace();
 
@@ -258,19 +258,19 @@ public interface Wrapper<T extends Wrapper> {
 
     T _sym(String name, Sparsity sp);
 
-    SubIndex at(int rr);
+    <V extends SubIndex> V at(int rr);
 
-    SubMatrix at(int rr, int cc);
+    <W extends SubMatrix> W at(int rr, int cc);
 
     void assign(T other);
 
-    Collection blocksplit(IntegerVector vert_offset, IntegerVector horz_offset);
+    <U extends Collection> U blocksplit(IntegerVector vert_offset, IntegerVector horz_offset);
 
-    Collection blocksplit(long vert_incr, long horz_incr);
+    <U extends Collection> U blocksplit(long vert_incr, long horz_incr);
 
     T vec();
 
-    Vector vertsplit_n(long n);
+    <S extends Vector> S vertsplit_n(long n);
 
     String toString(boolean more);
 

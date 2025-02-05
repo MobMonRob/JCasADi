@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class DMVectorCollection implements Collection<DMVectorCollection, DMVector> {
 
-    StdVectorVectorDM stdVectorVectorDM;
+    private final StdVectorVectorDM stdVectorVectorDM;
 
     public DMVectorCollection() {
         this.stdVectorVectorDM = new StdVectorVectorDM();

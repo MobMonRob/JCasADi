@@ -9,7 +9,7 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble;
  */
 public class DoubleVectorCollection implements Collection<DoubleVectorCollection, DoubleVector> {
 
-    private StdVectorVectorDouble stdVectorVectorDouble;
+    private final StdVectorVectorDouble stdVectorVectorDouble;
 
     /**
      * Constructs an empty DoubleVectorCollection.

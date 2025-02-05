@@ -1,5 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.problem;
 
+import de.dhbw.rahmlab.casadi.api.core.constraints.Constraint;
+import de.dhbw.rahmlab.casadi.api.core.utils.MXUtils;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
@@ -14,7 +16,7 @@ import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class NLPProblem {
 
-    private Opti nlpProblem;
+    private final Opti nlpProblem;
 
     public NLPProblem(String problem_type) {
         this.nlpProblem = new Opti(problem_type);
@@ -80,8 +82,15 @@ public class NLPProblem {
         this.nlpProblem.minimize(f.getCasADiObject());
     }
 
-    public void addConstraint(MXWrapper constraint) {
-        this.nlpProblem.subject_to(constraint.getCasADiObject());
+    public void addConstraint(Constraint constraint) {
+        if (constraint.getExpression() instanceof MXWrapper) {
+            this.nlpProblem.subject_to(((MXWrapper) constraint.getExpression()).getCasADiObject());
+        } else if (constraint.getExpression() instanceof SXWrapper) {
+            MXWrapper mxWrapper = MXUtils.convertSXWrapperToMXWrapper((SXWrapper) constraint.getExpression());
+            this.nlpProblem.subject_to(mxWrapper.getCasADiObject());
+        } else {
+            throw new IllegalArgumentException("The constraint must be either of type MXWrapper or SXWrapper.");
+        }
     }
 
     public void addConstraints(MXWrapper... constraints) {

@@ -8,7 +8,7 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorBool;
  */
 public class BooleanVector {
 
-    private StdVectorBool stdVectorBool;
+    private final StdVectorBool stdVectorBool;
 
     /**
      * Constructs an empty BooleanVector.

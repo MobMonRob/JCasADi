@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
  */
 public class SXVector extends AbstractList<SXWrapper> implements Vector<SXWrapper> {
 
-    private StdVectorSX stdVectorSX;
+    private final StdVectorSX stdVectorSX;
 
     /**
      * Constructs an empty SXVector.

@@ -8,7 +8,7 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
  */
 public class DoubleVector {
 
-    private StdVectorDouble stdVectorDouble;
+    private final StdVectorDouble stdVectorDouble;
 
     /**
      * Constructs an empty DoubleVector.

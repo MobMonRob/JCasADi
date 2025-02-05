@@ -114,4 +114,19 @@ public class DMUtils {
         return new IntegerVector(DM.offset(v.getCasADiObject()));
     }
 
+    public static DMWrapper scalarMatrix(long op, DMWrapper x, DMWrapper y) {
+        DM result = DM.scalar_matrix(op, x.getCasADiObject(), y.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    public static DMWrapper matrixScalar(long op, DMWrapper x, DMWrapper y) {
+        DM result = DM.matrix_scalar(op, x.getCasADiObject(), y.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    public static DMWrapper matrixMatrix(long op, DMWrapper x, DMWrapper y) {
+        DM result = DM.matrix_matrix(op, x.getCasADiObject(), y.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
 }

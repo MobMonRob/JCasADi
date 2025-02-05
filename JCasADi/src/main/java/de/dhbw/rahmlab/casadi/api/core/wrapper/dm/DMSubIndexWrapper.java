@@ -5,7 +5,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.DmSubIndex;
 
 public class DMSubIndexWrapper extends DMWrapper implements SubIndex {
 
-    private DmSubIndex dmSubIndex;
+    private final DmSubIndex dmSubIndex;
 
     public DMSubIndexWrapper(DmSubIndex y) {
         super(y);

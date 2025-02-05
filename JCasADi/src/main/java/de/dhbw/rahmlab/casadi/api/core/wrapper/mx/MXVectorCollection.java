@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 public class MXVectorCollection implements Collection<MXVectorCollection, MXVector> {
 
-    private StdVectorVectorMX stdVectorVectorMX;
+    private final StdVectorVectorMX stdVectorVectorMX;
 
     /**
      * Constructs an empty VectorCollection.

@@ -35,7 +35,7 @@ public class ConcatenationUtils {
      * @throws IllegalArgumentException if the vector type is unsupported.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T vertcat(Vector vector) {
+    public static <T extends Wrapper, S extends Vector> T vertcat(S vector) {
         if (vector instanceof MXVector) {
             return (T) new MXWrapper(MX.vertcat(((MXVector) vector).getCasADiObject()));
         } else if (vector instanceof DMVector) {
@@ -55,7 +55,7 @@ public class ConcatenationUtils {
      * @throws IllegalArgumentException if the vector type is unsupported.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T veccat(Vector vector) {
+    public static <T extends Wrapper, S extends Vector> T veccat(S vector) {
         if (vector instanceof MXVector) {
             return (T) new MXWrapper(MX.veccat(((MXVector) vector).getCasADiObject()));
         } else if (vector instanceof DMVector) {
@@ -75,7 +75,7 @@ public class ConcatenationUtils {
      * @throws IllegalArgumentException if the vector type is unsupported.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T horzcat(Vector vector) {
+    public static <T extends Wrapper, S extends Vector> T horzcat(S vector) {
         if (vector instanceof MXVector) {
             return (T) new MXWrapper(MX.horzcat(((MXVector) vector).getCasADiObject()));
         } else if (vector instanceof DMVector) {
@@ -95,7 +95,7 @@ public class ConcatenationUtils {
      * @throws IllegalArgumentException if the vector type is unsupported.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T diagcat(Vector vector) {
+    public static <T extends Wrapper, S extends Vector> T diagcat(S vector) {
         if (vector instanceof MXVector) {
             return (T) new MXWrapper(MX.diagcat(((MXVector) vector).getCasADiObject()));
         } else if (vector instanceof DMVector) {
@@ -115,7 +115,7 @@ public class ConcatenationUtils {
      * @throws IllegalArgumentException if the collection type is unsupported.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T blockcat(Collection collection) {
+    public static <T extends Wrapper, U extends Collection> T blockcat(U collection) {
         if (collection instanceof MXVectorCollection) {
             return (T) new MXWrapper(MX.blockcat(((MXVectorCollection) collection).getCasADiObject()));
         } else if (collection instanceof DMVectorCollection) {

@@ -8,7 +8,7 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt;
  */
 public class IntegerVector {
 
-    private StdVectorCasadiInt stdVectorCasadiInt;
+    private final StdVectorCasadiInt stdVectorCasadiInt;
 
     /**
      * Constructs an empty IntegerVector.

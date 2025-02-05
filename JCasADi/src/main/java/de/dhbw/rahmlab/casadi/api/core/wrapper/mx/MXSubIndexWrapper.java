@@ -9,7 +9,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.MxSubIndex;
  */
 public class MXSubIndexWrapper extends MXWrapper implements SubIndex {
 
-    private MxSubIndex mxSubIndex;
+    private final MxSubIndex mxSubIndex;
 
     /**
      * Constructs a new MXSubIndexWrapper from a given MXWrapper and an index.

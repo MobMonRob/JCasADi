@@ -9,7 +9,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix;
  */
 public class MXSubMatrixWrapper extends MXWrapper implements SubMatrix {
 
-    private MxSubMatrix mxSubMatrix;
+    private final MxSubMatrix mxSubMatrix;
 
     /**
      * Constructs a new MXSubMatrixWrapper from a given MXWrapper and indices.

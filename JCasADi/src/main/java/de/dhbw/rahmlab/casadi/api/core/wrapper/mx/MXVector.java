@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
  */
 public class MXVector extends AbstractList<MXWrapper> implements Vector<MXWrapper> {
 
-    private StdVectorMX stdVectorMX;
+    private final StdVectorMX stdVectorMX;
 
     /**
      * Constructs an empty MXVector.
@@ -133,7 +133,7 @@ public class MXVector extends AbstractList<MXWrapper> implements Vector<MXWrappe
      */
     @Override
     public MXVector insert(int index, MXWrapper element) {
-        stdVectorMX.add(index, element.getCasADiObject());
+        this.stdVectorMX.add(index, element.getCasADiObject());
         return this;
     }
 

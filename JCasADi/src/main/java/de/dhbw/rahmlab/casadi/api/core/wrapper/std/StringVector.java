@@ -8,7 +8,7 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
  */
 public class StringVector {
 
-    private StdVectorStdString stdVectorStdString;
+    private final StdVectorStdString stdVectorStdString;
 
     /**
      * Constructs an empty StringVector.

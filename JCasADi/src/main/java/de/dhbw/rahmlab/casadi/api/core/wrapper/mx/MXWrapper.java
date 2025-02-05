@@ -2,6 +2,7 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubMatrix;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SymbolicExpression;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
@@ -12,9 +13,9 @@ import javax.constraints.*;
 /**
  * A wrapper class for the MX object, representing a variable in the constraint model.
  */
-public class MXWrapper implements Wrapper<MXWrapper>, ConstrainedVariable {
+public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
 
-    private MX mx;
+    private final MX mx;
     private String id;
 
     /**
@@ -674,37 +675,31 @@ public class MXWrapper implements Wrapper<MXWrapper>, ConstrainedVariable {
     }
 
     /**
-     * Creates a binary operation node using the provided operands and operation ID.
+     * Creates a binary operation node that represents a symbolic expression
+     * for a mathematical operation between this MX object and another MX object.
+     * The operation type is specified by the provided operation ID.
      *
-     * This method creates a binary operation node that represents a symbolic expression
-     * for a mathematical operation between two MX objects. The operation type is
-     * specified by the provided operation ID.
-     *
-     * @param op The operation type ID (e.g., addition, multiplication, etc.).
-     * @param x The left operand (MX object).
-     * @param y The right operand (MX object).
-     * @return MXWrapper
+     * @param op The operation type ID (e.g., {@code ADD} for addition, {@code MUL} for multiplication, etc.).
+     * @param y The right operand, which is another MXWrapper object.
+     * @return A new MXWrapper representing the result of the binary operation.
      */
     @Override
-    public MXWrapper binary(long op, MXWrapper x, MXWrapper y) {
-        MX result = MX.binary(op, x.getCasADiObject(), y.getCasADiObject());
+    public MXWrapper binary(long op, MXWrapper y) {
+        MX result = MX.binary(op, this.mx, y.getCasADiObject());
         return new MXWrapper(result);
     }
 
     /**
-     * Creates a unary operation node using the provided operand and operation ID.
+     * Creates a unary operation node that represents a symbolic expression
+     * for a mathematical operation on this MX object.
+     * The operation type is specified by the provided operation ID.
      *
-     * This method creates a unary operation node that represents a symbolic expression
-     * for a mathematical operation on a single MX object. The operation type is
-     * specified by the provided operation ID.
-     *
-     * @param op The operation type ID (e.g., negation, square root, etc.).
-     * @param x The operand (MX object).
-     * @return MXWrapper
+     * @param op The operation type ID (e.g., {@code NEG} for negation, {@code SQRT} for square root, etc.).
+     * @return A new MXWrapper representing the result of the unary operation.
      */
     @Override
-    public MXWrapper unary(long op, MXWrapper x) {
-        MX result = MX.unary(op, x.getCasADiObject());
+    public MXWrapper unary(long op) {
+        MX result = MX.unary(op, this.mx);
         return new MXWrapper(result);
     }
 
@@ -904,7 +899,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, ConstrainedVariable {
         return output;
     }
 
-    // ----- Get a submatrix, two arguments
+    // ----- Get a submatrix, two arguments -----
     /**
      * Extracts a submatrix from the current matrix using two arguments of type Slice.
      *
@@ -2591,7 +2586,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, ConstrainedVariable {
      * @return MXSubIndexWrapper. An object representing the specified row of the matrix.
      */
     @Override
-    public SubIndex at(int rr) {
+    public MXSubIndexWrapper at(int rr) {
         return new MXSubIndexWrapper(this.mx.at(rr));
     }
 
@@ -2603,7 +2598,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, ConstrainedVariable {
      * @return MXSubMatrixWrapper. An object representing the specified element of the matrix.
      */
     @Override
-    public SubMatrix at(int rr, int cc) {
+    public MXSubMatrixWrapper at(int rr, int cc) {
         return new MXSubMatrixWrapper(this.mx.at(rr, cc));
     }
 
@@ -4334,27 +4329,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, ConstrainedVariable {
         return this.mx;
     }
 
-    //------ Test ------
-
-    // TODO: Implement method
-    @Override
-    public Problem getProblem() {
-        return null;
-    }
-
-    /**
-     * Sets the name of the symbolic variable represented by this MXWrapper.
-     * This method creates a new symbolic primitive with the specified name
-     * and updates the internal MX object to reflect this change.
-     *
-     * @param var1 The new name for the symbolic variable.
-     */
-    @Override
-    public void setName(String var1) {
-        MXWrapper newVariable = MXWrapper.sym(var1);
-        this.mx = newVariable.getCasADiObject();
-    }
-
     /**
      * Returns the unique identifier for this constrained variable.
      * The ID can be used to distinguish this variable from others
@@ -4362,7 +4336,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, ConstrainedVariable {
      *
      * @return The ID of the constrained variable.
      */
-    @Override
     public String getId() {
         return this.id;
     }
@@ -4374,53 +4347,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, ConstrainedVariable {
      *
      * @param var1 The unique identifier to set for this variable.
      */
-    @Override
     public void setId(String var1) {
         this.id = var1;
-    }
-
-    /**
-     * Returns the implementation object associated with this MXWrapper.
-     * In this case, it returns the current instance of MXWrapper itself,
-     * which represents the implementation of the constrained variable.
-     *
-     * @return The implementation object (MXWrapper) associated with this variable.
-     */
-    @Override
-    public Object getImpl() {
-        return this;
-    }
-
-    /**
-     * Sets the implementation object for this MXWrapper.
-     * This method accepts either another MXWrapper or an MX object.
-     * If the provided object is of type MXWrapper, its CasADi object is used.
-     * If it is of type MX, it is directly assigned to the internal MX object.
-     *
-     * @param var1 The implementation object to set, which can be an instance of MXWrapper or MX.
-     * @throws IllegalArgumentException if the provided object is neither an MXWrapper nor an MX.
-     */
-    @Override
-    public void setImpl(Object var1) {
-        if (var1 instanceof MXWrapper) {
-            this.mx = ((MXWrapper) var1).getCasADiObject();
-        } else if (var1 instanceof MX) {
-            this.mx = (MX) var1;
-        } else {
-            throw new IllegalArgumentException("The implementation must be an instance of MXWrapper or MX.");
-        }
-    }
-
-    // TODO: Implement method
-    @Override
-    public void setObject(Object var1) {
-
-    }
-
-    // TODO: Implement method
-    @Override
-    public Object getObject() {
-        return null;
     }
 
 }

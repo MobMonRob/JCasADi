@@ -7,8 +7,10 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
+import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class MXUtils {
@@ -271,6 +273,20 @@ public class MXUtils {
      */
     public static DMWrapper bsplineDual(DoubleVector x, DoubleVectorCollection knots, IntegerVector degree) {
         return new DMWrapper(MX.bspline_dual(x.getCasADiObject(), knots.getCasADiObject(), degree.getCasADiObject()));
+    }
+
+    /**
+     * Converts an instance of {@link SXWrapper} to an instance of {@link MXWrapper}.
+     *
+     * This method creates a new {@link MXWrapper} object by using the dimensions
+     * of the provided {@link SXWrapper}. The resulting {@link MXWrapper} will
+     * have the same number of rows and columns as the input {@link SXWrapper}.
+     *
+     * @param sxWrapper the {@link SXWrapper} instance to be converted
+     * @return a new {@link MXWrapper} instance with the same dimensions as the input {@link SXWrapper}
+     */
+    public static MXWrapper convertSXWrapperToMXWrapper(SXWrapper sxWrapper) {
+        return MXWrapper.sym("x", sxWrapper.rows(), sxWrapper.columns());
     }
 
 }

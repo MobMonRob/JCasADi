@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
  */
 public class DMVector extends AbstractList<DMWrapper> implements Vector<DMWrapper> {
 
-    private StdVectorDM stdVectorDM;
+    private final StdVectorDM stdVectorDM;
 
     /**
      * Constructs an empty DMVector.

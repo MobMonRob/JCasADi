@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class SXVectorCollection implements Collection<SXVectorCollection, SXVector> {
 
-    StdVectorVectorSX stdVectorVectorSX;
+    private final StdVectorVectorSX stdVectorVectorSX;
 
     public SXVectorCollection() {
         this.stdVectorVectorSX = new StdVectorVectorSX();

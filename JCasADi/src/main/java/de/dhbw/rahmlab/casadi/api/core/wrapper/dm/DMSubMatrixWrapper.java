@@ -5,7 +5,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.DmSubMatrix;
 
 public class DMSubMatrixWrapper extends DMWrapper implements SubMatrix {
 
-    private DmSubMatrix subMatrix;
+    private final DmSubMatrix subMatrix;
 
     public DMSubMatrixWrapper(DmSubMatrix y) {
         super(y);
