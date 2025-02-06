@@ -2,6 +2,7 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
@@ -97,6 +98,14 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
 
     // ----- Get a submatrix, single argument -----
     @Override
+    public DMWrapper get(String sliceDefinition) {
+        IndexSlice indexSlice = IndexSlice.slicingSyntax(sliceDefinition);
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), true, indexSlice.getCasADiObject());
+        return output;
+    }
+
+    @Override
     public DMWrapper get(boolean ind1, Slice rr) {
         DMWrapper output = new DMWrapper();
         this.dm.get(output.getCasADiObject(), ind1, rr);
@@ -146,7 +155,21 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return output;
     }
 
+    @Override
+    public DMWrapper get(NumberWrapper... slice) {
+        IndexSlice indexSlice = new IndexSlice(slice);
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), true, indexSlice.getCasADiObject());
+        return output;
+    }
+
     // ----- Set a submatrix, single arguments -----
+    @Override
+    public void set(DMWrapper m, String sliceDefinition) {
+        IndexSlice indexSlice = IndexSlice.slicingSyntax(sliceDefinition);
+        this.dm.set(m.getCasADiObject(), true, indexSlice.getCasADiObject());
+    }
+
     @Override
     public void set(DMWrapper m, boolean ind1, Slice rr) {
         this.dm.set(m.getCasADiObject(), ind1, rr);
@@ -181,6 +204,12 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public void set(DMWrapper m, boolean ind1, IM rr, IM cc) {
         this.dm.set(m.getCasADiObject(), ind1, rr, cc);
+    }
+
+    @Override
+    public void set(DMWrapper m, NumberWrapper... slice) {
+        IndexSlice indexSlice = new IndexSlice(slice);
+        this.dm.set(m.getCasADiObject(), true, indexSlice.getCasADiObject());
     }
 
     @Override

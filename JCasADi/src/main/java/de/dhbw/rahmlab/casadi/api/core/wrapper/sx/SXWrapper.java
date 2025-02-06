@@ -2,6 +2,7 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.sx;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.*;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.IM;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
@@ -86,6 +87,14 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
 
     // ----- Get a submatrix, single argument -----
     @Override
+    public SXWrapper get(String sliceDefinition) {
+        IndexSlice indexSlice = IndexSlice.slicingSyntax(sliceDefinition);
+        SXWrapper output = new SXWrapper();
+        this.sx.get(output.getCasADiObject(), true, indexSlice.getCasADiObject());
+        return output;
+    }
+
+    @Override
     public SXWrapper get(boolean ind1, Slice rr) {
         SXWrapper output = new SXWrapper();
         this.sx.get(output.getCasADiObject(), ind1, rr);
@@ -135,7 +144,21 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return output;
     }
 
+    @Override
+    public SXWrapper get(NumberWrapper... slice) {
+        IndexSlice indexSlice = new IndexSlice(slice);
+        SXWrapper output = new SXWrapper();
+        this.sx.get(output.getCasADiObject(), true, indexSlice.getCasADiObject());
+        return output;
+    }
+
     // ----- Set a submatrix, single argument -----
+    @Override
+    public void set(SXWrapper m, String sliceDefinition) {
+        IndexSlice indexSlice = IndexSlice.slicingSyntax(sliceDefinition);
+        this.sx.set(m.getCasADiObject(), true, indexSlice.getCasADiObject());
+    }
+
     @Override
     public void set(SXWrapper m, boolean ind1, Slice rr) {
         this.sx.set(m.getCasADiObject(), ind1, rr);
@@ -170,6 +193,12 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     @Override
     public void set(SXWrapper m, boolean ind1, IM rr, IM cc) {
         this.sx.set(m.getCasADiObject(), ind1, rr, cc);
+    }
+
+    @Override
+    public void set(SXWrapper m, NumberWrapper... slice) {
+        IndexSlice indexSlice = new IndexSlice(slice);
+        this.sx.set(m.getCasADiObject(), true, indexSlice.getCasADiObject());
     }
 
     @Override

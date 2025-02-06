@@ -49,7 +49,7 @@ public class IndexSlice {
      * @param stop the ending index of the range.
      * @param step the step size for the range.
      */
-    private IndexSlice(long start, long stop, long step) {
+    public IndexSlice(long start, long stop, long step) {
         this.slice = new Slice(start, stop, step);
     }
 
@@ -154,6 +154,40 @@ public class IndexSlice {
                 this.slice = new Slice(values[0].getLongValue(), values[1].getLongValue(), values[2].getLongValue());
             }
         }
+    }
+
+    public static IndexSlice slicingSyntax(String sliceDefinition) {
+        if (sliceDefinition == null || sliceDefinition.isEmpty()) {
+            throw new IllegalArgumentException("Slice definition cannot be null or empty.");
+        }
+
+        String[] parts = sliceDefinition.split(":");
+        long start = 0;
+        long stop = 0;
+        long step = 1;
+
+        try {
+            if (!parts[0].isEmpty()) {
+                start = Long.parseLong(parts[0]);
+            }
+
+            if (parts.length > 1 && !parts[1].isEmpty()) {
+                stop = Long.parseLong(parts[1]);
+            } else {
+                stop = Long.MAX_VALUE;
+            }
+
+            if (parts.length > 2 && !parts[2].isEmpty()) {
+                step = Long.parseLong(parts[2]);
+                if (step == 0) {
+                    throw new IllegalArgumentException("Step cannot be zero.");
+                }
+            }
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Invalid slice definition format. Use 'start:stop' or 'start:stop:step'.");
+        }
+
+        return new IndexSlice(start, stop, step);
     }
 
     /**

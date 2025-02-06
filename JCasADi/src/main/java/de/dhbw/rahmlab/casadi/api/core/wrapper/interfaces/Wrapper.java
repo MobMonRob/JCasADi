@@ -1,6 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.BooleanVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
@@ -70,6 +71,8 @@ public interface Wrapper<T extends Wrapper> {
 
     T unary(long op);
 
+    T get(String sliceDefinition);
+
     T get(boolean ind1, Slice rr);
 
     T get(boolean ind1, IM rr);
@@ -84,6 +87,10 @@ public interface Wrapper<T extends Wrapper> {
 
     T get(boolean ind1, IM rr, IM cc);
 
+    T get(NumberWrapper... slice);
+
+    void set(T m, String sliceDefinition);
+
     void set(T m, boolean ind1, Slice rr);
 
     void set(T m, boolean ind1, IM rr);
@@ -97,6 +104,8 @@ public interface Wrapper<T extends Wrapper> {
     void set(T m, boolean ind1, IM rr, Slice cc);
 
     void set(T m, boolean ind1, IM rr, IM cc);
+
+    void set(T m, NumberWrapper... slice);
 
     T getNZ(boolean ind1, Slice k);
 

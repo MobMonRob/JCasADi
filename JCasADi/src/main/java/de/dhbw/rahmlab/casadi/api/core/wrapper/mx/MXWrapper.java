@@ -5,6 +5,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubMatrix;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SymbolicExpression;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.*;
@@ -829,6 +830,35 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
 
     // ----- Get a submatrix, single argument -----
     /**
+     * Retrieves a slice of the MX object based on the specified slice definition.
+     *
+     * This method parses the given slice definition string to create an
+     * IndexSlice object, which is then used to extract a portion of the
+     * MX object. The extracted slice is stored in a new MX instance
+     * that is returned by this method.
+     *
+     * <p>Note: The parameter 'ind1' in the underlying MX.get method is
+     * always set to true, indicating that the slice should include the
+     * starting index.</p>
+     *
+     * @param sliceDefinition A string representing the slice definition
+     *                       in the format 'start:stop:step'.
+     *                       For example, '0:10:2' retrieves every second
+     *                       element from index 0 to 9.
+     * @return An MX object containing the sliced portion of the original
+     *         MX object.
+     * @throws IllegalArgumentException if the slice definition is invalid
+     *                                  or cannot be parsed.
+     */
+    @Override
+    public MXWrapper get(String sliceDefinition) {
+        IndexSlice indexSlice = IndexSlice.slicingSyntax(sliceDefinition);
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.getCasADiObject(), true, indexSlice.getCasADiObject());
+        return output;
+    }
+
+    /**
      * Gets a submatrix using a single argument, of type Slice.
      *
      * This method extracts a submatrix from the current matrix using the given slice
@@ -1044,7 +1074,69 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
         return output;
     }
 
+    /**
+     * Retrieves a slice of the MX object using the specified NumberWrapper values.
+     *
+     * This method creates an {@code IndexSlice} object based on the provided
+     * {@link NumberWrapper} arguments, which represent the indices or ranges
+     * for the slice. The extracted slice is stored in a new MXWrapper instance
+     * that is returned by this method.
+     *
+     * <p>Note: The parameter 'ind1' in the underlying MX.get method is
+     * always set to true, indicating that the slice should include the
+     * starting index.</p>
+     *
+     * @param slice A variable number of {@link NumberWrapper} arguments
+     *              representing the indices or ranges for the slice.
+     *              Must contain between 1 and 3 elements:
+     *              <ul>
+     *                <li>1 element: Represents a single index.</li>
+     *                <li>2 elements: Represents a range from the first
+     *                    value to the second value.</li>
+     *                <li>3 elements: Represents a range with a specified step.</li>
+     *              </ul>
+     * @return An MXWrapper instance containing the sliced portion of the
+     *         original MX object.
+     * @throws IllegalArgumentException if {@code slice} is null, empty,
+     *                                  or contains more than 3 elements.
+     */
+    @Override
+    public MXWrapper get(NumberWrapper... slice) {
+        IndexSlice indexSlice = new IndexSlice(slice);
+        MXWrapper output = new MXWrapper();
+        this.mx.get(output.getCasADiObject(), true, indexSlice.getCasADiObject());
+        return output;
+    }
+
     // ----- Set a submatrix, single argument -----
+    /**
+     * Sets a slice of the MX object based on the specified slice definition.
+     *
+     * This method parses the given slice definition string to create an
+     * IndexSlice object, which is then used to determine the portion of
+     * the MX object that will be updated. The provided MXWrapper instance
+     * is used to set the values in the specified slice of the original
+     * MX object.
+     *
+     * <p>Note: The parameter 'ind1' in the underlying set method is
+     * always set to true, indicating that the slice should include the
+     * starting index.</p>
+     *
+     * @param mx             An MXWrapper instance containing the values
+     *                       to be set in the specified slice of the MX object.
+     * @param sliceDefinition A string representing the slice definition
+     *                       in the format 'start:stop:step'.
+     *                       For example, '0:10:2' specifies that every
+     *                       second element from index 0 to 9 should be updated.
+     * @throws IllegalArgumentException if the slice definition is invalid
+     *                                  or cannot be parsed.
+     */
+    @Override
+    public void set(MXWrapper mx, String sliceDefinition) {
+        IndexSlice indexSlice = IndexSlice.slicingSyntax(sliceDefinition);
+        this.set(mx, true, indexSlice.getCasADiObject());
+    }
+
     /**
      * Sets a submatrix in the current matrix using a single argument of type Slice.
      * The specified slice defines the rows to be set in the current matrix.
@@ -1139,6 +1231,39 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public void set(MXWrapper m, boolean ind1, IM rr, IM cc) {
         this.mx.set(m.mx, ind1, rr, cc);
+    }
+
+
+    /**
+     * Sets a slice of the MX object using the specified NumberWrapper values.
+     *
+     * This method creates an {@code IndexSlice} object based on the provided
+     * {@link NumberWrapper} arguments, which represent the indices or ranges
+     * for the slice. The values are then used to update the specified slice
+     * of the MX object with the provided MXWrapper instance.
+     *
+     * <p>Note: The parameter 'ind1' in the underlying set method is
+     * always set to true, indicating that the slice should include the
+     * starting index.</p>
+     *
+     * @param m      An MXWrapper instance containing the values to be set
+     *               in the specified slice of the MX object.
+     * @param slice   A variable number of {@link NumberWrapper} arguments
+     *                representing the indices or ranges for the slice.
+     *                Must contain between 1 and 3 elements:
+     *                <ul>
+     *                  <li>1 element: Represents a single index.</li>
+     *                  <li>2 elements: Represents a range from the first
+     *                      value to the second value.</li>
+     *                  <li>3 elements: Represents a range with a specified step.</li>
+     *                </ul>
+     * @throws IllegalArgumentException if {@code slice} is null, empty,
+     *                                  or contains more than 3 elements.
+     */
+    @Override
+    public void set(MXWrapper m, NumberWrapper... slice) {
+        IndexSlice indexSlice = new IndexSlice(slice);
+        this.mx.set(m.getCasADiObject(), true, indexSlice.getCasADiObject());
     }
 
     // ----- Get a set of nonzeros -----
@@ -3717,7 +3842,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
             throw new ArithmeticException("Division by zero is not allowed.");
         }
         MXWrapper divisor = MXWrapper.fromValue(other);
-        MX result = MX.mtimes(this.mx, divisor.getCasADiObject());
+        MX result = MX.rdivide(this.mx, divisor.getCasADiObject());
         return new MXWrapper(result);
     }
 
