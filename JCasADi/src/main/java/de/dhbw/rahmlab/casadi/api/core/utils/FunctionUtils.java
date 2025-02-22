@@ -1,14 +1,27 @@
 package de.dhbw.rahmlab.casadi.api.core.utils;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVectorCollection;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.FunctionVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class FunctionUtils {
+
+    public static FunctionWrapper jit(String name, String body, StringVector nameIn, StringVector nameOut, Dict opts) {
+        return new FunctionWrapper(Function.jit(name, body, nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts));
+    }
+
+    public static FunctionWrapper jit(String name, String body, StringVector nameIn, StringVector nameOut) {
+        return new FunctionWrapper(Function.jit(name, body, nameIn.getCasADiObject(), nameOut.getCasADiObject()));
+    }
+
+    public static FunctionWrapper jit(String name, String body, StringVector nameIn, StringVector nameOut, SparsityVector sparsityIn, SparsityVector sparsityOut, Dict opts) {
+        return new FunctionWrapper(Function.jit(name, body, nameIn.getCasADiObject(), nameOut.getCasADiObject(), sparsityIn.getCasADiObject(), sparsityOut.getCasADiObject(), opts));
+    }
+
+    public static FunctionWrapper jit(String name, String body, StringVector nameIn, StringVector nameOut, SparsityVector sparsityIn, SparsityVector sparsityOut) {
+        return new FunctionWrapper(Function.jit(name, body, nameIn.getCasADiObject(), nameOut.getCasADiObject(), sparsityIn.getCasADiObject(), sparsityOut.getCasADiObject()));
+    }
 
     public static FunctionWrapper conditional(String name, FunctionVector f, FunctionWrapper fDef, Dict opts) {
         return new FunctionWrapper(Function.conditional(name, f.getCasADiObject(), fDef.getCasADiObject(), opts));

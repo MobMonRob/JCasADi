@@ -1,6 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.MxSubIndex;
 
 /**

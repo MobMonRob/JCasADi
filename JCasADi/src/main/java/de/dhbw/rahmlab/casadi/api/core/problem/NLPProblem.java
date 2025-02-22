@@ -13,6 +13,9 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.std.StringVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
+
+import java.util.Arrays;
 
 public class NLPProblem {
 
@@ -122,6 +125,14 @@ public class NLPProblem {
         } else {
             throw new IllegalArgumentException("Unsupported numeric type " + v.getClass());
         }
+    }
+
+    public void setInitialDecisionVariable(MXWrapper x, Number... v) {
+        StdVectorDM dmVector = new StdVectorDM();
+        Arrays.stream(v).forEach(value -> {
+            dmVector.add(new DM(value.doubleValue()));
+        });
+        this.nlpProblem.set_initial(x.getCasADiObject(), DM.vertcat(dmVector));
     }
 
     public void setInitialDecisionVariable(MXWrapper... assignments) {

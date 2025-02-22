@@ -30,123 +30,195 @@ import java.util.Arrays;
 public class ConcatenationUtils {
 
     /**
-     * Vertically concatenates the given array of Wrapper objects.
+     * Vertically concatenates an array of MXWrapper objects into a single MXWrapper.
      *
-     * <p>This method checks the types of the provided Wrapper objects and performs a vertical
-     * concatenation based on their type. It supports MXWrapper, SXWrapper, and DMWrapper types.</p>
+     * This method takes multiple MXWrapper instances and combines them into a single
+     * MXWrapper by creating an MXVector, adding all the provided MXWrapper instances
+     * to it, and then performing the vertical concatenation using the CasADi library.
      *
-     * @param vector The array of Wrapper objects to concatenate.
-     * @return A new Wrapper containing the result of the vertical concatenation.
-     * @throws IllegalArgumentException if the array contains unsupported or mixed Wrapper types.
+     * @param vector An array of MXWrapper objects to be concatenated.
+     * @return A new MXWrapper containing the vertically concatenated result of the input MXWrapper objects.
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T vertcat(T... vector) throws Exception {
-        int arrayType = checkArrayTypes(vector);
-        if (arrayType == 1) {
-            MXVector mxVector = new MXVector();
-            Arrays.stream(vector).forEach(element -> mxVector.add((MXWrapper) element));
-            return (T) new MXWrapper(MX.vertcat(mxVector.getCasADiObject()));
-        } else if (arrayType == 2) {
-            DMVector dmVector = new DMVector();
-            Arrays.stream(vector).forEach(element -> dmVector.add((DMWrapper) element));
-            return (T) new DMWrapper(DM.vertcat(dmVector.getCasADiObject()));
-        } else if (arrayType == 3) {
-            SXVector sxVector = new SXVector();
-            Arrays.stream(vector).forEach(element -> sxVector.add((SXWrapper) element));
-            return (T) new SXWrapper(SX.vertcat(sxVector.getCasADiObject()));
-        } else {
-            throw new IllegalArgumentException("Unsupported CasADi object type: " + vector.getClass());
-        }
+    public static MXWrapper vertcat(MXWrapper... vector) {
+        MXVector mxVector = new MXVector();
+        mxVector.addAll(Arrays.asList(vector));
+        return new MXWrapper(MX.vertcat(mxVector.getCasADiObject()));
     }
 
     /**
-     * Concatenates the given array of Wrapper objects into a single vector.
+     * Vertically concatenates an array of DMWrapper objects into a single DMWrapper.
      *
-     * <p>This method checks the types of the provided Wrapper objects and performs a concatenation
-     * based on their type. It supports MXWrapper, SXWrapper, and DMWrapper types.</p>
+     * This method takes multiple DMWrapper instances and combines them into a single
+     * DMWrapper by creating a DMVector, adding all the provided DMWrapper instances
+     * to it, and then performing the vertical concatenation using the CasADi library.
      *
-     * @param vector The array of Wrapper objects to concatenate.
-     * @return A new Wrapper containing the result of the concatenation.
-     * @throws IllegalArgumentException if the array contains unsupported or mixed Wrapper types.
+     * @param vector An array of DMWrapper objects to be concatenated.
+     * @return A new DMWrapper containing the vertically concatenated result of the input DMWrapper objects.
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T veccat(T... vector) throws Exception {
-        int arrayType = checkArrayTypes(vector);
-        if (arrayType == 1) {
-            MXVector mxVector = new MXVector();
-            Arrays.stream(vector).forEach(element -> mxVector.add((MXWrapper) element));
-            return (T) new MXWrapper(MX.veccat(mxVector.getCasADiObject()));
-        } else if (arrayType == 2) {
-            DMVector dmVector = new DMVector();
-            Arrays.stream(vector).forEach(element -> dmVector.add((DMWrapper) element));
-            return (T) new DMWrapper(DM.veccat(dmVector.getCasADiObject()));
-        } else if (arrayType == 3) {
-            SXVector sxVector = new SXVector();
-            Arrays.stream(vector).forEach(element -> sxVector.add((SXWrapper) element));
-            return (T) new SXWrapper(SX.veccat(sxVector.getCasADiObject()));
-        } else {
-            throw new IllegalArgumentException("Unsupported CasADi object type: " + vector.getClass());
-        }
+    public static DMWrapper vertcat(DMWrapper... vector) {
+        DMVector dmVector = new DMVector();
+        dmVector.addAll(Arrays.asList(vector));
+        return new DMWrapper(DM.vertcat(dmVector.getCasADiObject()));
     }
 
     /**
-     * Horizontally concatenates the given array of Wrapper objects.
+     * Vertically concatenates an array of SXWrapper objects into a single SXWrapper.
      *
-     * <p>This method checks the types of the provided Wrapper objects and performs a horizontal
-     * concatenation based on their type. It supports MXWrapper, SXWrapper, and DMWrapper types.</p>
+     * This method takes multiple SXWrapper instances and combines them into a single
+     * SXWrapper by creating an SXVector, adding all the provided SXWrapper instances
+     * to it, and then performing the vertical concatenation using the CasADi library.
      *
-     * @param vector The array of Wrapper objects to concatenate.
-     * @return A new Wrapper containing the result of the horizontal concatenation.
-     * @throws IllegalArgumentException if the array contains unsupported or mixed Wrapper types.
+     * @param vector An array of SXWrapper objects to be concatenated.
+     * @return A new SXWrapper containing the vertically concatenated result of the input SXWrapper objects.
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T horzcat(T... vector) throws Exception {
-        int arrayType = checkArrayTypes(vector);
-        if (arrayType == 1) {
-            MXVector mxVector = new MXVector();
-            Arrays.stream(vector).forEach(element -> mxVector.add((MXWrapper) element));
-            return (T) new MXWrapper(MX.horzcat(mxVector.getCasADiObject()));
-        } else if (arrayType == 2) {
-            DMVector dmVector = new DMVector();
-            Arrays.stream(vector).forEach(element -> dmVector.add((DMWrapper) element));
-            return (T) new DMWrapper(DM.horzcat(dmVector.getCasADiObject()));
-        } else if (arrayType == 3) {
-            SXVector sxVector = new SXVector();
-            Arrays.stream(vector).forEach(element -> sxVector.add((SXWrapper) element));
-            return (T) new SXWrapper(SX.horzcat(sxVector.getCasADiObject()));
-        } else {
-            throw new IllegalArgumentException("Unsupported CasADi object type: " + vector.getClass());
-        }
+    public static SXWrapper vertcat(SXWrapper... vector) {
+        SXVector sxVector = new SXVector();
+        sxVector.addAll(Arrays.asList(vector));
+        return new SXWrapper(SX.vertcat(sxVector.getCasADiObject()));
     }
 
     /**
-     * Creates a diagonal concatenation of the given array of Wrapper objects.
+     * Horizontally concatenates an array of MXWrapper objects into a single MXWrapper.
      *
-     * <p>This method checks the types of the provided Wrapper objects and performs a diagonal
-     * concatenation based on their type. It supports MXWrapper, SXWrapper, and DMWrapper types.</p>
+     * This method takes multiple MXWrapper instances and combines them into a single
+     * MXWrapper by creating an MXVector, adding all the provided MXWrapper instances
+     * to it, and then performing the horizontal concatenation using the CasADi library.
      *
-     * @param vector The array of Wrapper objects to concatenate.
-     * @return A new Wrapper containing the result of the diagonal concatenation.
-     * @throws IllegalArgumentException if the array contains unsupported or mixed Wrapper types.
+     * @param vector An array of MXWrapper objects to be concatenated.
+     * @return A new MXWrapper containing the horizontally concatenated result of the input MXWrapper objects.
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends Wrapper> T diagcat(T... vector) throws Exception {
-        int arrayType = checkArrayTypes(vector);
-        if (arrayType == 1) {
-            MXVector mxVector = new MXVector();
-            Arrays.stream(vector).forEach(element -> mxVector.add((MXWrapper) element));
-            return (T) new MXWrapper(MX.diagcat(mxVector.getCasADiObject()));
-        } else if (arrayType == 2) {
-            DMVector dmVector = new DMVector();
-            Arrays.stream(vector).forEach(element -> dmVector.add((DMWrapper) element));
-            return (T) new DMWrapper(DM.diagcat(dmVector.getCasADiObject()));
-        } else if (arrayType == 3) {
-            SXVector sxVector = new SXVector();
-            Arrays.stream(vector).forEach(element -> sxVector.add((SXWrapper) element));
-            return (T) new SXWrapper(SX.diagcat(sxVector.getCasADiObject()));
-        } else {
-            throw new IllegalArgumentException("Unsupported CasADi object type: " + vector.getClass());
-        }
+    public static MXWrapper veccat(MXWrapper... vector) {
+        MXVector mxVector = new MXVector();
+        mxVector.addAll(Arrays.asList(vector));
+        return new MXWrapper(MX.veccat(mxVector.getCasADiObject()));
+    }
+
+    /**
+     * Horizontally concatenates an array of DMWrapper objects into a single DMWrapper.
+     *
+     * This method takes multiple DMWrapper instances and combines them into a single
+     * DMWrapper by creating a DMVector, adding all the provided DMWrapper instances
+     * to it, and then performing the horizontal concatenation using the CasADi library.
+     *
+     * @param vector An array of DMWrapper objects to be concatenated.
+     * @return A new DMWrapper containing the horizontally concatenated result of the input DMWrapper objects.
+     */
+    public static DMWrapper veccat(DMWrapper... vector) {
+        DMVector dmVector = new DMVector();
+        dmVector.addAll(Arrays.asList(vector));
+        return new DMWrapper(DM.veccat(dmVector.getCasADiObject()));
+    }
+
+    /**
+     * Horizontally concatenates an array of SXWrapper objects into a single SXWrapper.
+     *
+     * This method takes multiple SXWrapper instances and combines them into a single
+     * SXWrapper by creating an SXVector, adding all the provided SXWrapper instances
+     * to it, and then performing the horizontal concatenation using the CasADi library.
+     *
+     * @param vector An array of SXWrapper objects to be concatenated.
+     * @return A new SXWrapper containing the horizontally concatenated result of the input SXWrapper objects.
+     */
+    public static SXWrapper veccat(SXWrapper... vector) {
+        SXVector sxVector = new SXVector();
+        sxVector.addAll(Arrays.asList(vector));
+        return new SXWrapper(SX.veccat(sxVector.getCasADiObject()));
+    }
+
+    /**
+     * Horizontally concatenates an array of MXWrapper objects into a single MXWrapper.
+     *
+     * This method takes multiple MXWrapper instances and combines them into a single
+     * MXWrapper by creating an MXVector, adding all the provided MXWrapper instances
+     * to it, and then performing the horizontal concatenation using the CasADi library.
+     *
+     * @param vector An array of MXWrapper objects to be concatenated.
+     * @return A new MXWrapper containing the horizontally concatenated result of the input MXWrapper objects.
+     */
+    public static MXWrapper horzcat(MXWrapper... vector) {
+        MXVector mxVector = new MXVector();
+        mxVector.addAll(Arrays.asList(vector));
+        return new MXWrapper(MX.horzcat(mxVector.getCasADiObject()));
+    }
+
+    /**
+     * Horizontally concatenates an array of DMWrapper objects into a single DMWrapper.
+     *
+     * This method takes multiple DMWrapper instances and combines them into a single
+     * DMWrapper by creating a DMVector, adding all the provided DMWrapper instances
+     * to it, and then performing the horizontal concatenation using the CasADi library.
+     *
+     * @param vector An array of DMWrapper objects to be concatenated.
+     * @return A new DMWrapper containing the horizontally concatenated result of the input DMWrapper objects.
+     */
+    public static DMWrapper horzcat(DMWrapper... vector) {
+        DMVector dmVector = new DMVector();
+        dmVector.addAll(Arrays.asList(vector));
+        return new DMWrapper(DM.horzcat(dmVector.getCasADiObject()));
+    }
+
+    /**
+     * Horizontally concatenates an array of SXWrapper objects into a single SXWrapper.
+     *
+     * This method takes multiple SXWrapper instances and combines them into a single
+     * SXWrapper by creating an SXVector, adding all the provided SXWrapper instances
+     * to it, and then performing the horizontal concatenation using the CasADi library.
+     *
+     * @param vector An array of SXWrapper objects to be concatenated.
+     * @return A new SXWrapper containing the horizontally concatenated result of the input SXWrapper objects.
+     */
+    public static SXWrapper horzcat(SXWrapper... vector) {
+        SXVector sxVector = new SXVector();
+        sxVector.addAll(Arrays.asList(vector));
+        return new SXWrapper(SX.horzcat(sxVector.getCasADiObject()));
+    }
+
+    /**
+     * Diagonally concatenates an array of MXWrapper objects into a single MXWrapper.
+     *
+     * This method takes multiple MXWrapper instances and combines them into a single
+     * MXWrapper by creating an MXVector, adding all the provided MXWrapper instances
+     * to it, and then performing the diagonal concatenation using the CasADi library.
+     *
+     * @param vector An array of MXWrapper objects to be concatenated diagonally.
+     * @return A new MXWrapper containing the diagonally concatenated result of the input MXWrapper objects.
+     */
+    public static MXWrapper diagcat(MXWrapper... vector) {
+        MXVector mxVector = new MXVector();
+        mxVector.addAll(Arrays.asList(vector));
+        return new MXWrapper(MX.diagcat(mxVector.getCasADiObject()));
+    }
+
+    /**
+     * Diagonally concatenates an array of DMWrapper objects into a single DMWrapper.
+     *
+     * This method takes multiple DMWrapper instances and combines them into a single
+     * DMWrapper by creating a DMVector, adding all the provided DMWrapper instances
+     * to it, and then performing the diagonal concatenation using the CasADi library.
+     *
+     * @param vector An array of DMWrapper objects to be concatenated diagonally.
+     * @return A new DMWrapper containing the diagonally concatenated result of the input DMWrapper objects.
+     */
+    public static DMWrapper diagcat(DMWrapper... vector) {
+        DMVector dmVector = new DMVector();
+        dmVector.addAll(Arrays.asList(vector));
+        return new DMWrapper(DM.diagcat(dmVector.getCasADiObject()));
+    }
+
+    /**
+     * Diagonally concatenates an array of SXWrapper objects into a single SXWrapper.
+     *
+     * This method takes multiple SXWrapper instances and combines them into a single
+     * SXWrapper by creating an SXVector, adding all the provided SXWrapper instances
+     * to it, and then performing the diagonal concatenation using the CasADi library.
+     *
+     * @param vector An array of SXWrapper objects to be concatenated diagonally.
+     * @return A new SXWrapper containing the diagonally concatenated result of the input SXWrapper objects.
+     */
+    public static SXWrapper diagcat(SXWrapper... vector) {
+        SXVector sxVector = new SXVector();
+        sxVector.addAll(Arrays.asList(vector));
+        return new SXWrapper(SX.diagcat(sxVector.getCasADiObject()));
     }
 
     /**

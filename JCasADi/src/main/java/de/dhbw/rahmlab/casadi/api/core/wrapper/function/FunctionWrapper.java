@@ -11,7 +11,6 @@ import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.*;
-import org.jgrapht.alg.linkprediction.SaltonIndexLinkPrediction;
 
 import java.util.Arrays;
 
@@ -81,22 +80,6 @@ public class FunctionWrapper {
 
     public FunctionWrapper(FunctionWrapper other) {
         this.function = new Function(other.getCasADiObject());
-    }
-
-    public static FunctionWrapper jit(String name, String body, StringVector nameIn, StringVector nameOut, Dict opts) {
-        return new FunctionWrapper(Function.jit(name, body, nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts));
-    }
-
-    public static FunctionWrapper jit(String name, String body, StringVector nameIn, StringVector nameOut) {
-        return new FunctionWrapper(Function.jit(name, body, nameIn.getCasADiObject(), nameOut.getCasADiObject()));
-    }
-
-    public static FunctionWrapper jit(String name, String body, StringVector nameIn, StringVector nameOut, SparsityVector sparsityIn, SparsityVector sparsityOut, Dict opts) {
-        return new FunctionWrapper(Function.jit(name, body, nameIn.getCasADiObject(), nameOut.getCasADiObject(), sparsityIn.getCasADiObject(), sparsityOut.getCasADiObject(), opts));
-    }
-
-    public static FunctionWrapper jit(String name, String body, StringVector nameIn, StringVector nameOut, SparsityVector sparsityIn, SparsityVector sparsityOut) {
-        return new FunctionWrapper(Function.jit(name, body, nameIn.getCasADiObject(), nameOut.getCasADiObject(), sparsityIn.getCasADiObject(), sparsityOut.getCasADiObject()));
     }
 
     public String typeName() {
