@@ -1,15 +1,14 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.std;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.CasADiMap;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class MapStringToMXWrapper {
+public class MapStringToMXWrapper extends AbstractMap<String, MXWrapper> implements CasADiMap<MXWrapper> {
 
     private final StdMapStringToMX stdMapStringToMX;
 
@@ -18,10 +17,14 @@ public class MapStringToMXWrapper {
     }
 
     public MapStringToMXWrapper(StdMapStringToMX other) {
-        this.stdMapStringToMX = other;
+        this.stdMapStringToMX = new StdMapStringToMX(other);
     }
 
-    public MapStringToMXWrapper(Map<String, MXWrapper> other) {
+    public MapStringToMXWrapper(MapStringToMXWrapper other) {
+        this.stdMapStringToMX = new StdMapStringToMX(other.getCasADiObject());
+    }
+
+    public MapStringToMXWrapper(Map<String, ? extends MXWrapper> other) {
         this.stdMapStringToMX = new StdMapStringToMX();
         other.forEach((key, value) -> {
             MX mxValue = value.getCasADiObject();
@@ -29,7 +32,7 @@ public class MapStringToMXWrapper {
         });
     }
 
-    public int getSize() {
+    public int size() {
         return this.stdMapStringToMX.size();
     }
 

@@ -8,8 +8,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 
-import javax.constraints.ConstrainedVariable;
-import javax.constraints.Problem;
+import java.util.Arrays;
 
 public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
 
@@ -22,6 +21,17 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
 
     public DMWrapper(DM dm) {
         this.dm = dm;
+    }
+
+    public DMWrapper(NumberWrapper number) {
+        double doubleValue = number.getDoubleValue();
+        this.dm = new DM(doubleValue);
+    }
+
+    public DMWrapper(NumberWrapper... values) {
+        StdVectorDouble stdVectorDouble = new StdVectorDouble();
+        Arrays.stream(values).forEach(v -> stdVectorDouble.add(v.getDoubleValue()));
+        this.dm = new DM(stdVectorDouble);
     }
 
     public DMWrapper(Sparsity sp, double val, boolean dummy) {
