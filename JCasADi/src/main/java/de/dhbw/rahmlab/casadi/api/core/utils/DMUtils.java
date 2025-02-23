@@ -3,9 +3,9 @@ package de.dhbw.rahmlab.casadi.api.core.utils;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
-import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class DMUtils {
@@ -66,12 +66,12 @@ public class DMUtils {
         return new DMVectorCollection(DM.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
-    public static DMVector getInput(Function f) {
-        return new DMVector(DM.get_input(f));
+    public static DMVector getInput(FunctionWrapper f) {
+        return new DMVector(DM.get_input(f.getCasADiObject()));
     }
 
-    public static DMVector getFree(Function f) {
-        return new DMVector(DM.get_free(f));
+    public static DMVector getFree(FunctionWrapper f) {
+        return new DMVector(DM.get_free(f.getCasADiObject()));
     }
 
     public static DMWrapper triplet(IntegerVector row, IntegerVector col, DMWrapper d) {

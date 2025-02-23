@@ -1,11 +1,11 @@
 package de.dhbw.rahmlab.casadi.api.core.utils;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.StringVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.*;
-import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
@@ -102,12 +102,12 @@ public class SXUtils {
         return new SXVectorCollection(SX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
-    public static SXVector getInput(Function f) {
-        return new SXVector(SX.get_input(f));
+    public static SXVector getInput(FunctionWrapper f) {
+        return new SXVector(SX.get_input(f.getCasADiObject()));
     }
 
-    public static SXVector getFree(Function f) {
-        return new SXVector(SX.get_free(f));
+    public static SXVector getFree(FunctionWrapper f) {
+        return new SXVector(SX.get_free(f.getCasADiObject()));
     }
 
     public static void printSplit(long nnz, SXComponent nonzeros, StringVector nz, StringVector inter) {

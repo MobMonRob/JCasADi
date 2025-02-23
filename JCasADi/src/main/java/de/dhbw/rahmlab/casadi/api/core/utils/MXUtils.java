@@ -1,6 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.utils;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
@@ -236,8 +237,8 @@ public class MXUtils {
      * @param f The Function object for which to get the inputs.
      * @return MXVector. A new MXVector containing the function inputs.
      */
-    public static MXVector getInput(Function f) {
-        return new MXVector(MX.get_input(f));
+    public static MXVector getInput(FunctionWrapper f) {
+        return new MXVector(MX.get_input(f.getCasADiObject()));
     }
 
     /**
@@ -246,8 +247,8 @@ public class MXUtils {
      * @param f The Function object for which to get the free variables.
      * @return MXVector. A new MXVector containing the free variables.
      */
-    public static MXVector getFree(Function f) {
-        return new MXVector(MX.get_free(f));
+    public static MXVector getFree(FunctionWrapper f) {
+        return new MXVector(MX.get_free(f.getCasADiObject()));
     }
 
     /**

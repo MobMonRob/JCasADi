@@ -3,6 +3,7 @@ package de.dhbw.rahmlab.casadi.api.core.problem;
 import de.dhbw.rahmlab.casadi.api.core.constraints.Constraint;
 import de.dhbw.rahmlab.casadi.api.core.utils.MXUtils;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
@@ -251,28 +252,28 @@ public class NLPProblem {
         return new MXWrapper(this.nlpProblem.lam_g());
     }
 
-    public Function createFunction(String name, MXVector args, MXVector res, Dict opts) {
-        return this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), opts);
+    public FunctionWrapper createFunction(String name, MXVector args, MXVector res, Dict opts) {
+        return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), opts));
     }
 
-    public Function createFunction(String name, MXVector args, MXVector res) {
-        return this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject());
+    public FunctionWrapper createFunction(String name, MXVector args, MXVector res) {
+        return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject()));
     }
 
-    public Function createFunction(String name, MXVector args, MXVector res, StringVector nameIn, StringVector nameOut, Dict opts) {
-        return this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts);
+    public FunctionWrapper createFunction(String name, MXVector args, MXVector res, StringVector nameIn, StringVector nameOut, Dict opts) {
+        return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts));
     }
 
-    public Function createFunction(String name, MXVector args, MXVector res, StringVector nameIn, StringVector nameOut) {
-        return this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject());
+    public FunctionWrapper createFunction(String name, MXVector args, MXVector res, StringVector nameIn, StringVector nameOut) {
+        return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject()));
     }
 
-    public Function createFunction(String name, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut, Dict opts) {
-        return this.nlpProblem.to_function(name, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts);
+    public FunctionWrapper createFunction(String name, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut, Dict opts) {
+        return new FunctionWrapper(this.nlpProblem.to_function(name, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts));
     }
 
-    public Function createFunction(String name, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut) {
-        return this.nlpProblem.to_function(name, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject());
+    public FunctionWrapper createFunction(String name, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut) {
+        return new FunctionWrapper(this.nlpProblem.to_function(name, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject()));
     }
 
     public MXWrapper createBoundedConstraint(MXWrapper lowerBound, MXWrapper expression, MXWrapper upperBound) {

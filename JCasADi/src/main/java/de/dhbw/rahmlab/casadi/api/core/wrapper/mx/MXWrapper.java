@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubMatrix;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SymbolicExpression;
@@ -351,8 +352,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      *
      * @return Function. The `Function` associated with the MX object, or null if not applicable.
      */
-    public Function whichFunction() {
-        return this.mx.which_function();
+    public FunctionWrapper whichFunction() {
+        return new FunctionWrapper(this.mx.which_function());
     }
 
     /**
