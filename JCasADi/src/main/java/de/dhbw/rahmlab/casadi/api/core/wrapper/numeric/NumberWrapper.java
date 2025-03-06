@@ -64,4 +64,8 @@ public class NumberWrapper implements NumericValue {
         return this.value.shortValue();
     }
 
+    public Number getUnderlyingNumberObject() {
+        return this.value;
+    }
+
 }

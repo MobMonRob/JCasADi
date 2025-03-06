@@ -1,16 +1,22 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces;
 
-public interface Collection<T, N> {
+import java.util.List;
 
-    N getVector(int index);
+public interface Collection<T> {
 
-    N setVector(int index, N vector);
+    T get(int index);
 
-    T add(N vector);
+    T set(int index, T vector);
 
-    T add(int index, N vector);
+    <N extends Collection> N insert(T vector);
 
-    N remove(int index);
+    <N extends Collection> N insert(int index, T vector);
+
+    <N extends Collection> N clearAndAdd(T vector);
+
+    <N extends Collection> N reserveAndAdd(long n, T vector);
+
+    T remove(int index);
 
     void removeRange(int fromIndex, int toIndex);
 
@@ -23,5 +29,7 @@ public interface Collection<T, N> {
     boolean isEmpty();
 
     void clear();
+
+    List<T> getVectors();
 
 }

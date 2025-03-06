@@ -3,11 +3,17 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.std;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble;
 
+import java.util.AbstractList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 /**
  * A collection that holds a vector of DoubleVector values (StdVectorVectorDouble)
  * and provides methods to manipulate and access its elements.
  */
-public class DoubleVectorCollection implements Collection<DoubleVectorCollection, DoubleVector> {
+public class DoubleVectorCollection extends AbstractList<DoubleVector> implements Collection<DoubleVector> {
 
     private final StdVectorVectorDouble stdVectorVectorDouble;
 
@@ -26,9 +32,9 @@ public class DoubleVectorCollection implements Collection<DoubleVectorCollection
      */
     public DoubleVectorCollection(DoubleVector... initialElements) {
         this.stdVectorVectorDouble = new StdVectorVectorDouble();
-        for(DoubleVector element : initialElements) {
-            this.stdVectorVectorDouble.add(element.getCasADiObject());
-        }
+        Arrays.stream(initialElements).forEach(
+                element -> stdVectorVectorDouble.add(element.getCasADiObject())
+        );
     }
 
     /**
@@ -38,7 +44,9 @@ public class DoubleVectorCollection implements Collection<DoubleVectorCollection
      */
     public DoubleVectorCollection(Iterable<DoubleVector> initialElements) {
         this.stdVectorVectorDouble = new StdVectorVectorDouble();
-        initialElements.forEach(this::add);
+        initialElements.forEach(
+                element -> stdVectorVectorDouble.add(element.getCasADiObject())
+        );
     }
 
     /**
@@ -64,10 +72,10 @@ public class DoubleVectorCollection implements Collection<DoubleVectorCollection
      * all initialized to the same DoubleVector value.
      *
      * @param count the number of DoubleVector elements to initialize in the collection
-     * @param value the DoubleVector value to initialize each element with
+     * @param vector the DoubleVector value to initialize each element with
      */
-    public DoubleVectorCollection(int count, DoubleVector value) {
-        this.stdVectorVectorDouble = new StdVectorVectorDouble(count, value.getCasADiObject());
+    public DoubleVectorCollection(int count, DoubleVector vector) {
+        this.stdVectorVectorDouble = new StdVectorVectorDouble(count, vector.getCasADiObject());
     }
 
     /**
@@ -77,7 +85,7 @@ public class DoubleVectorCollection implements Collection<DoubleVectorCollection
      * @return the DoubleVector value at the specified index
      */
     @Override
-    public DoubleVector getVector(int index) {
+    public DoubleVector get(int index) {
         return new DoubleVector(this.stdVectorVectorDouble.get(index));
     }
 
@@ -85,23 +93,23 @@ public class DoubleVectorCollection implements Collection<DoubleVectorCollection
      * Sets the DoubleVector value at the specified index and returns the previous value.
      *
      * @param index the index at which to set the DoubleVector value
-     * @param value the DoubleVector value to set
+     * @param vector the DoubleVector value to set
      * @return the previous DoubleVector value at the specified index
      */
     @Override
-    public DoubleVector setVector(int index, DoubleVector value) {
-        return new DoubleVector(this.stdVectorVectorDouble.set(index, value.getCasADiObject()));
+    public DoubleVector set(int index, DoubleVector vector) {
+        return new DoubleVector(this.stdVectorVectorDouble.set(index, vector.getCasADiObject()));
     }
 
     /**
      * Appends a DoubleVector value to the end of the collection.
      *
-     * @param value the DoubleVector value to be added to the collection
+     * @param vector the DoubleVector value to be added to the collection
      * @return the current instance of DoubleVectorCollection for method chaining
      */
     @Override
-    public DoubleVectorCollection add(DoubleVector value) {
-        this.stdVectorVectorDouble.add(value.getCasADiObject());
+    public DoubleVectorCollection insert(DoubleVector vector) {
+        this.stdVectorVectorDouble.add(vector.getCasADiObject());
         return this;
     }
 
@@ -109,13 +117,25 @@ public class DoubleVectorCollection implements Collection<DoubleVectorCollection
      * Inserts a DoubleVector value at the specified index in the collection.
      *
      * @param index the index at which to insert the DoubleVector value
-     * @param value the DoubleVector value to be added to the collection
+     * @param vector the DoubleVector value to be added to the collection
      * @return the current instance of DoubleVectorCollection for method chaining
      */
     @Override
-    public DoubleVectorCollection add(int index, DoubleVector value) {
-        this.stdVectorVectorDouble.add(index, value.getCasADiObject());
+    public DoubleVectorCollection insert(int index, DoubleVector vector) {
+        this.stdVectorVectorDouble.add(index, vector.getCasADiObject());
         return this;
+    }
+
+    @Override
+    public DoubleVectorCollection clearAndAdd(DoubleVector vector) {
+        this.clear();
+        return this.insert(vector);
+    }
+
+    @Override
+    public DoubleVectorCollection reserveAndAdd(long n, DoubleVector vector) {
+        this.reserve(n);
+        return this.insert(vector);
     }
 
     /**
@@ -137,6 +157,10 @@ public class DoubleVectorCollection implements Collection<DoubleVectorCollection
      */
     @Override
     public void removeRange(int fromIndex, int toIndex) {
+        if (fromIndex < 0 || toIndex > size() || fromIndex >= toIndex) {
+            throw new IndexOutOfBoundsException("Invalid range: fromIndex=" + fromIndex + ", toIndex=" + toIndex);
+        }
+
         for (int i = toIndex - 1; i >= fromIndex; i--) {
             this.stdVectorVectorDouble.remove(i);
         }
@@ -197,6 +221,21 @@ public class DoubleVectorCollection implements Collection<DoubleVectorCollection
      */
     public StdVectorVectorDouble getCasADiObject() {
         return this.stdVectorVectorDouble;
+    }
+
+    @Override
+    public List<DoubleVector> getVectors() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .collect(Collectors.toList());
+    }
+
+    public boolean add(DoubleVector vector) {
+        return this.stdVectorVectorDouble.add(vector.getCasADiObject());
+    }
+
+    public void add(int index, DoubleVector vector) {
+        this.stdVectorVectorDouble.add(index, vector.getCasADiObject());
     }
 
 }

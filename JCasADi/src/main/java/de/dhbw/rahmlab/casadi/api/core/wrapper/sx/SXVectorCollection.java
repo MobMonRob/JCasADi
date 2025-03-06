@@ -3,9 +3,13 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.sx;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorSX;
 
+import java.util.AbstractList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-public class SXVectorCollection implements Collection<SXVectorCollection, SXVector> {
+public class SXVectorCollection extends AbstractList<SXVector> implements Collection<SXVector> {
 
     private final StdVectorVectorSX stdVectorVectorSX;
 
@@ -22,15 +26,17 @@ public class SXVectorCollection implements Collection<SXVectorCollection, SXVect
 
     public SXVectorCollection(Iterable<SXVector> initialElements) {
         this.stdVectorVectorSX = new StdVectorVectorSX();
-        initialElements.forEach(this::add);
+        initialElements.forEach(
+                element -> this.stdVectorVectorSX.add(element.getCasADiObject())
+        );
     }
 
     public SXVectorCollection(SXVectorCollection other) {
         this.stdVectorVectorSX = new StdVectorVectorSX(other.getCasADiObject());
     }
 
-    public SXVectorCollection(int index, SXVector value) {
-        this.stdVectorVectorSX = new StdVectorVectorSX(index, value.getCasADiObject());
+    public SXVectorCollection(int index, SXVector vector) {
+        this.stdVectorVectorSX = new StdVectorVectorSX(index, vector.getCasADiObject());
     }
 
     public SXVectorCollection(StdVectorVectorSX stdVectorVectorSX) {
@@ -38,25 +44,37 @@ public class SXVectorCollection implements Collection<SXVectorCollection, SXVect
     }
 
     @Override
-    public SXVector getVector(int index) {
+    public SXVector get(int index) {
         return new SXVector(this.stdVectorVectorSX.get(index));
     }
 
     @Override
-    public SXVector setVector(int index, SXVector vector) {
+    public SXVector set(int index, SXVector vector) {
         return new SXVector(this.stdVectorVectorSX.set(index, vector.getCasADiObject()));
     }
 
     @Override
-    public SXVectorCollection add(SXVector vector) {
+    public SXVectorCollection insert(SXVector vector) {
         this.stdVectorVectorSX.add(vector.getCasADiObject());
         return this;
     }
 
     @Override
-    public SXVectorCollection add(int index, SXVector vector) {
+    public SXVectorCollection insert(int index, SXVector vector) {
         this.stdVectorVectorSX.add(index, vector.getCasADiObject());
         return this;
+    }
+
+    @Override
+    public SXVectorCollection clearAndAdd(SXVector vector) {
+        this.clear();
+        return this.insert(vector);
+    }
+
+    @Override
+    public SXVectorCollection reserveAndAdd(long n, SXVector vector) {
+        this.reserve(n);
+        return this.insert(vector);
     }
 
     @Override
@@ -66,6 +84,10 @@ public class SXVectorCollection implements Collection<SXVectorCollection, SXVect
 
     @Override
     public void removeRange(int fromIndex, int toIndex) {
+        if (fromIndex < 0 || toIndex > size() || fromIndex >= toIndex) {
+            throw new IndexOutOfBoundsException("Invalid range: fromIndex=" + fromIndex + ", toIndex=" + toIndex);
+        }
+
         for (int i = toIndex - 1; i >= fromIndex; i--) {
             this.stdVectorVectorSX.remove(i);
         }
@@ -98,6 +120,21 @@ public class SXVectorCollection implements Collection<SXVectorCollection, SXVect
 
     public StdVectorVectorSX getCasADiObject() {
         return this.stdVectorVectorSX;
+    }
+
+    @Override
+    public List<SXVector> getVectors() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .collect(Collectors.toList());
+    }
+
+    public boolean add(SXVector vector) {
+        return this.stdVectorVectorSX.add(vector.getCasADiObject());
+    }
+
+    public void add(int index, SXVector vector) {
+        this.stdVectorVectorSX.add(index, vector.getCasADiObject());
     }
 
 }

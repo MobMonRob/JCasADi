@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
@@ -123,9 +124,9 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper get(boolean ind1, IM rr) {
+    public DMWrapper get(boolean ind1, IMWrapper rr) {
         DMWrapper output = new DMWrapper();
-        this.dm.get(output.getCasADiObject(), ind1, rr);
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject());
         return output;
     }
 
@@ -145,23 +146,23 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper get(boolean ind1, Slice rr, IM cc) {
+    public DMWrapper get(boolean ind1, Slice rr, IMWrapper cc) {
         DMWrapper output = new DMWrapper();
-        this.dm.get(output.getCasADiObject(), ind1, rr, cc);
+        this.dm.get(output.getCasADiObject(), ind1, rr, cc.getCasADiObject());
         return output;
     }
 
     @Override
-    public DMWrapper get(boolean ind1, IM rr, Slice cc) {
+    public DMWrapper get(boolean ind1, IMWrapper rr, Slice cc) {
         DMWrapper output = new DMWrapper();
-        this.dm.get(output.getCasADiObject(), ind1, rr, cc);
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc);
         return output;
     }
 
     @Override
-    public DMWrapper get(boolean ind1, IM rr, IM cc) {
+    public DMWrapper get(boolean ind1, IMWrapper rr, IMWrapper cc) {
         DMWrapper output = new DMWrapper();
-        this.dm.get(output.getCasADiObject(), ind1, rr, cc);
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
         return output;
     }
 
@@ -186,8 +187,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public void set(DMWrapper m, boolean ind1, IM rr) {
-        this.dm.set(m.getCasADiObject(), ind1, rr);
+    public void set(DMWrapper m, boolean ind1, IMWrapper rr) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject());
     }
 
     @Override
@@ -202,18 +203,18 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public void set(DMWrapper m, boolean ind1, Slice rr, IM cc) {
-        this.dm.set(m.getCasADiObject(), ind1, rr, cc);
+    public void set(DMWrapper m, boolean ind1, Slice rr, IMWrapper cc) {
+        this.dm.set(m.getCasADiObject(), ind1, rr, cc.getCasADiObject());
     }
 
     @Override
-    public void set(DMWrapper m, boolean ind1, IM rr, Slice cc) {
-        this.dm.set(m.getCasADiObject(), ind1, rr, cc);
+    public void set(DMWrapper m, boolean ind1, IMWrapper rr, Slice cc) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc);
     }
 
     @Override
-    public void set(DMWrapper m, boolean ind1, IM rr, IM cc) {
-        this.dm.set(m.getCasADiObject(), ind1, rr, cc);
+    public void set(DMWrapper m, boolean ind1, IMWrapper rr, IMWrapper cc) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
@@ -230,9 +231,9 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper getNZ(boolean ind1, IM k) {
+    public DMWrapper getNZ(boolean ind1, IMWrapper k) {
         DMWrapper output = new DMWrapper();
-        this.dm.get_nz(output.getCasADiObject(), ind1, k);
+        this.dm.get_nz(output.getCasADiObject(), ind1, k.getCasADiObject());
         return output;
     }
 
@@ -242,8 +243,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public void setNZ(DMWrapper m, boolean ind1, IM k) {
-        this.dm.set_nz(m.getCasADiObject(), ind1, k);
+    public void setNZ(DMWrapper m, boolean ind1, IMWrapper k) {
+        this.dm.set_nz(m.getCasADiObject(), ind1, k.getCasADiObject());
     }
 
     @Override
@@ -374,16 +375,6 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper _bilin(DMWrapper x, DMWrapper y) {
-        return new DMWrapper(DM._bilin(this.dm, x.getCasADiObject(), y.getCasADiObject()));
-    }
-
-    @Override
-    public DMWrapper _rank1(DMWrapper alpha, DMWrapper x, DMWrapper y) {
-        return new DMWrapper(DM._rank1(this.dm, alpha.getCasADiObject(), x.getCasADiObject(), y.getCasADiObject()));
-    }
-
-    @Override
     public boolean dependsOn(DMWrapper arg) {
         return DM.depends_on(this.dm, arg.getCasADiObject());
     }
@@ -398,7 +389,6 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.mldivide(this.dm, y.getCasADiObject()));
     }
 
-    @Override
     public DMVector symvar() {
         return new DMVector(DM.symvar(this.dm));
     }
@@ -523,22 +513,14 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.cumsum(this.dm));
     }
 
-    @Override
-    public DMWrapper _logsumexp() {
-        return new DMWrapper(DM._logsumexp(this.dm));
-    }
-
-    @Override
     public DMVector horzsplit(IntegerVector offset) {
         return new DMVector(DM.horzsplit(this.dm, offset.getCasADiObject()));
     }
 
-    @Override
     public DMVector vertsplit(IntegerVector offset) {
         return new DMVector(DM.vertsplit(this.dm, offset.getCasADiObject()));
     }
 
-    @Override
     public DMVector diagsplit(IntegerVector offset1, IntegerVector offset2) {
         return new DMVector(DM.diagsplit(this.dm, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
@@ -1006,11 +988,6 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper _sym(String name, Sparsity sp) {
-        return new DMWrapper(DM._sym(name, sp));
-    }
-
-    @Override
     public DMSubIndexWrapper at(int rr) {
         return new DMSubIndexWrapper(this.dm.at(rr));
     }
@@ -1025,12 +1002,10 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         this.dm.assign(other.getCasADiObject());
     }
 
-    @Override
     public DMVectorCollection blocksplit(IntegerVector vert_offset, IntegerVector horz_offset) {
         return new DMVectorCollection(DM.blocksplit(this.dm, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
 
-    @Override
     public DMVectorCollection blocksplit(long vert_incr, long horz_incr) {
         return new DMVectorCollection(DM.blocksplit(this.dm, vert_incr, horz_incr));
     }
@@ -1048,7 +1023,6 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.repmat(this.dm, n));
     }
 
-    @Override
     public DMVector vertsplit_n(long n) {
         return new DMVector(DM.vertsplit_n(this.dm, n));
     }

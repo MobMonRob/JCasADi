@@ -156,33 +156,50 @@ public class NLPProblem {
         this.nlpProblem.set_initial(vector.getCasADiObject());
     }
 
-    public OptiSol solve() {
-        return this.nlpProblem.solve();
+    public NLPResult solve() {
+        return new NLPResult(this.nlpProblem.solve());
     }
 
-    public OptiSol solveWithLimits() {
-        return this.nlpProblem.solve_limited();
+    public NLPResult solveWithLimits() {
+        return new NLPResult(this.nlpProblem.solve_limited());
     }
 
-    public DMWrapper getValue(Wrapper x) {
-        if (x instanceof MXWrapper) {
-            return new DMWrapper(this.nlpProblem.value(((MXWrapper) x).getCasADiObject()));
-        } else if (x instanceof DMWrapper) {
-            return new DMWrapper(this.nlpProblem.value(((DMWrapper) x).getCasADiObject()));
-        } else if (x instanceof SXWrapper) {
-            return new DMWrapper(this.nlpProblem.value(((SXWrapper) x).getCasADiObject()));
+    public DMWrapper getValue(Wrapper x, MXWrapper... values) {
+        if (values == null || values.length == 0) {
+            return handleGetValueWithoutParameters(x);
+        } else {
+            MXVector vector = new MXVector(values);
+            return handleGetValueWithParameters(x, vector);
+        }
+    }
+
+    public DMWrapper getValue(Wrapper x, MXVector values) {
+        if (values == null) {
+            return handleGetValueWithoutParameters(x);
+        } else {
+            return handleGetValueWithParameters(x, values);
+        }
+    }
+
+    private DMWrapper handleGetValueWithoutParameters(Wrapper x) {
+        if (x instanceof MXWrapper mxWrapper) {
+            return new DMWrapper(this.nlpProblem.value((mxWrapper.getCasADiObject())));
+        } else if (x instanceof DMWrapper dmWrapper) {
+            return new DMWrapper(this.nlpProblem.value(dmWrapper.getCasADiObject()));
+        } else if (x instanceof SXWrapper sxWrapper) {
+            return new DMWrapper(this.nlpProblem.value(sxWrapper.getCasADiObject()));
         } else {
             throw new IllegalArgumentException("Unsupported wrapper object " + x.getClass());
         }
     }
 
-    public DMWrapper getValue(Wrapper x, MXVector values) {
-        if (x instanceof MXWrapper) {
-            return new DMWrapper(this.nlpProblem.value(((MXWrapper) x).getCasADiObject(), values.getCasADiObject()));
-        } else if (x instanceof DMWrapper) {
-            return new DMWrapper(this.nlpProblem.value(((DMWrapper) x).getCasADiObject(), values.getCasADiObject()));
-        } else if (x instanceof SXWrapper) {
-            return new DMWrapper(this.nlpProblem.value(((SXWrapper) x).getCasADiObject(), values.getCasADiObject()));
+    private DMWrapper handleGetValueWithParameters(Wrapper x, MXVector values) {
+        if (x instanceof MXWrapper mxWrapper) {
+            return new DMWrapper(this.nlpProblem.value(mxWrapper.getCasADiObject(), values.getCasADiObject()));
+        } else if (x instanceof DMWrapper dmWrapper) {
+            return new DMWrapper(this.nlpProblem.value(dmWrapper.getCasADiObject(), values.getCasADiObject()));
+        } else if (x instanceof SXWrapper sxWrapper) {
+            return new DMWrapper(this.nlpProblem.value(sxWrapper.getCasADiObject(), values.getCasADiObject()));
         } else {
             throw new IllegalArgumentException("Unsupported wrapper object: " + x.getClass());
         }
@@ -316,8 +333,8 @@ public class NLPProblem {
         return this.nlpProblem.toString();
     }
 
-    private void registerCallback(OptiCallback callback) {
-        this.nlpProblem.callback_class(callback);
+    private void registerCallback(NLPCallback callback) {
+        this.nlpProblem.callback_class(callback.getCasADiObject());
     }
 
     private void registerCallback() {

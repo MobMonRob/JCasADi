@@ -188,7 +188,7 @@ public class MXVector extends AbstractList<MXWrapper> implements Vector<MXWrappe
         }
 
         for (int i = toIndex - 1; i >= fromIndex; i--) {
-            this.remove(i);
+            this.stdVectorMX.remove(i);
         }
     }
 

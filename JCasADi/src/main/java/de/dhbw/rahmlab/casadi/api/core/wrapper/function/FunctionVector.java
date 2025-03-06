@@ -1,6 +1,5 @@
-package de.dhbw.rahmlab.casadi.api.core.wrapper.std;
+package de.dhbw.rahmlab.casadi.api.core.wrapper.function;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiFunction;

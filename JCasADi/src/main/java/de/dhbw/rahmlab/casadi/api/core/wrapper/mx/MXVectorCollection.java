@@ -3,13 +3,17 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX;
 
+import java.util.AbstractList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * A collection that holds a vector of vectors (StdVectorVectorMX) {@link StdVectorVectorMX}
  * and provides methods to manipulate and access its elements.
  */
-public class MXVectorCollection implements Collection<MXVectorCollection, MXVector> {
+public class MXVectorCollection extends AbstractList<MXVector> implements Collection<MXVector> {
 
     private final StdVectorVectorMX stdVectorVectorMX;
 
@@ -39,7 +43,9 @@ public class MXVectorCollection implements Collection<MXVectorCollection, MXVect
      */
     public MXVectorCollection(Iterable<MXVector> initialElements) {
         this.stdVectorVectorMX = new StdVectorVectorMX();
-        initialElements.forEach(this::add);
+        initialElements.forEach(
+                element -> this.stdVectorVectorMX.add(element.getCasADiObject())
+        );
     }
 
     /**
@@ -77,7 +83,7 @@ public class MXVectorCollection implements Collection<MXVectorCollection, MXVect
      * @return the MXVector at the specified index
      */
     @Override
-    public MXVector getVector(int index) {
+    public MXVector get(int index) {
         return new MXVector(this.stdVectorVectorMX.get(index));
     }
 
@@ -89,7 +95,7 @@ public class MXVectorCollection implements Collection<MXVectorCollection, MXVect
      * @return the previous MXVector at the specified index
      */
     @Override
-    public MXVector setVector(int index, MXVector vector) {
+    public MXVector set(int index, MXVector vector) {
         return new MXVector(this.stdVectorVectorMX.set(index, vector.getCasADiObject()));
     }
 
@@ -101,7 +107,7 @@ public class MXVectorCollection implements Collection<MXVectorCollection, MXVect
      * @return this VectorCollection for method chaining
      */
     @Override
-    public MXVectorCollection add(int index, MXVector vector) {
+    public MXVectorCollection insert(int index, MXVector vector) {
         this.stdVectorVectorMX.add(index, vector.getCasADiObject());
         return this;
     }
@@ -113,9 +119,21 @@ public class MXVectorCollection implements Collection<MXVectorCollection, MXVect
      * @return this VectorCollection for method chaining
      */
     @Override
-    public MXVectorCollection add(MXVector vector) {
+    public MXVectorCollection insert(MXVector vector) {
         this.stdVectorVectorMX.add(vector.getCasADiObject());
         return this;
+    }
+
+    @Override
+    public MXVectorCollection clearAndAdd(MXVector vector) {
+        this.clear();
+        return this.insert(vector);
+    }
+
+    @Override
+    public MXVectorCollection reserveAndAdd(long n, MXVector vector) {
+        this.reserve(n);
+        return this.insert(vector);
     }
 
     /**
@@ -137,6 +155,10 @@ public class MXVectorCollection implements Collection<MXVectorCollection, MXVect
      */
     @Override
     public void removeRange(int fromIndex, int toIndex) {
+        if (fromIndex < 0 || toIndex > size() || fromIndex >= toIndex) {
+            throw new IndexOutOfBoundsException("Invalid range: fromIndex=" + fromIndex + ", toIndex=" + toIndex);
+        }
+
         for (int i = toIndex - 1; i >= fromIndex; i--) {
             this.stdVectorVectorMX.remove(i);
         }
@@ -197,6 +219,21 @@ public class MXVectorCollection implements Collection<MXVectorCollection, MXVect
      */
     public StdVectorVectorMX getCasADiObject() {
         return this.stdVectorVectorMX;
+    }
+
+    @Override
+    public List<MXVector> getVectors() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .collect(Collectors.toList());
+    }
+
+    public boolean add(MXVector element) {
+        return this.stdVectorVectorMX.add(element.getCasADiObject());
+    }
+
+    public void add(int index, MXVector element) {
+        this.stdVectorVectorMX.add(index, element.getCasADiObject());
     }
 
 }

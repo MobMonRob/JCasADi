@@ -1,6 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.BooleanVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
@@ -75,17 +76,17 @@ public interface Wrapper<T extends Wrapper> {
 
     T get(boolean ind1, Slice rr);
 
-    T get(boolean ind1, IM rr);
+    T get(boolean ind1, IMWrapper rr);
 
     T get(boolean ind1, Sparsity sp);
 
     T get(boolean ind1, Slice rr, Slice cc);
 
-    T get(boolean ind1, Slice rr, IM cc);
+    T get(boolean ind1, Slice rr, IMWrapper cc);
 
-    T get(boolean ind1, IM rr, Slice cc);
+    T get(boolean ind1, IMWrapper rr, Slice cc);
 
-    T get(boolean ind1, IM rr, IM cc);
+    T get(boolean ind1, IMWrapper rr, IMWrapper cc);
 
     T get(NumberWrapper... slice);
 
@@ -93,27 +94,27 @@ public interface Wrapper<T extends Wrapper> {
 
     void set(T m, boolean ind1, Slice rr);
 
-    void set(T m, boolean ind1, IM rr);
+    void set(T m, boolean ind1, IMWrapper rr);
 
     void set(T m, boolean ind1, Sparsity sp);
 
     void set(T m, boolean ind1, Slice rr, Slice cc);
 
-    void set(T m, boolean ind1, Slice rr, IM cc);
+    void set(T m, boolean ind1, Slice rr, IMWrapper cc);
 
-    void set(T m, boolean ind1, IM rr, Slice cc);
+    void set(T m, boolean ind1, IMWrapper rr, Slice cc);
 
-    void set(T m, boolean ind1, IM rr, IM cc);
+    void set(T m, boolean ind1, IMWrapper rr, IMWrapper cc);
 
     void set(T m, NumberWrapper... slice);
 
     T getNZ(boolean ind1, Slice k);
 
-    T getNZ(boolean ind1, IM k);
+    T getNZ(boolean ind1, IMWrapper k);
 
     void setNZ(T m, boolean ind1, Slice k);
 
-    void setNZ(T m, boolean ind1, IM k);
+    void setNZ(T m, boolean ind1, IMWrapper k);
 
     T einstein(T other, T C,
                IntegerVector dim_a, IntegerVector dim_b,
@@ -132,12 +133,6 @@ public interface Wrapper<T extends Wrapper> {
     T mmin();
 
     T mmax();
-
-    <S extends Vector> S horzsplit(IntegerVector offset);
-
-    <S extends Vector> S diagsplit(IntegerVector offset1, IntegerVector offset2);
-
-    <S extends Vector> S vertsplit(IntegerVector offset);
 
     T mtimes(T other);
 
@@ -227,8 +222,6 @@ public interface Wrapper<T extends Wrapper> {
 
     T det();
 
-    <S extends Vector> S symvar();
-
     T nullspace();
 
     T repsum(long n, long m);
@@ -239,10 +232,6 @@ public interface Wrapper<T extends Wrapper> {
 
     T densify();
 
-    T _bilin(T x, T y);
-
-    T _rank1(T alpha, T x, T y);
-
     T project(Sparsity sp, boolean intersect);
 
     T project(Sparsity sp);
@@ -250,8 +239,6 @@ public interface Wrapper<T extends Wrapper> {
     T cumsum(long axis);
 
     T cumsum();
-
-    T _logsumexp();
 
     DMWrapper evalf();
 
@@ -265,21 +252,13 @@ public interface Wrapper<T extends Wrapper> {
 
     long getMaxDepth();
 
-    T _sym(String name, Sparsity sp);
-
     <V extends SubIndex> V at(int rr);
 
     <W extends SubMatrix> W at(int rr, int cc);
 
     void assign(T other);
 
-    <U extends Collection> U blocksplit(IntegerVector vert_offset, IntegerVector horz_offset);
-
-    <U extends Collection> U blocksplit(long vert_incr, long horz_incr);
-
     T vec();
-
-    <S extends Vector> S vertsplit_n(long n);
 
     String toString(boolean more);
 

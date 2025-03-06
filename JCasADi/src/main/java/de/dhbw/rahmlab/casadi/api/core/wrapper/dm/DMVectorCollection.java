@@ -4,9 +4,13 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVectorCollection;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDM;
 
+import java.util.AbstractList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-public class DMVectorCollection implements Collection<DMVectorCollection, DMVector> {
+public class DMVectorCollection extends AbstractList<DMVector> implements Collection<DMVector> {
 
     private final StdVectorVectorDM stdVectorVectorDM;
 
@@ -23,7 +27,9 @@ public class DMVectorCollection implements Collection<DMVectorCollection, DMVect
 
     public DMVectorCollection(Iterable<DMVector> initialElements) {
         this.stdVectorVectorDM = new StdVectorVectorDM();
-        initialElements.forEach(this::add);
+        initialElements.forEach(
+                element -> this.stdVectorVectorDM.add(element.getCasADiObject())
+        );
     }
 
     public DMVectorCollection(DMVectorCollection other) {
@@ -39,25 +45,37 @@ public class DMVectorCollection implements Collection<DMVectorCollection, DMVect
     }
 
     @Override
-    public DMVector getVector(int index) {
+    public DMVector get(int index) {
         return new DMVector(this.stdVectorVectorDM.get(index));
     }
 
     @Override
-    public DMVector setVector(int index, DMVector vector) {
+    public DMVector set(int index, DMVector vector) {
         return new DMVector(this.stdVectorVectorDM.set(index, vector.getCasADiObject()));
     }
 
     @Override
-    public DMVectorCollection add(DMVector vector) {
+    public DMVectorCollection insert(DMVector vector) {
         this.stdVectorVectorDM.add(vector.getCasADiObject());
         return this;
     }
 
     @Override
-    public DMVectorCollection add(int index, DMVector vector) {
+    public DMVectorCollection insert(int index, DMVector vector) {
         this.stdVectorVectorDM.add(index, vector.getCasADiObject());
         return this;
+    }
+
+    @Override
+    public DMVectorCollection clearAndAdd(DMVector vector) {
+        this.clear();
+        return this.insert(vector);
+    }
+
+    @Override
+    public DMVectorCollection reserveAndAdd(long n, DMVector vector) {
+        this.reserve(n);
+        return this.insert(vector);
     }
 
     @Override
@@ -67,6 +85,10 @@ public class DMVectorCollection implements Collection<DMVectorCollection, DMVect
 
     @Override
     public void removeRange(int fromIndex, int toIndex) {
+        if (fromIndex < 0 || toIndex > size() || fromIndex >= toIndex) {
+            throw new IndexOutOfBoundsException("Invalid range: fromIndex=" + fromIndex + ", toIndex=" + toIndex);
+        }
+
         for (int i = toIndex - 1; i >= fromIndex; i--) {
             this.stdVectorVectorDM.remove(i);
         }
@@ -99,6 +121,21 @@ public class DMVectorCollection implements Collection<DMVectorCollection, DMVect
 
     public StdVectorVectorDM getCasADiObject() {
         return this.stdVectorVectorDM;
+    }
+
+    @Override
+    public List<DMVector> getVectors() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .collect(Collectors.toList());
+    }
+
+    public boolean add(DMVector vector) {
+        return this.stdVectorVectorDM.add(vector.getCasADiObject());
+    }
+
+    public void add(int index, DMVector vector) {
+        this.stdVectorVectorDM.add(index, vector.getCasADiObject());
     }
 
 }

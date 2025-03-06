@@ -24,7 +24,7 @@ public class MapStringToMXWrapper extends AbstractMap<String, MXWrapper> impleme
         this.stdMapStringToMX = new StdMapStringToMX(other.getCasADiObject());
     }
 
-    public MapStringToMXWrapper(Map<String, ? extends MXWrapper> other) {
+    public MapStringToMXWrapper(Map<? extends String, ? extends MXWrapper> other) {
         this.stdMapStringToMX = new StdMapStringToMX();
         other.forEach((key, value) -> {
             MX mxValue = value.getCasADiObject();
@@ -36,11 +36,11 @@ public class MapStringToMXWrapper extends AbstractMap<String, MXWrapper> impleme
         return this.stdMapStringToMX.size();
     }
 
-    public boolean containsKey(String key) {
+    public boolean containsKey(Object key) {
         return this.stdMapStringToMX.containsKey(key);
     }
 
-    public MXWrapper get(String key) {
+    public MXWrapper get(Object key) {
         return new MXWrapper(this.stdMapStringToMX.get(key));
     }
 
@@ -48,11 +48,11 @@ public class MapStringToMXWrapper extends AbstractMap<String, MXWrapper> impleme
         return new MXWrapper(this.stdMapStringToMX.put(key, value.getCasADiObject()));
     }
 
-    public MXWrapper remove(String key) {
+    public MXWrapper remove(Object key) {
         return new MXWrapper(this.stdMapStringToMX.remove(key));
     }
 
-    public Set<Map.Entry<String, MXWrapper>> entrySet() {
+    public Set<Entry<String, MXWrapper>> entrySet() {
         return this.stdMapStringToMX.entrySet().stream()
                 .map(entry -> new HashMap.SimpleEntry<>(entry.getKey(), new MXWrapper(entry.getValue())))
                 .collect(Collectors.toSet());

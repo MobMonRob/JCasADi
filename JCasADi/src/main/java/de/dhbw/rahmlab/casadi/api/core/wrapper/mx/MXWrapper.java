@@ -1,6 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubMatrix;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SymbolicExpression;
@@ -884,9 +885,9 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return A new MXWrapper containing the extracted submatrix.
      */
     @Override
-    public MXWrapper get(boolean ind1, IM rr) {
+    public MXWrapper get(boolean ind1, IMWrapper rr) {
         MXWrapper output = new MXWrapper();
-        this.mx.get(output.mx, ind1, rr);
+        this.mx.get(output.mx, ind1, rr.getCasADiObject());
         return output;
     }
 
@@ -955,9 +956,9 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return A new MXWrapper containing the extracted submatrix.
      */
     @Override
-    public MXWrapper get(boolean ind1, Slice rr, IM cc) {
+    public MXWrapper get(boolean ind1, Slice rr, IMWrapper cc) {
         MXWrapper output = new MXWrapper();
-        this.mx.get(output.mx, ind1, rr, cc);
+        this.mx.get(output.mx, ind1, rr, cc.getCasADiObject());
         return output;
     }
 
@@ -984,9 +985,9 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return A new MXWrapper containing the extracted submatrix.
      */
     @Override
-    public MXWrapper get(boolean ind1, IM rr, Slice cc) {
+    public MXWrapper get(boolean ind1, IMWrapper rr, Slice cc) {
         MXWrapper output = new MXWrapper();
-        this.mx.get(output.mx, ind1, rr, cc);
+        this.mx.get(output.mx, ind1, rr.getCasADiObject(), cc);
         return output;
     }
 
@@ -1013,9 +1014,9 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return A new MXWrapper containing the extracted submatrix.
      */
     @Override
-    public MXWrapper get(boolean ind1, IM rr, IM cc) {
+    public MXWrapper get(boolean ind1, IMWrapper rr, IMWrapper cc) {
         MXWrapper output = new MXWrapper();
-        this.mx.get(output.mx, ind1, rr, cc);
+        this.mx.get(output.mx, ind1, rr.getCasADiObject(), cc.getCasADiObject());
         return output;
     }
 
@@ -1135,7 +1136,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public void set(MXWrapper mx, String sliceDefinition) {
         IndexSlice indexSlice = IndexSlice.slicingSyntax(sliceDefinition);
-        this.set(mx, true, indexSlice.getCasADiObject());
+        this.mx.set(mx.getCasADiObject(), true, indexSlice.getCasADiObject());
     }
 
     /**
@@ -1160,8 +1161,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param rr The IM used to define the rows to be set.
      */
     @Override
-    public void set(MXWrapper m, boolean ind1, IM rr) {
-        this.mx.set(m.mx, ind1, rr);
+    public void set(MXWrapper m, boolean ind1, IMWrapper rr) {
+        this.mx.set(m.mx, ind1, rr.getCasADiObject());
     }
 
     /**
@@ -1202,8 +1203,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param cc The IM used to define the columns to be set.
      */
     @Override
-    public void set(MXWrapper m, boolean ind1, Slice rr, IM cc) {
-        this.mx.set(m.mx, ind1, rr, cc);
+    public void set(MXWrapper m, boolean ind1, Slice rr, IMWrapper cc) {
+        this.mx.set(m.mx, ind1, rr, cc.getCasADiObject());
     }
 
     /**
@@ -1216,8 +1217,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param cc The slice used to define the columns to be set.
      */
     @Override
-    public void set(MXWrapper m, boolean ind1, IM rr, Slice cc) {
-        this.mx.set(m.mx, ind1, rr, cc);
+    public void set(MXWrapper m, boolean ind1, IMWrapper rr, Slice cc) {
+        this.mx.set(m.mx, ind1, rr.getCasADiObject(), cc);
     }
 
     /**
@@ -1230,8 +1231,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param cc The IM used to define the columns to be set.
      */
     @Override
-    public void set(MXWrapper m, boolean ind1, IM rr, IM cc) {
-        this.mx.set(m.mx, ind1, rr, cc);
+    public void set(MXWrapper m, boolean ind1, IMWrapper rr, IMWrapper cc) {
+        this.mx.set(m.mx, ind1, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
 
@@ -1294,9 +1295,9 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return A new MXWrapper containing the resulting non-zero elements.
      */
     @Override
-    public MXWrapper getNZ(boolean ind1, IM k) {
+    public MXWrapper getNZ(boolean ind1, IMWrapper k) {
         MXWrapper output = new MXWrapper();
-        this.mx.get_nz(output.getCasADiObject(), ind1, k);
+        this.mx.get_nz(output.getCasADiObject(), ind1, k.getCasADiObject());
         return output;
     }
 
@@ -1401,8 +1402,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param k The IM used to define the rows to be set.
      */
     @Override
-    public void setNZ(MXWrapper m, boolean ind1, IM k) {
-        this.mx.set_nz(m.mx, ind1, k);
+    public void setNZ(MXWrapper m, boolean ind1, IMWrapper k) {
+        this.mx.set_nz(m.mx, ind1, k.getCasADiObject());
     }
 
     /**
@@ -1588,7 +1589,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param offset The offset at which to split the MX object.
      * @return MXVector. A vector of MXWrapper objects resulting from the horizontal split.
      */
-    @Override
     public MXVector horzsplit(IntegerVector offset) {
         return new MXVector(MX.horzsplit(this.mx, offset.getCasADiObject()));
     }
@@ -1600,7 +1600,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param offset2 The second offset for the diagonal split.
      * @return MXVector. A vector of MXWrapper objects resulting from the diagonal split.
      */
-    @Override
     public MXVector diagsplit(IntegerVector offset1, IntegerVector offset2) {
         return new MXVector(MX.diagsplit(this.mx, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
@@ -1611,7 +1610,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param offset The offset at which to split the MX object.
      * @return MXVector. A vector of MXWrapper objects resulting from the vertical split.
      */
-    @Override
     public MXVector vertsplit(IntegerVector offset) {
         return new MXVector(MX.vertsplit(this.mx, offset.getCasADiObject()));
     }
@@ -2202,7 +2200,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      *
      * @return MXVector. A new MXVector containing the symbolic variables.
      */
-    @Override
     public MXVector symvar() {
         return new MXVector(MX.symvar(this.mx));
     }
@@ -2267,33 +2264,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     }
 
     /**
-     * Computes the bilinear form of the given matrices.
-     *
-     * @param x The MXWrapper representing the second matrix.
-     * @param y The MXWrapper representing the third matrix.
-     * @return MXWrapper. A new MXWrapper containing the result of the bilinear form.
-     */
-    @Override
-    public MXWrapper _bilin(MXWrapper x, MXWrapper y) {
-        MX result = MX._bilin(this.mx, x.mx, y.mx);
-        return new MXWrapper(result);
-    }
-
-    /**
-     * Computes the rank-1 update of the given matrices.
-     *
-     * @param alpha The MXWrapper representing the scalar multiplier.
-     * @param x The MXWrapper representing the first matrix.
-     * @param y The MXWrapper representing the second matrix.
-     * @return MXWrapper. A new MXWrapper containing the result of the rank-1 update.
-     */
-    @Override
-    public MXWrapper _rank1(MXWrapper alpha, MXWrapper x, MXWrapper y) {
-        MX result = MX._rank1(this.mx, alpha.mx, x.mx, y.mx);
-        return new MXWrapper(result);
-    }
-
-    /**
      * Projects the expression represented by this MXWrapper onto the given sparsity structure.
      *
      * @param sp The Sparsity structure to project onto.
@@ -2338,17 +2308,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public MXWrapper cumsum() {
         MX result = MX.cumsum(this.mx);
-        return new MXWrapper(result);
-    }
-
-    /**
-     * Computes the log-sum-exponential of the expression represented by this MXWrapper.
-     *
-     * @return MXWrapper. A new MXWrapper containing the result of the log-sum-exponential.
-     */
-    @Override
-    public MXWrapper _logsumexp() {
-        MX result = MX._logsumexp(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2694,18 +2653,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     }
 
     /**
-     * Creates a symbolic variable with the given name and sparsity pattern.
-     *
-     * @param name The name of the symbolic variable.
-     * @param sparsity The Sparsity object representing the sparsity pattern of the variable.
-     * @return MXWrapper. A new MXWrapper containing the created symbolic variable.
-     */
-    @Override
-    public MXWrapper _sym(String name, Sparsity sparsity) {
-        return new MXWrapper(MX._sym(name, sparsity));
-    }
-
-    /**
      * Accesses a specific row of the matrix represented by this MXWrapper.
      *
      * @param rr The row index to access.
@@ -2745,7 +2692,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param horz_offset The IntegerVectorCollection representing horizontal offsets.
      * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
-    @Override
     public MXVectorCollection blocksplit(IntegerVector vert_offset, IntegerVector horz_offset) {
         return new MXVectorCollection(MX.blocksplit(this.mx, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
@@ -2757,7 +2703,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param horz_incr The horizontal increment for splitting.
      * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
-    @Override
     public MXVectorCollection blocksplit(long vert_incr, long horz_incr) {
         return new MXVectorCollection(MX.blocksplit(this.mx, vert_incr, horz_incr));
     }
@@ -2789,7 +2734,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param n The number of parts to split into.
      * @return MXVector. A new MXVector containing the split parts.
      */
-    @Override
     public MXVector vertsplit_n(long n) {
         return new MXVector(MX.vertsplit_n(this.mx, n));
     }
@@ -4485,10 +4429,10 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * This ID can be used to reference the variable in constraints
      * and for debugging purposes.
      *
-     * @param var1 The unique identifier to set for this variable.
+     * @param id The unique identifier to set for this variable.
      */
-    public void setId(String var1) {
-        this.id = var1;
+    public void setId(String id) {
+        this.id = id;
     }
 
 }
