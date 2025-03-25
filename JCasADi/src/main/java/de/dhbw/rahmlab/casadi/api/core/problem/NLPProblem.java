@@ -1,6 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.problem;
 
 import de.dhbw.rahmlab.casadi.api.core.constraints.Constraint;
+import de.dhbw.rahmlab.casadi.api.core.solver.CasADiSolver;
 import de.dhbw.rahmlab.casadi.api.core.utils.MXUtils;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
@@ -106,16 +107,28 @@ public class NLPProblem {
         this.nlpProblem.subject_to();
     }
 
-    public void setSolver(String solver, Dict pluginOptions, Dict solverOptions) {
-        this.nlpProblem.solver(solver, pluginOptions, solverOptions);
+//    public void setSolver(String solver, Dict pluginOptions, Dict solverOptions) {
+//        this.nlpProblem.solver(solver, pluginOptions, solverOptions);
+//    }
+//
+//    public void setSolver(String solver, Dict pluginOptions) {
+//        this.nlpProblem.solver(solver, pluginOptions);
+//    }
+//
+//    public void setSolver(String solver) {
+//        this.nlpProblem.solver(solver);
+//    }
+
+    public void setSolver(CasADiSolver solver, Dict pluginOptions, Dict solverOptions) {
+        this.nlpProblem.solver(solver.getSolverName(), pluginOptions, solverOptions);
     }
 
-    public void setSolver(String solver, Dict pluginOptions) {
-        this.nlpProblem.solver(solver, pluginOptions);
+    public void setSolver(CasADiSolver solver, Dict pluginOptions) {
+        this.nlpProblem.solver(solver.getSolverName(), pluginOptions);
     }
 
-    public void setSolver(String solver) {
-        this.nlpProblem.solver(solver);
+    public void setSolver(CasADiSolver solver) {
+        this.nlpProblem.solver(solver.getSolverName());
     }
 
     public void setInitialDecisionVariable(MXWrapper x, NumericValue v) {
