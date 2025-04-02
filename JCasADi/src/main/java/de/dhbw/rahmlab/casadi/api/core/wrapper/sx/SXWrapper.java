@@ -1756,4 +1756,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         this.id = s;
     }
 
+    public SXVector toVector() {
+        return new SXVector(this);
+    }
+
 }

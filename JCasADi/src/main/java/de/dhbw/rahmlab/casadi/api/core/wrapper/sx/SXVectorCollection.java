@@ -35,8 +35,8 @@ public class SXVectorCollection extends AbstractList<SXVector> implements Collec
         this.stdVectorVectorSX = new StdVectorVectorSX(other.getCasADiObject());
     }
 
-    public SXVectorCollection(int index, SXVector vector) {
-        this.stdVectorVectorSX = new StdVectorVectorSX(index, vector.getCasADiObject());
+    public SXVectorCollection(int count, SXVector vector) {
+        this.stdVectorVectorSX = new StdVectorVectorSX(count, vector.getCasADiObject());
     }
 
     public SXVectorCollection(StdVectorVectorSX stdVectorVectorSX) {

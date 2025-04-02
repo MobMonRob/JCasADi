@@ -114,6 +114,15 @@
 18. **Keine Konvertierungsmethoden**
     - Es gibt keine Möglichkeite ein DM beispielsweise in ein Array zu konvertieren
 
+19. **Unübersichtliche generierte Klassen durch SWIG**
+    - Die automatisch generierten Klassen, insbesondere die SWIGTYPE-Klassen, sind sehr generisch und schwer zu verstehen, was die Übersichtlichkeit des Codes beeinträchtigt.
+
+20. **Fehlende Dokumentation und Kommentare**
+    - Viele Klassen und Methoden im Java Wrapper sind unzureichend dokumentiert, was das Verständnis und die Navigation im Code erschwert, insbesondere für Benutzer, die mit der Python-Implementierung vertraut sind.
+
+21. **Eingeschränkte Verfügbarkeit von Features durch generische SWIGTYPE-Klassen**
+    - Die generischen SWIGTYPE-Klassen sind praktisch nicht nutzbar, was dazu führt, dass einige Features im Java Wrapper nicht verfügbar sind oder schwer zugänglich sind.
+
 ---
 
 **Zusammenfassung der wichtigsten Probleme**:

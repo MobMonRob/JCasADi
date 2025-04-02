@@ -1599,4 +1599,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         this.id = id;
     }
 
+    public IMVector toVector() {
+        return new IMVector(this);
+    }
+
 }

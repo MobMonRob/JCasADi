@@ -103,6 +103,15 @@ public class NLPProblem {
         this.nlpProblem.subject_to(vector.getCasADiObject());
     }
 
+    public void addConstraints(Constraint... constraints) {
+        MXVector vector = new MXVector(
+                Arrays.stream(constraints)
+                        .map(Constraint::getConstraintExpression)
+                        .toList()
+        );
+        this.nlpProblem.subject_to(vector.getCasADiObject());
+    }
+
     public void clearConstraints() {
         this.nlpProblem.subject_to();
     }

@@ -4435,4 +4435,17 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
         this.id = id;
     }
 
+    /**
+     * Converts this object to an MXVector.
+     *
+     * This method creates a new instance of MXVector using the current object as an argument.
+     * It is useful for converting the object's data into a vector format, which might be
+     * necessary for operations that require vector input.
+     *
+     * @return A new MXVector instance containing the data from this object.
+     */
+    public MXVector toVector() {
+        return new MXVector(this);
+    }
+
 }

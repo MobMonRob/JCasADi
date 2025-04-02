@@ -1766,4 +1766,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         this.id = var1;
     }
 
+    public DMVector toVector() {
+        return new DMVector(this);
+    }
+
 }
