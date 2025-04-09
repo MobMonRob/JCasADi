@@ -13,22 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  Collects global CasADi options<br>
- * <br>
- * <br>
- * Note to developers:  <br>
- * <br>
- *  - use sparingly. Global options are - in general - a rather bad idea <br>
- * <br>
- *  - this class must never be instantiated. Access its static members directly <br>
- * <br>
- * <br>
- *  @author Joris Gillis<br>
- *  2012<br>
- * <br>
- *       
- */
 public class GlobalOptions {
   private final long swigCPtr;
 
@@ -99,6 +83,14 @@ public class GlobalOptions {
 
   public static long getMaxNumDir() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GlobalOptions_getMaxNumDir();
+  }
+
+  public static void setCopyElisionMinSize(long sz) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GlobalOptions_setCopyElisionMinSize(sz);
+  }
+
+  public static long getCopyElisionMinSize() {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_GlobalOptions_getCopyElisionMinSize();
   }
 
   public GlobalOptions(de.dhbw.rahmlab.casadi.impl.casadi.GlobalOptions other) {

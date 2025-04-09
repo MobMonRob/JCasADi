@@ -8,11 +8,6 @@
 
 package de.dhbw.rahmlab.casadi.impl.casadi;
 
-/**
- *  Types of options<br>
- * <br>
- *       
- */
 public final class TypeID {
   public final static de.dhbw.rahmlab.casadi.impl.casadi.TypeID OT_NULL = new de.dhbw.rahmlab.casadi.impl.casadi.TypeID("OT_NULL");
   public final static de.dhbw.rahmlab.casadi.impl.casadi.TypeID OT_BOOL = new de.dhbw.rahmlab.casadi.impl.casadi.TypeID("OT_BOOL");
@@ -30,6 +25,10 @@ public final class TypeID {
   public final static de.dhbw.rahmlab.casadi.impl.casadi.TypeID OT_FUNCTIONVECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.TypeID("OT_FUNCTIONVECTOR");
   public final static de.dhbw.rahmlab.casadi.impl.casadi.TypeID OT_VOIDPTR = new de.dhbw.rahmlab.casadi.impl.casadi.TypeID("OT_VOIDPTR");
   public final static de.dhbw.rahmlab.casadi.impl.casadi.TypeID OT_UNKNOWN = new de.dhbw.rahmlab.casadi.impl.casadi.TypeID("OT_UNKNOWN");
+  public final static de.dhbw.rahmlab.casadi.impl.casadi.TypeID OT_STRINGVECTORVECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.TypeID("OT_STRINGVECTORVECTOR");
+  public final static de.dhbw.rahmlab.casadi.impl.casadi.TypeID OT_DICTVECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.TypeID("OT_DICTVECTOR");
+  public final static de.dhbw.rahmlab.casadi.impl.casadi.TypeID OT_VECTORVECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.TypeID("OT_VECTORVECTOR");
+  public final static de.dhbw.rahmlab.casadi.impl.casadi.TypeID OT_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.TypeID("OT_VECTOR");
 
   public final int swigValue() {
     return swigValue;
@@ -65,7 +64,7 @@ public final class TypeID {
     swigNext = this.swigValue+1;
   }
 
-  private static TypeID[] swigValues = { OT_NULL, OT_BOOL, OT_INT, OT_DOUBLE, OT_STRING, OT_INTVECTOR, OT_INTVECTORVECTOR, OT_BOOLVECTOR, OT_DOUBLEVECTOR, OT_DOUBLEVECTORVECTOR, OT_STRINGVECTOR, OT_DICT, OT_FUNCTION, OT_FUNCTIONVECTOR, OT_VOIDPTR, OT_UNKNOWN };
+  private static TypeID[] swigValues = { OT_NULL, OT_BOOL, OT_INT, OT_DOUBLE, OT_STRING, OT_INTVECTOR, OT_INTVECTORVECTOR, OT_BOOLVECTOR, OT_DOUBLEVECTOR, OT_DOUBLEVECTORVECTOR, OT_STRINGVECTOR, OT_DICT, OT_FUNCTION, OT_FUNCTIONVECTOR, OT_VOIDPTR, OT_UNKNOWN, OT_STRINGVECTORVECTOR, OT_DICTVECTOR, OT_VECTORVECTOR, OT_VECTOR };
   private static int swigNext = 0;
   private final int swigValue;
   private final String swigName;

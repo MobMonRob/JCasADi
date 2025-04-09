@@ -13,19 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  Sparsity interface class<br>
- * <br>
- *       This is a common base class for GenericMatrix (i.e. MX and Matrix&lt;&gt;) and Sparsity, introducing a<br>
- *       uniform syntax and implementing common functionality using the curiously recurring template pattern<br>
- *       (CRTP) idiom.<br>
- * <br>
- * <br>
- *       @author Joel Andersson<br>
- *       2014<br>
- * <br>
- *       
- */
 public class SparsitySparsityInterface implements ISparsitySparsityInterface {
   private final long swigCPtr;
 
@@ -62,9 +49,6 @@ public class SparsitySparsityInterface implements ISparsitySparsityInterface {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_ISparsitySparsityInterface_GetInterfaceCPtr(swigCPtr);
   }
 
-  /**
-   *  Conditional comment: CLUTTER
-   */
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SparsitySparsityInterface_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
   }

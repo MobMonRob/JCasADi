@@ -13,27 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  MX - Matrix expression<br>
- * <br>
- *       The MX class is used to build up trees made up from MXNodes. It is a more general<br>
- *       graph representation than the scalar expression, SX, and much less efficient for small<br>
- *       objects. On the other hand, the class allows much more general operations than does SX,<br>
- *       in particular matrix valued operations and calls to arbitrary differentiable functions.<br>
- * <br>
- *       The MX class is designed to have identical syntax with the Matrix&lt;&gt; template class,<br>
- *       and uses DM (i.e. Matrix&lt;double&gt;) as its internal representation of the values at a node. By keeping<br>
- *       the syntaxes identical, it is possible to switch from one class to the other,<br>
- *       as well as inlining MX functions to SXElem functions.<br>
- * <br>
- *       Note that an operation is always "lazy", making a matrix multiplication will create a<br>
- *       matrix multiplication node, not perform the actual multiplication.<br>
- * <br>
- *       @author Joel Andersson<br>
- *       2010-2011<br>
- * <br>
- *       
- */
 public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix, IMxGenericExpression {
   private final long swigCPtr;
 
@@ -82,121 +61,58 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_IMxGenericExpression_GetInterfaceCPtr(swigCPtr);
   }
 
-  /**
-   *  Get type name<br>
-   * <br>
-   *         
-   */
   public static String type_name() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_type_name();
   }
 
-  /**
-   *  Default constructor<br>
-   * <br>
-   *         
-   */
   public MX() {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_0(), true);
   }
 
-  /**
-   *  Create a sparse matrix with all structural zeros<br>
-   * <br>
-   *         
-   */
   public MX(long nrow, long ncol) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_1(nrow, ncol), true);
   }
 
-  /**
-   *  Create a sparse matrix with all structural zeros<br>
-   * <br>
-   *         
-   */
   public MX(SWIGTYPE_p_std__pairT_long_long_long_long_t rc) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_2(SWIGTYPE_p_std__pairT_long_long_long_long_t.getCPtr(rc)), true);
   }
 
-  /**
-   *  Create a sparse matrix from a sparsity pattern.<br>
-   * <br>
-   *         Same as MX::ones(sparsity)<br>
-   * <br>
-   *         
-   */
   public MX(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_3(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp), true);
   }
 
-  /**
-   *  Construct matrix with a given sparsity and nonzeros<br>
-   * <br>
-   *         
-   */
   public MX(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp, de.dhbw.rahmlab.casadi.impl.casadi.MX val) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_4(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(val), val), true);
   }
 
-  /**
-   *  Construct matrix with a given sparsity and a file with nonzeros<br>
-   * <br>
-   *         
-   */
   public MX(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp, String fname) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_5(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp, fname), true);
   }
 
-  /**
-   *  Create scalar constant (also implicit type conversion)<br>
-   * <br>
-   *         
-   */
+  public MX(de.dhbw.rahmlab.casadi.impl.casadi.DM val, String name) {
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_6(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(val), val, name), true);
+  }
+
   public MX(double x) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_6(x), true);
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_7(x), true);
   }
 
-  /**
-   *  Create vector constant (also implicit type conversion)<br>
-   * <br>
-   *         
-   */
   public MX(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble x) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_7(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(x), x), true);
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_8(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(x), x), true);
   }
 
-  /**
-   *  Create sparse matrix constant (also implicit type conversion)<br>
-   * <br>
-   *         
-   */
   public MX(de.dhbw.rahmlab.casadi.impl.casadi.DM x) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_8(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x), true);
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_9(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x), true);
   }
 
-  /**
-   *  End of conditional comment.Conditional comment: INTERNAL Create from node<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX create(SWIGTYPE_p_casadi__MXNode node) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_create(SWIGTYPE_p_casadi__MXNode.getCPtr(node)), true);
   }
 
-  /**
-   *  Create from node (multiple-outputs)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorMX createMultipleOutput(SWIGTYPE_p_casadi__MXNode node) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_createMultipleOutput(SWIGTYPE_p_casadi__MXNode.getCPtr(node)), true);
   }
 
-  /**
-   *  End of conditional comment.Get the sparsity pattern<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sparsity() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sparsity(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -207,397 +123,210 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
 	return proxy;
 }
 
-  /**
-   *  Returns the truth value of an MX expression
-   */
   public boolean __nonzero__() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX___nonzero__(swigCPtr, this);
   }
 
-  /**
-   *  Get an owning reference to the sparsity pattern<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Sparsity get_sparsity() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_sparsity(swigCPtr, this), true);
   }
 
-  /**
-   *  Erase a submatrix (leaving structural zeros in its place)<br>
-   * <br>
-   *         Erase rows and/or columns of a matrix<br>
-   * <br>
-   *         
-   */
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX get_nonzeros() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_nonzeros(swigCPtr, this), true);
+  }
+
   public void erase(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt rr, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt cc, boolean ind1) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_erase__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(cc), cc, ind1);
   }
 
-  /**
-   *  Erase a submatrix (leaving structural zeros in its place)<br>
-   * <br>
-   *         Erase rows and/or columns of a matrix<br>
-   * <br>
-   *         
-   */
   public void erase(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt rr, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt cc) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_erase__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(cc), cc);
   }
 
-  /**
-   *  Erase a submatrix (leaving structural zeros in its place)<br>
-   * <br>
-   *         Erase elements of a matrix<br>
-   * <br>
-   *         
-   */
   public void erase(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt rr, boolean ind1) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_erase__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(rr), rr, ind1);
   }
 
-  /**
-   *  Erase a submatrix (leaving structural zeros in its place)<br>
-   * <br>
-   *         Erase elements of a matrix<br>
-   * <br>
-   *         
-   */
   public void erase(de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt rr) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_erase__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(rr), rr);
   }
 
-  /**
-   *  Enlarge matrix<br>
-   * <br>
-   *         Make the matrix larger by inserting empty rows and columns, keeping the existing non-zeros<br>
-   * <br>
-   *         
-   */
   public void enlarge(long nrow, long ncol, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt rr, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt cc, boolean ind1) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_enlarge__SWIG_0(swigCPtr, this, nrow, ncol, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(cc), cc, ind1);
   }
 
-  /**
-   *  Enlarge matrix<br>
-   * <br>
-   *         Make the matrix larger by inserting empty rows and columns, keeping the existing non-zeros<br>
-   * <br>
-   *         
-   */
   public void enlarge(long nrow, long ncol, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt rr, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt cc) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_enlarge__SWIG_1(swigCPtr, this, nrow, ncol, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(cc), cc);
   }
 
-  /**
-   * End of conditional comment.Get the nth dependency as MX<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX dep(long ch) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_dep__SWIG_0(swigCPtr, this, ch), true);
   }
 
-  /**
-   * End of conditional comment.Get the nth dependency as MX<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX dep() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_dep__SWIG_1(swigCPtr, this), true);
   }
 
-  /**
-   *  Number of outputs<br>
-   * <br>
-   *         
-   */
   public long n_out() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_n_out(swigCPtr, this);
   }
 
-  /**
-   *  Get an output<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX get_output(long oind) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_output(swigCPtr, this, oind), true);
   }
 
-  /**
-   *  Get the number of dependencies of a binary SXElem<br>
-   * <br>
-   *         
-   */
   public long n_dep() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_n_dep(swigCPtr, this);
   }
 
-  /**
-   *  Get the name.
-   */
   public String name() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_name(swigCPtr, this);
   }
 
-  /**
-   *  Check if symbolic
-   */
   public boolean is_symbolic() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_symbolic(swigCPtr, this);
   }
 
-  /**
-   *  Check if constant
-   */
   public boolean is_constant() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_constant(swigCPtr, this);
   }
 
-  /**
-   *  Check if evaluation
-   */
   public boolean is_call() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_call(swigCPtr, this);
   }
 
-  /**
-   *  Get function - only valid when is_call() is true
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function which_function() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_which_function(swigCPtr, this), true);
   }
 
-  /**
-   *  Check if evaluation output
-   */
   public boolean is_output() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_output(swigCPtr, this);
   }
 
-  /**
-   *  Get the index of evaluation output - only valid when is_output() is true
-   */
+  public boolean has_output() {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_has_output(swigCPtr, this);
+  }
+
   public long which_output() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_which_output(swigCPtr, this);
   }
 
-  /**
-   *  Is it a certain operation
-   */
   public boolean is_op(long op) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_op(swigCPtr, this, op);
   }
 
-  /**
-   *  Check if multiplication
-   */
   public boolean is_multiplication() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_multiplication(swigCPtr, this);
   }
 
-  /**
-   *  Check if commutative operation
-   */
   public boolean is_commutative() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_commutative(swigCPtr, this);
   }
 
-  /**
-   *  Check if norm
-   */
   public boolean is_norm() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_norm(swigCPtr, this);
   }
 
-  /**
-   *  Check if matrix can be used to define function inputs.<br>
-   * <br>
-   *         Valid inputs for MXFunctions are combinations of Reshape, concatenations and SymbolicMX<br>
-   * <br>
-   *         
-   */
   public boolean is_valid_input() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_valid_input(swigCPtr, this);
   }
 
-  /**
-   *  Get the number of primitives for MXFunction inputs/outputs<br>
-   * <br>
-   *         
-   */
   public long n_primitives() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_n_primitives(swigCPtr, this);
   }
 
-  /**
-   *  Get primitives<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX primitives() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_primitives(swigCPtr, this), true);
   }
 
-  /**
-   *  Split up an expression along symbolic primitives<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX split_primitives(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_split_primitives(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_split_primitives__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   *  Join an expression along symbolic primitives<br>
-   * <br>
-   *         
-   */
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorSX split_primitives(de.dhbw.rahmlab.casadi.impl.casadi.SX x) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_split_primitives__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(x), x), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorDM split_primitives(de.dhbw.rahmlab.casadi.impl.casadi.DM x) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_split_primitives__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(x), x), true);
+  }
+
   public de.dhbw.rahmlab.casadi.impl.casadi.MX join_primitives(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX v) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_join_primitives(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(v), v), true);
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_join_primitives__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(v), v), true);
   }
 
-  /**
-   *  Conditional comment: INTERNAL Detect duplicate symbolic expressions<br>
-   * <br>
-   *         If there are symbolic primitives appearing more than once, the function will return<br>
-   *         true and the names of the duplicate expressions will be passed to casadi_warning.<br>
-   *         Note: Will mark the node using MX::set_temp.<br>
-   *         Make sure to call reset_input() after usage.<br>
-   * <br>
-   *         
-   */
+  public de.dhbw.rahmlab.casadi.impl.casadi.SX join_primitives(de.dhbw.rahmlab.casadi.impl.std.StdVectorSX v) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.SX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_join_primitives__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorSX.getCPtr(v), v), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.casadi.DM join_primitives(de.dhbw.rahmlab.casadi.impl.std.StdVectorDM v) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_join_primitives__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorDM.getCPtr(v), v), true);
+  }
+
   public boolean has_duplicates() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_has_duplicates(swigCPtr, this);
   }
 
-  /**
-   *  Reset the marker for an input expression<br>
-   * <br>
-   *         
-   */
   public void reset_input() {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_reset_input(swigCPtr, this);
   }
 
-  /**
-   *  End of conditional comment.check if identity<br>
-   * <br>
-   *         
-   */
   public boolean is_eye() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_eye(swigCPtr, this);
   }
 
-  /**
-   *  check if zero (note that false negative answers are possible)<br>
-   * <br>
-   *         
-   */
   public boolean is_zero() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_zero(swigCPtr, this);
   }
 
-  /**
-   *  check if zero (note that false negative answers are possible)<br>
-   * <br>
-   *         
-   */
   public boolean is_one() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_one(swigCPtr, this);
   }
 
-  /**
-   *  check if zero (note that false negative answers are possible)<br>
-   * <br>
-   *         
-   */
   public boolean is_minus_one() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_minus_one(swigCPtr, this);
   }
 
-  /**
-   *  Is the expression a transpose?<br>
-   * <br>
-   *         
-   */
   public boolean is_transpose() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_transpose(swigCPtr, this);
   }
 
-  /**
-   *  Checks if expression does not contain NaN or Inf
-   */
   public boolean is_regular() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_regular(swigCPtr, this);
   }
 
-  /**
-   *  Is binary operation
-   */
   public boolean is_binary() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_binary(swigCPtr, this);
   }
 
-  /**
-   *  Is unary operation
-   */
   public boolean is_unary() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_unary(swigCPtr, this);
   }
 
-  /**
-   *  Get operation type
-   */
   public long op() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_op(swigCPtr, this);
   }
 
-  /**
-   *  Obtain information about node 
-   */
   public de.dhbw.rahmlab.casadi.impl.std.Dict info() {
     return new de.dhbw.rahmlab.casadi.impl.std.Dict(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_info(swigCPtr, this), true);
   }
 
-  /**
-   *  Serialize an object<br>
-   * <br>
-   *         
-   */
   public void serialize(SWIGTYPE_p_casadi__SerializingStream s) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_serialize(swigCPtr, this, SWIGTYPE_p_casadi__SerializingStream.getCPtr(s));
   }
 
-  /**
-   *  Deserialize with type disambiguation<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX deserialize(SWIGTYPE_p_casadi__DeserializingStream s) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_deserialize(SWIGTYPE_p_casadi__DeserializingStream.getCPtr(s)), true);
   }
 
-  /**
-   *  Conditional comment: INTERNAL Get the temporary variable
-   */
   public long get_temp() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_temp(swigCPtr, this);
   }
 
-  /**
-   *  Set the temporary variable
-   */
   public void set_temp(long t) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_set_temp(swigCPtr, this, t);
   }
 
-  /**
-   *  End of conditional comment.Create nodes by their ID<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX binary(long op, de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_binary(op, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
@@ -606,11 +335,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_unary(op, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * create a matrix with all inf<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX inf(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_inf__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp), true);
   }
@@ -631,11 +355,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_inf__SWIG_4(SWIGTYPE_p_std__pairT_long_long_long_long_t.getCPtr(rc)), true);
   }
 
-  /**
-   * create a matrix with all nan<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX nan(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_nan__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp), true);
   }
@@ -656,23 +375,12 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_nan__SWIG_4(SWIGTYPE_p_std__pairT_long_long_long_long_t.getCPtr(rc)), true);
   }
 
-  /**
-   * Identity matrix<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX eye(long n) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_eye(n), true);
   }
 
-  /**
-   *  Get a const pointer to the node
-   */
   public SWIGTYPE_p_casadi__MXNode get() {throw new UnsupportedOperationException();}
 
-  /**
-   * Get a submatrix, single argument
-   */
   public void get(de.dhbw.rahmlab.casadi.impl.casadi.MX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice rr) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr);
   }
@@ -693,9 +401,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get__SWIG_5(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(OUTPUT), OUTPUT, ind1, rr);
   }
 
-  /**
-   * Get a submatrix, two arguments
-   */
   public void get(de.dhbw.rahmlab.casadi.impl.casadi.MX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice cc) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get__SWIG_6(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(cc), cc);
   }
@@ -736,9 +441,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get__SWIG_15(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(cc), cc);
   }
 
-  /**
-   * Set a submatrix, single argument
-   */
   public void set(de.dhbw.rahmlab.casadi.impl.casadi.MX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice rr) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_set__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr);
   }
@@ -751,9 +453,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_set__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp);
   }
 
-  /**
-   * Set a submatrix, two arguments
-   */
   public void set(de.dhbw.rahmlab.casadi.impl.casadi.MX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice cc) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_set__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(cc), cc);
   }
@@ -770,9 +469,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_set__SWIG_6(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(cc), cc);
   }
 
-  /**
-   * Get a set of nonzeros
-   */
   public void get_nz(de.dhbw.rahmlab.casadi.impl.casadi.MX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice kk) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_nz__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(kk), kk);
   }
@@ -801,9 +497,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_nz__SWIG_6(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(inner), inner, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(outer), outer);
   }
 
-  /**
-   * Set a set of nonzeros
-   */
   public void set_nz(de.dhbw.rahmlab.casadi.impl.casadi.MX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice kk) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_set_nz__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(kk), kk);
   }
@@ -820,22 +513,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_set_nz__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(m), m, ind1, kk);
   }
 
-  /**
-   * Computes an einstein dense tensor contraction<br>
-   * <br>
-   *         Computes the product:<br>
-   *         C_c = A_a + B_b<br>
-   *           where a b c are index/einstein notation in an encoded form<br>
-   * <br>
-   *         For example, an matrix-matrix product may be written as:<br>
-   *         C_ij = A_ik B_kj<br>
-   * <br>
-   *         The encoded form uses strictly negative numbers to indicate labels.<br>
-   *         For the above example, we would have:<br>
-   *         a {-1, -3} b {-3, -2} c {-1 -2}<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX einstein(de.dhbw.rahmlab.casadi.impl.casadi.MX A, de.dhbw.rahmlab.casadi.impl.casadi.MX B, de.dhbw.rahmlab.casadi.impl.casadi.MX C, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt dim_a, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt dim_b, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt dim_c, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt a, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt b, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt c) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_einstein__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(A), A, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(B), B, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(C), C, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(dim_a), dim_a, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(dim_b), dim_b, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(dim_c), dim_c, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(a), a, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(b), b, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(c), c), true);
   }
@@ -844,16 +521,10 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_einstein__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(A), A, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(B), B, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(dim_a), dim_a, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(dim_b), dim_b, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(dim_c), dim_c, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(a), a, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(b), b, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(c), c), true);
   }
 
-  /**
-   * Conditional comment: CLUTTERFunctions called by friend functions defined for GenericExpression
-   */
   public static boolean is_equal(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y, long depth) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_equal__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y, depth);
   }
 
-  /**
-   * Conditional comment: CLUTTERFunctions called by friend functions defined for GenericExpression
-   */
   public static boolean is_equal(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_equal__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y);
   }
@@ -866,9 +537,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_mmax(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Functions called by friend functions defined for SparsityInterface
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX horzcat(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_horzcat(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(x), x), true);
   }
@@ -921,16 +589,10 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_kron(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(b), b), true);
   }
 
-  /**
-   * Functions called by friend functions defined for GenericMatrix
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX jacobian(de.dhbw.rahmlab.casadi.impl.casadi.MX f, de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_jacobian__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(f), f, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   * Functions called by friend functions defined for GenericMatrix
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX jacobian(de.dhbw.rahmlab.casadi.impl.casadi.MX f, de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_jacobian__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(f), f, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
@@ -1087,6 +749,14 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_depends_on(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(arg), arg);
   }
 
+  public static boolean contains_all(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX n) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_contains_all(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(v), v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(n), n);
+  }
+
+  public static boolean contains_any(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX n) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_contains_any(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(v), v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(n), n);
+  }
+
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX simplify(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_simplify(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
@@ -1203,9 +873,14 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_cse(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(e), e), true);
   }
 
-  /**
-   * Functions called by friend functions defined for this class
-   */
+  public static void extract_parametric(de.dhbw.rahmlab.casadi.impl.casadi.MX expr, de.dhbw.rahmlab.casadi.impl.casadi.MX par, de.dhbw.rahmlab.casadi.impl.casadi.MX expr_ret, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX symbols, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX parametric, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_extract_parametric(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(expr), expr, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(par), par, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(expr_ret), expr_ret, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(symbols), symbols, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(parametric), parametric, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts);
+  }
+
+  public static void separate_linear(de.dhbw.rahmlab.casadi.impl.casadi.MX expr, de.dhbw.rahmlab.casadi.impl.casadi.MX sym_lin, de.dhbw.rahmlab.casadi.impl.casadi.MX sym_const, de.dhbw.rahmlab.casadi.impl.casadi.MX expr_const, de.dhbw.rahmlab.casadi.impl.casadi.MX expr_lin, de.dhbw.rahmlab.casadi.impl.casadi.MX expr_nonlin) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_separate_linear(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(expr), expr, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(sym_lin), sym_lin, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(sym_const), sym_const, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(expr_const), expr_const, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(expr_lin), expr_lin, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(expr_nonlin), expr_nonlin);
+  }
+
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX find(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_find(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
@@ -1222,8 +897,16 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_graph_substitute__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(v), v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(vdef), vdef), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorMX graph_substitute(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX ex, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX expr, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX exprs) {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_graph_substitute__SWIG_1(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(ex), ex, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(expr), expr, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(exprs), exprs), true);
+  public static de.dhbw.rahmlab.casadi.impl.casadi.MX graph_substitute(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX vdef, SWIGTYPE_p_bool updated) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_graph_substitute__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(v), v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(vdef), vdef, SWIGTYPE_p_bool.getCPtr(updated)), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorMX graph_substitute(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX ex, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX vdef) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_graph_substitute__SWIG_2(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(ex), ex, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(v), v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(vdef), vdef), true);
+  }
+
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorMX graph_substitute(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX ex, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX vdef, SWIGTYPE_p_bool updated) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_graph_substitute__SWIG_3(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(ex), ex, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(v), v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(vdef), vdef, SWIGTYPE_p_bool.getCPtr(updated)), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX matrix_expand(de.dhbw.rahmlab.casadi.impl.casadi.MX e, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX boundary, de.dhbw.rahmlab.casadi.impl.std.Dict options) {
@@ -1274,42 +957,22 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_stop_diff__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(expr), expr, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(var), var, order), true);
   }
 
-  /**
-   * End of conditional comment.
-   */
+  public static de.dhbw.rahmlab.casadi.impl.std.StdVectorMX difference(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX a, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX b) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_difference(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(a), a, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(b), b), true);
+  }
+
   public static de.dhbw.rahmlab.casadi.impl.casadi.DM bspline_dual(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble x, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_bspline_dual__SWIG_0(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(knots), knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   * End of conditional comment.
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.DM bspline_dual(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble x, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt degree) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_bspline_dual__SWIG_1(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble.getCPtr(knots), knots, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(degree), degree), true);
   }
 
-  /**
-   *  Low-level access to inlined linear interpolation<br>
-   * <br>
-   * Usually, you want to be using 'interpolant' instead.<br>
-   * <br>
-   * Accepts lookup_mode option.<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX interpn_linear(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX x, de.dhbw.rahmlab.casadi.impl.casadi.MX v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX xq, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_interpn_linear__SWIG_0(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(v), v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(xq), xq, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   *  Low-level access to inlined linear interpolation<br>
-   * <br>
-   * Usually, you want to be using 'interpolant' instead.<br>
-   * <br>
-   * Accepts lookup_mode option.<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX interpn_linear(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX x, de.dhbw.rahmlab.casadi.impl.casadi.MX v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX xq) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_interpn_linear__SWIG_1(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(v), v, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(xq), xq), true);
   }
@@ -1318,121 +981,54 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_printme(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(b), b), true);
   }
 
-  /**
-   *  returns itself, but with an assertion attached<br>
-   * <br>
-   *  If y does not evaluate to 1, a runtime error is raised<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX attachAssert(de.dhbw.rahmlab.casadi.impl.casadi.MX y, String fail_message) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_attachAssert__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y, fail_message), true);
   }
 
-  /**
-   *  returns itself, but with an assertion attached<br>
-   * <br>
-   *  If y does not evaluate to 1, a runtime error is raised<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX attachAssert(de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_attachAssert__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   *  Monitor an expression<br>
-   * <br>
-   * Returns itself, but with the side effect of printing the nonzeros along with a comment<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX monitor(String comment) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_monitor(swigCPtr, this, comment), true);
   }
 
-  /**
-   *  Transpose the matrix
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX T() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_T(swigCPtr, this), true);
   }
 
-  /**
-   *  Get an IM representation of a GetNonzeros or SetNonzeros node<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.IM mapping() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.IM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_mapping(swigCPtr, this), true);
   }
 
-  /**
-   *  Set or reset the depth to which equalities are being checked for simplifications<br>
-   * <br>
-   *         
-   */
   public static void set_max_depth(long eq_depth) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_set_max_depth__SWIG_0(eq_depth);
   }
 
-  /**
-   *  Set or reset the depth to which equalities are being checked for simplifications<br>
-   * <br>
-   *         
-   */
   public static void set_max_depth() {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_set_max_depth__SWIG_1();
   }
 
-  /**
-   *  Get the depth to which equalities are being checked for simplifications<br>
-   * <br>
-   *         
-   */
   public static long get_max_depth() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_max_depth();
   }
 
-  /**
-   *  Check if a particular cast is allowed
-   */
-  public static boolean test_cast(SWIGTYPE_p_casadi__SharedObjectInternal ptr) {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_test_cast(SWIGTYPE_p_casadi__SharedObjectInternal.getCPtr(ptr));
+  public static boolean test_cast(SWIGTYPE_p_SharedObjectInternal ptr) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_test_cast(SWIGTYPE_p_SharedObjectInternal.getCPtr(ptr));
   }
 
-  /**
-   *  Get function inputs<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorMX get_input(de.dhbw.rahmlab.casadi.impl.casadi.Function f) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_input(de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(f), f), true);
   }
 
-  /**
-   *  Get free variables<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorMX get_free(de.dhbw.rahmlab.casadi.impl.casadi.Function f) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_free(de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(f), f), true);
   }
 
-  /**
-   *  Evaluate the MX node with new symbolic dependencies<br>
-   * <br>
-   *         
-   */
   public void eval_mx(de.dhbw.rahmlab.casadi.impl.std.StdVectorMX arg, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX OUTPUT) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_eval_mx(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(OUTPUT), OUTPUT);
   }
 
-  /**
-   * Called from MXFunction<br>
-   * <br>
-   *         
-   */
   public void ad_forward(de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX fseed, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX fsens) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_ad_forward(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX.getCPtr(fseed), fseed, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX.getCPtr(fsens), fsens);
   }
@@ -1441,11 +1037,8 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_ad_reverse(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX.getCPtr(aseed), aseed, de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX.getCPtr(asens), asens);
   }
 
-  /**
-   * Construct constant matrix with a given sparsity and values
-   */
   public MX(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp, double val, boolean dummy) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_9(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp, val, dummy), true);
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_10(de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp, val, dummy), true);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX _sym(String name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
@@ -1464,9 +1057,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_assign(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(other), other);
   }
 
-  /**
-   *  Conditional comment: CLUTTER
-   */
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX blocksplit(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt horz_offset) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_blocksplit__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(vert_offset), vert_offset, de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt.getCPtr(horz_offset), horz_offset), true);
   }
@@ -1527,304 +1117,110 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_repmat__SWIG_2(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(A), A, SWIGTYPE_p_std__pairT_long_long_long_long_t.getCPtr(rc)), true);
   }
 
-  /**
-   *  Get class name<br>
-   * <br>
-   *         
-   */
-  public String class_name() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_class_name(swigCPtr, this);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream, boolean more) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_disp__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream), more);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_disp__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Get string representation
-   */
   public String toString(boolean more) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_toString__SWIG_0(swigCPtr, this, more);
   }
 
-  /**
-   *  Get string representation
-   */
   public String toString() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_toString__SWIG_1(swigCPtr, this);
   }
 
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_print_ptr__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr() {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_print_ptr__SWIG_1(swigCPtr, this);
-  }
-
-  /**
-   *  End of conditional comment.Is a null pointer?
-   */
-  public boolean is_null() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_null(swigCPtr, this);
-  }
-
-  /**
-   *  Returns a number that is unique for a given Node.<br>
-   * <br>
-   * If the Object does not point to any node, "0" is returned.<br>
-   * <br>
-   *         
-   */
-  public long __hash__() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX___hash__(swigCPtr, this);
-  }
-
-  /**
-   *  Get the number of (structural) non-zero elements<br>
-   * <br>
-   *         
-   */
   public long nnz_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_nnz_(swigCPtr, this);
   }
 
-  /**
-   *  Get the number of non-zeros in the lower triangular half<br>
-   * <br>
-   *         
-   */
   public long nnz_lower_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_nnz_lower_(swigCPtr, this);
   }
 
-  /**
-   *  Get the number of non-zeros in the upper triangular half<br>
-   * <br>
-   *         
-   */
   public long nnz_upper_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_nnz_upper_(swigCPtr, this);
   }
 
-  /**
-   *  Get get the number of non-zeros on the diagonal<br>
-   * <br>
-   *         
-   */
   public long nnz_diag() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_nnz_diag(swigCPtr, this);
   }
 
-  /**
-   *  Get the number of elements<br>
-   * <br>
-   *         
-   */
   public long numel_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_numel_(swigCPtr, this);
   }
 
-  /**
-   *  Get the first dimension (i.e. number of rows)<br>
-   * <br>
-   *         
-   */
   public long size1_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_size1_(swigCPtr, this);
   }
 
-  /**
-   *  Get the number of rows, Octave-style syntax<br>
-   * <br>
-   *         
-   */
   public long rows() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_rows(swigCPtr, this);
   }
 
-  /**
-   *  Get the second dimension (i.e. number of columns)<br>
-   * <br>
-   *         
-   */
   public long size2_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_size2_(swigCPtr, this);
   }
 
-  /**
-   *  Get the number of columns, Octave-style syntax<br>
-   * <br>
-   *         
-   */
   public long columns() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_columns(swigCPtr, this);
   }
 
-  /**
-   *  Get string representation of dimensions.<br>
-   * <br>
-   *         The representation is e.g. "4x5" or  "4x5,10nz"<br>
-   * <br>
-   *         
-   */
   public String dim_(boolean with_nz) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_dim___SWIG_0(swigCPtr, this, with_nz);
   }
 
-  /**
-   *  Get string representation of dimensions.<br>
-   * <br>
-   *         The representation is e.g. "4x5" or  "4x5,10nz"<br>
-   * <br>
-   *         
-   */
   public String dim_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_dim___SWIG_1(swigCPtr, this);
   }
 
-  /**
-   *  Get the shape<br>
-   * <br>
-   *         
-   */
   public SWIGTYPE_p_std__pairT_long_long_long_long_t size_() {
     return new SWIGTYPE_p_std__pairT_long_long_long_long_t(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_size___SWIG_0(swigCPtr, this), true);
   }
 
-  /**
-   *  Get the size along a particular dimensions<br>
-   * <br>
-   *         
-   */
   public long size_(long axis) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_size___SWIG_1(swigCPtr, this, axis);
   }
 
-  /**
-   *  Check if the sparsity is empty, i.e. if one of the dimensions is zero<br>
-   * <br>
-   * (or optionally both dimensions)<br>
-   * <br>
-   *         
-   */
   public boolean is_empty_(boolean both) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_empty___SWIG_0(swigCPtr, this, both);
   }
 
-  /**
-   *  Check if the sparsity is empty, i.e. if one of the dimensions is zero<br>
-   * <br>
-   * (or optionally both dimensions)<br>
-   * <br>
-   *         
-   */
   public boolean is_empty_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_empty___SWIG_1(swigCPtr, this);
   }
 
-  /**
-   *  Check if the matrix expression is dense<br>
-   * <br>
-   *         
-   */
   public boolean is_dense_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_dense_(swigCPtr, this);
   }
 
-  /**
-   *  Check if the matrix expression is scalar<br>
-   * <br>
-   *         
-   */
   public boolean is_scalar_(boolean scalar_and_dense) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_scalar___SWIG_0(swigCPtr, this, scalar_and_dense);
   }
 
-  /**
-   *  Check if the matrix expression is scalar<br>
-   * <br>
-   *         
-   */
   public boolean is_scalar_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_scalar___SWIG_1(swigCPtr, this);
   }
 
-  /**
-   *  Check if the matrix expression is square<br>
-   * <br>
-   *         
-   */
   public boolean is_square() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_square(swigCPtr, this);
   }
 
-  /**
-   *  Check if the matrix is a row or column vector<br>
-   * <br>
-   *         
-   */
   public boolean is_vector_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_vector_(swigCPtr, this);
   }
 
-  /**
-   *  Check if the matrix is a row vector (i.e. size1()==1)<br>
-   * <br>
-   *         
-   */
   public boolean is_row_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_row_(swigCPtr, this);
   }
 
-  /**
-   *  Check if the matrix is a column vector (i.e. size2()==1)<br>
-   * <br>
-   *         
-   */
   public boolean is_column_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_column_(swigCPtr, this);
   }
 
-  /**
-   *  Check if the matrix is upper triangular<br>
-   * <br>
-   *         
-   */
   public boolean is_triu_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_triu_(swigCPtr, this);
   }
 
-  /**
-   *  Check if the matrix is lower triangular<br>
-   * <br>
-   *         
-   */
   public boolean is_tril_() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_is_tril_(swigCPtr, this);
   }
 
-  /**
-   * Get the sparsity pattern. See the Sparsity class for details.<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt get_row() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_get_row(swigCPtr, this), true);
   }
@@ -1845,9 +1241,6 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_colind___SWIG_1(swigCPtr, this, col);
   }
 
-  /**
-   *  Conditional comment: CLUTTER  Functions called by friend functions defined here
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX interp1d(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble x, de.dhbw.rahmlab.casadi.impl.casadi.MX v, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble xq, String mode, boolean equidistant) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_interp1d(de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(v), v, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(xq), xq, mode, equidistant), true);
   }
@@ -1948,23 +1341,14 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_logsumexp(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Functions called by friend functions defined here
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX jtimes_(de.dhbw.rahmlab.casadi.impl.casadi.MX ex, de.dhbw.rahmlab.casadi.impl.casadi.MX arg, de.dhbw.rahmlab.casadi.impl.casadi.MX v, boolean tr, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_jtimes___SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(ex), ex, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(v), v, tr, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   * Functions called by friend functions defined here
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX jtimes_(de.dhbw.rahmlab.casadi.impl.casadi.MX ex, de.dhbw.rahmlab.casadi.impl.casadi.MX arg, de.dhbw.rahmlab.casadi.impl.casadi.MX v, boolean tr) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_jtimes___SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(ex), ex, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(v), v, tr), true);
   }
 
-  /**
-   * Functions called by friend functions defined here
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX jtimes_(de.dhbw.rahmlab.casadi.impl.casadi.MX ex, de.dhbw.rahmlab.casadi.impl.casadi.MX arg, de.dhbw.rahmlab.casadi.impl.casadi.MX v) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_jtimes___SWIG_2(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(ex), ex, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(v), v), true);
   }
@@ -2001,116 +1385,50 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_soc(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Create an nrow-by-ncol symbolic primitive<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sym(String name, long nrow, long ncol) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sym__SWIG_0(name, nrow, ncol), true);
   }
 
-  /**
-   * Create an nrow-by-ncol symbolic primitive<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sym(String name, long nrow) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sym__SWIG_1(name, nrow), true);
   }
 
-  /**
-   * Create an nrow-by-ncol symbolic primitive<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sym(String name) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sym__SWIG_2(name), true);
   }
 
-  /**
-   *  Construct a symbolic primitive with given dimensions<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sym(String name, SWIGTYPE_p_std__pairT_long_long_long_long_t rc) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sym__SWIG_3(name, SWIGTYPE_p_std__pairT_long_long_long_long_t.getCPtr(rc)), true);
   }
 
-  /**
-   *  Create symbolic primitive with a given sparsity pattern<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sym(String name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sym__SWIG_4(name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp), true);
   }
 
-  /**
-   *  Create a vector of length p with with matrices<br>
-   * <br>
-   * with symbolic primitives of given sparsity<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorMX sym(String name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp, long p) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sym__SWIG_5(name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp, p), true);
   }
 
-  /**
-   *  Create a vector of length p with nrow-by-ncol symbolic primitives<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorMX sym(String name, long nrow, long ncol, long p) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sym__SWIG_6(name, nrow, ncol, p), true);
   }
 
-  /**
-   *  Create a vector of length r of vectors of length p with<br>
-   * <br>
-   * symbolic primitives with given sparsity<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX sym(String name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp, long p, long r) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sym__SWIG_7(name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp, p, r), true);
   }
 
-  /**
-   *  Create a vector of length r of vectors of length p<br>
-   * <br>
-   * with nrow-by-ncol symbolic primitives<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX sym(String name, long nrow, long ncol, long p, long r) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sym__SWIG_8(name, nrow, ncol, p, r), true);
   }
 
-  /**
-   * Create a dense matrix or a matrix with specified sparsity with all entries zero<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX zeros(long nrow, long ncol) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_zeros__SWIG_0(nrow, ncol), true);
   }
 
-  /**
-   * Create a dense matrix or a matrix with specified sparsity with all entries zero<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX zeros(long nrow) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_zeros__SWIG_1(nrow), true);
   }
 
-  /**
-   * Create a dense matrix or a matrix with specified sparsity with all entries zero<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX zeros() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_zeros__SWIG_2(), true);
   }
@@ -2123,29 +1441,14 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_zeros__SWIG_4(SWIGTYPE_p_std__pairT_long_long_long_long_t.getCPtr(rc)), true);
   }
 
-  /**
-   * Create a dense matrix or a matrix with specified sparsity with all entries one<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX ones(long nrow, long ncol) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_ones__SWIG_0(nrow, ncol), true);
   }
 
-  /**
-   * Create a dense matrix or a matrix with specified sparsity with all entries one<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX ones(long nrow) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_ones__SWIG_1(nrow), true);
   }
 
-  /**
-   * Create a dense matrix or a matrix with specified sparsity with all entries one<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX ones() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_ones__SWIG_2(), true);
   }
@@ -2158,476 +1461,200 @@ public class MX implements IMxSparsityInterface, ISharedObject, IMxGenericMatrix
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_ones__SWIG_4(SWIGTYPE_p_std__pairT_long_long_long_long_t.getCPtr(rc)), true);
   }
 
-  /**
-   * Addition: (x,y) -&gt; x + y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX plus(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_plus(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Subtraction: (x,y) -&gt; x - y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX minus(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_minus(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Elementwise multiplication: (x,y) -&gt; x .* y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX times(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_times(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Elementwise division: (x,y) -&gt; x ./ y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX rdivide(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_rdivide(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Logical less than: (x,y) -&gt; x &lt; y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX lt(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_lt(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Logical less or equal to: (x,y) -&gt; x &lt;= y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX le(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_le(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Logical greater than: (x,y) -&gt; x &gt; y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX gt(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_gt(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Logical greater or equal to: (x,y) -&gt; x &lt;= y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX ge(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_ge(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Logical equal to: (x,y) -&gt; x == y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX eq(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_eq(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Logical not equal to: (x,y) -&gt; x != y<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX ne(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_ne(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Logical `and`<br>
-   * <br>
-   * Returns (an expression evaluating to) 1 if both<br>
-   * expressions are nonzero and 0 otherwise<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX logic_and(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_logic_and(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Logical `or`<br>
-   * <br>
-   * returns (an expression evaluating to) 1 if at<br>
-   * least one expression is nonzero and 0 otherwise<br>
-   * <br>
-   *       
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX logic_or(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_logic_or(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Logical `not` x -&gt; !x<br>
-   * <br>
-   * Returns (an expression evaluating to) 1 if<br>
-   * expression is zero and 0 otherwise<br>
-   * <br>
-   *        
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX logic_not(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_logic_not(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Absolute value: x -&gt; abs(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX abs(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_abs(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Square root: x -&gt; sqrt(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sqrt(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sqrt(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Square: x -&gt; x^2<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sq(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sq(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Sine: x -&gt; sin(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sin(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sin(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Cosine: x -&gt; cos(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX cos(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_cos(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Tangent: x -&gt; tan(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX tan(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_tan(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Arc tangent: x -&gt; atan(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX atan(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_atan(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Arc sine: x -&gt; asin(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX asin(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_asin(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Arc cosine: x -&gt; acos(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX acos(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_acos(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Hyperbolic tangent: x -&gt; tanh(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX tanh(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_tanh(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Hyperbolic sin: x -&gt; sinh(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sinh(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sinh(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Hyperbolic cosine: x -&gt; cosh(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX cosh(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_cosh(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Inverse hyperbolic tangent: x -&gt; atanh(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX atanh(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_atanh(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Inverse hyperbolic sin: x -&gt; asinh(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX asinh(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_asinh(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Inverse hyperbolic cosine: x -&gt; acosh(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX acosh(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_acosh(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Elementwise exponential: x -&gt; exp(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX exp(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_exp(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Natural logarithm: x -&gt; log(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX log(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_log(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Base-10 logarithm: x -&gt; log10(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX log10(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_log10(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Precision variant for natural logarithm: x -&gt; log(x+1)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX log1p(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_log1p(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Precision variant for elementwise exponential: x -&gt; exp(x)-1<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX expm1(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_expm1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Round down to nearest integer: x -&gt; floor(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX floor(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_floor(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Round up to nearest integer: x -&gt; ceil(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX ceil(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_ceil(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Error function: x -&gt; erf(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX erf(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_erf(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Inverse error function: x -&gt; erfinv(x)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX erfinv(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_erfinv(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Sign function:<br>
-   * <br>
-   *         sign(x)   := -1 for x&lt;0<br>
-   *         sign(x)   :=  1 for x&gt;0,<br>
-   *         sign(0)   :=  0<br>
-   *         sign(NaN) :=  NaN<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX sign(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_sign(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Elementwise power: (x,y) -&gt; x.^y<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX pow(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_pow(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Remainder after division: (x,y) -&gt; fmod(x,y)<br>
-   * <br>
-   *     This Function follows the convention of https://en.cppreference.com/w/c/numeric/math/fmod<br>
-   * <br>
-   *     Notably:<br>
-   *       - fmod(5,3)   -&gt; 2<br>
-   *       - fmod(5,-3)  -&gt; 2<br>
-   *       - fmod(-5,3)  -&gt; -2<br>
-   *       - fmod(-5,-3) -&gt; -2<br>
-   * <br>
-   *     This is equivalent to Python's numpy.fmod and Matlab's rem.<br>
-   * <br>
-   *     remainder<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX mod(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_mod(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Remainder after division: (x,y) -&gt; remainder(x,y)<br>
-   * <br>
-   *     This Function follows the convention of https://en.cppreference.com/w/c/numeric/math/remainder<br>
-   * <br>
-   *     Notably:<br>
-   *       - remainder(5,3)   -&gt; -1<br>
-   *       - remainder(5,-3)  -&gt; -1<br>
-   *       - remainder(-5,3)  -&gt; 1<br>
-   *       - remainder(-5,-3) -&gt; 1<br>
-   * <br>
-   *     This is equivalent to Python's math.remainder. There is no equivalence in Matlab.<br>
-   * <br>
-   *     fmod<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX remainder(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_remainder(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Two argument arc tangent: (y,x) -&gt; atan2(y,x)<br>
-   * <br>
-   * theta = atan2(y,x) corresponds to x = r cos(theta), y = r sin(theta)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX atan2(de.dhbw.rahmlab.casadi.impl.casadi.MX y, de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_atan2(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
 
-  /**
-   * Conditional assignment: (x,y) -&gt; x ? y : 0<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX if_else_zero(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_if_else_zero(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Smallest of two values: (x,y) -&gt; min(x,y)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX fmin(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_fmin(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Largest of two values: (x,y) -&gt; max(x,y)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX fmax(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_fmax(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Copy sign
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX copysign(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_copysign(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Elementwise power with const power
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX constpow(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_constpow(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
-  /**
-   * Precision variant for 2 norm: (x,y) -&gt; sqrt(x^2+y^2)<br>
-   * <br>
-   *         
-   */
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX hypot(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX y) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_hypot(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(y), y), true);
   }
 
   public MX(de.dhbw.rahmlab.casadi.impl.casadi.MX other) {
-    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_10(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(other), other), true);
+    this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MX__SWIG_11(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(other), other), true);
   }
 
 }

@@ -13,18 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  A simplified interface for NLP modeling/solving<br>
- * <br>
- *       This class offers a view with solution retrieval facilities<br>
- *       The API is guaranteed to be stable.<br>
- * <br>
- * <br>
- *       2017<br>
- *       @author Joris Gillis, Erik Lambrechts<br>
- * <br>
- *     
- */
 public class OptiSol {
   private final long swigCPtr;
 
@@ -77,28 +65,10 @@ public class OptiSol {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiSol_toString__SWIG_1(swigCPtr, this);
   }
 
-  /**
-   *  Obtain value of expression at the current value<br>
-   * <br>
-   * In regular mode, teh current value is the converged solution<br>
-   * In debug mode, the value can be non-converged<br>
-   * <br>
-   * values Optional assignment expressions (e.g. x==3)<br>
-   *            to overrule the current value
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.DM value(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX values) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiSol_value__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.std.StdVectorMX.getCPtr(values), values), true);
   }
 
-  /**
-   *  Obtain value of expression at the current value<br>
-   * <br>
-   * In regular mode, teh current value is the converged solution<br>
-   * In debug mode, the value can be non-converged<br>
-   * <br>
-   * values Optional assignment expressions (e.g. x==3)<br>
-   *            to overrule the current value
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.DM value(de.dhbw.rahmlab.casadi.impl.casadi.MX x) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiSol_value__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x), true);
   }
@@ -119,9 +89,6 @@ public class OptiSol {
     return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiSol_value__SWIG_5(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(x), x), true);
   }
 
-  /**
-   *  get assignment expressions for the optimal solution
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX value_variables() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiSol_value_variables(swigCPtr, this), true);
   }
@@ -130,14 +97,6 @@ public class OptiSol {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiSol_value_parameters(swigCPtr, this), true);
   }
 
-  /**
-   *  Get statistics<br>
-   * <br>
-   * nlpsol stats are passed as-is.<br>
-   * No stability can be guaranteed about this part of the API<br>
-   * <br>
-   *         
-   */
   public de.dhbw.rahmlab.casadi.impl.std.Dict stats() {
     return new de.dhbw.rahmlab.casadi.impl.std.Dict(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_OptiSol_stats(swigCPtr, this), true);
   }

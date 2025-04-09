@@ -13,12 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  SubMatrix class for Matrix<br>
- *       SubMatrix is the return type for operator() of the Matrix class, it allows access to the value as well as changing the parent object<br>
- *       @author Joel Andersson<br>
- *       2011-2014
- */
 public class DmSubMatrix extends de.dhbw.rahmlab.casadi.impl.casadi.DM {
   private final long swigCPtr;
 
@@ -35,16 +29,10 @@ public class DmSubMatrix extends de.dhbw.rahmlab.casadi.impl.casadi.DM {
   de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_DmSubMatrix(swigCPtr);
 }
 
-  /**
-   *  Constructor
-   */
   public DmSubMatrix(de.dhbw.rahmlab.casadi.impl.casadi.DM mat, int i, int j) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_DmSubMatrix__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(mat), mat, i, j), true);
   }
 
-  /**
-   *  Default copy constructor
-   */
   public DmSubMatrix(de.dhbw.rahmlab.casadi.impl.casadi.DmSubMatrix y) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_DmSubMatrix__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.DmSubMatrix.getCPtr(y), y), true);
   }

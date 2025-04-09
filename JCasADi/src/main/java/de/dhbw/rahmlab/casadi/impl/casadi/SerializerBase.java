@@ -139,9 +139,9 @@ public class SerializerBase {
 
   public final static class SerializationType {
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_SPARSITY = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_SPARSITY");
-    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_MX = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_MX");
+    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_MX_v1 = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_MX_v1");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_DM = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_DM");
-    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_SX = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_SX");
+    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_SX_v1 = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_SX_v1");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_LINSOL = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_LINSOL");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_FUNCTION = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_FUNCTION");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_GENERICTYPE = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_GENERICTYPE");
@@ -149,15 +149,19 @@ public class SerializerBase {
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_DOUBLE = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_DOUBLE");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_STRING = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_STRING");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_SPARSITY_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_SPARSITY_VECTOR");
-    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_MX_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_MX_VECTOR");
+    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_MX_VECTOR_v1 = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_MX_VECTOR_v1");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_DM_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_DM_VECTOR");
-    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_SX_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_SX_VECTOR");
+    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_SX_VECTOR_v1 = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_SX_VECTOR_v1");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_LINSOL_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_LINSOL_VECTOR");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_FUNCTION_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_FUNCTION_VECTOR");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_GENERICTYPE_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_GENERICTYPE_VECTOR");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_INT_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_INT_VECTOR");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_DOUBLE_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_DOUBLE_VECTOR");
     public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_STRING_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_STRING_VECTOR");
+    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_MX = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_MX");
+    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_SX = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_SX");
+    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_MX_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_MX_VECTOR");
+    public final static de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType SERIALIZED_SX_VECTOR = new de.dhbw.rahmlab.casadi.impl.casadi.SerializerBase.SerializationType("SERIALIZED_SX_VECTOR");
 
     public final int swigValue() {
       return swigValue;
@@ -193,7 +197,7 @@ public class SerializerBase {
       swigNext = this.swigValue+1;
     }
 
-    private static SerializationType[] swigValues = { SERIALIZED_SPARSITY, SERIALIZED_MX, SERIALIZED_DM, SERIALIZED_SX, SERIALIZED_LINSOL, SERIALIZED_FUNCTION, SERIALIZED_GENERICTYPE, SERIALIZED_INT, SERIALIZED_DOUBLE, SERIALIZED_STRING, SERIALIZED_SPARSITY_VECTOR, SERIALIZED_MX_VECTOR, SERIALIZED_DM_VECTOR, SERIALIZED_SX_VECTOR, SERIALIZED_LINSOL_VECTOR, SERIALIZED_FUNCTION_VECTOR, SERIALIZED_GENERICTYPE_VECTOR, SERIALIZED_INT_VECTOR, SERIALIZED_DOUBLE_VECTOR, SERIALIZED_STRING_VECTOR };
+    private static SerializationType[] swigValues = { SERIALIZED_SPARSITY, SERIALIZED_MX_v1, SERIALIZED_DM, SERIALIZED_SX_v1, SERIALIZED_LINSOL, SERIALIZED_FUNCTION, SERIALIZED_GENERICTYPE, SERIALIZED_INT, SERIALIZED_DOUBLE, SERIALIZED_STRING, SERIALIZED_SPARSITY_VECTOR, SERIALIZED_MX_VECTOR_v1, SERIALIZED_DM_VECTOR, SERIALIZED_SX_VECTOR_v1, SERIALIZED_LINSOL_VECTOR, SERIALIZED_FUNCTION_VECTOR, SERIALIZED_GENERICTYPE_VECTOR, SERIALIZED_INT_VECTOR, SERIALIZED_DOUBLE_VECTOR, SERIALIZED_STRING_VECTOR, SERIALIZED_MX, SERIALIZED_SX, SERIALIZED_MX_VECTOR, SERIALIZED_SX_VECTOR };
     private static int swigNext = 0;
     private final int swigValue;
     private final String swigName;

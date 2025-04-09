@@ -13,11 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  Class to achieve minimal overhead function evaluations<br>
- * <br>
- *     
- */
 public class FunctionBuffer {
   private final long swigCPtr;
 
@@ -50,11 +45,6 @@ public class FunctionBuffer {
   de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_FunctionBuffer(swigCPtr);
 }
 
-  /**
-   *  Main constructor<br>
-   * <br>
-   *       
-   */
   public FunctionBuffer(de.dhbw.rahmlab.casadi.impl.casadi.Function f) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_FunctionBuffer__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(f), f), true);
   }
@@ -63,35 +53,14 @@ public class FunctionBuffer {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_FunctionBuffer__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.FunctionBuffer.getCPtr(f), f), true);
   }
 
-  /**
-   *  Set input buffer for input i<br>
-   * <br>
-   *       mem.set_arg(0, memoryview(a))<br>
-   * <br>
-   *       Note that CasADi uses 'fortran' order: column-by-column<br>
-   * <br>
-   *       
-   */
   public void set_arg(long i, SWIGTYPE_p_double a, long size) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_FunctionBuffer_set_arg(swigCPtr, this, i, SWIGTYPE_p_double.getCPtr(a), size);
   }
 
-  /**
-   *  Set output buffer for ouput i<br>
-   * <br>
-   *       mem.set_res(0, memoryview(a))<br>
-   * <br>
-   *       Note that CasADi uses 'fortran' order: column-by-column<br>
-   * <br>
-   *       
-   */
   public void set_res(long i, SWIGTYPE_p_double a, long size) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_FunctionBuffer_set_res(swigCPtr, this, i, SWIGTYPE_p_double.getCPtr(a), size);
   }
 
-  /**
-   *  Get last return value
-   */
   public int ret() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_FunctionBuffer_ret(swigCPtr, this);
   }
@@ -101,5 +70,9 @@ public class FunctionBuffer {
   }
 
   public SWIGTYPE_p_void _self() {throw new UnsupportedOperationException();}
+
+  public de.dhbw.rahmlab.casadi.impl.std.Dict stats() {
+    return new de.dhbw.rahmlab.casadi.impl.std.Dict(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_FunctionBuffer_stats(swigCPtr, this), true);
+  }
 
 }

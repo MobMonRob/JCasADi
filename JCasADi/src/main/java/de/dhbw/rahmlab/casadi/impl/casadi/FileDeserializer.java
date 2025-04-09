@@ -29,13 +29,6 @@ public class FileDeserializer extends de.dhbw.rahmlab.casadi.impl.casadi.Deseria
   de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_FileDeserializer(swigCPtr);
 }
 
-  /**
-   *  Advanced deserialization of CasADi objects<br>
-   * <br>
-   * @see FileSerializer<br>
-   * <br>
-   *          
-   */
   public FileDeserializer(String fname) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_FileDeserializer(fname), true);
   }

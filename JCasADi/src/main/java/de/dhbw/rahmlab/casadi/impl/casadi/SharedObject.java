@@ -13,47 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  End of conditional comment.SharedObject implements a reference counting framework similar for efficient and<br>
- * <br>
- *       easily-maintained memory management.<br>
- * <br>
- *       To use the class, both the SharedObject class (the public class), and the SharedObjectInternal<br>
- *       class (the internal class) must be inherited from. It can be done in two different files<br>
- *       and together with memory management, this approach provides a clear distinction of which<br>
- *       methods of the class are to be considered "public", i.e. methods for public use that can<br>
- *       be considered to remain over time with small changes, and the internal memory.<br>
- * <br>
- *       When interfacing a software, which typically includes including some header file,<br>
- *       this is best done only in the file where the internal class is defined, to avoid polluting<br>
- *       the global namespace and other side effects.<br>
- * <br>
- *       The default constructor always means creating a null pointer to an internal class only.<br>
- *       To allocate an internal class (this works only when the internal class isn't abstract),<br>
- *       use the constructor with arguments.<br>
- * <br>
- *       The copy constructor and the assignment operator perform shallow copies only,<br>
- *       to make a deep copy you must use the clone method explicitly.<br>
- *       This will give a shared pointer instance.<br>
- * <br>
- *       In an inheritance hierarchy, you can cast down automatically,<br>
- *       e.g. (SXFunction is a child class of Function):<br>
- *       SXFunction derived(...);<br>
- *       Function base = derived;<br>
- * <br>
- *       To cast up, use the shared_cast template function, which works analogously to<br>
- *       dynamic_cast, static_cast, const_cast etc, e.g.:<br>
- *       SXFunction derived(...);<br>
- *       Function base = derived;<br>
- *       SXFunction derived_from_base = shared_cast&lt;SXFunction&gt;(base);<br>
- * <br>
- *       A failed shared_cast will result in a null pointer (cf. dynamic_cast)<br>
- * <br>
- *       @author Joel Andersson<br>
- *       2010<br>
- * <br>
- *       
- */
 public class SharedObject implements ISharedObject {
   private final long swigCPtr;
 
@@ -90,73 +49,12 @@ public class SharedObject implements ISharedObject {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject_ISharedObject_GetInterfaceCPtr(swigCPtr);
   }
 
-  /**
-   *  Get class name<br>
-   * <br>
-   *         
-   */
-  public String class_name() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject_class_name(swigCPtr, this);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream, boolean more) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject_disp__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream), more);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject_disp__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Get string representation
-   */
   public String toString(boolean more) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject_toString__SWIG_0(swigCPtr, this, more);
   }
 
-  /**
-   *  Get string representation
-   */
   public String toString() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject_toString__SWIG_1(swigCPtr, this);
-  }
-
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject_print_ptr__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr() {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject_print_ptr__SWIG_1(swigCPtr, this);
-  }
-
-  /**
-   *  End of conditional comment.Is a null pointer?
-   */
-  public boolean is_null() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject_is_null(swigCPtr, this);
-  }
-
-  /**
-   *  Returns a number that is unique for a given Node.<br>
-   * <br>
-   * If the Object does not point to any node, "0" is returned.<br>
-   * <br>
-   *         
-   */
-  public long __hash__() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SharedObject___hash__(swigCPtr, this);
   }
 
   public SharedObject() {

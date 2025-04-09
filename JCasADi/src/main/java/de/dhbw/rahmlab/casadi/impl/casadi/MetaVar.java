@@ -45,6 +45,10 @@ public class MetaVar extends de.dhbw.rahmlab.casadi.impl.casadi.IndexAbstraction
     return de.dhbw.rahmlab.casadi.impl.casadi.VariableType.swigToEnum(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaVar_type_get(swigCPtr, this));
   }
 
+  public de.dhbw.rahmlab.casadi.impl.casadi.DomainType getDomain() {
+    return de.dhbw.rahmlab.casadi.impl.casadi.DomainType.swigToEnum(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaVar_domain_get(swigCPtr, this));
+  }
+
   public long getCount() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaVar_count_get(swigCPtr, this);
   }

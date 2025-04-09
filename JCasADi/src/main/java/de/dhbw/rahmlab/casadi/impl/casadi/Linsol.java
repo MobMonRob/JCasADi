@@ -13,24 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  Linear solver<br>
- * <br>
- * Create a solver for linear systems of equations<br>
- * Solves the linear system A*X = B or A^T*X = B for X<br>
- * with A square and non-singular<br>
- * <br>
- *  If A is structurally singular, an error will be thrown during init.<br>
- *  If A is numerically singular, the prepare step will fail.<br>
- * <br>
- *       <br>
- *       <br>
- * <br>
- *       @author Joel Andersson<br>
- *       2011-2016<br>
- * <br>
- *       
- */
 public class Linsol implements ISharedObject {
   private final long swigCPtr;
 
@@ -67,67 +49,38 @@ public class Linsol implements ISharedObject {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_ISharedObject_GetInterfaceCPtr(swigCPtr);
   }
 
-  /**
-   *  Get type name<br>
-   * <br>
-   *         
-   */
   public static String type_name() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_type_name();
   }
 
-  /**
-   *  Default constructor
-   */
   public Linsol() {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Linsol__SWIG_0(), true);
   }
 
-  /**
-   *  Constructor
-   */
   public Linsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Linsol__SWIG_1(name, solver, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   *  Constructor
-   */
   public Linsol(String name, String solver, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_Linsol__SWIG_2(name, solver, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp), true);
   }
 
-  /**
-   *  Conditional comment: INTERNAL End of conditional comment.Check if a plugin is available
-   */
   public static boolean has_plugin(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_has_plugin(name);
   }
 
-  /**
-   *  Explicitly load a plugin dynamically
-   */
   public static void load_plugin(String name) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_load_plugin(name);
   }
 
-  /**
-   *  Get solver specific documentation
-   */
   public static String doc(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_doc(name);
   }
 
-  /**
-   *  Query plugin name
-   */
   public String plugin_name() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_plugin_name(swigCPtr, this);
   }
 
-  /**
-   *  Get linear system sparsity
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sparsity() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_sparsity(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -138,30 +91,18 @@ public class Linsol implements ISharedObject {
 	return proxy;
 }
 
-  /**
-   *  Symbolic factorization of the linear system, e.g. selecting pivots
-   */
   public void sfact(de.dhbw.rahmlab.casadi.impl.casadi.DM A) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_sfact(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(A), A);
   }
 
-  /**
-   *  Numeric factorization of the linear system
-   */
   public void nfact(de.dhbw.rahmlab.casadi.impl.casadi.DM A) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_nfact(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(A), A);
   }
 
-  /**
-   * Solve linear system of equations
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.DM solve(de.dhbw.rahmlab.casadi.impl.casadi.DM A, de.dhbw.rahmlab.casadi.impl.casadi.DM B, boolean tr) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_solve__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(A), A, de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(B), B, tr), true);
   }
 
-  /**
-   * Solve linear system of equations
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.DM solve(de.dhbw.rahmlab.casadi.impl.casadi.DM A, de.dhbw.rahmlab.casadi.impl.casadi.DM B) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_solve__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(A), A, de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(B), B), true);
   }
@@ -174,109 +115,28 @@ public class Linsol implements ISharedObject {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_solve__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(A), A, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(B), B), true);
   }
 
-  /**
-   * Number of negative eigenvalues<br>
-   * <br>
-   * Not available for all solvers<br>
-   * <br>
-   *         
-   */
   public long neig(de.dhbw.rahmlab.casadi.impl.casadi.DM A) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_neig(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(A), A);
   }
 
-  /**
-   *  Matrix rank<br>
-   * <br>
-   * Not available for all solvers<br>
-   * <br>
-   *         
-   */
   public long rank(de.dhbw.rahmlab.casadi.impl.casadi.DM A) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_rank(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(A), A);
   }
 
-  /**
-   *  Get all statistics obtained at the end of the last evaluate call
-   */
   public de.dhbw.rahmlab.casadi.impl.std.Dict stats(int mem) {
     return new de.dhbw.rahmlab.casadi.impl.std.Dict(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_stats__SWIG_0(swigCPtr, this, mem), true);
   }
 
-  /**
-   *  Get all statistics obtained at the end of the last evaluate call
-   */
   public de.dhbw.rahmlab.casadi.impl.std.Dict stats() {
     return new de.dhbw.rahmlab.casadi.impl.std.Dict(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_stats__SWIG_1(swigCPtr, this), true);
   }
 
-  /**
-   *  Get class name<br>
-   * <br>
-   *         
-   */
-  public String class_name() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_class_name(swigCPtr, this);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream, boolean more) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_disp__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream), more);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_disp__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Get string representation
-   */
   public String toString(boolean more) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_toString__SWIG_0(swigCPtr, this, more);
   }
 
-  /**
-   *  Get string representation
-   */
   public String toString() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_toString__SWIG_1(swigCPtr, this);
-  }
-
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_print_ptr__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr() {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_print_ptr__SWIG_1(swigCPtr, this);
-  }
-
-  /**
-   *  End of conditional comment.Is a null pointer?
-   */
-  public boolean is_null() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol_is_null(swigCPtr, this);
-  }
-
-  /**
-   *  Returns a number that is unique for a given Node.<br>
-   * <br>
-   * If the Object does not point to any node, "0" is returned.<br>
-   * <br>
-   *         
-   */
-  public long __hash__() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_Linsol___hash__(swigCPtr, this);
   }
 
   public Linsol(de.dhbw.rahmlab.casadi.impl.casadi.Linsol other) {

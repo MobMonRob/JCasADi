@@ -57,12 +57,20 @@ public class DeserializerBase {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_mx(swigCPtr, this), true);
   }
 
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX blind_unpack_mx_v1() {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_mx_v1(swigCPtr, this), true);
+  }
+
   public de.dhbw.rahmlab.casadi.impl.casadi.DM blind_unpack_dm() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.DM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_dm(swigCPtr, this), true);
   }
 
   public de.dhbw.rahmlab.casadi.impl.casadi.SX blind_unpack_sx() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.SX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_sx(swigCPtr, this), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.casadi.SX blind_unpack_sx_v1() {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.SX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_sx_v1(swigCPtr, this), true);
   }
 
   public de.dhbw.rahmlab.casadi.impl.casadi.Linsol blind_unpack_linsol() {
@@ -97,12 +105,20 @@ public class DeserializerBase {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_mx_vector(swigCPtr, this), true);
   }
 
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX blind_unpack_mx_vector_v1() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_mx_vector_v1(swigCPtr, this), true);
+  }
+
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDM blind_unpack_dm_vector() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDM(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_dm_vector(swigCPtr, this), true);
   }
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorSX blind_unpack_sx_vector() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_sx_vector(swigCPtr, this), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorSX blind_unpack_sx_vector_v1() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DeserializerBase_blind_unpack_sx_vector_v1(swigCPtr, this), true);
   }
 
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiLinsol blind_unpack_linsol_vector() {

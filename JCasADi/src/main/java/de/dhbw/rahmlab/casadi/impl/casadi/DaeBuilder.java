@@ -13,40 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  A symbolic representation of a differential-algebraic equations model<br>
- * <br>
- *     <h3>Variables:  </h3><br>
- *     {@literal 
-    t:      independent variable (usually time)
-    c:      constants
-    p:      parameters
-    d:      dependent parameters (time independent)
-    u:      controls
-    w:      dependent variables  (time dependent)
-    x:      differential states
-    z:      algebraic variables
-    q:      quadrature states
-    y:      outputs
-    }<br>
- * <br>
- *     <h3>Equations:  </h3><br>
- *     {@literal 
-    differential equations: \dot{x} ==  ode(...)
-    algebraic equations:          0 ==  alg(...)
-    quadrature equations:   \dot{q} == quad(...)
-    dependent parameters:         d == ddef(d_prev,p)
-    dependent variables:          w == wdef(w_prev,x,z,u,p,t)
-    output equations:             y == ydef(...)
-    initial equations:     init_lhs == init_rhs(...)
-    events:      when when_cond < 0: when_lhs := when_rhs
-    }<br>
- * <br>
- *     2012-2021<br>
- *     @author Joel Andersson<br>
- * <br>
- *     
- */
 public class DaeBuilder implements ISharedObject {
   private final long swigCPtr;
 
@@ -83,57 +49,32 @@ public class DaeBuilder implements ISharedObject {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_ISharedObject_GetInterfaceCPtr(swigCPtr);
   }
 
-  /**
-   *  Readable name of the class
-   */
   public String type_name() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_type_name(swigCPtr, this);
   }
 
-  /**
-   *  Default constructor
-   */
   public DaeBuilder() {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_DaeBuilder__SWIG_0(), true);
   }
 
-  /**
-   *  Construct a DaeBuilder instance
-   */
   public DaeBuilder(String name, String path, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_DaeBuilder__SWIG_1(name, path, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   *  Construct a DaeBuilder instance
-   */
   public DaeBuilder(String name, String path) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_DaeBuilder__SWIG_2(name, path), true);
   }
 
-  /**
-   *  Construct a DaeBuilder instance
-   */
   public DaeBuilder(String name) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_DaeBuilder__SWIG_3(name), true);
   }
 
-  /**
-   *  Name of instance<br>
-   * <br>
-   *       
-   */
   public String name() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_name(swigCPtr, this);
   }
 
-  /**
-   * Independent variable (usually time)<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX t() {
-	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_t(swigCPtr, this);
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX time() {
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_time(swigCPtr, this);
 	if (cPtr == 0) return null;
 	// false here indicates no ownership transfer to java
 	de.dhbw.rahmlab.casadi.impl.casadi.MX proxy = new de.dhbw.rahmlab.casadi.impl.casadi.MX(cPtr, false);
@@ -142,883 +83,386 @@ public class DaeBuilder implements ISharedObject {
 	return proxy;
 }
 
-  /**
-   *  Differential states<br>
-   * <br>
-   *       
-   */
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString t_new() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_t_new(swigCPtr, this), true);
+  }
+
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString x() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_x(swigCPtr, this), true);
   }
 
-  /**
-   *  Ordinary differential equations (ODE)<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX ode() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_ode(swigCPtr, this), true);
-  }
-
-  /**
-   *  Algebraic variables<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString z() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_z(swigCPtr, this), true);
-  }
-
-  /**
-   *  Algebraic equations<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX alg() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_alg(swigCPtr, this), true);
-  }
-
-  /**
-   *  Quadrature states<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString q() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_q(swigCPtr, this), true);
-  }
-
-  /**
-   *  Quadrature equations<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX quad() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_quad(swigCPtr, this), true);
-  }
-
-  /**
-   *  Output variables<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString y() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_y(swigCPtr, this), true);
   }
 
-  /**
-   *  Definitions of output variables<br>
-   * <br>
-   *       
-   */
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX ode() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_ode(swigCPtr, this), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString z() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_z(swigCPtr, this), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX alg() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_alg(swigCPtr, this), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString q() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_q(swigCPtr, this), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX quad() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_quad(swigCPtr, this), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX zero() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_zero(swigCPtr, this), true);
+  }
+
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX ydef() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_ydef(swigCPtr, this), true);
   }
 
-  /**
-   *  Free controls<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString u() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_u(swigCPtr, this), true);
   }
 
-  /**
-   *  Parameters<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString p() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_p(swigCPtr, this), true);
   }
 
-  /**
-   *  Named constants<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString c() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_c(swigCPtr, this), true);
   }
 
-  /**
-   *  Definitions of named constants<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX cdef() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_cdef(swigCPtr, this), true);
   }
 
-  /**
-   *  Dependent parameters<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString d() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_d(swigCPtr, this), true);
   }
 
-  /**
-   *  Definitions of dependent parameters<br>
-   * <br>
-   * Interdependencies are allowed but must be non-cyclic.<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX ddef() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_ddef(swigCPtr, this), true);
   }
 
-  /**
-   *  Dependent variables<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString w() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_w(swigCPtr, this), true);
   }
 
-  /**
-   *  Dependent variables and corresponding definitions<br>
-   * <br>
-   * Interdependencies are allowed but must be non-cyclic.<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX wdef() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_wdef(swigCPtr, this), true);
   }
 
-  /**
-   *  Auxiliary variables: Used e.g. to define functions<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX aux() {
-	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_aux(swigCPtr, this);
-	if (cPtr == 0) return null;
-	// false here indicates no ownership transfer to java
-	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
-	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
-	LIFE_TIME_EXTENDER.extend(this, proxy);
-	return proxy;
-}
-
-  /**
-   *  Initial conditions, left-hand-side<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX init_lhs() {
-	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_init_lhs(swigCPtr, this);
-	if (cPtr == 0) return null;
-	// false here indicates no ownership transfer to java
-	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
-	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
-	LIFE_TIME_EXTENDER.extend(this, proxy);
-	return proxy;
-}
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_init_lhs(swigCPtr, this), true);
+  }
 
-  /**
-   *  Initial conditions, right-hand-side<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX init_rhs() {
-	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_init_rhs(swigCPtr, this);
-	if (cPtr == 0) return null;
-	// false here indicates no ownership transfer to java
-	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
-	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
-	LIFE_TIME_EXTENDER.extend(this, proxy);
-	return proxy;
-}
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_init_rhs(swigCPtr, this), true);
+  }
 
-  /**
-   *  When statement: triggering condition<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX when_cond() {
-	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when_cond(swigCPtr, this);
-	if (cPtr == 0) return null;
-	// false here indicates no ownership transfer to java
-	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
-	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
-	LIFE_TIME_EXTENDER.extend(this, proxy);
-	return proxy;
-}
-
-  /**
-   *  When statement: left-hand-side<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX when_lhs() {
-	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when_lhs(swigCPtr, this);
-	if (cPtr == 0) return null;
-	// false here indicates no ownership transfer to java
-	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
-	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
-	LIFE_TIME_EXTENDER.extend(this, proxy);
-	return proxy;
-}
-
-  /**
-   *  When statement: right-hand-side<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX when_rhs() {
-	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when_rhs(swigCPtr, this);
-	if (cPtr == 0) return null;
-	// false here indicates no ownership transfer to java
-	de.dhbw.rahmlab.casadi.impl.std.StdVectorMX proxy = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(cPtr, false);
-	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
-	LIFE_TIME_EXTENDER.extend(this, proxy);
-	return proxy;
-}
-
-  /**
-   * Model structure: outputs<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString outputs() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_outputs(swigCPtr, this), true);
   }
 
-  /**
-   *  Model structure: derivatives<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString derivatives() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_derivatives(swigCPtr, this), true);
   }
 
-  /**
-   *  Model structure: initial unknowns<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString initial_unknowns() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_initial_unknowns(swigCPtr, this), true);
   }
 
-  /**
-   * Is there a time variable?<br>
-   * <br>
-   *       
-   */
   public boolean has_t() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_has_t(swigCPtr, this);
   }
 
-  /**
-   *  Differential states<br>
-   * <br>
-   *       
-   */
   public long nx() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nx(swigCPtr, this);
   }
 
-  /**
-   *  Algebraic variables<br>
-   * <br>
-   *       
-   */
   public long nz() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nz(swigCPtr, this);
   }
 
-  /**
-   *  Quadrature states<br>
-   * <br>
-   *       
-   */
   public long nq() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nq(swigCPtr, this);
   }
 
-  /**
-   *  Output variables<br>
-   * <br>
-   *       
-   */
+  public long nzero() {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nzero(swigCPtr, this);
+  }
+
   public long ny() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_ny(swigCPtr, this);
   }
 
-  /**
-   *  Free controls<br>
-   * <br>
-   *       
-   */
   public long nu() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nu(swigCPtr, this);
   }
 
-  /**
-   *  Parameters<br>
-   * <br>
-   *       
-   */
   public long np() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_np(swigCPtr, this);
   }
 
-  /**
-   *  Named constants<br>
-   * <br>
-   *       
-   */
   public long nc() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nc(swigCPtr, this);
   }
 
-  /**
-   *  Dependent parameters<br>
-   * <br>
-   *       
-   */
   public long nd() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nd(swigCPtr, this);
   }
 
-  /**
-   *  Dependent variables<br>
-   * <br>
-   *       
-   */
   public long nw() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nw(swigCPtr, this);
   }
 
-  /**
-   * Add an independent variable (time)
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_t(String name) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_t__SWIG_0(swigCPtr, this, name), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX add(String name, String causality, String variability, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add__SWIG_0(swigCPtr, this, name, causality, variability, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   * Add an independent variable (time)
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_t() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_t__SWIG_1(swigCPtr, this), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX add(String name, String causality, String variability) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add__SWIG_1(swigCPtr, this, name, causality, variability), true);
   }
 
-  /**
-   *  Add a new parameter
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_p(String name) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_p__SWIG_0(swigCPtr, this, name), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX add(String name, String causality, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add__SWIG_2(swigCPtr, this, name, causality, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   *  Add a new parameter
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_p() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_p__SWIG_1(swigCPtr, this), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX add(String name, String causality) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add__SWIG_3(swigCPtr, this, name, causality), true);
   }
 
-  /**
-   *  Add a new control
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_u(String name) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_u__SWIG_0(swigCPtr, this, name), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX add(String name, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add__SWIG_4(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   *  Add a new control
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_u() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_u__SWIG_1(swigCPtr, this), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX add(String name) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add__SWIG_5(swigCPtr, this, name), true);
   }
 
-  /**
-   *  Add a new differential state
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_x(String name) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_x__SWIG_0(swigCPtr, this, name), true);
+  public void add(String name, String causality, String variability, de.dhbw.rahmlab.casadi.impl.casadi.MX expr, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add__SWIG_6(swigCPtr, this, name, causality, variability, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(expr), expr, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts);
   }
 
-  /**
-   *  Add a new differential state
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_x() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_x__SWIG_1(swigCPtr, this), true);
+  public void add(String name, String causality, String variability, de.dhbw.rahmlab.casadi.impl.casadi.MX expr) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add__SWIG_7(swigCPtr, this, name, causality, variability, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(expr), expr);
   }
 
-  /**
-   *  Add a new algebraic variable
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_z(String name) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_z__SWIG_0(swigCPtr, this, name), true);
+  public void eq(de.dhbw.rahmlab.casadi.impl.casadi.MX lhs, de.dhbw.rahmlab.casadi.impl.casadi.MX rhs, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_eq__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(lhs), lhs, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(rhs), rhs, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts);
   }
 
-  /**
-   *  Add a new algebraic variable
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_z() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_z__SWIG_1(swigCPtr, this), true);
+  public void eq(de.dhbw.rahmlab.casadi.impl.casadi.MX lhs, de.dhbw.rahmlab.casadi.impl.casadi.MX rhs) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_eq__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(lhs), lhs, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(rhs), rhs);
   }
 
-  /**
-   *  Add a new quadrature state
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_q(String name) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_q__SWIG_0(swigCPtr, this, name), true);
+  public void when(de.dhbw.rahmlab.casadi.impl.casadi.MX cond, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString eqs, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(cond), cond, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(eqs), eqs, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts);
   }
 
-  /**
-   *  Add a new quadrature state
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_q() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_q__SWIG_1(swigCPtr, this), true);
+  public void when(de.dhbw.rahmlab.casadi.impl.casadi.MX cond, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString eqs) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_when__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(cond), cond, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(eqs), eqs);
   }
 
-  /**
-   *  Add a new constant
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_c(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX new_cdef) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_c(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(new_cdef), new_cdef), true);
+  public String assign(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX val) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_assign(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(val), val);
   }
 
-  /**
-   *  Add a new dependent parameter
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_d(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX new_ddef) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_d(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(new_ddef), new_ddef), true);
+  public String reinit(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX val) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_reinit(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(val), val);
   }
 
-  /**
-   *  Add a new dependent variable
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_w(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX new_wdef) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_w(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(new_wdef), new_wdef), true);
+  public void set_init(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX init_rhs) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_init(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(init_rhs), init_rhs);
   }
 
-  /**
-   *  Add a new output
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_y(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX new_ydef) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_y(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(new_ydef), new_ydef), true);
-  }
-
-  /**
-   *  Specify the ordinary differential equation for a state
-   */
-  public void set_ode(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX ode_rhs) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_ode(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(ode_rhs), ode_rhs);
-  }
-
-  /**
-   *  Specificy the residual equation for an algebraic variable
-   */
-  public void set_alg(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX alg_rhs) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_alg(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(alg_rhs), alg_rhs);
-  }
-
-  /**
-   *  Add an auxiliary variable
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_aux(String name, long n) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_aux__SWIG_0(swigCPtr, this, name, n), true);
-  }
-
-  /**
-   *  Add an auxiliary variable
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_aux(String name) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_aux__SWIG_1(swigCPtr, this, name), true);
-  }
-
-  /**
-   *  Add an auxiliary variable
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_aux() {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_aux__SWIG_2(swigCPtr, this), true);
-  }
-
-  /**
-   *  Add an initial equation
-   */
-  public void add_init(de.dhbw.rahmlab.casadi.impl.casadi.MX lhs, de.dhbw.rahmlab.casadi.impl.casadi.MX rhs) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_init(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(lhs), lhs, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(rhs), rhs);
-  }
-
-  /**
-   *  Add a when statement
-   */
-  public void add_when(de.dhbw.rahmlab.casadi.impl.casadi.MX cond, de.dhbw.rahmlab.casadi.impl.casadi.MX lhs, de.dhbw.rahmlab.casadi.impl.casadi.MX rhs) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_when(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(cond), cond, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(lhs), lhs, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(rhs), rhs);
-  }
-
-  /**
-   *  Check if dimensions match
-   */
   public void sanity_check() {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_sanity_check(swigCPtr, this);
   }
 
-  /**
-   * Clear all variables of a type
-   */
-  public void clear_all(String v) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_clear_all(swigCPtr, this, v);
+  public void reorder(String cat, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString v) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_reorder(swigCPtr, this, cat, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(v), v);
   }
 
-  /**
-   *  Set all variables of a type
-   */
-  public void set_all(String v, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_all(swigCPtr, this, v, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name);
+  public void eliminate(String cat) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_eliminate(swigCPtr, this, cat);
   }
 
-  /**
-   * 
-   */
-  public void register_t(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_t(swigCPtr, this, name);
+  public void sort(String cat) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_sort(swigCPtr, this, cat);
   }
 
-  public void register_p(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_p(swigCPtr, this, name);
-  }
-
-  public void register_u(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_u(swigCPtr, this, name);
-  }
-
-  public void register_x(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_x(swigCPtr, this, name);
-  }
-
-  public void register_z(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_z(swigCPtr, this, name);
-  }
-
-  public void register_q(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_q(swigCPtr, this, name);
-  }
-
-  public void register_c(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_c(swigCPtr, this, name);
-  }
-
-  public void register_d(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_d(swigCPtr, this, name);
-  }
-
-  public void register_w(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_w(swigCPtr, this, name);
-  }
-
-  public void register_y(String name) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_register_y(swigCPtr, this, name);
-  }
-
-  /**
-   * Eliminate all dependent variables
-   */
-  public void eliminate_w() {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_eliminate_w(swigCPtr, this);
-  }
-
-  /**
-   *  Lift problem formulation by extracting shared subexpressions
-   */
   public void lift(boolean lift_shared, boolean lift_calls) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_lift__SWIG_0(swigCPtr, this, lift_shared, lift_calls);
   }
 
-  /**
-   *  Lift problem formulation by extracting shared subexpressions
-   */
   public void lift(boolean lift_shared) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_lift__SWIG_1(swigCPtr, this, lift_shared);
   }
 
-  /**
-   *  Lift problem formulation by extracting shared subexpressions
-   */
   public void lift() {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_lift__SWIG_2(swigCPtr, this);
   }
 
-  /**
-   *  Eliminate quadrature states and turn them into ODE states
-   */
-  public void eliminate_quad() {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_eliminate_quad(swigCPtr, this);
-  }
-
-  /**
-   *  Sort dependent parameters
-   */
-  public void sort_d() {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_sort_d(swigCPtr, this);
-  }
-
-  /**
-   *  Sort dependent variables
-   */
-  public void sort_w() {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_sort_w(swigCPtr, this);
-  }
-
-  /**
-   *  Sort algebraic variables
-   */
-  public void sort_z(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString z_order) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_sort_z(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(z_order), z_order);
-  }
-
-  /**
-   *  Prune unused controls
-   */
   public void prune(boolean prune_p, boolean prune_u) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_prune__SWIG_0(swigCPtr, this, prune_p, prune_u);
   }
 
-  /**
-   *  Prune unused controls
-   */
   public void prune(boolean prune_p) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_prune__SWIG_1(swigCPtr, this, prune_p);
   }
 
-  /**
-   *  Prune unused controls
-   */
   public void prune() {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_prune__SWIG_2(swigCPtr, this);
   }
 
-  /**
-   *  Identify iteration variables and residual equations using naming convention
-   */
   public void tear() {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_tear(swigCPtr, this);
   }
 
-  /**
-   * Add a function from loaded expressions
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function add_fun(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString arg, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString res, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_fun__SWIG_0(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(res), res, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   * Add a function from loaded expressions
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function add_fun(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString arg, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString res) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_fun__SWIG_1(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(arg), arg, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(res), res), true);
   }
 
-  /**
-   *  Add an already existing function
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function add_fun(de.dhbw.rahmlab.casadi.impl.casadi.Function f) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_fun__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.Function.getCPtr(f), f), true);
   }
 
-  /**
-   *  Add an external function
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function add_fun(String name, de.dhbw.rahmlab.casadi.impl.casadi.Importer compiler, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_fun__SWIG_3(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.Importer.getCPtr(compiler), compiler, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   *  Add an external function
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function add_fun(String name, de.dhbw.rahmlab.casadi.impl.casadi.Importer compiler) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_fun__SWIG_4(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.Importer.getCPtr(compiler), compiler), true);
   }
 
-  /**
-   *  Does a particular function already exist?
-   */
   public boolean has_fun(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_has_fun(swigCPtr, this, name);
   }
 
-  /**
-   *  Get function by name
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function fun(String name) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_fun__SWIG_0(swigCPtr, this, name), true);
   }
 
-  /**
-   *  Get all functions
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiFunction fun() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiFunction(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_fun__SWIG_1(swigCPtr, this), true);
   }
 
-  /**
-   *  Collect embedded functions from the expression graph
-   */
   public void gather_fun(long max_depth) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_gather_fun__SWIG_0(swigCPtr, this, max_depth);
   }
 
-  /**
-   *  Collect embedded functions from the expression graph
-   */
   public void gather_fun() {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_gather_fun__SWIG_1(swigCPtr, this);
   }
 
-  /**
-   * Import existing problem from FMI/XML
-   */
   public void parse_fmi(String filename) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_parse_fmi(swigCPtr, this, filename);
   }
 
-  /**
-   *  Does the FMU provide support for analytic derivatives
-   */
+  public boolean provides_directional_derivatives() {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_provides_directional_derivatives(swigCPtr, this);
+  }
+
   public boolean provides_directional_derivative() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_provides_directional_derivative(swigCPtr, this);
   }
 
-  /**
-   *  Import problem description from FMI or XML
-   */
   public void load_fmi_description(String filename) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_load_fmi_description(swigCPtr, this, filename);
   }
 
-  /**
-   *  Export instance into an FMU
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString export_fmu(de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_export_fmu__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   *  Export instance into an FMU
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString export_fmu() {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_export_fmu__SWIG_1(swigCPtr, this), true);
   }
 
-  /**
-   *  Add a named linear combination of output expressions
-   */
   public void add_lc(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString f_out) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_lc(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(f_out), f_out);
   }
 
-  /**
-   *  Construct a function object, legacy syntax
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function create(String fname, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out, boolean sx, boolean lifted_calls) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_create__SWIG_0(swigCPtr, this, fname, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out, sx, lifted_calls), true);
   }
 
-  /**
-   *  Construct a function object, legacy syntax
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function create(String fname, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out, boolean sx) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_create__SWIG_1(swigCPtr, this, fname, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out, sx), true);
   }
 
-  /**
-   *  Construct a function object, names provided<br>
-   * <br>
-   *     @param name    Name assigned to the resulting function object<br>
-   *     @param name_in   Names of all the inputs<br>
-   *     @param name_out  Names of all the outputs<br>
-   *     @param opts    Optional settings<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function create(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_create__SWIG_2(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   *  Construct a function object, names provided<br>
-   * <br>
-   *     @param name    Name assigned to the resulting function object<br>
-   *     @param name_in   Names of all the inputs<br>
-   *     @param name_out  Names of all the outputs<br>
-   *     <br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function create(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name_out) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_create__SWIG_3(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_in), name_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name_out), name_out), true);
   }
 
-  /**
-   * Load a function from an FMU DLL, standard IO conforming with simulator<br>
-   * <br>
-   *     @param name    Name assigned to the resulting function object<br>
-   *     @param opts    Optional settings<br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.Function create(String name, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_create__SWIG_4(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function create(String fname, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_create__SWIG_4(swigCPtr, this, fname, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   * Load a function from an FMU DLL, standard IO conforming with simulator<br>
-   * <br>
-   *     @param name    Name assigned to the resulting function object<br>
-   *     <br>
-   * <br>
-   *       
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.Function create(String name) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_create__SWIG_5(swigCPtr, this, name), true);
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function create(String fname) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_create__SWIG_5(swigCPtr, this, fname), true);
   }
 
-  /**
-   *  Construct a function for evaluating dependent parameters
-   */
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function create() {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_create__SWIG_6(swigCPtr, this), true);
+  }
+
   public de.dhbw.rahmlab.casadi.impl.casadi.Function dependent_fun(String fname, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString s_out) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_dependent_fun(swigCPtr, this, fname, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_in), s_in, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(s_out), s_out), true);
   }
 
-  /**
-   * Get variable expression by name
-   */
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function transition(String fname, long index) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_transition__SWIG_0(swigCPtr, this, fname, index), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function transition(String fname) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_transition__SWIG_1(swigCPtr, this, fname), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.casadi.Function transition() {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_transition__SWIG_2(swigCPtr, this), true);
+  }
+
   public de.dhbw.rahmlab.casadi.impl.casadi.MX var(String name) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_var(swigCPtr, this, name), true);
   }
 
-  /**
-   * Get the time derivative of an expression
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString der(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_der__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name), true);
   }
 
-  /**
-   * Get/set the binding equation for a variable
-   */
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX der(de.dhbw.rahmlab.casadi.impl.casadi.MX v) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_der__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(v), v), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString pre(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_pre__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name), true);
+  }
+
+  public de.dhbw.rahmlab.casadi.impl.casadi.MX pre(de.dhbw.rahmlab.casadi.impl.casadi.MX v) {
+    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_pre__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(v), v), true);
+  }
+
+  public boolean has_beq(String name) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_has_beq(swigCPtr, this, name);
+  }
+
   public de.dhbw.rahmlab.casadi.impl.casadi.MX beq(String name) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_beq(swigCPtr, this, name), true);
   }
 
-  public void set_beq(String name, de.dhbw.rahmlab.casadi.impl.casadi.MX val) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_beq(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(val), val);
-  }
-
-  /**
-   * Get/set value reference
-   */
   public long value_reference(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_value_reference(swigCPtr, this, name);
   }
@@ -1027,9 +471,6 @@ public class DaeBuilder implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_value_reference(swigCPtr, this, name, val);
   }
 
-  /**
-   * Get/set description
-   */
   public String description(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_description(swigCPtr, this, name);
   }
@@ -1038,16 +479,10 @@ public class DaeBuilder implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_description(swigCPtr, this, name, val);
   }
 
-  /**
-   * Get/set the type
-   */
   public String type(String name, long fmi_version) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_type__SWIG_0(swigCPtr, this, name, fmi_version);
   }
 
-  /**
-   * Get/set the type
-   */
   public String type(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_type__SWIG_1(swigCPtr, this, name);
   }
@@ -1056,9 +491,6 @@ public class DaeBuilder implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_type(swigCPtr, this, name, val);
   }
 
-  /**
-   * Get/set the causality
-   */
   public String causality(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_causality(swigCPtr, this, name);
   }
@@ -1067,9 +499,6 @@ public class DaeBuilder implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_causality(swigCPtr, this, name, val);
   }
 
-  /**
-   * Get/set the variability
-   */
   public String variability(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_variability(swigCPtr, this, name);
   }
@@ -1078,9 +507,14 @@ public class DaeBuilder implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_variability(swigCPtr, this, name, val);
   }
 
-  /**
-   * Get/set the initial property
-   */
+  public String category(String name) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_category(swigCPtr, this, name);
+  }
+
+  public void set_category(String name, String val) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_category(swigCPtr, this, name, val);
+  }
+
   public String initial(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_initial(swigCPtr, this, name);
   }
@@ -1089,9 +523,6 @@ public class DaeBuilder implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_initial(swigCPtr, this, name, val);
   }
 
-  /**
-   * Get/set the unit
-   */
   public String unit(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_unit(swigCPtr, this, name);
   }
@@ -1100,9 +531,6 @@ public class DaeBuilder implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_unit(swigCPtr, this, name, val);
   }
 
-  /**
-   * Get/set the display unit
-   */
   public String display_unit(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_display_unit(swigCPtr, this, name);
   }
@@ -1111,95 +539,96 @@ public class DaeBuilder implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_display_unit(swigCPtr, this, name, val);
   }
 
-  /**
-   * Get the number of elements of a variable
-   */
   public long numel(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_numel(swigCPtr, this, name);
   }
 
-  /**
-   *  Get the dimensions of a variable
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt dimension(String name) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_dimension(swigCPtr, this, name), true);
   }
 
-  /**
-   *  Get the time derivative of an expression, single variable
-   */
-  public String der(String name) {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_der__SWIG_1(swigCPtr, this, name);
+  public double start_time() {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_start_time(swigCPtr, this);
   }
 
-  /**
-   *  Get an attribute, single variable
-   */
+  public void set_start_time(double val) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_start_time(swigCPtr, this, val);
+  }
+
+  public double stop_time() {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_stop_time(swigCPtr, this);
+  }
+
+  public void set_stop_time(double val) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_stop_time(swigCPtr, this, val);
+  }
+
+  public double tolerance() {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_tolerance(swigCPtr, this);
+  }
+
+  public void set_tolerance(double val) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_tolerance(swigCPtr, this, val);
+  }
+
+  public double step_size() {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_step_size(swigCPtr, this);
+  }
+
+  public void set_step_size(double val) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_step_size(swigCPtr, this, val);
+  }
+
+  public String der(String name) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_der__SWIG_3(swigCPtr, this, name);
+  }
+
+  public String pre(String name) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_pre__SWIG_2(swigCPtr, this, name);
+  }
+
   public double attribute(String a, String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_attribute__SWIG_0(swigCPtr, this, a, name);
   }
 
-  /**
-   *  Set an attribute, single variable
-   */
   public void set_attribute(String a, String name, double val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_attribute__SWIG_0(swigCPtr, this, a, name, val);
   }
 
-  /**
-   *  Get the lower bound, single variable
-   */
   public double min(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_min__SWIG_0(swigCPtr, this, name);
   }
 
-  /**
-   *  Set the lower bound, single variable
-   */
   public void set_min(String name, double val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_min__SWIG_0(swigCPtr, this, name, val);
   }
 
-  /**
-   *  Get the upper bound, single variable
-   */
   public double max(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_max__SWIG_0(swigCPtr, this, name);
   }
 
-  /**
-   *  Set the upper bound, single variable
-   */
   public void set_max(String name, double val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_max__SWIG_0(swigCPtr, this, name, val);
   }
 
-  /**
-   *  Get the nominal value, single variable
-   */
   public double nominal(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nominal__SWIG_0(swigCPtr, this, name);
   }
 
-  /**
-   *  Set the nominal value, single variable
-   */
   public void set_nominal(String name, double val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_nominal__SWIG_0(swigCPtr, this, name, val);
   }
 
-  /**
-   *  Get the start attribute, single variable
-   */
-  public double start(String name) {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_start__SWIG_0(swigCPtr, this, name);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble start(String name) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_start__SWIG_0(swigCPtr, this, name), true);
   }
 
-  /**
-   *  Set the start attribute, single variable
-   */
   public void set_start(String name, double val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_start__SWIG_0(swigCPtr, this, name, val);
+  }
+
+  public void set_start(String name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble val) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_start__SWIG_1(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(val), val);
   }
 
   public void reset() {
@@ -1214,278 +643,100 @@ public class DaeBuilder implements ISharedObject {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set__SWIG_1(swigCPtr, this, name, val);
   }
 
-  /**
-   *  Evaluate the values for a set of variables at the initial time, single value
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.GenericType get(String name) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.GenericType(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_get__SWIG_0(swigCPtr, this, name), true);
   }
 
-  /**
-   *  Get an attribute
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble attribute(String a, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_attribute__SWIG_1(swigCPtr, this, a, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name), true);
   }
 
-  /**
-   *  Set an attribute
-   */
   public void set_attribute(String a, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_attribute__SWIG_1(swigCPtr, this, a, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(val), val);
   }
 
-  /**
-   *  Get the lower bound
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble min(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_min__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name), true);
   }
 
-  /**
-   *  Set the lower bound
-   */
   public void set_min(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_min__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(val), val);
   }
 
-  /**
-   *  Get the upper bound
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble max(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_max__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name), true);
   }
 
-  /**
-   *  Set the upper bound
-   */
   public void set_max(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_max__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(val), val);
   }
 
-  /**
-   *  Get the nominal value
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble nominal(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_nominal__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name), true);
   }
 
-  /**
-   *  Set the nominal value
-   */
   public void set_nominal(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_nominal__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(val), val);
   }
 
-  /**
-   *  Get the start attribute
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble start(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_start__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name), true);
   }
 
-  /**
-   *  Set the start attribute
-   */
   public void set_start(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble val) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_start__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(val), val);
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set_start__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(val), val);
   }
 
-  /**
-   *  Set the current value
-   */
   public void set(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set__SWIG_2(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name, de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble.getCPtr(val), val);
   }
 
-  /**
-   *  Set the current value (string)
-   */
   public void set(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString val) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_set__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(val), val);
   }
 
-  /**
-   *  Evaluate the values for a set of variables at the initial time
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiGenericType get(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString name) {
     return new de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiGenericType(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_get__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(name), name), true);
   }
 
-  /**
-   *  Add a new variable: returns corresponding symbolic expression
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_variable(String name, long n) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_variable__SWIG_0(swigCPtr, this, name, n), true);
+  public boolean has(String name) {
+    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_has(swigCPtr, this, name);
   }
 
-  /**
-   *  Add a new variable: returns corresponding symbolic expression
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_variable(String name) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_variable__SWIG_1(swigCPtr, this, name), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString all() {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_all__SWIG_0(swigCPtr, this), true);
   }
 
-  /**
-   *  Add a new variable: returns corresponding symbolic expression
-   */
-  public de.dhbw.rahmlab.casadi.impl.casadi.MX add_variable(String name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_variable__SWIG_2(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp), true);
+  public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString all(String cat) {
+    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_all__SWIG_1(swigCPtr, this, cat), true);
   }
 
-  /**
-   *  Add a new variable from symbolic expressions
-   */
-  public void add_variable(de.dhbw.rahmlab.casadi.impl.casadi.MX new_v) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_variable__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(new_v), new_v);
-  }
-
-  /**
-   *  Add a new variable: returns corresponding symbolic expression
-   */
-  public long add_variable_new(String name, long n) {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_variable_new__SWIG_0(swigCPtr, this, name, n);
-  }
-
-  /**
-   *  Add a new variable: returns corresponding symbolic expression
-   */
-  public long add_variable_new(String name) {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_variable_new__SWIG_1(swigCPtr, this, name);
-  }
-
-  /**
-   *  Add a new variable: returns corresponding symbolic expression
-   */
-  public long add_variable_new(String name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_variable_new__SWIG_2(swigCPtr, this, name, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity.getCPtr(sp), sp);
-  }
-
-  /**
-   *  Add a new variable from symbolic expressions
-   */
-  public long add_variable_new(de.dhbw.rahmlab.casadi.impl.casadi.MX new_v) {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_add_variable_new__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(new_v), new_v);
-  }
-
-  /**
-   *  Check if a particular variable exists
-   */
-  public boolean has_variable(String name) {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_has_variable(swigCPtr, this, name);
-  }
-
-  /**
-   *  Get a list of all variables
-   */
-  public de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString all_variables() {
-    return new de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_all_variables(swigCPtr, this), true);
-  }
-
-  /**
-   *  Get the (cached) oracle, SX or MX
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function oracle(boolean sx, boolean elim_w, boolean lifted_calls) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_oracle__SWIG_0(swigCPtr, this, sx, elim_w, lifted_calls), true);
   }
 
-  /**
-   *  Get the (cached) oracle, SX or MX
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function oracle(boolean sx, boolean elim_w) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_oracle__SWIG_1(swigCPtr, this, sx, elim_w), true);
   }
 
-  /**
-   *  Get the (cached) oracle, SX or MX
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function oracle(boolean sx) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_oracle__SWIG_2(swigCPtr, this, sx), true);
   }
 
-  /**
-   *  Get the (cached) oracle, SX or MX
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Function oracle() {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Function(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_oracle__SWIG_3(swigCPtr, this), true);
   }
 
-  /**
-   *  Get Jacobian sparsity<br>
-   * <br>
-   *       
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.Sparsity jac_sparsity(de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString onames, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString inames) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.Sparsity(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_jac_sparsity(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(onames), onames, de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString.getCPtr(inames), inames), true);
   }
 
-  /**
-   *  Get class name<br>
-   * <br>
-   *         
-   */
-  public String class_name() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_class_name(swigCPtr, this);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream, boolean more) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_disp__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream), more);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_disp__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Get string representation
-   */
   public String toString(boolean more) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_toString__SWIG_0(swigCPtr, this, more);
   }
 
-  /**
-   *  Get string representation
-   */
   public String toString() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_toString__SWIG_1(swigCPtr, this);
-  }
-
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_print_ptr__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr() {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_print_ptr__SWIG_1(swigCPtr, this);
-  }
-
-  /**
-   *  End of conditional comment.Is a null pointer?
-   */
-  public boolean is_null() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder_is_null(swigCPtr, this);
-  }
-
-  /**
-   *  Returns a number that is unique for a given Node.<br>
-   * <br>
-   * If the Object does not point to any node, "0" is returned.<br>
-   * <br>
-   *         
-   */
-  public long __hash__() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_DaeBuilder___hash__(swigCPtr, this);
   }
 
   public DaeBuilder(de.dhbw.rahmlab.casadi.impl.casadi.DaeBuilder other) {

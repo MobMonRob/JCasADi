@@ -8,9 +8,6 @@
 
 package de.dhbw.rahmlab.casadi.impl.casadi;
 
-/**
- *  Enum for quick access to any node
- */
 public final class Operation {
   public final static de.dhbw.rahmlab.casadi.impl.casadi.Operation OP_ASSIGN = new de.dhbw.rahmlab.casadi.impl.casadi.Operation("OP_ASSIGN");
   public final static de.dhbw.rahmlab.casadi.impl.casadi.Operation OP_ADD = new de.dhbw.rahmlab.casadi.impl.casadi.Operation("OP_ADD");

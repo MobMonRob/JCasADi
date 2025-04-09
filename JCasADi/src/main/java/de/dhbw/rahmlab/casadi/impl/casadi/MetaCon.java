@@ -115,6 +115,16 @@ public class MetaCon extends de.dhbw.rahmlab.casadi.impl.casadi.IndexAbstraction
 	return proxy;
 }
 
+  public de.dhbw.rahmlab.casadi.impl.casadi.DM getLinear_scale() {
+	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MetaCon_linear_scale_get(swigCPtr, this);
+	if (cPtr == 0) return null;
+	// false here indicates no ownership transfer to java
+	de.dhbw.rahmlab.casadi.impl.casadi.DM proxy = new de.dhbw.rahmlab.casadi.impl.casadi.DM(cPtr, false);
+	// public void extend(final Object toBeExtendedLifeTime, final Object extendedToLifeTime)
+	LIFE_TIME_EXTENDER.extend(this, proxy);
+	return proxy;
+}
+
   public MetaCon(de.dhbw.rahmlab.casadi.impl.casadi.MetaCon other) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MetaCon__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MetaCon.getCPtr(other), other), true);
   }

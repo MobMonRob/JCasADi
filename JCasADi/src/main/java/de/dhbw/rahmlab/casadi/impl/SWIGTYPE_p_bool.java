@@ -8,18 +8,18 @@
 
 package de.dhbw.rahmlab.casadi.impl;
 
-public class SWIGTYPE_p_std__size_t {
+public class SWIGTYPE_p_bool {
   private transient long swigCPtr;
 
-  public SWIGTYPE_p_std__size_t(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
+  public SWIGTYPE_p_bool(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
     swigCPtr = cPtr;
   }
 
-  public SWIGTYPE_p_std__size_t() {
+  public SWIGTYPE_p_bool() {
     swigCPtr = 0;
   }
 
-  public static long getCPtr(SWIGTYPE_p_std__size_t obj) {
+  public static long getCPtr(SWIGTYPE_p_bool obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 }

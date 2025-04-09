@@ -8,18 +8,18 @@
 
 package de.dhbw.rahmlab.casadi.impl;
 
-public class SWIGTYPE_p_casadi__SharedObjectInternal {
+public class SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t {
   private transient long swigCPtr;
 
-  public SWIGTYPE_p_casadi__SharedObjectInternal(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
+  public SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
     swigCPtr = cPtr;
   }
 
-  public SWIGTYPE_p_casadi__SharedObjectInternal() {
+  public SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t() {
     swigCPtr = 0;
   }
 
-  public static long getCPtr(SWIGTYPE_p_casadi__SharedObjectInternal obj) {
+  public static long getCPtr(SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 }

@@ -29,22 +29,10 @@ public class StringDeserializer extends de.dhbw.rahmlab.casadi.impl.casadi.Deser
   de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_StringDeserializer(swigCPtr);
 }
 
-  /**
-   *  Advanced deserialization of CasADi objects<br>
-   * <br>
-   * @see StringDeserializer<br>
-   * <br>
-   *         
-   */
   public StringDeserializer(String string) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_StringDeserializer(string), true);
   }
 
-  /**
-   *  Sets the string to deserialize objects from<br>
-   * <br>
-   *         
-   */
   public void decode(String string) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_StringDeserializer_decode(swigCPtr, this, string);
   }

@@ -13,16 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  XML parser<br>
- * <br>
- *       Can be used for parsing XML files into CasADi data structures.<br>
- * <br>
- *       @author Joel Andersson<br>
- *       2014<br>
- * <br>
- *       
- */
 public class XmlFile implements ISharedObject {
   private final long swigCPtr;
 
@@ -59,11 +49,6 @@ public class XmlFile implements ISharedObject {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_ISharedObject_GetInterfaceCPtr(swigCPtr);
   }
 
-  /**
-   *  Get type name<br>
-   * <br>
-   *         
-   */
   public static String type_name() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_type_name();
   }
@@ -76,87 +61,20 @@ public class XmlFile implements ISharedObject {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_XmlFile__SWIG_1(name), true);
   }
 
-  /**
-   *  Load a plugin dynamically
-   */
   public static void load_plugin(String name) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_load_plugin(name);
   }
 
-  /**
-   *  Get solver specific documentation
-   */
   public static String doc(String name) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_doc(name);
   }
 
-  /**
-   *  Get class name<br>
-   * <br>
-   *         
-   */
-  public String class_name() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_class_name(swigCPtr, this);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream, boolean more) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_disp__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream), more);
-  }
-
-  /**
-   *  Print a description of the object
-   */
-  public void disp(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_disp__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Get string representation
-   */
   public String toString(boolean more) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_toString__SWIG_0(swigCPtr, this, more);
   }
 
-  /**
-   *  Get string representation
-   */
   public String toString() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_toString__SWIG_1(swigCPtr, this);
-  }
-
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr(SWIGTYPE_p_std__ostream stream) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_print_ptr__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
-  }
-
-  /**
-   *  Conditional comment: INTERNAL Print the pointer to the internal class
-   */
-  public void print_ptr() {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_print_ptr__SWIG_1(swigCPtr, this);
-  }
-
-  /**
-   *  End of conditional comment.Is a null pointer?
-   */
-  public boolean is_null() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile_is_null(swigCPtr, this);
-  }
-
-  /**
-   *  Returns a number that is unique for a given Node.<br>
-   * <br>
-   * If the Object does not point to any node, "0" is returned.<br>
-   * <br>
-   *         
-   */
-  public long __hash__() {
-    return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_XmlFile___hash__(swigCPtr, this);
   }
 
   public XmlFile(de.dhbw.rahmlab.casadi.impl.casadi.XmlFile other) {

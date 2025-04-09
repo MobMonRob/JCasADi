@@ -13,11 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  Compact representation of a sparsity pattern<br>
- * <br>
- *         
- */
 public class SparsityStruct {
   private final long swigCPtr;
 

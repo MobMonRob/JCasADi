@@ -13,14 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  A symbolic NLP representation<br>
- * <br>
- *   2012-2015<br>
- *   @author Joel Andersson<br>
- * <br>
- *       
- */
 public class NlpBuilder {
   private final long swigCPtr;
 
@@ -53,9 +45,6 @@ public class NlpBuilder {
   de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_NlpBuilder(swigCPtr);
 }
 
-  /**
-   * Variables
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX getX() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_get(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -66,9 +55,6 @@ public class NlpBuilder {
 	return proxy;
 }
 
-  /**
-   *  Objective
-   */
   public de.dhbw.rahmlab.casadi.impl.casadi.MX getF() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_f_get(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -79,9 +65,6 @@ public class NlpBuilder {
 	return proxy;
 }
 
-  /**
-   *  Constraints
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorMX getG() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_g_get(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -92,9 +75,6 @@ public class NlpBuilder {
 	return proxy;
 }
 
-  /**
-   *  Bounds on x
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getX_lb() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_lb_get(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -115,9 +95,6 @@ public class NlpBuilder {
 	return proxy;
 }
 
-  /**
-   *  Bounds on g
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getG_lb() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_g_lb_get(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -138,9 +115,6 @@ public class NlpBuilder {
 	return proxy;
 }
 
-  /**
-   *  Primal initial guess
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getX_init() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_x_init_get(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -151,9 +125,6 @@ public class NlpBuilder {
 	return proxy;
 }
 
-  /**
-   *  Dual initial guess
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble getLambda_init() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_lambda_init_get(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -164,9 +135,6 @@ public class NlpBuilder {
 	return proxy;
 }
 
-  /**
-   *  Discrete variables
-   */
   public de.dhbw.rahmlab.casadi.impl.std.StdVectorBool getDiscrete() {
 	final long cPtr = de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_discrete_get(swigCPtr, this);
 	if (cPtr == 0) return null;
@@ -177,51 +145,30 @@ public class NlpBuilder {
 	return proxy;
 }
 
-  /**
-   * Import an .nl file
-   */
   public void import_nl(String filename, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_import_nl__SWIG_0(swigCPtr, this, filename, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts);
   }
 
-  /**
-   * Import an .nl file
-   */
   public void import_nl(String filename) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_import_nl__SWIG_1(swigCPtr, this, filename);
   }
 
-  /**
-   *  Readable name of the class
-   */
   public String type_name() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_type_name(swigCPtr, this);
   }
 
-  /**
-   *  Print a description of the object
-   */
   public void disp(SWIGTYPE_p_std__ostream stream, boolean more) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_disp__SWIG_0(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream), more);
   }
 
-  /**
-   *  Print a description of the object
-   */
   public void disp(SWIGTYPE_p_std__ostream stream) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_disp__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream));
   }
 
-  /**
-   *  Get string representation
-   */
   public String toString(boolean more) {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_toString__SWIG_0(swigCPtr, this, more);
   }
 
-  /**
-   *  Get string representation
-   */
   public String toString() {
     return de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_NlpBuilder_toString__SWIG_1(swigCPtr, this);
   }

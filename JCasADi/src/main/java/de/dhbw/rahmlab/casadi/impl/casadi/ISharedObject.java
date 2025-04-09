@@ -15,13 +15,6 @@ import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
 public interface ISharedObject {
   long ISharedObject_GetInterfaceCPtr();
-  String class_name();
-  void disp(SWIGTYPE_p_std__ostream stream, boolean more);
-  void disp(SWIGTYPE_p_std__ostream stream);
   String toString(boolean more);
   String toString();
-  void print_ptr(SWIGTYPE_p_std__ostream stream);
-  void print_ptr();
-  boolean is_null();
-  long __hash__();
 }

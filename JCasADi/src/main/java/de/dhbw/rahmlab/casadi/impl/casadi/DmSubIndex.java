@@ -13,12 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  SubIndex class for Matrix<br>
- *       Same as the above class but for single argument return for operator()<br>
- *       @author Joel Andersson<br>
- *       2011-2014
- */
 public class DmSubIndex extends de.dhbw.rahmlab.casadi.impl.casadi.DM {
   private final long swigCPtr;
 
@@ -35,16 +29,10 @@ public class DmSubIndex extends de.dhbw.rahmlab.casadi.impl.casadi.DM {
   de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_DmSubIndex(swigCPtr);
 }
 
-  /**
-   *  Constructor
-   */
   public DmSubIndex(de.dhbw.rahmlab.casadi.impl.casadi.DM mat, int i) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_DmSubIndex__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.DM.getCPtr(mat), mat, i), true);
   }
 
-  /**
-   *  Default copy constructor
-   */
   public DmSubIndex(de.dhbw.rahmlab.casadi.impl.casadi.DmSubIndex y) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_DmSubIndex__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.DmSubIndex.getCPtr(y), y), true);
   }

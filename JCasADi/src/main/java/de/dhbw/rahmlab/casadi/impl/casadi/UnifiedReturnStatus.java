@@ -8,15 +8,13 @@
 
 package de.dhbw.rahmlab.casadi.impl.casadi;
 
-/**
- *  Unified return status for solvers 
- */
 public final class UnifiedReturnStatus {
   public final static de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus SOLVER_RET_SUCCESS = new de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus("SOLVER_RET_SUCCESS");
   public final static de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus SOLVER_RET_UNKNOWN = new de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus("SOLVER_RET_UNKNOWN");
   public final static de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus SOLVER_RET_LIMITED = new de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus("SOLVER_RET_LIMITED");
   public final static de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus SOLVER_RET_NAN = new de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus("SOLVER_RET_NAN");
   public final static de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus SOLVER_RET_INFEASIBLE = new de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus("SOLVER_RET_INFEASIBLE");
+  public final static de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus SOLVER_RET_EXCEPTION = new de.dhbw.rahmlab.casadi.impl.casadi.UnifiedReturnStatus("SOLVER_RET_EXCEPTION");
 
   public final int swigValue() {
     return swigValue;
@@ -52,7 +50,7 @@ public final class UnifiedReturnStatus {
     swigNext = this.swigValue+1;
   }
 
-  private static UnifiedReturnStatus[] swigValues = { SOLVER_RET_SUCCESS, SOLVER_RET_UNKNOWN, SOLVER_RET_LIMITED, SOLVER_RET_NAN, SOLVER_RET_INFEASIBLE };
+  private static UnifiedReturnStatus[] swigValues = { SOLVER_RET_SUCCESS, SOLVER_RET_UNKNOWN, SOLVER_RET_LIMITED, SOLVER_RET_NAN, SOLVER_RET_INFEASIBLE, SOLVER_RET_EXCEPTION };
   private static int swigNext = 0;
   private final int swigValue;
   private final String swigName;

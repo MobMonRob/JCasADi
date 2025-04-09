@@ -13,12 +13,6 @@ import static de.dhbw.rahmlab.casadi.impl.core__.*;
 import java.util.function.LongConsumer;
 import static de.dhbw.rahmlab.casadi.implUtil.WrapUtil.*;
 
-/**
- *  SubMatrix class for Matrix<br>
- *       SubMatrix is the return type for operator() of the Matrix class, it allows access to the value as well as changing the parent object<br>
- *       @author Joel Andersson<br>
- *       2011-2014
- */
 public class MxSubMatrix extends de.dhbw.rahmlab.casadi.impl.casadi.MX {
   private final long swigCPtr;
 
@@ -35,16 +29,10 @@ public class MxSubMatrix extends de.dhbw.rahmlab.casadi.impl.casadi.MX {
   de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_MxSubMatrix(swigCPtr);
 }
 
-  /**
-   *  Constructor
-   */
   public MxSubMatrix(de.dhbw.rahmlab.casadi.impl.casadi.MX mat, int i, int j) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MxSubMatrix__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(mat), mat, i, j), true);
   }
 
-  /**
-   *  Default copy constructor
-   */
   public MxSubMatrix(de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix y) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_MxSubMatrix__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix.getCPtr(y), y), true);
   }

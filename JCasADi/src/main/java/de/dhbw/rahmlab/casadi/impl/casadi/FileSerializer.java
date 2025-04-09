@@ -29,24 +29,10 @@ public class FileSerializer extends de.dhbw.rahmlab.casadi.impl.casadi.Serialize
   de.dhbw.rahmlab.casadi.impl.core__JNI.delete_casadi_FileSerializer(swigCPtr);
 }
 
-  /**
-   *  Advanced serialization of CasADi objects<br>
-   * <br>
-   * @see StringSerializer, FileDeserializer<br>
-   * <br>
-   *         
-   */
   public FileSerializer(String fname, de.dhbw.rahmlab.casadi.impl.std.Dict opts) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_FileSerializer__SWIG_0(fname, de.dhbw.rahmlab.casadi.impl.std.Dict.getCPtr(opts), opts), true);
   }
 
-  /**
-   *  Advanced serialization of CasADi objects<br>
-   * <br>
-   * @see StringSerializer, FileDeserializer<br>
-   * <br>
-   *         
-   */
   public FileSerializer(String fname) {
     this(de.dhbw.rahmlab.casadi.impl.core__JNI.new_casadi_FileSerializer__SWIG_1(fname), true);
   }
