@@ -70,6 +70,10 @@ namespace casadi {
 
       static casadi_int start_index;
 
+      static bool julia_initialized;
+
+      static casadi_int copy_elision_min_size;
+
 #endif //SWIG
       // Setter and getter for simplification_on_the_fly
       static void setSimplificationOnTheFly(bool flag) { simplification_on_the_fly = flag; }
@@ -87,6 +91,14 @@ namespace casadi {
 
       static void setMaxNumDir(casadi_int ndir) { max_num_dir=ndir; }
       static casadi_int getMaxNumDir() { return max_num_dir; }
+
+      static void setCopyElisionMinSize(casadi_int sz) {
+        copy_elision_min_size=sz;
+        if (copy_elision_min_size!=-1 && copy_elision_min_size<2) {
+          copy_elision_min_size = 2;
+        }
+      }
+      static casadi_int getCopyElisionMinSize() { return copy_elision_min_size; }
 
   };
 

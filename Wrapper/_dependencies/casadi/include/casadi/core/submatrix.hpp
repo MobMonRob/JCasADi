@@ -87,7 +87,7 @@ namespace casadi {
       mat_.set(s, false, i_, j_);
       return s;
     }
-    // /@}
+    ///@}
   };
 
   /** SubIndex class for Matrix
@@ -147,7 +147,7 @@ namespace casadi {
       mat_.set(s, false, i_);
       return s;
     }
-    // /@}
+    ///@}
   };
 
 } // namespace casadi

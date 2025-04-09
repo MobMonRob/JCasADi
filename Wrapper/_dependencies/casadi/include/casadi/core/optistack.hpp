@@ -110,6 +110,8 @@ public:
 
       \identifier{18} */
   MX variable(casadi_int n=1, casadi_int m=1, const std::string& attribute="full");
+  MX variable(const Sparsity& sp, const std::string& attribute="full");
+  MX variable(const MX& symbol, const std::string& attribute="full");
 
   /** \brief Create a parameter (symbol); fixed during optimization
   *
@@ -123,6 +125,8 @@ public:
 
       \identifier{19} */
   MX parameter(casadi_int n=1, casadi_int m=1, const std::string& attribute="full");
+  MX parameter(const Sparsity& sp, const std::string& attribute="full");
+  MX parameter(const MX& symbol, const std::string& attribute="full");
 
   /** \brief Set objective
   *
@@ -130,7 +134,7 @@ public:
   * When method is called multiple times, the last call takes effect
 
       \identifier{1a} */
-  void minimize(const MX& f);
+  void minimize(const MX& f, double linear_scale=1);
 
   /// @{
   /** \brief Add constraints
@@ -158,8 +162,10 @@ public:
   *  - opti.debug.show_infeasibilities() may be used to inspect which constraints are violated
   *
       \identifier{1b} */
-  void subject_to(const MX& g);
-  void subject_to(const std::vector<MX>& g);
+  void subject_to(const MX& g, const Dict& options=Dict());
+  void subject_to(const std::vector<MX>& g, const Dict& options=Dict());
+  void subject_to(const MX& g, const DM& linear_scale, const Dict& options=Dict());
+  void subject_to(const std::vector<MX>& g, const DM& linear_scale, const Dict& options=Dict());
   /// @}
 
   /// Clear constraints
@@ -199,6 +205,36 @@ public:
   void set_value(const MX& x, const DM& v);
   void set_value(const std::vector<MX>& assignments);
   /// @}
+
+  /// @{
+  /** \brief Set domain of a decision variable
+  *
+  * \param[in] x decision variable
+  * \param[in] type 'real', 'integer' (default: real)
+  *
+  * \verbatim
+  * opti.set_domain(x, "real")
+  * opti.set_domain(x, "integer")
+  * \endverbatim
+
+      \identifier{27t} */
+  void set_domain(const MX& x, const std::string& domain);
+
+  /** \brief Set scale of a decision variable
+  * 
+  * (x-offset)/scale will be used in the optimization problem
+  *
+  * \param[in] x decision variable
+  * \param[in] scale scaling value (default: 1)
+  * \param[in] offset scaling value (default: 0)
+  *
+  * \verbatim
+  * opti.set_linear_scale(x, 20)
+  * opti.set_linear_scale(x, 20, 273.15)
+  * \endverbatim
+
+      \identifier{2bs} */
+  void set_linear_scale(const MX& x, const DM& scale, const DM& offset=0);
 
   /// Crunch the numbers; solve the problem
   OptiSol solve();
@@ -252,6 +288,11 @@ public:
   std::vector<MX> value_variables() const;
   std::vector<MX> value_parameters() const;
 
+  /** \brief Scale a helper function constructed via opti.x, opti.g, ...
+
+      \identifier{2ci} */
+  Function scale_helper(const Function& h) const;
+
   /** \brief get the dual variable
   *
   * m must be a constraint expression.
@@ -301,6 +342,11 @@ public:
       \identifier{26f} */
   MX lbg() const;
   MX ubg() const;
+
+  DM x_linear_scale() const;
+  DM x_linear_scale_offset() const;
+  DM g_linear_scale() const;
+  double f_linear_scale() const;
 
   /** \brief Get all (scalarised) dual variables as a symbolic column vector
   *
@@ -407,7 +453,7 @@ public:
       \identifier{1p} */
   void callback_class(OptiCallback* callback);
   void callback_class();
-  // /@}
+  ///@}
 
 #ifndef SWIG
   Opti(const Opti& x);
@@ -451,6 +497,11 @@ public:
     OPTI_PAR,  // parameter
     OPTI_DUAL_G // dual
   };
+  enum DomainType {
+    OPTI_DOMAIN_REAL,
+    OPTI_DOMAIN_INTEGER
+  };
+
 
   struct IndexAbstraction {
     IndexAbstraction() : start(0), stop(0) {}
@@ -458,7 +509,7 @@ public:
     casadi_int stop;
   };
   struct MetaCon : IndexAbstraction {
-    MetaCon() :  n(1), flipped(false) {}
+    MetaCon() :  n(1), flipped(false), linear_scale(1) {}
     MX original;  // original expression
     MX canon; // Canonical expression
     ConstraintType type;
@@ -469,12 +520,14 @@ public:
     MX dual_canon;
     MX dual;
     Dict extra;
+    DM linear_scale;
   };
   struct MetaVar : IndexAbstraction {
     std::string attribute;
     casadi_int n;
     casadi_int m;
     VariableType type;
+    DomainType domain;
     casadi_int count;
     casadi_int i;
     casadi_int active_i;
@@ -548,11 +601,15 @@ public:
   MX x_lookup(casadi_index i) const;
   MX g_lookup(casadi_index i) const;
 
-  std::string x_describe(casadi_index i) const;
-  std::string g_describe(casadi_index i) const;
-  std::string describe(const MX& x, casadi_index indent=0) const;
+  casadi_index g_index_reduce_g(casadi_index i) const;
+  casadi_index g_index_reduce_x(casadi_index i) const;
+  casadi_index g_index_unreduce_g(casadi_index i) const;
 
-  void show_infeasibilities(double tol=0) const;
+  std::string x_describe(casadi_index i, const Dict& opts=Dict()) const;
+  std::string g_describe(casadi_index i, const Dict& opts=Dict()) const;
+  std::string describe(const MX& x, casadi_index indent=0, const Dict& opts=Dict()) const;
+
+  void show_infeasibilities(double tol=0, const Dict& opts=Dict()) const;
 
   void solve_prepare();
   DMDict solve_actual(const DMDict& args);

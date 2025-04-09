@@ -87,15 +87,23 @@ class CASADI_EXPORT DaeBuilder
 
   /** @name Variables and equations */
   ///@{
+  /** \brief Expression for independent variable (usually time)
+
+      \identifier{2by} */
+  const MX& time() const;
+
   /** \brief Independent variable (usually time)
 
-      \identifier{5e} */
-  const MX& t() const;
+      \identifier{2bz} */
+  std::vector<std::string> t_new() const {return all("t");}
 
   /** \brief Differential states
 
       \identifier{5f} */
-  std::vector<std::string> x() const;
+  std::vector<std::string> x() const {return all("x");}
+
+  /// Outputs */
+  std::vector<std::string> y() const;
 
   /** \brief Ordinary differential equations (ODE)
 
@@ -105,7 +113,7 @@ class CASADI_EXPORT DaeBuilder
   /** \brief Algebraic variables
 
       \identifier{5h} */
-  std::vector<std::string> z() const;
+  std::vector<std::string> z() const {return all("z");}
 
   /** \brief Algebraic equations
 
@@ -115,17 +123,17 @@ class CASADI_EXPORT DaeBuilder
   /** \brief Quadrature states
 
       \identifier{5j} */
-  std::vector<std::string> q() const;
+  std::vector<std::string> q() const {return all("q");}
 
   /** \brief Quadrature equations
 
       \identifier{5k} */
   std::vector<MX> quad() const;
 
-  /** \brief Output variables
+  /** \brief Zero-crossing functions
 
-      \identifier{5l} */
-  std::vector<std::string> y() const;
+      \identifier{2b0} */
+  std::vector<MX> zero() const;
 
   /** \brief Definitions of output variables
 
@@ -135,17 +143,17 @@ class CASADI_EXPORT DaeBuilder
   /** \brief Free controls
 
       \identifier{5n} */
-  std::vector<std::string> u() const;
+  std::vector<std::string> u() const {return all("u");}
 
   /** \brief Parameters
 
       \identifier{5o} */
-  std::vector<std::string> p() const;
+  std::vector<std::string> p() const {return all("p");}
 
   /** \brief Named constants
 
       \identifier{5p} */
-  std::vector<std::string> c() const;
+  std::vector<std::string> c() const {return all("c");}
 
   /** \brief Definitions of named constants
 
@@ -155,7 +163,7 @@ class CASADI_EXPORT DaeBuilder
   /** \brief Dependent parameters
 
       \identifier{5r} */
-  std::vector<std::string> d() const;
+  std::vector<std::string> d() const {return all("d");}
 
   /** \brief Definitions of dependent parameters
 
@@ -167,7 +175,7 @@ class CASADI_EXPORT DaeBuilder
   /** \brief Dependent variables
 
       \identifier{5t} */
-  std::vector<std::string> w() const;
+  std::vector<std::string> w() const {return all("w");}
 
   /** \brief Dependent variables and corresponding definitions
 
@@ -176,36 +184,15 @@ class CASADI_EXPORT DaeBuilder
       \identifier{5u} */
   std::vector<MX> wdef() const;
 
-  /** \brief Auxiliary variables: Used e.g. to define functions
-
-      \identifier{5v} */
-  const std::vector<MX>& aux() const;
-
   /** \brief Initial conditions, left-hand-side
 
-      \identifier{5w} */
-  const std::vector<MX>& init_lhs() const;
+      \identifier{2b1} */
+  std::vector<MX> init_lhs() const;
 
   /** \brief Initial conditions, right-hand-side
 
-      \identifier{5x} */
-  const std::vector<MX>& init_rhs() const;
-
-  /** \brief When statement: triggering condition
-
-      \identifier{5y} */
-  const std::vector<MX>& when_cond() const;
-
-  /** \brief When statement: left-hand-side
-
-      \identifier{5z} */
-  const std::vector<MX>& when_lhs() const;
-
-  /** \brief When statement: right-hand-side
-
-      \identifier{60} */
-  const std::vector<MX>& when_rhs() const;
-  ///@}
+      \identifier{2b2} */
+  std::vector<MX> init_rhs() const;
 
   /** \brief Model structure: outputs
 
@@ -245,6 +232,11 @@ class CASADI_EXPORT DaeBuilder
       \identifier{67} */
   casadi_int nq() const;
 
+  /** \brief Zero-crossing functions
+
+      \identifier{2cb} */
+  casadi_int nzero() const;
+
   /** \brief Output variables
 
       \identifier{68} */
@@ -280,62 +272,123 @@ class CASADI_EXPORT DaeBuilder
    *  Formulate a dynamic system model
    */
   ///@{
-  /// Add an independent variable (time)
+
+  /// Add a new model variable
+  MX add(const std::string& name,
+    const std::string& causality,
+    const std::string& variability,
+    const Dict& opts=Dict());
+
+  /// Add a new model variable, default variability
+  MX add(const std::string& name,
+    const std::string& causality,
+    const Dict& opts=Dict());
+
+  /// Add a new model variable, default variability and causality
+  MX add(const std::string& name,
+    const Dict& opts=Dict());
+
+  /// Add a new model variable, symbolic expression already available
+  void add(const std::string& name,
+    const std::string& causality,
+    const std::string& variability,
+    const MX& expr,
+    const Dict& opts=Dict());
+
+#ifdef WITH_DEPRECATED_FEATURES
+  /// [DEPRECATED] Renamed "time"
+  const MX& t() const { return time();}
+
+  /// [DEPRECATED] Replaced by add
   MX add_t(const std::string& name="t");
 
-  /// Add a new parameter
+  /// [DEPRECATED] Replaced by add
   MX add_p(const std::string& name=std::string());
 
-  /// Add a new control
+  /// [DEPRECATED] Replaced by add
   MX add_u(const std::string& name=std::string());
 
-  /// Add a new differential state
+  /// [DEPRECATED] Replaced by add
   MX add_x(const std::string& name=std::string());
 
-  /// Add a new algebraic variable
+  /// [DEPRECATED] Replaced by add
   MX add_z(const std::string& name=std::string());
 
-  /// Add a new quadrature state
+  /// [DEPRECATED] Replaced by add
   MX add_q(const std::string& name=std::string());
 
-  /// Add a new constant
+  /// [DEPRECATED] Replaced by add and eq
   MX add_c(const std::string& name, const MX& new_cdef);
 
-  /// Add a new dependent parameter
+  /// [DEPRECATED] Replaced by add and eq
   MX add_d(const std::string& name, const MX& new_ddef);
 
-  /// Add a new dependent variable
+  /// [DEPRECATED] Replaced by add and eq
   MX add_w(const std::string& name, const MX& new_wdef);
 
-  /// Add a new output
+  /// [DEPRECATED] Replaced by add and eq
   MX add_y(const std::string& name, const MX& new_ydef);
 
-  /// Specify the ordinary differential equation for a state
-  void set_ode(const std::string& name, const MX& ode_rhs);
+  /// [DEPRECATED] Replaced by eq
+  void set_beq(const std::string& name, const MX& val);
 
-  /// Specificy the residual equation for an algebraic variable
-  void set_alg(const std::string& name, const MX& alg_rhs);
+  #endif  // WITH_DEPRECATED_FEATURES
 
-  /// Add an auxiliary variable
-  MX add_aux(const std::string& name=std::string(), casadi_int n=1);
+  /// Add a simple equation
+  void eq(const MX& lhs, const MX& rhs, const Dict& opts=Dict());
 
-  /// Add an initial equation
-  void add_init(const MX& lhs, const MX& rhs);
+  /// Add when equations
+  void when(const MX& cond, const std::vector<std::string>& eqs, const Dict& opts=Dict());
 
-  /// Add a when statement
-  void add_when(const MX& cond, const MX& lhs, const MX& rhs);
+  /// Assignment inside a when-equation or if-else equation
+  std::string assign(const std::string& name, const MX& val);
+
+  /// Reinitialize a state inside when-equations
+  std::string reinit(const std::string& name, const MX& val);
+
+  /// Specify the initial equation for a variable
+  void set_init(const std::string& name, const MX& init_rhs);
+
+#ifdef WITH_DEPRECATED_FEATURES
+  /// [DEPRECATED] Replaced by eq
+  void set_ode(const std::string& name, const MX& ode_rhs) {
+    eq(var(name), ode_rhs);
+  }
+
+  /// [DEPRECATED] Replaced by eq
+  void set_alg(const std::string& name, const MX& alg_rhs) {
+    (void)name;
+    eq(0, alg_rhs);
+  }
+
+  /// [DEPRECATED] Replaced by set_init
+  void add_init(const MX& lhs, const MX& rhs) {
+    set_init(lhs.name(), rhs);
+  }
+
+  /// [DEPRECATED] Replaced by nzero()
+  casadi_int ne() const {return nzero();}
+
+  /// [DEPRECATED] Use all("zero") */
+  std::vector<std::string> e() const {return all("zero");}
+
+  #endif  // WITH_DEPRECATED_FEATURES
 
   /// Check if dimensions match
   void sanity_check() const;
   ///@}
 
-  /// Clear all variables of a type
+  /// Reorder variables in a category
+  void reorder(const std::string& cat, const std::vector<std::string>& v);
+
+#ifdef WITH_DEPRECATED_FEATURES
+  /// [DEPRECATED] Use set_variability, set_causality or set_category to change variable category
   void clear_all(const std::string& v);
 
-  /// Set all variables of a type
+  /// [DEPRECATED] Use set_variability, set_causality, set_category and/or reorder
   void set_all(const std::string& v, const std::vector<std::string>& name);
 
-  /** @name Register an existing variable */
+  /** @name [DEPRECATED] Register an existing variable */
   ///@{
   void register_t(const std::string& name);
   void register_p(const std::string& name);
@@ -347,47 +400,43 @@ class CASADI_EXPORT DaeBuilder
   void register_d(const std::string& name);
   void register_w(const std::string& name);
   void register_y(const std::string& name);
+  void register_e(const std::string& name);
   ///@}
 
-#ifdef WITH_DEPRECATED_FEATURES
-  /** @name [DEPRECATED] Specify all variables of a type: Call set_all instead */
-  ///@{
-  void set_u(const std::vector<std::string>& name) { set_all("u", name);}
-  void set_x(const std::vector<std::string>& name) { set_all("x", name);}
-  void set_z(const std::vector<std::string>& name,
-    const std::vector<std::string>& alg = std::vector<std::string>());
-  void set_q(const std::vector<std::string>& name) { set_all("q", name);}
-  void set_y(const std::vector<std::string>& name) { set_all("y", name);}
-  ///@}
-#endif  // WITH_DEPRECATED_FEATURES
+  /// [DEPRECATED] Use eliminate("d")
+  void eliminate_d();
+
+  /// [DEPRECATED] Use eliminate("w")
+  void eliminate_w();
+
+  /// [DEPRECATED] Use eliminate("q")
+  void eliminate_quad();
+
+  /// [DEPRECATED] Use sort("d")
+  void sort_d();
+
+  /// [DEPRECATED] Use sort("w")
+  void sort_w();
+
+  /// [DEPRECATED] Use reorder("z", new_order)
+  void sort_z(const std::vector<std::string>& z_order);
+
+  #endif // WITH_DEPRECATED_FEATURES
 
   /** @name Manipulation
    *  Reformulate the dynamic optimization problem.
    */
   ///@{
 
-#ifdef WITH_DEPRECATED_FEATURES
-  /// [DEPRECATED] Clear input variable: Replaced by clear_all
-  void clear_in(const std::string& v) { clear_all(v);}
-#endif  // WITH_DEPRECATED_FEATURES
 
-  /// Eliminate all dependent variables
-  void eliminate_w();
+  /// Eliminate all dependent parameters
+  void eliminate(const std::string& cat);
+
+  /// Sort dependent parameters
+  void sort(const std::string& cat);
 
   /// Lift problem formulation by extracting shared subexpressions
   void lift(bool lift_shared = true, bool lift_calls = true);
-
-  /// Eliminate quadrature states and turn them into ODE states
-  void eliminate_quad();
-
-  /// Sort dependent parameters
-  void sort_d();
-
-  /// Sort dependent variables
-  void sort_w();
-
-  /// Sort algebraic variables
-  void sort_z(const std::vector<std::string>& z_order);
 
   /// Prune unused controls
   void prune(bool prune_p = true, bool prune_u = true);
@@ -433,7 +482,10 @@ class CASADI_EXPORT DaeBuilder
   void parse_fmi(const std::string& filename) {load_fmi_description(filename); }
 
   /// Does the FMU provide support for analytic derivatives
-  bool provides_directional_derivative() const;
+  bool provides_directional_derivatives() const;
+
+  /// Does the FMU provide support for analytic derivatives (FMI 2 naming)
+  bool provides_directional_derivative() const {return provides_directional_derivatives();}
 
   /// Import problem description from FMI or XML
   void load_fmi_description(const std::string& filename);
@@ -463,18 +515,32 @@ class CASADI_EXPORT DaeBuilder
     const Dict& opts=Dict()) const;
   ///@}
 
-  /** \brief  Load a function from an FMU DLL, standard IO conforming with simulator
+  /** \brief Create a function with standard integrator DAE signature
 
     \param name    Name assigned to the resulting function object
     \param opts    Optional settings
 
-      \identifier{6f} */
-  Function create(const std::string& name, const Dict& opts=Dict()) const;
+      \identifier{2c0} */
+  Function create(const std::string& fname, const Dict& opts=Dict()) const;
+
+  /** \brief Create a function with standard integrator DAE signature, default naming
+
+      \identifier{2c1} */
+  Function create() const {return create(name() + "_dae");}
 
   /// Construct a function for evaluating dependent parameters
   Function dependent_fun(const std::string& fname,
       const std::vector<std::string>& s_in,
       const std::vector<std::string>& s_out) const;
+
+  /// Construct a function describing transition at a specific events
+  Function transition(const std::string& fname, casadi_int index) const;
+
+  /// Construct a function describing transition at any events
+  Function transition(const std::string& fname) const;
+
+  /// Construct an event transition function, default naming
+  Function transition() const {return transition(name() + "_transition");}
 
   ///@{
   /// Get variable expression by name
@@ -482,14 +548,26 @@ class CASADI_EXPORT DaeBuilder
   MX operator()(const std::string& name) const {return var(name);}
   ///@}
 
-  /// Get the time derivative of an expression
+  /// Get the time derivative of model variables
   std::vector<std::string> der(const std::vector<std::string>& name) const;
 
   ///@{
-  /// Get/set the binding equation for a variable
-  MX beq(const std::string& name) const;
-  void set_beq(const std::string& name, const MX& val);
+  /// Differentiate an expression with respect to time
+  MX der(const MX& v) const;
+  MX der(const MX& v);
   ///@}
+
+  /// Get the pre-variables of model variables
+  std::vector<std::string> pre(const std::vector<std::string>& name) const;
+
+  /// Get the pre-expression given variable expression
+  MX pre(const MX& v) const;
+
+  /// Does a variable have a binding equation?
+  bool has_beq(const std::string& name) const;
+
+  /// Get the binding equation for a variable
+  MX beq(const std::string& name) const;
 
   ///@{
   /// Get/set value reference
@@ -509,17 +587,53 @@ class CASADI_EXPORT DaeBuilder
   void set_type(const std::string& name, const std::string& val);
   ///@}
 
-  ///@{
-  /// Get/set the causality
+  /// Get the causality
   std::string causality(const std::string& name) const;
-  void set_causality(const std::string& name, const std::string& val);
-  ///@}
 
-  ///@{
-  /// Get/set the variability
+  /** \brief Set the causality, if permitted
+
+  The following changes are permitted:
+    * For controls 'u' (variability 'continuous', causality 'input'), free parameters 'p'
+    (variability 'tunable', causality 'parameter') and fixed parameters 'c' (variability
+    'fixed', causality 'parameter'), causality can only be changed indirectly, by updating
+    the variability
+    * Add or remove an output 'y' by setting the causality to 'output' or 'local',
+    respectively
+
+    No other changes are permitted.
+
+      \identifier{2c2} */
+  void set_causality(const std::string& name, const std::string& val);
+
+  /// Get the variability
   std::string variability(const std::string& name) const;
+
+  /** \brief Set the variability, if permitted
+
+  For controls 'u' (variability 'continuous', causality 'input'), free parameters 'p'
+  (variability 'tunable', causality 'parameter') and fixed parameters 'c'
+  (variability 'fixed', causality 'parameter'), update variability in
+  order to change the category. Causality is updated accordingly.
+
+  Other changes are not permitted
+
+      \identifier{2c3} */
   void set_variability(const std::string& name, const std::string& val);
-  ///@}
+
+  /// Get the variable category
+  std::string category(const std::string& name) const;
+
+  /** \brief Set the variable category, if permitted
+
+  The following changes are permitted:
+    * Controls 'u' can be changed to/from tunable parameters 'p' or fixed parameters 'c'
+    * Differential states that do not appear in the right-hand-sides can be changed between
+    regular states 'x' and quadrature states 'q'
+
+    Other changes are not permitted. Causality and variability is updated accordingly.
+
+      \identifier{2c4} */
+  void set_category(const std::string& name, const std::string& val);
 
   ///@{
   /// Get/set the initial property
@@ -545,11 +659,38 @@ class CASADI_EXPORT DaeBuilder
   /// Get the dimensions of a variable
   std::vector<casadi_int> dimension(const std::string& name) const;
 
+  /// Get the start time
+  double start_time() const;
+
+  /// Set the start time
+  void set_start_time(double val);
+
+  /// Get the stop time
+  double stop_time() const;
+
+  /// Set the stop time
+  void set_stop_time(double val);
+
+  /// Get the tolerance
+  double tolerance() const;
+
+  /// Set the tolerance
+  void set_tolerance(double val);
+
+  /// Get the step size
+  double step_size() const;
+
+  /// Set the step size
+  void set_step_size(double val);
+
   // The following routines are not needed in MATLAB and would cause ambiguity
   // Note that a multirow strings can be interpreted as a vector of strings
 #if !(defined(SWIG) && defined(SWIGMATLAB))
-  /// Get the time derivative of an expression, single variable
+  /// Get the time derivative of model variables, single variable
   std::string der(const std::string& name) const;
+
+  /// Get the pre-variables of model variables
+  std::string pre(const std::string& name) const;
 
   /// Get an attribute, single variable
   double attribute(const std::string& a, const std::string& name) const;
@@ -576,10 +717,13 @@ class CASADI_EXPORT DaeBuilder
   void set_nominal(const std::string& name, double val);
 
   /// Get the start attribute, single variable
-  double start(const std::string& name) const;
+  std::vector<double> start(const std::string& name) const;
 
   /// Set the start attribute, single variable
   void set_start(const std::string& name, double val);
+
+  /// Set the start attribute, vector argument
+  void set_start(const std::string& name, const std::vector<double>& val);
 
   // Clear all set values
   void reset();
@@ -635,29 +779,40 @@ class CASADI_EXPORT DaeBuilder
   /// Evaluate the values for a set of variables at the initial time
   std::vector<GenericType> get(const std::vector<std::string>& name) const;
 
-  /// Add a new variable: returns corresponding symbolic expression
+  /// Check if a particular variable exists
+  bool has(const std::string& name) const;
+
+  /// Get a list of all variables
+  std::vector<std::string> all() const;
+
+  /// Get a list of all variables of a particular category
+  std::vector<std::string> all(const std::string& cat) const;
+
+#ifdef WITH_DEPRECATED_FEATURES
+  /// [DEPRECATED] Use add
   MX add_variable(const std::string& name, casadi_int n=1);
 
-  /// Add a new variable: returns corresponding symbolic expression
+  /// [DEPRECATED] Use add
   MX add_variable(const std::string& name, const Sparsity& sp);
 
   /// Add a new variable from symbolic expressions
   void add_variable(const MX& new_v);
 
-  /// Add a new variable: returns corresponding symbolic expression
+  /// [DEPRECATED] Use add
   size_t add_variable_new(const std::string& name, casadi_int n=1);
 
-  /// Add a new variable: returns corresponding symbolic expression
+  /// [DEPRECATED] Use add
   size_t add_variable_new(const std::string& name, const Sparsity& sp);
 
-  /// Add a new variable from symbolic expressions
+  /// [DEPRECATED] Use add
   size_t add_variable_new(const MX& new_v);
 
-  /// Check if a particular variable exists
-  bool has_variable(const std::string& name) const;
+  /// [DEPRECATED] Ranamed "has"
+  bool has_variable(const std::string& name) const {return has(name);}
 
   /// Get a list of all variables
-  std::vector<std::string> all_variables() const;
+  std::vector<std::string> all_variables() const {return all();}
+#endif // WITH_DEPRECATED_FEATURES
 
   /// Get the (cached) oracle, SX or MX
   Function oracle(bool sx = false, bool elim_w = false, bool lifted_calls = false) const;
@@ -669,20 +824,29 @@ class CASADI_EXPORT DaeBuilder
     const std::vector<std::string>& inames) const;
 
 #ifndef SWIG
-  /// Create a new variable
+#ifdef WITH_DEPRECATED_FEATURES
+  /// [DEPRECATED] Use add
   Variable& new_variable(const std::string& name, casadi_int numel = 1);
 
   ///@{
-  /// Access a variable by name
+  /// [DEPRECATED] Access to internal class and corresponding indexing removed
   Variable& variable(const std::string& name);
   const Variable& variable(const std::string& name) const;
+  Variable& variable(size_t ind);
+  const Variable& variable(size_t ind) const;
+  size_t find(const std::string& name) const;
+  std::vector<size_t> find(const std::vector<std::string>& name) const;
+  const std::string& name(size_t ind) const;
+  std::vector<std::string> name(const std::vector<size_t>& ind) const;
   ///@}
 
   ///@{
-  /// Access a variable by index
-  Variable& variable(size_t ind);
-  const Variable& variable(size_t ind) const;
+  /// [DEPRECATED] Use string name, not internal index to access variables
+  const MX& var(size_t ind) const;
+  std::vector<MX> var(const std::vector<size_t>& ind) const;
   ///@}
+
+#endif // WITH_DEPRECATED_FEATURES
 
   /// Access a member function or object
   const DaeBuilderInternal* operator->() const;
@@ -692,28 +856,6 @@ class CASADI_EXPORT DaeBuilder
 
   /// Check if a particular cast is allowed
   static bool test_cast(const SharedObjectInternal* ptr);
-
-  /// Get single variable expression by index
-  const MX& var(size_t ind) const;
-
-  /// Get variable expressions by index
-  std::vector<MX> var(const std::vector<size_t>& ind) const;
-
-  /// Get index of variable
-  size_t find(const std::string& name) const;
-
-  /// Get indices of variable
-  std::vector<size_t> find(const std::vector<std::string>& name) const;
-
-  /** \brief Get variable name by index
-
-      \identifier{6h} */
-  const std::string& name(size_t ind) const;
-
-  /** \brief Get variable names by indices
-
-      \identifier{6i} */
-  std::vector<std::string> name(const std::vector<size_t>& ind) const;
 
 #endif // SWIG
 };

@@ -43,7 +43,7 @@ struct InputStruct;
 class FmuInternal;
 
 /// Which C API
-enum class FmuApi {FMI2, NUMEL};
+enum class FmuApi {FMI2, FMI3, NUMEL};
 
 /// Convert to string
 CASADI_EXPORT std::string to_string(FmuApi v);
@@ -79,6 +79,11 @@ class CASADI_EXPORT Fmu
 
       \identifier{26u} */
   const std::string& name() const;
+
+  /** \brief Name of the FMU
+
+      \identifier{2ab} */
+  const std::string& instance_name() const;
 
   ///@{
   /// Access functions of the node
@@ -130,8 +135,14 @@ class CASADI_EXPORT Fmu
   // Description of an input
   std::string desc_in(FmuMemory* m, size_t id, bool more = true) const;
 
-  /// Does the interface support analytic derivatives?
-  bool has_ad() const;
+  /// Does the FMU provide support for forward directional derivatives
+  bool provides_directional_derivatives() const;
+
+  /// Does the FMU provide support for adjoint directional derivatives
+  bool provides_adjoint_derivatives() const;
+
+  /// Does the FMU declare restrictions on instantiation?
+  bool can_be_instantiated_only_once_per_process() const;
 
   // Get Jacobian sparsity for a subset of inputs and outputs
   Sparsity jac_sparsity(const std::vector<size_t>& osub, const std::vector<size_t>& isub) const;
@@ -155,7 +166,7 @@ class CASADI_EXPORT Fmu
   int init_mem(FmuMemory* m) const;
 
   // Free FMU instance
-  void free_instance(void* c) const;
+  void free_instance(void* instance) const;
 
   // Set value
   void set(FmuMemory* m, size_t ind, const double* value) const;
@@ -167,26 +178,78 @@ class CASADI_EXPORT Fmu
   int eval(FmuMemory* m) const;
 
   // Get a calculated variable
-  void get(FmuMemory* m, size_t id, double* value) const;
+  void get(FmuMemory* m, size_t ind, double* value) const;
 
-  // Set seed
-  void set_seed(FmuMemory* m, casadi_int nseed, const casadi_int* id, const double* v) const;
+  // Set forward seed by variable index
+  void set_fwd(FmuMemory* m, casadi_int nseed, const casadi_int* id, const double* v) const;
 
-  // Request the calculation of a sensitivity
-  void request_sens(FmuMemory* m, casadi_int nsens, const casadi_int* id,
+  // Set all forward seeds for a single input
+  void set_fwd(FmuMemory* m, size_t ind, const double* v) const;
+
+  // Request the calculation of forward sensitivities
+  void request_fwd(FmuMemory* m, casadi_int nsens, const casadi_int* id,
     const casadi_int* wrt_id) const;
 
-  // Calculate directional derivatives
-  int eval_derivative(FmuMemory* m, bool independent_seeds) const;
+  // Request the calculation of all forward sensitivities for an output
+  void request_fwd(FmuMemory* m, casadi_int ind) const;
 
-  // Get calculated derivatives
-  void get_sens(FmuMemory* m, casadi_int nsens, const casadi_int* id, double* v) const;
+  // Calculate forward directional derivatives
+  int eval_fwd(FmuMemory* m, bool independent_seeds) const;
+
+  // Get forward sensitivities
+  void get_fwd(FmuMemory* m, casadi_int nsens, const casadi_int* id, double* v) const;
+
+  // Get the forward sensitivities for a single output
+  void get_fwd(FmuMemory* m, size_t ind, double* v) const;
+
+  // Set adjoint seeds
+  void set_adj(FmuMemory* m, casadi_int nseed,
+    const casadi_int* id, const double* v) const;
+
+  // Set all adjoint seeds for a single output
+  void set_adj(FmuMemory* m, size_t ind, const double* v) const;
+
+  // Request the calculation of adjoint sensitivities
+  void request_adj(FmuMemory* m, casadi_int nsens, const casadi_int* id,
+    const casadi_int* wrt_id) const;
+
+  // Request the calculation of all adjoint sensitivities for an input
+  void request_adj(FmuMemory* m, casadi_int ind) const;
+
+  // Calculate adjoint directional derivatives
+  int eval_adj(FmuMemory* m) const;
+
+  // Get adjoint sensitivities
+  void get_adj(FmuMemory* m, casadi_int nsens,
+    const casadi_int* id, double* v) const;
+
+  // Get the adjoint sensitivities for a single input
+  void get_adj(FmuMemory* m, size_t ind, double* v) const;
 
   /** \brief Get stats
 
       \identifier{26y} */
   void get_stats(FmuMemory* m, Dict* stats,
     const std::vector<std::string>& name_in, const InputStruct* in) const;
+
+  /// \cond INTERNAL
+#ifndef SWIG
+    /** \brief  Create from node
+
+        \identifier{27c} */
+    static Fmu create(FmuInternal* node);
+#endif // SWIG
+  /// \endcond
+
+  /** \brief Serialize an object
+
+      \identifier{27d} */
+  void serialize(SerializingStream &s) const;
+
+  /** \brief Deserialize with type disambiguation
+
+      \identifier{27e} */
+  static Fmu deserialize(DeserializingStream& s);
 };
 
 } // namespace casadi

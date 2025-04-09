@@ -34,6 +34,14 @@
 #include "generic_type.hpp"
 #include "printable.hpp"
 #include <vector>
+#ifdef CASADI_WITH_THREAD
+#ifdef CASADI_WITH_THREAD_MINGW
+#include <mingw.mutex.h>
+#else // CASADI_WITH_THREAD_MINGW
+#include <mutex>
+#endif // CASADI_WITH_THREAD_MINGW
+#endif //CASADI_WITH_THREAD
+
 namespace casadi {
 
   /** \brief  Forward declaration
@@ -122,6 +130,14 @@ namespace casadi {
         \identifier{q5} */
     MX(const Sparsity& sp, const std::string& fname);
 
+
+    /** \brief Construct matrix with a given sparsity and nonzeros,
+
+     * configurable in codegen via a pool
+
+        \identifier{2aa} */
+    MX(const Matrix<double>& val, const std::string& name);
+
     /** \brief  Create scalar constant (also implicit type conversion)
 
         \identifier{q6} */
@@ -187,6 +203,21 @@ namespace casadi {
 
         \identifier{qd} */
     Sparsity get_sparsity() const { return sparsity();}
+
+    /** \brief Get nonzeros as list of scalar MXes
+    *
+    * Since MX is not a containter, the scalar MXes may be complex
+    * When the expression satisfies is_valid_input, the results may be simple
+    *
+    * For example: 
+    * vertcat(x,y).nonzeros()
+    * will return {x,y}
+    *
+    * \sa expr.nz[:]
+    *
+
+        \identifier{2bh} */
+    std::vector<MX> get_nonzeros() const;
 
     /** \brief Erase a submatrix (leaving structural zeros in its place)
 
@@ -274,6 +305,11 @@ namespace casadi {
     /// Check if evaluation output
     bool is_output() const;
 
+    /** \brief  Check if a multiple output node
+
+        \identifier{284} */
+    bool has_output() const;
+
     /// Get the index of evaluation output - only valid when is_output() is true
     casadi_int which_output() const;
 
@@ -306,15 +342,23 @@ namespace casadi {
         \identifier{qp} */
     std::vector<MX> primitives() const;
 
+    /// @{
     /** \brief Split up an expression along symbolic primitives
 
         \identifier{qq} */
     std::vector<MX> split_primitives(const MX& x) const;
+    std::vector<SX> split_primitives(const SX& x) const;
+    std::vector<DM> split_primitives(const DM& x) const;
+    /// @}
 
+    /// @{
     /** \brief Join an expression along symbolic primitives
 
         \identifier{qr} */
     MX join_primitives(const std::vector<MX>& v) const;
+    SX join_primitives(const std::vector<SX>& v) const;
+    DM join_primitives(const std::vector<DM>& v) const;
+    /// @}
 
     /// \cond INTERNAL
     /** \brief Detect duplicate symbolic expressions
@@ -598,6 +642,8 @@ namespace casadi {
     static MX conditional(const MX& ind, const std::vector<MX> &x, const MX& x_default,
                           bool short_circuit=false);
     static bool depends_on(const MX& x, const MX& arg);
+    static bool contains_all(const std::vector<MX>& v, const std::vector<MX> &n);
+    static bool contains_any(const std::vector<MX>& v, const std::vector<MX> &n);
     static MX simplify(const MX& x);
     static MX dot(const MX& x, const MX& y);
     static MX mrdivide(const MX& a, const MX& b);
@@ -623,6 +669,11 @@ namespace casadi {
     static MX cumsum(const MX &x, casadi_int axis=-1);
     static MX _logsumexp(const MX& x);
     static std::vector<MX> cse(const std::vector<MX>& e);
+    static void extract_parametric(const MX &expr, const MX& par,
+            MX& expr_ret, std::vector<MX>& symbols, std::vector<MX>& parametric, const Dict& opts);
+    static void separate_linear(const MX &expr,
+      const MX &sym_lin, const MX &sym_const,
+      MX& expr_const, MX& expr_lin, MX& expr_nonlin);
     ///@}
 
     ///@{
@@ -631,9 +682,15 @@ namespace casadi {
     static MX low(const MX& v, const MX& p, const Dict& options = Dict());
     static MX graph_substitute(const MX& x, const std::vector<MX> &v,
                                const std::vector<MX> &vdef);
+    static MX graph_substitute(const MX& x, const std::vector<MX> &v,
+                               const std::vector<MX> &vdef, bool& updated);
     static std::vector<MX> graph_substitute(const std::vector<MX> &ex,
-                                            const std::vector<MX> &expr,
-                                            const std::vector<MX> &exprs);
+                                            const std::vector<MX> &v,
+                                            const std::vector<MX> &vdef);
+    static std::vector<MX> graph_substitute(const std::vector<MX> &ex,
+                                            const std::vector<MX> &v,
+                                            const std::vector<MX> &vdef,
+                                            bool& updated);
     static MX matrix_expand(const MX& e, const std::vector<MX> &boundary,
                             const Dict& options);
     static std::vector<MX> matrix_expand(const std::vector<MX>& e,
@@ -655,6 +712,7 @@ namespace casadi {
     static MX convexify(const MX& H, const Dict& opts = Dict());
     static MX stop_diff(const MX& expr, casadi_int order);
     static MX stop_diff(const MX& expr, const MX& var, casadi_int order);
+    static std::vector<MX> difference(const std::vector<MX>& a, const std::vector<MX>& b);
     ///@}
     /// \endcond
 
@@ -710,6 +768,11 @@ namespace casadi {
       return MX::graph_substitute(ex, v, vdef);
     }
 
+    inline friend MX graph_substitute(const MX& ex, const std::vector<MX> &v,
+                                      const std::vector<MX> &vdef, bool& updated) {
+      return MX::graph_substitute(ex, v, vdef, updated);
+    }
+
     /** \brief Substitute multiple expressions in graph
 
      * Substitute variable var with expression expr in
@@ -721,6 +784,14 @@ namespace casadi {
                        const std::vector<MX> &v,
                        const std::vector<MX> &vdef) {
       return MX::graph_substitute(ex, v, vdef);
+    }
+
+    inline friend std::vector<MX>
+      graph_substitute(const std::vector<MX> &ex,
+                       const std::vector<MX> &v,
+                       const std::vector<MX> &vdef,
+                       bool& updated) {
+      return MX::graph_substitute(ex, v, vdef, updated);
     }
 
     /** \brief Expand MX graph to SXFunction call
@@ -836,12 +907,13 @@ namespace casadi {
       return MX::stop_diff(expr, var, order);
     }
 
+    /** \bried Return all elements of a that do not occur in b, preserving order */
+    inline friend std::vector<MX> difference(const std::vector<MX>& a, const std::vector<MX>& b) {
+      return MX::difference(a, b);
+    }
 
 /** @} */
 #endif // SWIG
-
-    /** \bried Return all elements of a that do not occur in b, preserving order */
-    friend std::vector<MX> difference(const std::vector<MX>& a, const std::vector<MX>& b);
 
     /** \brief returns itself, but with an assertion attached
     *
@@ -913,6 +985,10 @@ namespace casadi {
     // Create matrix symbolic primitive
     static MX _sym(const std::string& name, const Sparsity& sp);
 
+#ifdef CASADI_WITH_THREADSAFE_SYMBOLICS
+    static std::mutex& get_mutex_temp() { return mutex_temp; }
+    static std::mutex mutex_temp;
+#endif //CASADI_WITH_THREADSAFE_SYMBOLICS
   private:
 
     /// Create an expression from a node: extra dummy arguments to avoid ambiguity for 0/NULL

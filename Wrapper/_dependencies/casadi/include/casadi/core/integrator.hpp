@@ -144,36 +144,45 @@ namespace casadi {
       \identifier{7g} */
   CASADI_EXPORT casadi_int integrator_n_out();
 
-  /** \brief Get input scheme of simulators
+  /** \brief Get input scheme of a DAE function
 
       \identifier{25p} */
   CASADI_EXPORT std::vector<std::string> dyn_in();
 
-  /** \brief Get simulator output scheme of simulators
+  /** \brief Get output scheme of a DAE function
 
       \identifier{25q} */
   CASADI_EXPORT std::vector<std::string> dyn_out();
 
-  /** \brief Get simulator input scheme name by index
+  /** \brief Get input scheme of a DAE function by index
 
       \identifier{25r} */
   CASADI_EXPORT std::string dyn_in(casadi_int ind);
 
-  /** \brief Get output scheme name by index
+  /** \brief Get output scheme of a DAE function by index
 
       \identifier{25s} */
   CASADI_EXPORT std::string dyn_out(casadi_int ind);
 
-  /** \brief Get the number of simulator inputs
+  /** \brief Get the number of inputs for a DAE function
 
       \identifier{25t} */
   CASADI_EXPORT casadi_int dyn_n_in();
 
-  /** \brief Get the number of simulator outputs
+  /** \brief Get the number of outputs for a DAE function
 
       \identifier{25u} */
   CASADI_EXPORT casadi_int dyn_n_out();
 
+  /** \brief Get input scheme of an event transition function
+
+      \identifier{2b4} */
+  CASADI_EXPORT std::vector<std::string> event_in();
+
+  /** \brief Get output scheme of an event transition functions
+
+      \identifier{2b5} */
+  CASADI_EXPORT std::vector<std::string> event_out();
   /** @} */
 
 #ifndef SWIG
@@ -186,12 +195,29 @@ enum DynIn {
   DYN_U,
   DYN_NUM_IN};
 
-/// Inputs of the symbolic representation of the DAE
+/// Outputs of the symbolic representation of the DAE
 enum DynOut {
   DYN_ODE,
   DYN_ALG,
   DYN_QUAD,
+  DYN_ZERO,
   DYN_NUM_OUT};
+
+/// Inputs of an event transition function
+enum EventIn {
+  EVENT_INDEX,
+  EVENT_T,
+  EVENT_X,
+  EVENT_Z,
+  EVENT_P,
+  EVENT_U,
+  EVENT_NUM_IN};
+
+/// Outputs of an event transition function
+enum EventOut {
+  EVENT_POST_X,
+  EVENT_POST_Z,
+  EVENT_NUM_OUT};
 
 /// Input arguments of an integrator
 enum IntegratorInput {
@@ -241,12 +267,20 @@ template<> struct enum_traits<DynIn> {
 template<> struct enum_traits<DynOut> {
   static const size_t n_enum = DYN_NUM_OUT;
 };
+template<> struct enum_traits<EventIn> {
+  static const size_t n_enum = EVENT_NUM_IN;
+};
+template<> struct enum_traits<EventOut> {
+  static const size_t n_enum = EVENT_NUM_OUT;
+};
 ///@}
 
 ///@{
 /// Convert to string
 CASADI_EXPORT std::string to_string(DynIn v);
 CASADI_EXPORT std::string to_string(DynOut v);
+CASADI_EXPORT std::string to_string(EventIn v);
+CASADI_EXPORT std::string to_string(EventOut v);
 ///@}
 
 #endif // SWIG
