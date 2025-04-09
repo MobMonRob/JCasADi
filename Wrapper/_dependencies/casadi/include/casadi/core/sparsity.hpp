@@ -36,6 +36,13 @@
 #include <list>
 #include <limits>
 #include <unordered_map>
+#ifdef CASADI_WITH_THREAD
+#ifdef CASADI_WITH_THREAD_MINGW
+#include <mingw.mutex.h>
+#else // CASADI_WITH_THREAD_MINGW
+#include <mutex>
+#endif // CASADI_WITH_THREAD_MINGW
+#endif //CASADI_WITH_THREAD
 
 namespace casadi {
   // Forward declaration
@@ -269,7 +276,7 @@ namespace casadi {
     Sparsity get_diag(std::vector<casadi_int>& SWIG_OUTPUT(mapping)) const;
 
     /// Compress a sparsity pattern
-    std::vector<casadi_int> compress() const;
+    std::vector<casadi_int> compress(bool canonical=true) const;
 
 #ifndef SWIG
     /// Access a member function or object
@@ -876,6 +883,11 @@ namespace casadi {
     /// Cached sparsity patterns
     static CachingMap& getCache();
 
+#ifdef CASADI_WITH_THREADSAFE_SYMBOLICS
+    // Safe access to CachingMap
+    static std::mutex cachingmap_mtx;
+#endif //CASADI_WITH_THREADSAFE_SYMBOLICS
+
     /// (Dense) scalar
     static const Sparsity& getScalar();
 
@@ -1006,7 +1018,7 @@ namespace casadi {
     /** \brief Propagate sparsity through a linear solve
 
         \identifier{d9} */
-    void spsolve(bvec_t* X, const bvec_t* B, bool tr) const;
+    void spsolve(bvec_t* X, bvec_t* B, bool tr) const;
 #endif // SWIG
 
     /** \brief Get the location of all non-zero elements as they would appear in a Dense matrix
@@ -1199,15 +1211,24 @@ namespace casadi {
   /** \brief Generate a hash value incrementally, array
 
       \identifier{dq} */
-  inline void hash_combine(std::size_t& seed, const casadi_int* v, std::size_t sz) {
+  template<typename T>
+  inline void hash_combine(std::size_t& seed, const T* v, std::size_t sz) {
     for (casadi_int i=0; i<sz; ++i) hash_combine(seed, v[i]);
   }
 
   /** \brief Generate a hash value incrementally (function taken from boost)
 
       \identifier{dr} */
-  inline void hash_combine(std::size_t& seed, const std::vector<casadi_int>& v) {
+  template<typename T>
+  inline void hash_combine(std::size_t& seed, const std::vector<T>& v) {
     hash_combine(seed, get_ptr(v), v.size());
+  }
+
+  template<>
+  inline size_t hash_value(std::string v) {
+    size_t seed = 0;
+    hash_combine(seed, v.c_str(), v.size());
+    return seed;
   }
 
   /** \brief Hash a sparsity pattern
