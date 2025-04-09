@@ -8,10 +8,12 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SymbolicExpression;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.*;
 import javax.constraints.*;
+import java.util.Arrays;
 
 /**
  * A wrapper class for the MX object, representing a variable in the constraint model.
@@ -22,25 +24,135 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     private String id;
 
     /**
-     * default constructor
+     * Default constructor that initializes the MX object with default settings.
      */
     public MXWrapper() {
-        mx = new MX();
+        this.mx = new MX();
     }
 
     /**
-     * MX constructor
+     * Constructs an MXWrapper with specified number of rows and columns.
      *
-     * @param mx
+     * @param nrow The number of rows.
+     * @param ncol The number of columns.
+     */
+    public MXWrapper(long nrow, long ncol) {
+        this.mx = new MX(nrow, ncol);
+    }
+
+    /**
+     * Constructs an MXWrapper using a given sparsity pattern.
+     *
+     * @param sparsity The SparsityWrapper object representing the sparsity pattern.
+     */
+    public MXWrapper(SparsityWrapper sparsity) {
+        this.mx = new MX(sparsity.getCasADiObject());
+    }
+
+    /**
+     * Constructs an MXWrapper with a given sparsity pattern and initial value.
+     *
+     * @param sparsity The SparsityWrapper object representing the sparsity pattern.
+     * @param val The initial value for the matrix.
+     */
+    public MXWrapper(SparsityWrapper sparsity, MXWrapper val) {
+        this.mx = new MX(sparsity.getCasADiObject(), val.getCasADiObject());
+    }
+
+    /**
+     * Constructs an MXWrapper with a given sparsity pattern and function name.
+     *
+     * @param sparsity The SparsityWrapper object representing the sparsity pattern.
+     * @param fname The function name associated with the matrix.
+     */
+    public MXWrapper(SparsityWrapper sparsity, String fname) {
+        this.mx = new MX(sparsity.getCasADiObject(), fname);
+    }
+
+    /**
+     * Constructs an MXWrapper with a single double value.
+     *
+     * @param x The double value to initialize the matrix.
+     */
+    public MXWrapper(double x) {
+        this.mx = new MX(x);
+    }
+
+    /**
+     * Constructs an MXWrapper using a vector of double values.
+     *
+     * @param x The DoubleVector containing the values to initialize the matrix.
+     */
+    public MXWrapper(DoubleVector x) {
+        this.mx = new MX(x.getCasADiObject());
+    }
+
+    /**
+     * Constructs an MXWrapper using an array of NumberWrapper objects.
+     *
+     * @param x The array of NumberWrapper objects to initialize the matrix.
+     */
+    public MXWrapper(NumberWrapper... x) {
+        DoubleVector doubleVector = new DoubleVector();
+        Arrays.stream(x).forEach(value -> doubleVector.add(value.getDoubleValue()));
+        this.mx = new MX(doubleVector.getCasADiObject());
+    }
+
+    /**
+     * Constructs an MXWrapper using an array of double values.
+     *
+     * @param x The array of double values to initialize the matrix.
+     */
+    public MXWrapper(double... x) {
+        DoubleVector doubleVector = new DoubleVector(x);
+        this.mx = new MX(doubleVector.getCasADiObject());
+    }
+
+    /**
+     * Constructs an MXWrapper using a varargs of numbers.
+     *
+     * @param x The varargs of numbers to initialize the matrix.
+     * @param <T> The type of numbers, extending Number.
+     */
+    @SafeVarargs
+    public <T extends Number> MXWrapper(T... x) {
+        DoubleVector doubleVector = new DoubleVector();
+        Arrays.stream(x).forEach(value -> doubleVector.add(value.doubleValue()));
+        this.mx = new MX(doubleVector.getCasADiObject());
+    }
+
+    /**
+     * Constructs an MXWrapper using an iterable collection of double values.
+     *
+     * @param values The iterable collection of double values to initialize the matrix.
+     */
+    public MXWrapper(Iterable<Double> values) {
+        DoubleVector doubleVector = new DoubleVector(values);
+        this.mx = new MX(doubleVector.getCasADiObject());
+    }
+
+    /**
+     * Copy constructor that creates a new MXWrapper from another MXWrapper.
+     *
+     * @param other The MXWrapper to copy.
+     */
+    public MXWrapper(MXWrapper other) {
+        this.mx = new MX(other.getCasADiObject());
+    }
+
+    /**
+     * Constructs an MXWrapper directly from an MX object.
+     *
+     * @param mx The MX object to wrap.
      */
     public MXWrapper(MX mx) {
         this.mx = mx;
     }
 
     /**
-     * DM constructor
+     * Constructs an MXWrapper using a DMWrapper object.
      *
-     * @param dm
+     * @param dm The DMWrapper object to initialize the matrix.
      */
     public MXWrapper(DMWrapper dm) {
         this.mx = new MX(dm.getCasADiObject());
@@ -55,79 +167,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     public MXWrapper(Sparsity sp, double val, boolean dummy) {
         this.mx = new MX(sp, val, dummy);
-    }
-
-    /**
-     * static values constructor
-     *
-     * @param value
-     * @return MXWrapper
-     */
-    public static MXWrapper fromValue(double value) {
-        return new MXWrapper(new MX(value));
-    }
-
-    /**
-     * Varargs constructor for MXWrapper
-     *
-     * @param values
-     * @return MXWrapper
-     */
-    public static MXWrapper fromValues(double... values) {
-        return new MXWrapper(new MX(new DoubleVector(values).getCasADiObject()));
-    }
-
-    /**
-     * iterable constructor
-     *
-     * @param values
-     * @return MXWrapper
-     */
-    public static MXWrapper fromIterable(Iterable<Double> values) {
-        return new MXWrapper(new MX(new DoubleVector(values).getCasADiObject()));
-    }
-
-    /**
-     * sparsity constructor
-     *
-     * @param sparsity
-     * @return MXWrapper
-     */
-    public static MXWrapper fromSparsity(Sparsity sparsity) {
-        return new MXWrapper(new MX(sparsity));
-    }
-
-    /**
-     * Construct matrix with a given sparsity and a file with nonzeros
-     *
-     * @param sparsity
-     * @param filename
-     * @return MXWrapper
-     */
-    public static MXWrapper fromSparsityAndFile(Sparsity sparsity, String filename) {
-        return new MXWrapper(new MX(sparsity, filename));
-    }
-
-    /**
-     * Construct matrix with a given sparsity and nonzeros
-     *
-     * @param sparsity
-     * @param values
-     * @return MXWrapper
-     */
-    public static MXWrapper fromSparsityAndValues(Sparsity sparsity, MXWrapper values) {
-        return new MXWrapper(new MX(sparsity, values.mx));
-    }
-
-    /**
-     * Create a sparse matrix with all structural zeros
-     *
-     * @param rows
-     * @param cols
-     * @return MXWrapper
-     */
-    public static MXWrapper fromSize(long rows, long cols) {
-        return new MXWrapper(new MX(rows, cols));
     }
 
     /**
@@ -3689,7 +3728,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public <T extends Number> MXWrapper add(T number) {
         double other = number.doubleValue();
-        MXWrapper summand = MXWrapper.fromValue(other);
+        MXWrapper summand = new MXWrapper(other);
         MX result = MX.plus(this.mx, summand.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -3720,7 +3759,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public <T extends Number> MXWrapper subtract(T number) {
         double other = number.doubleValue();
-        MXWrapper subtrahend = MXWrapper.fromValue(other);
+        MXWrapper subtrahend = new MXWrapper(other);
         MX result = MX.minus(this.mx, subtrahend.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -3751,7 +3790,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public <T extends Number> MXWrapper multiply(T number) {
         double other = number.doubleValue();
-        MXWrapper multiplicand = MXWrapper.fromValue(other);
+        MXWrapper multiplicand = new MXWrapper(other);
         MX result = MX.times(this.mx, multiplicand.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -3786,7 +3825,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
         if (other == 0) {
             throw new ArithmeticException("Division by zero is not allowed.");
         }
-        MXWrapper divisor = MXWrapper.fromValue(other);
+        MXWrapper divisor = new MXWrapper(other);
         MX result = MX.rdivide(this.mx, divisor.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -3815,7 +3854,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public <T extends Number> MXWrapper lt(T number) {
         double other = number.doubleValue();
-        MXWrapper threshold = MXWrapper.fromValue(other);
+        MXWrapper threshold = new MXWrapper(other);
         MX result = MX.lt(this.mx, threshold.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -3844,7 +3883,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public <T extends Number> MXWrapper le(T number) {
         double other = number.doubleValue();
-        MXWrapper threshold = MXWrapper.fromValue(other);
+        MXWrapper threshold = new MXWrapper(other);
         MX result = MX.le(this.mx, threshold.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -3873,7 +3912,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public <T extends Number> MXWrapper gt(T number) {
         double other = number.doubleValue();
-        MXWrapper threshold = MXWrapper.fromValue(other);
+        MXWrapper threshold = new MXWrapper(other);
         MX result = MX.gt(this.mx, threshold.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -3902,7 +3941,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public <T extends Number> MXWrapper ge(T number) {
         double other = number.doubleValue();
-        MXWrapper threshold = MXWrapper.fromValue(other);
+        MXWrapper threshold = new MXWrapper(other);
         MX result = MX.ge(this.mx, threshold.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -3931,7 +3970,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public <T extends Number> MXWrapper eq(T number) {
         double other = number.doubleValue();
-        MXWrapper value = MXWrapper.fromValue(other);
+        MXWrapper value = new MXWrapper(other);
         MX result = MX.eq(this.mx, value.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -3960,7 +3999,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public <T extends Number> MXWrapper ne(T number) {
         double other = number.doubleValue();
-        MXWrapper value = MXWrapper.fromValue(other);
+        MXWrapper value = new MXWrapper(other);
         MX result = MX.ne(this.mx, value.getCasADiObject());
         return new MXWrapper(result);
     }
@@ -4395,7 +4434,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper negate() {
-        MXWrapper sign = MXWrapper.fromValue(-1);
+        MXWrapper sign = new MXWrapper(-1);
         return new MXWrapper(MX.times(this.mx, sign.getCasADiObject()));
     }
 
