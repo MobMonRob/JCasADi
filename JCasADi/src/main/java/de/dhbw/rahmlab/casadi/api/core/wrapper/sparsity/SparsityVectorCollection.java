@@ -1,4 +1,4 @@
-package de.dhbw.rahmlab.casadi.api.core.wrapper.std;
+package de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity;
 
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;

@@ -313,4 +313,8 @@ public class CasADiGenericWrapper {
         return this.genericType;
     }
 
+    public GenericTypeVector toVector() {
+        return new GenericTypeVector(this);
+    }
+
 }

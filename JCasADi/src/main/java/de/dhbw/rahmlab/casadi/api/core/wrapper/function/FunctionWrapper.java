@@ -4,6 +4,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
@@ -959,6 +960,10 @@ public class FunctionWrapper {
 
     public Function getCasADiObject() {
         return this.function;
+    }
+
+    public FunctionVector toVector() {
+        return new FunctionVector(this);
     }
 
 }

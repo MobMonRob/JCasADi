@@ -1,15 +1,16 @@
-package de.dhbw.rahmlab.casadi.api.core.wrapper.std;
+package de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSparsity;
 
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class SparsityVector extends AbstractList<Sparsity> implements Vector<Sparsity> {
+public class SparsityVector extends AbstractList<SparsityWrapper> implements Vector<SparsityWrapper> {
 
     private final StdVectorCasadiSparsity stdVectorCasadiSparsity;
 
@@ -17,12 +18,14 @@ public class SparsityVector extends AbstractList<Sparsity> implements Vector<Spa
         this.stdVectorCasadiSparsity = new StdVectorCasadiSparsity();
     }
 
-    public SparsityVector(Iterable<Sparsity> initialElements) {
-        this.stdVectorCasadiSparsity = new StdVectorCasadiSparsity(initialElements);
+    public SparsityVector(Iterable<SparsityWrapper> initialElements) {
+        this.stdVectorCasadiSparsity = new StdVectorCasadiSparsity();
+        initialElements.forEach(this::add);
     }
 
-    public SparsityVector(Sparsity... initialElements) {
-        this.stdVectorCasadiSparsity = new StdVectorCasadiSparsity(initialElements);
+    public SparsityVector(SparsityWrapper... initialElements) {
+        this.stdVectorCasadiSparsity = new StdVectorCasadiSparsity();
+        this.addAll(Arrays.asList(initialElements));
     }
 
     public SparsityVector(StdVectorCasadiSparsity stdVectorCasadiSparsity) {
@@ -38,42 +41,42 @@ public class SparsityVector extends AbstractList<Sparsity> implements Vector<Spa
     }
 
     @Override
-    public Sparsity get(int index) {
-        return stdVectorCasadiSparsity.get(index);
+    public SparsityWrapper get(int index) {
+        return new SparsityWrapper(this.stdVectorCasadiSparsity.get(index));
     }
 
     @Override
-    public Sparsity set(int index, Sparsity element) {
-        return stdVectorCasadiSparsity.set(index, element);
+    public SparsityWrapper set(int index, SparsityWrapper element) {
+        return new SparsityWrapper(this.stdVectorCasadiSparsity.set(index, element.getCasADiObject()));
     }
 
     @Override
-    public SparsityVector insert(Sparsity element) {
-        this.stdVectorCasadiSparsity.add(element);
+    public SparsityVector insert(SparsityWrapper element) {
+        this.stdVectorCasadiSparsity.add(element.getCasADiObject());
         return this;
     }
 
     @Override
-    public SparsityVector insert(int index, Sparsity element) {
-        this.stdVectorCasadiSparsity.add(index, element);
+    public SparsityVector insert(int index, SparsityWrapper element) {
+        this.stdVectorCasadiSparsity.add(index, element.getCasADiObject());
         return this;
     }
 
     @Override
-    public SparsityVector clearAndAdd(Sparsity element) {
+    public SparsityVector clearAndAdd(SparsityWrapper element) {
         this.clear();
         return this.insert(element);
     }
 
     @Override
-    public SparsityVector reserveAndAdd(long n, Sparsity element) {
+    public SparsityVector reserveAndAdd(long n, SparsityWrapper element) {
         this.reserve(n);
         return this.insert(element);
     }
 
     @Override
-    public Sparsity remove(int index) {
-        return this.stdVectorCasadiSparsity.remove(index);
+    public SparsityWrapper remove(int index) {
+        return new SparsityWrapper(this.stdVectorCasadiSparsity.remove(index));
     }
 
     @Override
@@ -117,18 +120,18 @@ public class SparsityVector extends AbstractList<Sparsity> implements Vector<Spa
     }
 
     @Override
-    public List<Sparsity> getWrappers() {
+    public List<SparsityWrapper> getWrappers() {
         return IntStream.range(0, this.size())
                 .mapToObj(this::get)
                 .collect(Collectors.toList());
     }
 
-    public boolean add(Sparsity element) {
-        return this.stdVectorCasadiSparsity.add(element);
+    public boolean add(SparsityWrapper element) {
+        return this.stdVectorCasadiSparsity.add(element.getCasADiObject());
     }
 
-    public void add(int index, Sparsity element) {
-        this.stdVectorCasadiSparsity.add(index, element);
+    public void add(int index, SparsityWrapper element) {
+        this.stdVectorCasadiSparsity.add(index, element.getCasADiObject());
     }
 
     @Override

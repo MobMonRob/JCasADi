@@ -1,20 +1,21 @@
 package de.dhbw.rahmlab.casadi.api.core.utils;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVectorCollection;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
+import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 
 import java.util.Arrays;
 
@@ -77,6 +78,12 @@ public class ConcatenationUtils {
         return new SXWrapper(SX.vertcat(sxVector.getCasADiObject()));
     }
 
+    public static SparsityWrapper vertcat(SparsityWrapper... vector) {
+        SparsityVector sparsityVector = new SparsityVector();
+        sparsityVector.addAll(Arrays.asList(vector));
+        return new SparsityWrapper(Sparsity.vertcat(sparsityVector.getCasADiObject()));
+    }
+
     /**
      * Horizontally concatenates an array of MXWrapper objects into a single MXWrapper.
      *
@@ -123,6 +130,12 @@ public class ConcatenationUtils {
         SXVector sxVector = new SXVector();
         sxVector.addAll(Arrays.asList(vector));
         return new SXWrapper(SX.veccat(sxVector.getCasADiObject()));
+    }
+
+    public static SparsityWrapper veccat(SparsityWrapper... vector) {
+        SparsityVector sparsityVector = new SparsityVector();
+        sparsityVector.addAll(Arrays.asList(vector));
+        return new SparsityWrapper(Sparsity.veccat(sparsityVector.getCasADiObject()));
     }
 
     /**
@@ -173,6 +186,13 @@ public class ConcatenationUtils {
         return new SXWrapper(SX.horzcat(sxVector.getCasADiObject()));
     }
 
+    public static SparsityWrapper horzcat(SparsityWrapper... vector) {
+        SparsityVector sparsityVector = new SparsityVector();
+        sparsityVector.addAll(Arrays.asList(vector));
+        return new SparsityWrapper(Sparsity.horzcat(sparsityVector.getCasADiObject()));
+
+    }
+
     /**
      * Diagonally concatenates an array of MXWrapper objects into a single MXWrapper.
      *
@@ -221,24 +241,34 @@ public class ConcatenationUtils {
         return new SXWrapper(SX.diagcat(sxVector.getCasADiObject()));
     }
 
-    /**
-     * Creates a block concatenation of the given collection.
-     *
-     * @param collection The collection of CasADi objects to concatenate.
-     * @return A new Wrapper containing the result of the block concatenation.
-     * @throws IllegalArgumentException if the collection type is unsupported.
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends Wrapper, U extends Collection> T blockcat(U collection) {
-        if (collection instanceof MXVectorCollection) {
-            return (T) new MXWrapper(MX.blockcat(((MXVectorCollection) collection).getCasADiObject()));
-        } else if (collection instanceof DMVectorCollection) {
-            return (T) new DMWrapper(DM.blockcat(((DMVectorCollection) collection).getCasADiObject()));
-        } else if (collection instanceof SXVectorCollection) {
-            return (T) new SXWrapper(SX.blockcat(((SXVectorCollection) collection).getCasADiObject()));
-        } else {
-            throw new IllegalArgumentException("Unsupported CasADi object type: " + collection.getClass());
-        }
+    public static SparsityWrapper diagcat(SparsityWrapper... vector) {
+        SparsityVector sparsityVector = new SparsityVector();
+        sparsityVector.addAll(Arrays.asList(vector));
+        return new SparsityWrapper(Sparsity.diagcat(sparsityVector.getCasADiObject()));
+    }
+
+    public static MXWrapper blockcat(MXVectorCollection collection) {
+        MXVectorCollection mxVectorCollection = new MXVectorCollection();
+        mxVectorCollection.addAll(collection);
+        return new MXWrapper(MX.blockcat(mxVectorCollection.getCasADiObject()));
+    }
+
+    public static DMWrapper blockcat(DMVectorCollection collection) {
+        DMVectorCollection dmVectorCollection = new DMVectorCollection();
+        dmVectorCollection.addAll(collection);
+        return new DMWrapper(DM.blockcat(dmVectorCollection.getCasADiObject()));
+    }
+
+    public static SXWrapper blockcat(SXVectorCollection collection) {
+        SXVectorCollection sxVectorCollection = new SXVectorCollection();
+        sxVectorCollection.addAll(collection);
+        return new SXWrapper(SX.blockcat(sxVectorCollection.getCasADiObject()));
+    }
+
+    public static SparsityWrapper blockcat(SparsityVectorCollection collection) {
+        SparsityVectorCollection sparsityVectorCollection = new SparsityVectorCollection();
+        sparsityVectorCollection.addAll(collection);
+        return new SparsityWrapper(Sparsity.blockcat(sparsityVectorCollection.getCasADiObject()));
     }
 
     /**
@@ -279,6 +309,12 @@ public class ConcatenationUtils {
                 if (type == null) {
                     type = 3; // DMWrapper
                 } else if (type != 3) {
+                    throw new Exception("Error: Mixed object types or other types found.");
+                }
+            } else if (obj instanceof SparsityWrapper) {
+                if (type == null) {
+                    type = 4; // SparsityWrapper
+                } else if (type != 4) {
                     throw new Exception("Error: Mixed object types or other types found.");
                 }
             } else {

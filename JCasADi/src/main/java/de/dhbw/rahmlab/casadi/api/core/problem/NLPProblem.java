@@ -88,11 +88,8 @@ public class NLPProblem {
     }
 
     public void addConstraint(Constraint constraint) {
-        if (constraint.getExpression() instanceof MXWrapper) {
-            this.nlpProblem.subject_to(((MXWrapper) constraint.getExpression()).getCasADiObject());
-        } else if (constraint.getExpression() instanceof SXWrapper) {
-            MXWrapper mxWrapper = MXUtils.convertSXWrapperToMXWrapper((SXWrapper) constraint.getExpression());
-            this.nlpProblem.subject_to(mxWrapper.getCasADiObject());
+        if (constraint.getConstraintExpression() instanceof MXWrapper) {
+            this.nlpProblem.subject_to(((MXWrapper) constraint.getConstraintExpression()).getCasADiObject());
         } else {
             throw new IllegalArgumentException("The constraint must be either of type MXWrapper or SXWrapper.");
         }

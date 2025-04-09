@@ -2,6 +2,7 @@ package de.dhbw.rahmlab.casadi.api.core.utils;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;

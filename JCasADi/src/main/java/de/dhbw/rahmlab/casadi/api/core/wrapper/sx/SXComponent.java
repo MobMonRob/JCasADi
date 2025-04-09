@@ -35,4 +35,8 @@ public class SXComponent {
         return this.sxElement;
     }
 
+    public SXComponentVector toVector() {
+        return new SXComponentVector(this);
+    }
+
 }
