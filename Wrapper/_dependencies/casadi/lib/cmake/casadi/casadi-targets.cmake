@@ -16,7 +16,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_targetsDefined)
 set(_targetsNotDefined)
 set(_expectedTargets)
-foreach(_expectedTarget casadi)
+foreach(_expectedTarget casadi::casadi)
   list(APPEND _expectedTargets ${_expectedTarget})
   if(NOT TARGET ${_expectedTarget})
     list(APPEND _targetsNotDefined ${_expectedTarget})
@@ -50,10 +50,10 @@ if(_IMPORT_PREFIX STREQUAL "/")
   set(_IMPORT_PREFIX "")
 endif()
 
-# Create imported target casadi
-add_library(casadi SHARED IMPORTED)
+# Create imported target casadi::casadi
+add_library(casadi::casadi SHARED IMPORTED)
 
-set_target_properties(casadi PROPERTIES
+set_target_properties(casadi::casadi PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "CASADI_SNPRINTF=snprintf"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
   INTERFACE_LINK_LIBRARIES "dl"

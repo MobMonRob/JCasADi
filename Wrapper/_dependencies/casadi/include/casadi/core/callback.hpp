@@ -218,7 +218,7 @@ namespace casadi {
     virtual bool has_jac_sparsity(casadi_int oind, casadi_int iind) const { return false; }
     virtual Sparsity get_jac_sparsity(casadi_int oind, casadi_int iind, bool symmetric) const {
       return Sparsity(); }
-    // /@}
+    ///@}
   };
 
 } // namespace casadi

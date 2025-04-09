@@ -170,7 +170,7 @@ class GenericExpression : public GenericExpressionCommon {
   ///@}
 
   ///@{
-  /** \brief Logical greater or equal to: (x,y) -> x <= y
+  /** \brief Logical greater or equal to: (x,y) -> x >= y
 
       \identifier{ou} */
   static ExType ge(const ExType &x, const ExType &y) {
@@ -745,7 +745,12 @@ class GenericExpression : public GenericExpressionCommon {
     friend inline ExType hypot(const ExType& x, const ExType& y) {
       return ExType::hypot(x, y);
     }
-    // /@}
+    ///@}
+
+
+/** @} */
+
+
 
 };
 #endif // SWIG

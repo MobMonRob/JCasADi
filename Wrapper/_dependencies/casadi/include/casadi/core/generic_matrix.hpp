@@ -305,7 +305,7 @@ namespace casadi {
      /** \brief Performs 1d linear interpolation
      *
      * The data-points to be interpolated are given as (x[i], v[i]).
-     * xq[j] is used as interplating value
+     * xq[j] is used as interpolating value
 
          \identifier{1bh} */
      inline friend MatType interp1d(const std::vector<double>& x, const MatType&v,
@@ -653,10 +653,47 @@ namespace casadi {
 
         The argument must be symbolic
 
+        The dependency is in a mathematical way:
+        Does the value of the argument affect the value of the expression?
+        Equivalently, will the corresponding entry of the Jacobian by a non-zero?
+
+        The symbol could still be present in the expression graph.
+
+        To check that kind of dependency, use contains(symvar(f),arg)
+
         \identifier{1ck} */
     inline friend bool depends_on(const MatType& f, const MatType &arg) {
       return MatType::depends_on(f, arg);
     }
+
+    /** \brief Check if expression n is listed in v
+    *
+    * This function checks for correspondence between nodes.
+    * The detection does not descend into the expression graph.
+    *
+    * contains({a,b},b) -> true
+    * contains({a+b},b) -> false
+    * 
+    * e = a+b
+    * contains({e},e) -> true
+    *
+    * For mathematical dependency, see depends_on
+    * \sa depends_on
+
+        \identifier{2c8} */
+    /// @{
+    inline friend bool contains(const std::vector<MatType>& v, const MatType &n) {
+      return contains_all(v, std::vector<MatType>{n});
+    }
+
+    inline friend bool contains_all(const std::vector<MatType>& v, const std::vector<MatType> &n) {
+      return MatType::contains_all(v, n);
+    }
+
+    inline friend bool contains_any(const std::vector<MatType>& v, const std::vector<MatType> &n) {
+      return MatType::contains_any(v, n);
+    }
+    /// @}
 
     /** \brief  Substitute variable v with expression vdef in an expression ex
 
@@ -722,6 +759,8 @@ namespace casadi {
 
         \identifier{1cq} */
     friend inline MatType solve(const MatType& A, const MatType& b) {
+      // If A is scalar, just divide
+      if (A.is_scalar()) return b/A;
       return MatType::solve(A, b);
     }
 
@@ -731,16 +770,33 @@ namespace casadi {
     friend inline MatType solve(const MatType& A, const MatType& b,
                                 const std::string& lsolver,
                                 const Dict& dict = Dict()) {
+      // If A is scalar, just divide
+      if (A.is_scalar()) return b/A;
       return MatType::solve(A, b, lsolver, dict);
     }
 
+#ifdef WITH_DEPRECATED_FEATURES
     /** \brief Linearize an expression
+    *
+    * [DEPRECATED] confusing behaviour
+    *
+    * This function linearizes an expression around a point x0,
+    * using x as delta around that point.
+    *
+    * \code
+    *  linearize(sin(x),x,x0) -> sin(x0)+cos(x0)*x
+    * \endcode
+    *
+    * For a variant that returns sin(x0)+cos(x0)*(x-x0), see taylor.
+    *
+    * \sa taylor, linear_coeff
 
         \identifier{1cs} */
     friend inline MatType linearize(const MatType& f, const MatType& x, const MatType& x0,
         const Dict& opts=Dict()) {
       return MatType::linearize(f, x, x0, opts);
     }
+#endif // WITH_DEPRECATED_FEATURES
 
     /** \brief Computes the Moore-Penrose pseudo-inverse
      *
@@ -935,6 +991,129 @@ namespace casadi {
       MatType::linear_coeff(expr, var, A, b, check);
     }
 
+    /** \brief Extract purely parametric parts from an expression graph
+     * 
+     * The purpose of extract_parametric is ultimately to save on evaluation time of an expression,
+     * by extracting out the parts that are only solely dependent on parameters.
+     * 
+     * For any:
+     * [expr_ret, symbols, parametric] = extract_parametric(expr, par)
+     * It holds that:
+     * substitute(expr_ret,symbols,parametric) == expr
+     * 
+     * parametric is only dependant on par
+     * expr_ret is not dependant on par, but is dependant on symbols
+     * 
+     * Example:
+     * [expr_ret, symbols, parametric] = extract_parametric((x-sqrt(p))*y+cos(p)**2, p)
+     * 
+     * expr_ret: (((x-extracted1)*y)+extracted2)
+     * symbols: [extracted1, extracted2]
+     * parametric: [sqrt(p),cos(p)**2]
+     *
+     * Options to control the name of new symbols:
+     *   - offset (int), default 0: Offset for new symbol counter
+     *   - prefix (str), default 'e_': Prefix for new symbols
+     *   - suffix (str), default '': Suffix for new symbols
+     * 
+     * Option 'extract_trivial' controls the behaviour for extracted parts
+     * that consist of pure symbols. If false (default),
+     * these parts are not extracted.
+     *
+
+        \identifier{288} */
+    inline friend void extract_parametric(const MatType &expr, const MatType& par,
+        MatType& SWIG_OUTPUT(expr_ret),
+        std::vector<MatType>& SWIG_OUTPUT(symbols),
+        std::vector<MatType>& SWIG_OUTPUT(parametric),
+        const Dict& opts=Dict()) {
+      MatType::extract_parametric(expr, par, expr_ret, symbols, parametric, opts);
+    }
+
+    inline friend void extract_parametric(const std::vector<MatType> &expr, const MatType& par,
+        std::vector<MatType>& SWIG_OUTPUT(expr_ret),
+        std::vector<MatType>& SWIG_OUTPUT(symbols),
+        std::vector<MatType>& SWIG_OUTPUT(parametric),
+        const Dict& opts=Dict()) {
+      // Concatenate all vector elements
+      MatType expr_cat = veccat(expr);
+      MatType expr_ret_cat;
+
+      // Concatenated extract_parametric
+      MatType::extract_parametric(expr_cat, par, expr_ret_cat, symbols, parametric, opts);
+
+      // Compute edges of vertsplit needed to undo concatenate
+      std::vector<casadi_int> edges = {0};
+      for (const MatType& e : expr) {
+        edges.push_back(edges.back() + e.numel());
+      }
+      // Perform vertsplit
+      std::vector<MatType> expr_ret_catv = MatType::vertsplit(expr_ret_cat, edges);
+
+      // Reshape all elements back into original size
+      expr_ret.resize(expr_ret_catv.size());
+      for (casadi_int i=0; i<expr_ret_catv.size(); ++i) {
+        expr_ret[i] = reshape(expr_ret_catv[i], expr[i].size1(), expr[i].size2());
+      }
+    }
+
+    inline friend void extract_parametric(const std::vector<MatType> &expr,
+        const std::vector<MatType>& par,
+        std::vector<MatType>& SWIG_OUTPUT(expr_ret),
+        std::vector<MatType>& SWIG_OUTPUT(symbols),
+        std::vector<MatType>& SWIG_OUTPUT(parametric),
+        const Dict& opts=Dict()) {
+      extract_parametric(expr, veccat(par), expr_ret, symbols, parametric, opts);
+    }
+
+    inline friend void extract_parametric(const MatType &expr, const std::vector<MatType>& par,
+        MatType& SWIG_OUTPUT(expr_ret),
+        std::vector<MatType>& SWIG_OUTPUT(symbols),
+        std::vector<MatType>& SWIG_OUTPUT(parametric),
+        const Dict& opts=Dict()) {
+      extract_parametric(expr, veccat(par), expr_ret, symbols, parametric, opts);
+    }
+
+    /* \brief separate an expression into subuexpression that are linear, constant, and nonlinear
+    *
+    * \param expr[in] The expression to be separated
+    * \param sym_lin[in] The symbolic variables w.r.t. which linearity should be checked
+    * \param sym_const[in] The symbolic variables that are deemed constant
+    * \param expr_const[out] The constant part of the expression
+    * \param expr_lin[out] The linear part of the expression
+    * \param expr_nonlin[out] The nonlinear part of the expression
+    *
+    * Expression dependencies that are not in sym_lin or sym_const are considered nonlinear
+    * 
+    * A post condition is that the following holds:
+    * expr = expr_const + expr_lin + expr_nonlin
+    *
+    * Here, expr_const is not dependant on sym_const,
+    *       expr_lin is linear in sym_lin
+    *
+    * Example:
+    *   
+    * [expr_const,expr_lin,expr_nonlin] =
+    *   separate_linear(cos(p)+7*x+x*y, vertcat(x,y), p)
+    *
+    * expr_const: cos(p)
+    * expr_lin: 7*x
+    * expr_nonlin: x*y
+    * 
+    */
+    inline friend void separate_linear(const MatType &expr,
+      const MatType &sym_lin, const MatType &sym_const,
+      MatType& expr_const, MatType& expr_lin, MatType& expr_nonlin) {
+        MatType::separate_linear(expr, sym_lin, sym_const, expr_const, expr_lin, expr_nonlin);
+    }
+
+    inline friend void separate_linear(const MatType &expr,
+      const std::vector<MatType> &sym_lin, const std::vector<MatType> &sym_const,
+      MatType& expr_const, MatType& expr_lin, MatType& expr_nonlin) {
+      separate_linear(expr, veccat(sym_lin), veccat(sym_const),
+        expr_const, expr_lin, expr_nonlin);
+    }
+
     /** Count number of nodes */
     inline friend casadi_int n_nodes(const MatType& A) {
       return MatType::n_nodes(A);
@@ -1100,7 +1279,7 @@ namespace casadi {
     static MatType ones(const std::pair<casadi_int, casadi_int>& rc) {
       return ones(rc.first, rc.second);
     }
-    // /@}
+    ///@}
   };
 
   // Throw informative error message
@@ -1252,10 +1431,20 @@ namespace casadi {
   MatType GenericMatrix<MatType>::interp1d(const std::vector<double>& x, const MatType& v,
       const std::vector<double>& xq, const std::string& mode, bool equidistant) {
 
-    bool mode_floor = mode == "floor";
-    bool mode_ceil = mode == "ceil";
+    bool mode_floor = false;
+    bool mode_ceil = false;
+    if (mode=="floor") {
+      mode_floor = true;
+    } else if (mode=="ceil") {
+      mode_ceil = true;
+    } else if (mode=="linear") {
+      //
+    } else {
+      casadi_error("interp1d(x, v, xq, mode): "
+        "Mode must be 'floor', 'ceil' or 'linear'. Got '" + mode + "' instead.");
+    }
 
-    casadi_assert_dev(is_increasing(x));
+    casadi_assert(is_increasing(x), "interp1d(x, v, xq): x must be increasing.");
 
     casadi_assert(x.size()==v.size1(),
       "interp1d(x, v, xq): dimensions mismatch. v expected to have " + str(x.size()) + " rows,"
@@ -1423,17 +1612,35 @@ namespace casadi {
     try {
       // Assert consistent input dimensions
       if (tr) {
-        casadi_assert(v.size1() == ex.size1() && v.size2() % ex.size2() == 0,
+        if (ex.size2()==0 && v.size2()>0) {
+          casadi_error("Ambiguous dimensions.");
+        }
+        casadi_assert(v.size1() == ex.size1() &&
+                      (v.size2()==0 || ex.size2()==0 || v.size2() % ex.size2() == 0),
                       "'v' has inconsistent dimensions: "
                       " v " + v.dim(false) + ", ex " + ex.dim(false) + ".");
       } else {
-        casadi_assert(v.size1() == arg.size1() && v.size2() % arg.size2() == 0,
+        if (arg.size2()==0 && v.size2()>0) {
+          casadi_error("Ambiguous dimensions.");
+        }
+        casadi_assert(v.size1() == arg.size1() &&
+                      (v.size2()==0 || arg.size2()==0 || v.size2() % arg.size2() == 0),
                       "'v' has inconsistent dimensions: "
                       " v " + v.dim(false) + ", arg " + arg.dim(false) + ".");
       }
 
+      casadi_int n_seeds = 1;
+      if (tr) {
+        if (ex.size2()>0) n_seeds = v.size2() / ex.size2();
+      } else {
+        if (arg.size2()>0) n_seeds = v.size2() / arg.size2();
+      }
+
       // Quick return if no seeds
-      if (v.is_empty()) return MatType(tr ? arg.size1() : ex.size1(), 0);
+      if (v.is_empty() || ex.is_empty()) {
+        return MatType(tr ? arg.size1() : ex.size1(),
+                       tr ? arg.size2()*n_seeds : ex.size2()*n_seeds);
+      }
 
       // Split up the seed into its components
       std::vector<MatType> w = horzsplit(v, tr ? ex.size2() : arg.size2());

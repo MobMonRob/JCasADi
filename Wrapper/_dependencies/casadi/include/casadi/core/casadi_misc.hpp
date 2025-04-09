@@ -144,6 +144,28 @@ private:
   template<typename T>
   std::vector<T> vector_slice(const std::vector<T> &v, const std::vector<casadi_int> &i);
 
+  /**  \brief Select subset of vector
+
+  *  \param v Vector to slice
+  *  \param s Select?
+
+       \identifier{286} */
+  template<typename T>
+  std::vector<T> vector_select(const std::vector<T> &v, const std::vector<bool> &s,
+    bool invert=false);
+
+  /**  \brief Return all but the first element of a vector
+
+       \identifier{27y} */
+  template<typename T>
+  std::vector<T> vector_tail(const std::vector<T> &v);
+
+  /**  \brief Return all but the last element of a vector
+
+       \identifier{285} */
+  template<typename T>
+  std::vector<T> vector_init(const std::vector<T> &v);
+
   /** \brief Reverse a list
 
       \identifier{1la} */
@@ -465,6 +487,13 @@ namespace std {
     return stream;
   }
 
+  /// Enables flushing an std::vector to a stream (prints representation)
+  template<typename T, size_t N>
+  ostream& operator<<(ostream& stream, const array<T, N>& v) {
+    stream << casadi::str(v);
+    return stream;
+  }
+
   /// Enables flushing an std::set to a stream (prints representation)
   template<typename T>
   ostream& operator<<(ostream& stream, const set<T>& v) {
@@ -523,6 +552,36 @@ namespace casadi {
          "You have " + str(j) + " at location " + str(k) + ".");
        ret.push_back(v[j]);
     }
+    return ret;
+  }
+
+  template<typename T>
+  std::vector<T> vector_select(const std::vector<T> &v, const std::vector<bool> &s, bool invert) {
+    std::vector<T> ret;
+    casadi_assert(v.size()==s.size(), "Dimension mismatch.");
+    if (invert) {
+      for (casadi_int k=0;k<s.size();++k) {
+        if (!s[k]) ret.push_back(v[k]);
+      }
+    } else {
+      for (casadi_int k=0;k<s.size();++k) {
+        if (s[k]) ret.push_back(v[k]);
+      }
+    }
+    return ret;
+  }
+
+  template<typename T>
+  std::vector<T> vector_tail(const std::vector<T> &v) {
+    std::vector<T> ret;
+    ret.insert(ret.begin(), v.begin()+1, v.end());
+    return ret;
+  }
+
+  template<typename T>
+  std::vector<T> vector_init(const std::vector<T> &v) {
+    std::vector<T> ret;
+    ret.insert(ret.begin(), v.begin(), v.begin()+v.size()-1);
     return ret;
   }
 

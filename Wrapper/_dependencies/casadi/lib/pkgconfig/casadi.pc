@@ -6,7 +6,7 @@ includedir=/usr/local/include
 Name: casadi
 Description: CasADi is a symbolic framework for automatic differentation and numeric optimization
 URL: http://casadi.org
-Version: 3.6.3
+Version: 3.7.0
 Requires: 
 Libs: -L${libdir} -lcasadi
 Cflags: -I${includedir}

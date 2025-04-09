@@ -1,6 +1,6 @@
 # JCasADi
 ## Description
-Java Wrapper for [CasADi](https://web.casadi.org/).
+Java Wrapper for [CasADi](https://web.casadi.org/) 3.7.0.
 
 
 ## Caveats
