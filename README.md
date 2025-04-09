@@ -21,7 +21,7 @@ Due to the aforementioned threading issues, no longer needed C++ objects will no
 
 
 ## Ubuntu 24.04 Noble Numbat
-JCasADi is currently not compatible with the SWIG Version 4.2.0 used by Ubuntu 24.04.\
+JCasADi is currently not compatible with the SWIG Version 4.2.0 offered by Ubuntu 24.04.\
 The following workaround will allow you to use SWIG 4.0.1 with Ubuntu 24.04 instead.
 
 Uninstall all previously installed versions of SWIG:
