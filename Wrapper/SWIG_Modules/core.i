@@ -131,23 +131,29 @@
 
 //// Stop: Fix memory safety issues
 
+#ifndef SWIG
+	#define SWIG
+#endif
+
 //// Start: print fix
 
 %rename(toString) get_str;
 
 // %rename(toString) casadi::Matrix::get_str;
 
-class casadi::SharedObject;
-typedef casadi::SharedObject SharedObject;
 %interface_custom("SharedObject", "ISharedObject", casadi::SharedObject)
-%ignore casadi::WeakRef;
 
-// %rename(toString) casadi::SharedObject::get_str;
+class casadi::SharedObject {
+public:
+	std::string get_str(bool more=false) const;
+};
 
-#ifndef SWIG
-	#define SWIG
-#endif
-%include "casadi/core/shared_object.hpp"
+typedef casadi::SharedObject SharedObject;
+
+//%ignore casadi::WeakRef;
+//%rename(toString) casadi::SharedObject::get_str;
+// Leads to SWIG crash.
+//%include "casadi/core/shared_object.hpp"
 
 //// Stop: print fix
 
