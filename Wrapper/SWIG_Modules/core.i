@@ -269,6 +269,7 @@ typedef std::vector<std::string> StringVector;
 %rename (colind_) casadi::GenericMatrix::colind;
 // Stop: Überladungen, die in Netbeans Probleme machen.
 
+%ignore casadi::Matrix::contains;
 // %import "casadi/core/sx_elem.hpp"
 // %ignore casadi::SXElem;
 class casadi::SXElem {
