@@ -1,10 +1,10 @@
 package de.dhbw.rahmlab.casadi.api.core.solver;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.Linsol;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class LinearSolver {
 
@@ -14,12 +14,12 @@ public class LinearSolver {
         this.linsol = new Linsol();
     }
 
-    public LinearSolver(String name, String solver, Sparsity sp, Dict opts) {
-        this.linsol = new Linsol(name, solver, sp, opts);
+    public LinearSolver(String name, String solver, SparsityWrapper sp, Dictionary opts) {
+        this.linsol = new Linsol(name, solver, sp.getCasADiObject(), opts.getCasADiObject());
     }
 
-    public LinearSolver(String name, String solver, Sparsity sp) {
-        this.linsol = new Linsol(name, solver, sp);
+    public LinearSolver(String name, String solver, SparsityWrapper sp) {
+        this.linsol = new Linsol(name, solver, sp.getCasADiObject());
     }
 
     public LinearSolver(Linsol other) {
@@ -46,8 +46,8 @@ public class LinearSolver {
         return this.linsol.plugin_name();
     }
 
-    public Sparsity getSparsityPattern() {
-        return this.linsol.sparsity();
+    public SparsityWrapper getSparsityPattern() {
+        return new SparsityWrapper(this.linsol.sparsity());
     }
 
     public void performSymbolicFactorization(DMWrapper A) {
@@ -82,12 +82,12 @@ public class LinearSolver {
         return this.linsol.rank(A.getCasADiObject());
     }
 
-    public Dict getEvaluationStatisticsWithMemory(int mem) {
-        return this.linsol.stats(mem);
+    public Dictionary getEvaluationStatisticsWithMemory(int mem) {
+        return new Dictionary(this.linsol.stats(mem));
     }
 
-    public Dict getEvaluationStatistics() {
-        return this.linsol.stats();
+    public Dictionary getEvaluationStatistics() {
+        return new Dictionary(this.linsol.stats());
     }
 
     public String className() {

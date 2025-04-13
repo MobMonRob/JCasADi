@@ -68,4 +68,8 @@ public class NumberWrapper implements NumericValue {
         return this.value;
     }
 
+    public NumberVector toVector() {
+        return new NumberVector(this.value);
+    }
+
 }

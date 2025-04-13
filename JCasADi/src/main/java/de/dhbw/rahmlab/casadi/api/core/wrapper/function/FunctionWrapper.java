@@ -1,16 +1,17 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.function;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.*;
 
 import java.util.Arrays;
@@ -27,48 +28,48 @@ public class FunctionWrapper {
         this.function = new Function(functionName);
     }
 
-    public FunctionWrapper(String functionName, SXVector exIn, SXVector exOut, Dict opts) {
-        this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), opts);
+    public FunctionWrapper(String functionName, SXVector exIn, SXVector exOut, Dictionary opts) {
+        this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), opts.getCasADiObject());
     }
 
     public FunctionWrapper(String functionName, SXVector exIn, SXVector exOut) {
         this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject());
     }
 
-    public FunctionWrapper(String functionName, SXVector exIn, SXVector exOut, StringVector nameIn, StringVector nameOut, Dict opts) {
-        this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts);
+    public FunctionWrapper(String functionName, SXVector exIn, SXVector exOut, StringVector nameIn, StringVector nameOut, Dictionary opts) {
+        this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts.getCasADiObject());
     }
 
     public FunctionWrapper(String functionName, SXVector exIn, SXVector exOut, StringVector nameIn, StringVector nameOut) {
         this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject());
     }
 
-    public FunctionWrapper(String functionName, MapStringToSXWrapper dict, StringVector nameIn, StringVector nameOut, Dict opts) {
-        this.function = new Function(functionName, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts);
+    public FunctionWrapper(String functionName, MapStringToSXWrapper dict, StringVector nameIn, StringVector nameOut, Dictionary opts) {
+        this.function = new Function(functionName, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts.getCasADiObject());
     }
 
     public FunctionWrapper(String functionName, MapStringToSXWrapper dict, StringVector nameIn, StringVector nameOut) {
         this.function = new Function(functionName, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject());
     }
 
-    public FunctionWrapper(String functionName, MXVector exIn, MXVector exOut, Dict opts) {
-        this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), opts);
+    public FunctionWrapper(String functionName, MXVector exIn, MXVector exOut, Dictionary opts) {
+        this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), opts.getCasADiObject());
     }
 
     public FunctionWrapper(String functionName, MXVector exIn, MXVector exOut) {
         this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject());
     }
 
-    public FunctionWrapper(String functionName, MXVector exIn, MXVector exOut, StringVector nameIn, StringVector nameOut, Dict opts) {
-        this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts);
+    public FunctionWrapper(String functionName, MXVector exIn, MXVector exOut, StringVector nameIn, StringVector nameOut, Dictionary opts) {
+        this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts.getCasADiObject());
     }
 
     public FunctionWrapper(String functionName, MXVector exIn, MXVector exOut, StringVector nameIn, StringVector nameOut) {
         this.function = new Function(functionName, exIn.getCasADiObject(), exOut.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject());
     }
 
-    public FunctionWrapper(String functionName, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut, Dict opts) {
-        this.function = new Function(functionName, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts);
+    public FunctionWrapper(String functionName, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut, Dictionary opts) {
+        this.function = new Function(functionName, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts.getCasADiObject());
     }
 
     public FunctionWrapper(String functionName, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut) {
@@ -91,8 +92,8 @@ public class FunctionWrapper {
         return new FunctionWrapper(this.function.expand());
     }
 
-    public FunctionWrapper expand(String name, Dict opts) {
-        return new FunctionWrapper(this.function.expand(name, opts));
+    public FunctionWrapper expand(String name, Dictionary opts) {
+        return new FunctionWrapper(this.function.expand(name, opts.getCasADiObject()));
     }
 
     public FunctionWrapper expand(String name) {
@@ -233,20 +234,20 @@ public class FunctionWrapper {
         return new DoubleVector(this.function.nominal_out(ind));
     }
 
-    public Sparsity getSparsityOfGivenInput(long ind) {
-        return this.function.sparsity_in(ind);
+    public SparsityWrapper getSparsityOfGivenInput(long ind) {
+        return new SparsityWrapper(this.function.sparsity_in(ind));
     }
 
-    public Sparsity getSparsityOfGivenInput(String inputName) {
-        return this.function.sparsity_in(inputName);
+    public SparsityWrapper getSparsityOfGivenInput(String inputName) {
+        return new SparsityWrapper(this.function.sparsity_in(inputName));
     }
 
-    public Sparsity getSparsityOfGivenOutput(long ind) {
-        return this.function.sparsity_out(ind);
+    public SparsityWrapper getSparsityOfGivenOutput(long ind) {
+        return new SparsityWrapper(this.function.sparsity_out(ind));
     }
 
-    public Sparsity getSparsityOfGivenOutput(String inputName) {
-        return this.function.sparsity_out(inputName);
+    public SparsityWrapper getSparsityOfGivenOutput(String inputName) {
+        return new SparsityWrapper(this.function.sparsity_out(inputName));
     }
 
     public boolean getDifferentiabilityOfInput(long ind) {
@@ -265,8 +266,8 @@ public class FunctionWrapper {
         return new BooleanVector(this.function.is_diff_out());
     }
 
-    public FunctionWrapper factory(String name, StringVector sIn, StringVector sOut, MapStringToStringVector aux, Dict opts) {
-        return new FunctionWrapper(this.function.factory(name, sIn.getCasADiObject(), sOut.getCasADiObject(), aux.getCasADiObject(), opts));
+    public FunctionWrapper factory(String name, StringVector sIn, StringVector sOut, MapStringToStringVector aux, Dictionary opts) {
+        return new FunctionWrapper(this.function.factory(name, sIn.getCasADiObject(), sOut.getCasADiObject(), aux.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper factory(String name, StringVector sIn, StringVector sOut, MapStringToStringVector aux) {
@@ -285,8 +286,8 @@ public class FunctionWrapper {
         return new FunctionWrapper(this.function.wrap());
     }
 
-    public FunctionWrapper wrapAsNeeded(Dict opts) {
-        return new FunctionWrapper(this.function.wrap_as_needed(opts));
+    public FunctionWrapper wrapAsNeeded(Dictionary opts) {
+        return new FunctionWrapper(this.function.wrap_as_needed(opts.getCasADiObject()));
     }
 
     public BooleanVector whichDepends(String sIn, StringVector sOut, long order, boolean tr) {
@@ -475,48 +476,48 @@ public class FunctionWrapper {
         return new MXVector(this.function.mapsum(x));
     }
 
-    public FunctionWrapper mapaccum(String name, long N, Dict opts) {
-        return new FunctionWrapper(this.function.mapaccum(name, N, opts));
+    public FunctionWrapper mapaccum(String name, long N, Dictionary opts) {
+        return new FunctionWrapper(this.function.mapaccum(name, N, opts.getCasADiObject()));
     }
 
     public FunctionWrapper mapaccum(String name, long N) {
         return new FunctionWrapper(this.function.mapaccum(name, N));
     }
 
-    public FunctionWrapper mapaccum(String name, long N, long nAccum, Dict opts) {
-        return new FunctionWrapper(this.function.mapaccum(name, N, nAccum, opts));
+    public FunctionWrapper mapaccum(String name, long N, long nAccum, Dictionary opts) {
+        return new FunctionWrapper(this.function.mapaccum(name, N, nAccum, opts.getCasADiObject()));
     }
 
     public FunctionWrapper mapaccum(String name, long N, long nAccum) {
         return new FunctionWrapper(this.function.mapaccum(name, N, nAccum));
     }
 
-    public FunctionWrapper mapaccum(String name, long n, IntegerVector accumIn, IntegerVector accumOut, Dict opts) {
-        return new FunctionWrapper(this.function.mapaccum(name, n, accumIn.getCasADiObject(), accumOut.getCasADiObject(), opts));
+    public FunctionWrapper mapaccum(String name, long n, IntegerVector accumIn, IntegerVector accumOut, Dictionary opts) {
+        return new FunctionWrapper(this.function.mapaccum(name, n, accumIn.getCasADiObject(), accumOut.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper mapaccum(String name, long n, IntegerVector accumIn, IntegerVector accumOut) {
         return new FunctionWrapper(this.function.mapaccum(name, n, accumIn.getCasADiObject(), accumOut.getCasADiObject()));
     }
 
-    public FunctionWrapper mapaccum(String name, long n, StringVector accumIn, StringVector accumOut, Dict opts) {
-        return new FunctionWrapper(this.function.mapaccum(name, n, accumIn.getCasADiObject(), accumOut.getCasADiObject(), opts));
+    public FunctionWrapper mapaccum(String name, long n, StringVector accumIn, StringVector accumOut, Dictionary opts) {
+        return new FunctionWrapper(this.function.mapaccum(name, n, accumIn.getCasADiObject(), accumOut.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper mapaccum(String name, long n, StringVector accumIn, StringVector accumOut) {
         return new FunctionWrapper(this.function.mapaccum(name, n, accumIn.getCasADiObject(), accumOut.getCasADiObject()));
     }
 
-    public FunctionWrapper mapaccum(long N, Dict opts) {
-        return new FunctionWrapper(this.function.mapaccum(N, opts));
+    public FunctionWrapper mapaccum(long N, Dictionary opts) {
+        return new FunctionWrapper(this.function.mapaccum(N, opts.getCasADiObject()));
     }
 
     public FunctionWrapper mapaccum(long N) {
         return new FunctionWrapper(this.function.mapaccum(N));
     }
 
-    public FunctionWrapper fold(long N, Dict opts) {
-        return new FunctionWrapper(this.function.fold(N, opts));
+    public FunctionWrapper fold(long N, Dictionary opts) {
+        return new FunctionWrapper(this.function.fold(N, opts.getCasADiObject()));
     }
 
     public FunctionWrapper fold(long N) {
@@ -535,24 +536,24 @@ public class FunctionWrapper {
         return new FunctionWrapper(this.function.map(n, parallelization, maxNumThreads));
     }
 
-    public FunctionWrapper map(String name, String parallelization, long n, IntegerVector reduceIn, IntegerVector reduceOut, Dict opts) {
-        return new FunctionWrapper(this.function.map(name, parallelization, n, reduceIn.getCasADiObject(), reduceOut.getCasADiObject(), opts));
+    public FunctionWrapper map(String name, String parallelization, long n, IntegerVector reduceIn, IntegerVector reduceOut, Dictionary opts) {
+        return new FunctionWrapper(this.function.map(name, parallelization, n, reduceIn.getCasADiObject(), reduceOut.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper map(String name, String parallelization, long n, IntegerVector reduceIn, IntegerVector reduceOut) {
         return new FunctionWrapper(this.function.map(name, parallelization, n, reduceIn.getCasADiObject(), reduceOut.getCasADiObject()));
     }
 
-    public FunctionWrapper map(String name, String parallelization, long n, StringVector reduceIn, StringVector reduceOut, Dict opts) {
-        return new FunctionWrapper(this.function.map(name, parallelization, n, reduceIn.getCasADiObject(), reduceOut.getCasADiObject(), opts));
+    public FunctionWrapper map(String name, String parallelization, long n, StringVector reduceIn, StringVector reduceOut, Dictionary opts) {
+        return new FunctionWrapper(this.function.map(name, parallelization, n, reduceIn.getCasADiObject(), reduceOut.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper map(String name, String parallelization, long n, StringVector reduceIn, StringVector reduceOut) {
         return new FunctionWrapper(this.function.map(name, parallelization, n, reduceIn.getCasADiObject(), reduceOut.getCasADiObject()));
     }
 
-    public FunctionWrapper map(long n, BooleanVector reduceIn, BooleanVector reduceOut, Dict opts) {
-        return new FunctionWrapper(this.function.map(n, reduceIn.getCasADiObject(), reduceOut.getCasADiObject(), opts));
+    public FunctionWrapper map(long n, BooleanVector reduceIn, BooleanVector reduceOut, Dictionary opts) {
+        return new FunctionWrapper(this.function.map(n, reduceIn.getCasADiObject(), reduceOut.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper map(long n, BooleanVector reduceIn, BooleanVector reduceOut) {
@@ -563,8 +564,8 @@ public class FunctionWrapper {
         return new FunctionWrapper(this.function.map(n, reduceIn.getCasADiObject()));
     }
 
-    public FunctionWrapper slice(String name, IntegerVector orderIn, IntegerVector orderOut, Dict opts) {
-        return new FunctionWrapper(this.function.slice(name, orderIn.getCasADiObject(), orderOut.getCasADiObject(), opts));
+    public FunctionWrapper slice(String name, IntegerVector orderIn, IntegerVector orderOut, Dictionary opts) {
+        return new FunctionWrapper(this.function.slice(name, orderIn.getCasADiObject(), orderOut.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper slice(String name, IntegerVector orderIn, IntegerVector orderOut) {
@@ -587,32 +588,32 @@ public class FunctionWrapper {
         return new SparsityVector(this.function.jac_sparsity());
     }
 
-    public Sparsity getJacobianSparsity(long outputIndex, long inputIndex, boolean compact) {
-        return new Sparsity(this.function.jac_sparsity(outputIndex, inputIndex, compact));
+    public SparsityWrapper getJacobianSparsity(long outputIndex, long inputIndex, boolean compact) {
+        return new SparsityWrapper((this.function.jac_sparsity(outputIndex, inputIndex, compact)));
     }
 
-    public Sparsity getJacobianSparsity(long outputIndex, long inputIndex) {
-        return new Sparsity(this.function.jac_sparsity(outputIndex, inputIndex));
+    public SparsityWrapper getJacobianSparsity(long outputIndex, long inputIndex) {
+        return new SparsityWrapper(this.function.jac_sparsity(outputIndex, inputIndex));
     }
 
-    public String generate(String fileName, Dict opts) {
-        return this.function.generate(fileName, opts);
+    public String generate(String fileName, Dictionary opts) {
+        return this.function.generate(fileName, opts.getCasADiObject());
     }
 
     public String generate(String fileName) {
         return this.function.generate(fileName);
     }
 
-    public String generate(Dict opts) {
-        return this.function.generate(opts);
+    public String generate(Dictionary opts) {
+        return this.function.generate(opts.getCasADiObject());
     }
 
     public String generate() {
         return this.function.generate();
     }
 
-    public String generateDependencies(String fileName, Dict opts) {
-        return this.function.generate_dependencies(fileName, opts);
+    public String generateDependencies(String fileName, Dictionary opts) {
+        return this.function.generate_dependencies(fileName, opts.getCasADiObject());
     }
 
     public String generateDependencies(String fileName) {
@@ -635,44 +636,44 @@ public class FunctionWrapper {
         return new DMVector(this.function.generate_out(fileName));
     }
 
-    public void exportCode(String language, String fileName, Dict opts) {
-        this.function.export_code(language, fileName, opts);
+    public void exportCode(String language, String fileName, Dictionary opts) {
+        this.function.export_code(language, fileName, opts.getCasADiObject());
     }
 
     public void exportCode(String language, String fileName) {
         this.function.export_code(language, fileName);
     }
 
-    public String serialize(Dict opts) {
-        return this.function.serialize(opts);
+    public String serialize(Dictionary opts) {
+        return this.function.serialize(opts.getCasADiObject());
     }
 
     public String serialize() {
         return this.function.serialize();
     }
 
-    public void save(String fileName, Dict opts) {
-        this.function.save(fileName, opts);
+    public void save(String fileName, Dictionary opts) {
+        this.function.save(fileName, opts.getCasADiObject());
     }
 
     public void save(String fileName) {
         this.function.save(fileName);
     }
 
-    public void exportCode(String language, Dict opts) {
-        this.function.export_code(language, opts);
+    public void exportCode(String language, Dictionary opts) {
+        this.function.export_code(language, opts.getCasADiObject());
     }
 
     public void exportCode(String language) {
         this.function.export_code(language);
     }
 
-    public Dict getStatistics(int mem) {
-        return this.function.stats(mem);
+    public Dictionary getStatistics(int mem) {
+        return new Dictionary(this.function.stats(mem));
     }
 
-    public Dict getStatistics() {
-        return this.function.stats();
+    public Dictionary getStatistics() {
+        return new Dictionary(this.function.stats());
     }
 
     public SXWrapper getSymbolicExpressionByIndex(long inputIndex) {
@@ -882,16 +883,16 @@ public class FunctionWrapper {
         this.function.assert_size_out(i, nrow, ncol);
     }
 
-    public void assertSparsityOut(long i, Sparsity sp, long n, boolean allowAllZeroSparse) {
-        this.function.assert_sparsity_out(i, sp, n, allowAllZeroSparse);
+    public void assertSparsityOut(long i, SparsityWrapper sp, long n, boolean allowAllZeroSparse) {
+        this.function.assert_sparsity_out(i, sp.getCasADiObject(), n, allowAllZeroSparse);
     }
 
-    public void assertSparsityOut(long i, Sparsity sp, long n) {
-        this.function.assert_sparsity_out(i, sp, n);
+    public void assertSparsityOut(long i, SparsityWrapper sp, long n) {
+        this.function.assert_sparsity_out(i, sp.getCasADiObject(), n);
     }
 
-    public void assertSparsityOut(long i, Sparsity sp) {
-        this.function.assert_sparsity_out(i, sp);
+    public void assertSparsityOut(long i, SparsityWrapper sp) {
+        this.function.assert_sparsity_out(i, sp.getCasADiObject());
     }
 
     public long checkoutMemoryObject() {
@@ -902,8 +903,8 @@ public class FunctionWrapper {
         this.function.release(mem);
     }
 
-    public Dict getAllFunctionsInCache() {
-        return this.function.cache();
+    public Dictionary getAllFunctionsInCache() {
+        return new Dictionary(this.function.cache());
     }
 
     public StringVector getAllFunctions() {
@@ -934,8 +935,8 @@ public class FunctionWrapper {
         return new FunctionWrapper(this.function.find_function(name));
     }
 
-    public Dict info() {
-        return this.function.info();
+    public Dictionary info() {
+        return new Dictionary(this.function.info());
     }
 
     public String getClassName() {

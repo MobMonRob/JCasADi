@@ -3,11 +3,15 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.im;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.*;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.IM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class IMWrapper implements Wrapper<IMWrapper> {
 
@@ -24,28 +28,27 @@ public class IMWrapper implements Wrapper<IMWrapper> {
 
     public IMWrapper(IMWrapper m) {
         this.im = new IM(m.getCasADiObject());
+        this.id = m.getId();
     }
 
-    public IMWrapper(long... dimensions) {
-        if (dimensions.length == 1) {
-            this.im = IM.inf(dimensions[0]);
-        } else if (dimensions.length == 2) {
-            this.im = new IM(dimensions[0], dimensions[1]);
-        } else {
-            this.im = new IM();
-        }
+    public IMWrapper(long nrow, long ncol) {
+        this.im = new IM(nrow, ncol);
     }
 
-    public IMWrapper(Sparsity sp) {
-        this.im = new IM(sp);
+    public IMWrapper(SparsityWrapper sp) {
+        this.im = new IM(sp.getCasADiObject());
     }
 
-    public IMWrapper(Sparsity sp, IMWrapper d) {
-        this.im = new IM(sp, d.getCasADiObject());
+    public IMWrapper(SparsityWrapper sp, IMWrapper d) {
+        this.im = new IM(sp.getCasADiObject(), d.getCasADiObject());
     }
 
     public IMWrapper(double value) {
         this.im = new IM(value);
+    }
+
+    public IMWrapper(Number value) {
+        this.im = new IM(value.longValue());
     }
 
     public IMWrapper(NumberWrapper value) {
@@ -56,8 +59,38 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         this.im = new IM(m.getCasADiObject());
     }
 
+    public IMWrapper(DoubleVector... m) {
+        DoubleVectorCollection collection = new DoubleVectorCollection();
+        collection.addAll(Arrays.asList(m));
+        this.im = new IM(collection.getCasADiObject());
+    }
+
+    public IMWrapper(Iterable<DoubleVector> m) {
+        DoubleVectorCollection collection = new DoubleVectorCollection();
+        m.forEach(collection::add);
+        this.im = new IM(collection.getCasADiObject());
+    }
+
     public IMWrapper(IntegerVector x) {
         this.im = new IM(x.getCasADiObject());
+    }
+
+    public IMWrapper(Long... x) {
+        IntegerVector vector = new IntegerVector();
+        vector.addAll(List.of(x));
+        this.im = new IM(vector.getCasADiObject());
+    }
+
+    public IMWrapper(Number... x) {
+        IntegerVector vector = new IntegerVector();
+        Arrays.stream(x).forEach(element -> vector.add(element.longValue()));
+        this.im = new IM(vector.getCasADiObject());
+    }
+
+    public IMWrapper(NumberWrapper... x) {
+        IntegerVector vector = new IntegerVector();
+        Arrays.stream(x).forEach(element -> vector.add(element.getLongValue()));
+        this.im = new IM(vector.getCasADiObject());
     }
 
     public IMWrapper(Sparsity sp, long val, boolean dummy) {
@@ -66,6 +99,106 @@ public class IMWrapper implements Wrapper<IMWrapper> {
 
     public IMWrapper(Sparsity sp, IntegerVector val, boolean dummy) {
         this.im = new IM(sp, val.getCasADiObject(), dummy);
+    }
+
+    public static IMWrapper inf(Sparsity sp) {
+        return new IMWrapper(IM.inf(sp));
+    }
+
+    public static IMWrapper inf(long nrow, long ncol) {
+        return new IMWrapper(IM.inf(nrow, ncol));
+    }
+
+    public static IMWrapper inf(long nrow) {
+        return new IMWrapper(IM.inf(nrow));
+    }
+
+    public static IMWrapper inf() {
+        return new IMWrapper(IM.inf());
+    }
+
+    public static IMWrapper nan(Sparsity sp) {
+        return new IMWrapper(IM.nan(sp));
+    }
+
+    public static IMWrapper nan(long nrow, long ncol) {
+        return new IMWrapper(IM.nan(nrow, ncol));
+    }
+
+    public static IMWrapper nan(long nrow) {
+        return new IMWrapper(IM.nan(nrow));
+    }
+
+    public static IMWrapper nan() {
+        return new IMWrapper(IM.nan());
+    }
+
+    public static IMWrapper eye(long n) {
+        return new IMWrapper(IM.eye(n));
+    }
+
+    public static IMWrapper rand(long nrow, long ncol) {
+        return new IMWrapper(IM.rand(nrow, ncol));
+    }
+
+    public static IMWrapper rand(long nrow) {
+        return new IMWrapper(IM.rand(nrow));
+    }
+
+    public static IMWrapper rand() {
+        return new IMWrapper(IM.rand());
+    }
+
+    public static IMWrapper rand(Sparsity sp) {
+        return new IMWrapper(IM.rand(sp));
+    }
+
+    public static IMWrapper sym(String name, long nrow, long ncol) {
+        return new IMWrapper(IM.sym(name, nrow, ncol));
+    }
+
+    public static IMWrapper sym(String name, long nrow) {
+        return new IMWrapper(IM.sym(name, nrow));
+    }
+
+    public static IMWrapper sym(String name) {
+        return new IMWrapper(IM.sym(name));
+    }
+
+    public static IMWrapper sym(String name, Sparsity sp) {
+        return new IMWrapper(IM.sym(name, sp));
+    }
+
+    public static IMWrapper zeros(long nrow, long ncol) {
+        return new IMWrapper(IM.zeros(nrow, ncol));
+    }
+
+    public static IMWrapper zeros(long nrow) {
+        return new IMWrapper(IM.zeros(nrow));
+    }
+
+    public static IMWrapper zeros() {
+        return new IMWrapper(IM.zeros());
+    }
+
+    public static IMWrapper zeros(Sparsity sp) {
+        return new IMWrapper(IM.zeros(sp));
+    }
+
+    public static IMWrapper ones(long nrow, long ncol) {
+        return new IMWrapper(IM.ones(nrow, ncol));
+    }
+
+    public static IMWrapper ones(long nrow) {
+        return new IMWrapper(IM.ones(nrow));
+    }
+
+    public static IMWrapper ones() {
+        return new IMWrapper(IM.ones());
+    }
+
+    public static IMWrapper ones(Sparsity sp) {
+        return new IMWrapper(IM.ones(sp));
     }
 
     public long scalar() {

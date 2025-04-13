@@ -2,7 +2,7 @@ package de.dhbw.rahmlab.casadi.api.core.problem;
 
 import de.dhbw.rahmlab.casadi.api.core.constraints.Constraint;
 import de.dhbw.rahmlab.casadi.api.core.solver.CasADiSolver;
-import de.dhbw.rahmlab.casadi.api.core.utils.MXUtils;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
@@ -14,7 +14,6 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.std.MapStringToMXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.StringVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 
 import java.util.Arrays;
@@ -113,24 +112,24 @@ public class NLPProblem {
         this.nlpProblem.subject_to();
     }
 
-//    public void setSolver(String solver, Dict pluginOptions, Dict solverOptions) {
-//        this.nlpProblem.solver(solver, pluginOptions, solverOptions);
+//    public void setSolver(String solver, Dictionary pluginOptions, Dictionary solverOptions) {
+//        this.nlpProblem.solver(solver, pluginOptions.getCasADiObject(), solverOptions.getCasADiObject());
 //    }
 //
-//    public void setSolver(String solver, Dict pluginOptions) {
-//        this.nlpProblem.solver(solver, pluginOptions);
+//    public void setSolver(String solver, Dictionary pluginOptions) {
+//        this.nlpProblem.solver(solver, pluginOptions.getCasADiObject());
 //    }
 //
 //    public void setSolver(String solver) {
 //        this.nlpProblem.solver(solver);
 //    }
 
-    public void setSolver(CasADiSolver solver, Dict pluginOptions, Dict solverOptions) {
-        this.nlpProblem.solver(solver.getSolverName(), pluginOptions, solverOptions);
+    public void setSolver(CasADiSolver solver, Dictionary pluginOptions, Dictionary solverOptions) {
+        this.nlpProblem.solver(solver.getSolverName(), pluginOptions.getCasADiObject(), solverOptions.getCasADiObject());
     }
 
-    public void setSolver(CasADiSolver solver, Dict pluginOptions) {
-        this.nlpProblem.solver(solver.getSolverName(), pluginOptions);
+    public void setSolver(CasADiSolver solver, Dictionary pluginOptions) {
+        this.nlpProblem.solver(solver.getSolverName(), pluginOptions.getCasADiObject());
     }
 
     public void setSolver(CasADiSolver solver) {
@@ -224,8 +223,8 @@ public class NLPProblem {
         }
     }
 
-    public Dict getStatistics() {
-        return this.nlpProblem.stats();
+    public Dictionary getStatistics() {
+        return new Dictionary(this.nlpProblem.stats());
     }
 
     public String getSolverStatus() {
@@ -288,24 +287,24 @@ public class NLPProblem {
         return new MXWrapper(this.nlpProblem.lam_g());
     }
 
-    public FunctionWrapper createFunction(String name, MXVector args, MXVector res, Dict opts) {
-        return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), opts));
+    public FunctionWrapper createFunction(String name, MXVector args, MXVector res, Dictionary opts) {
+        return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper createFunction(String name, MXVector args, MXVector res) {
         return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject()));
     }
 
-    public FunctionWrapper createFunction(String name, MXVector args, MXVector res, StringVector nameIn, StringVector nameOut, Dict opts) {
-        return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts));
+    public FunctionWrapper createFunction(String name, MXVector args, MXVector res, StringVector nameIn, StringVector nameOut, Dictionary opts) {
+        return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper createFunction(String name, MXVector args, MXVector res, StringVector nameIn, StringVector nameOut) {
         return new FunctionWrapper(this.nlpProblem.to_function(name, args.getCasADiObject(), res.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject()));
     }
 
-    public FunctionWrapper createFunction(String name, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut, Dict opts) {
-        return new FunctionWrapper(this.nlpProblem.to_function(name, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts));
+    public FunctionWrapper createFunction(String name, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut, Dictionary opts) {
+        return new FunctionWrapper(this.nlpProblem.to_function(name, dict.getCasADiObject(), nameIn.getCasADiObject(), nameOut.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public FunctionWrapper createFunction(String name, MapStringToMXWrapper dict, StringVector nameIn, StringVector nameOut) {
@@ -328,16 +327,16 @@ public class NLPProblem {
         return new NLPProblem(this.nlpProblem.copy());
     }
 
-    public void addUserData(MXWrapper symbol, Dict meta) {
-        this.nlpProblem.update_user_dict(symbol.getCasADiObject(), meta);
+    public void addUserData(MXWrapper symbol, Dictionary meta) {
+        this.nlpProblem.update_user_dict(symbol.getCasADiObject(), meta.getCasADiObject());
     }
 
-    public void addUserData(MXVector symbol, Dict metadata) {
-        this.nlpProblem.update_user_dict(symbol.getCasADiObject(), metadata);
+    public void addUserData(MXVector symbol, Dictionary metadata) {
+        this.nlpProblem.update_user_dict(symbol.getCasADiObject(), metadata.getCasADiObject());
     }
 
-    public Dict getUserData(MXWrapper symbol) {
-        return this.nlpProblem.user_dict(symbol.getCasADiObject());
+    public Dictionary getUserData(MXWrapper symbol) {
+        return new Dictionary(this.nlpProblem.user_dict(symbol.getCasADiObject()));
     }
 
     public String getTypeName() {

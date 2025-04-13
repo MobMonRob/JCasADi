@@ -58,8 +58,8 @@
 8. **Typecasting-Probleme**
     - In Java ist das Typecasting zwischen verschiedenen Typen wie `MX` und `DM` teilweise problematisch und nicht direkt möglich.
 
-9. **Fehlende Unterstützung für `rootfinder`, `conic`, `nlpsol`, `integrator`-Methoden**
-    - In Java gibt es Probleme beim Befüllen der Methoden wie z.B. bei der Verwendung von SWIGTYPE-Klassen, die Java Maps repräsentieren sollen. Auch das Übergeben von **Map-Objekten** scheint nicht möglich zu sein.
+9. **Komplexität bei der Arbeit mit benutzerdefinierten Maps in Java im Vergleich zu Python**
+    - In Java gestaltet sich die Arbeit mit benutzerdefinierten Maps, wie etwa bei der Verwendung von StdMapStringTo...-Klassen zur Repräsentation von Maps, als problematisch. Das Befüllen und Übergeben von **Map-Objekten** ist oft schwierig und erfordert mehr Aufwand als die unkomplizierte Handhabung von Dictionaries in Python.
 
 10. **Funktionen in Python sind flexibler**
     - In Python können Funktionen für verschiedene Typen ohne Anpassung verwendet werden.
@@ -113,6 +113,7 @@
 
 18. **Keine Konvertierungsmethoden**
     - Es gibt keine Möglichkeite ein DM beispielsweise in ein Array zu konvertieren
+    - Ähnlicher Punkt wie 8
 
 19. **Unübersichtliche generierte Klassen durch SWIG**
     - Die automatisch generierten Klassen, insbesondere die SWIGTYPE-Klassen, sind sehr generisch und schwer zu verstehen, was die Übersichtlichkeit des Codes beeinträchtigt.

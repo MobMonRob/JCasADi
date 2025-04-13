@@ -2,11 +2,13 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.std;
 
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiInt;
 
+import java.util.AbstractList;
+
 /**
  * A collection that holds a vector of integer values (StdVectorCasadiInt) {@link StdVectorCasadiInt}
  * and provides methods to manipulate and access its elements.
  */
-public class IntegerVector {
+public class IntegerVector extends AbstractList<Long> {
 
     private final StdVectorCasadiInt stdVectorCasadiInt;
 
@@ -22,7 +24,7 @@ public class IntegerVector {
      *
      * @param initialElements an array of long values to initialize the collection
      */
-    public IntegerVector(long[] initialElements) {
+    public IntegerVector(long... initialElements) {
         this.stdVectorCasadiInt = new StdVectorCasadiInt(initialElements);
     }
 

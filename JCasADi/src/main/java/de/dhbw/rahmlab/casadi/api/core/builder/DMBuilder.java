@@ -2,21 +2,24 @@ package de.dhbw.rahmlab.casadi.api.core.builder;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.MatrixBuilder;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Builder class for creating DMWrapper objects.
  */
 public class DMBuilder implements MatrixBuilder<DMBuilder> {
-    private double value;
-    private double[] values;
-    private long rows;
-    private long cols;
+    private Double value;
+    private Double[] values;
+    private Long rows;
+    private Long cols;
     private String name;
-    private Sparsity sparsity;
-    private long identitySize;
+    private SparsityWrapper sparsity;
+    private Long identitySize;
 
     /**
      * Sets a single constant value for the DM object.
@@ -38,8 +41,10 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @return the current instance of DMBuilder
      */
     @Override
-    public DMBuilder setValues(double... values) {
-        this.values = values;
+    public DMBuilder setValues(Number... values) {
+        this.values = Arrays.stream(values)
+                .map(Number::doubleValue)
+                .toArray(Double[]::new);
         this.value = Double.NaN;
         return this;
     }
@@ -67,7 +72,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
     @Override
     public DMBuilder setRows(long rows) {
         this.rows = rows;
-        this.cols = 1;
+        this.cols = 1L;
         return this;
     }
 
@@ -80,7 +85,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
     @Override
     public DMBuilder setCols(long cols) {
         this.cols = cols;
-        this.rows = 1;
+        this.rows = 1L;
         return this;
     }
 
@@ -120,7 +125,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @return the current instance of DMBuilder
      */
     @Override
-    public DMBuilder setSparsity(Sparsity sparsity) {
+    public DMBuilder setSparsity(SparsityWrapper sparsity) {
         this.sparsity = sparsity;
         return this;
     }
@@ -131,17 +136,20 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @return a DMWrapper containing the constructed DM object
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper buildFromValues() {
-        if (values == null || values.length == 0) {
+        if (values != null && values.length > 0) {
+            return new DMWrapper(new DM(new StdVectorDouble(List.of(values))));
+        } else if (value != null) {
             return new DMWrapper(new DM(value));
         } else {
-            return new DMWrapper(new DM(new StdVectorDouble(values)));
+            throw new IllegalStateException("Either value or values must be set.");
         }
     }
 
     /**
      * Builds a symbolic DM object.
-     *
+     * <p></p>
      * This method creates a symbolic matrix or vector with the specified name.
      * The dimensions of the matrix or vector can be defined by the number of rows
      * and columns. If no dimensions are specified, a symbolic scalar is created.
@@ -152,6 +160,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @throws IllegalArgumentException if the name is not set
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper buildSymbolic() {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name must be set for symbolic DM.");
@@ -161,7 +170,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
         } else if (rows > 0) {
             return DMWrapper.sym(name, rows);
         } else if (sparsity != null) {
-            return DMWrapper.sym(name, sparsity);
+            return DMWrapper.sym(name, sparsity.getCasADiObject());
         } else {
             return DMWrapper.sym(name);
         }
@@ -178,13 +187,14 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @return a DMWrapper containing the constructed matrix or vector filled with ones
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper buildOnes() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.ones(rows, cols);
         } else if (rows > 0) {
             return DMWrapper.ones(rows);
         } else if (sparsity != null) {
-            return DMWrapper.ones(sparsity);
+            return DMWrapper.ones(sparsity.getCasADiObject());
         } else {
             return DMWrapper.ones();
         }
@@ -201,13 +211,14 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @return a DMWrapper containing the constructed matrix or vector filled with NaN
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper buildNaN() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.nan(rows, cols);
         } else if (rows > 0) {
             return DMWrapper.nan(rows);
         } else if (sparsity != null) {
-            return DMWrapper.nan(sparsity);
+            return DMWrapper.nan(sparsity.getCasADiObject());
         } else {
             return DMWrapper.nan();
         }
@@ -224,13 +235,14 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @return a DMWrapper containing the constructed matrix or vector filled with Infinity
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper buildInf() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.inf(rows, cols);
         } else if (rows > 0) {
             return DMWrapper.inf(rows);
         } else if (sparsity != null) {
-            return DMWrapper.inf(sparsity);
+            return DMWrapper.inf(sparsity.getCasADiObject());
         } else {
             return DMWrapper.inf();
         }
@@ -252,7 +264,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
         } else if (rows > 0) {
             return DMWrapper.rand(rows);
         } else if (sparsity != null) {
-            return DMWrapper.rand(sparsity);
+            return DMWrapper.rand(sparsity.getCasADiObject());
         } else {
             return DMWrapper.rand();
         }
@@ -264,13 +276,14 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @return a DMWrapper containing the zero matrix
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper buildZeroMatrix() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.zeros(rows, cols);
         } else if (rows > 0) {
             return DMWrapper.zeros(rows);
         } else if (sparsity != null) {
-            return DMWrapper.zeros(sparsity);
+            return DMWrapper.zeros(sparsity.getCasADiObject());
         } else {
             return DMWrapper.zeros();
         }
@@ -282,7 +295,11 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @return a DMWrapper containing the identity matrix
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper buildIdentityMatrix() {
+        if (identitySize == null) {
+            throw new IllegalStateException("Identity size must be set.");
+        }
         return DMWrapper.eye(identitySize);
     }
 
@@ -296,11 +313,12 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @throws IllegalArgumentException if the sparsity structure is not set
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper buildSparseMatrix() {
         if (sparsity == null) {
             throw new IllegalArgumentException("Sparsity must be set for identity matrix.");
         }
-        return new DMWrapper(new DM(sparsity));
+        return new DMWrapper(new DM(sparsity.getCasADiObject()));
     }
 
     /**
@@ -309,26 +327,27 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
      * @return a DMWrapper containing the constructed DM object
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper build() {
         if (sparsity != null && values != null) {
-            return DMWrapper.fromSparsityAndValues(sparsity, buildFromValues());
+            return new DMWrapper(sparsity, buildFromValues());
         }
         if (sparsity != null) {
-            return DMWrapper.fromSparsity(sparsity);
+            return new DMWrapper(sparsity);
         }
         if (values != null) {
-            return DMWrapper.fromValues(values);
+            return new DMWrapper(values);
         }
         if (rows > 0 && cols > 0) {
-            return DMWrapper.fromSize(rows, cols);
+            return new DMWrapper(rows, cols);
         }
         if (rows > 0) {
-            this.cols = 1;
-            return DMWrapper.fromSize(rows, cols);
+            this.cols = 1L;
+            return new DMWrapper(rows, cols);
         }
         if (cols > 0) {
-            this.rows = 1;
-            return DMWrapper.fromSize(rows, cols);
+            this.rows = 1L;
+            return new DMWrapper(rows, cols);
         }
         if (rows > 0 && cols > 0 && rows == cols) {
             return DMWrapper.eye(rows);

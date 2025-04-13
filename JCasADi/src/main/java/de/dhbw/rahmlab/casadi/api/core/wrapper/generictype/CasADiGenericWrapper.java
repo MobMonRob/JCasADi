@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.generictype;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
@@ -9,7 +10,6 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
 import de.dhbw.rahmlab.casadi.impl.casadi.TypeID;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class CasADiGenericWrapper {
 
@@ -75,8 +75,8 @@ public class CasADiGenericWrapper {
         this.genericType = new GenericType(f.getCasADiObject());
     }
 
-    public CasADiGenericWrapper(Dict dict) {
-        this.genericType = new GenericType(dict);
+    public CasADiGenericWrapper(Dictionary dict) {
+        this.genericType = new GenericType(dict.getCasADiObject());
     }
 
     /**
@@ -213,8 +213,8 @@ public class CasADiGenericWrapper {
         return new StringVector(this.genericType.as_string_vector());
     }
 
-    public Dict castToInternalTypeDict() {
-        return this.genericType.as_dict();
+    public Dictionary castToInternalTypeDict() {
+        return new Dictionary(this.genericType.as_dict());
     }
 
     public FunctionWrapper castToInternalTypeFunction() {
@@ -265,8 +265,8 @@ public class CasADiGenericWrapper {
         return new StringVector(this.genericType.to_string_vector());
     }
 
-    public Dict convertToDict() {
-        return this.genericType.to_dict();
+    public Dictionary convertToDict() {
+        return new Dictionary(this.genericType.to_dict());
     }
 
     public FunctionWrapper convertToFunctionWrapper() {
@@ -278,11 +278,11 @@ public class CasADiGenericWrapper {
     }
 
     public DMWrapper convertToDMWrapper() {
-        return DMWrapper.fromValue(this.genericType.as_double());
+        return new DMWrapper(this.genericType.as_double());
     }
 
     public MXWrapper convertToMXWrapper() {
-        return MXWrapper.fromValue(this.genericType.as_double());
+        return new MXWrapper(this.genericType.as_double());
     }
 
     public SXWrapper convertToSXWrapper() {

@@ -2,11 +2,13 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.std;
 
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 
+import java.util.AbstractList;
+
 /**
  * A collection that holds a vector of double values (StdVectorDouble) {@link StdVectorDouble}
  * and provides methods to manipulate and access its elements.
  */
-public class DoubleVector {
+public class DoubleVector extends AbstractList<Double> {
 
     private final StdVectorDouble stdVectorDouble;
 

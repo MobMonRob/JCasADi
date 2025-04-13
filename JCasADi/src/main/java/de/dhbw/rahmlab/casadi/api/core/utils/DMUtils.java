@@ -1,12 +1,12 @@
 package de.dhbw.rahmlab.casadi.api.core.utils;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class DMUtils {
 
@@ -18,8 +18,8 @@ public class DMUtils {
         DM.substitute_inplace(v.getCasADiObject(), vdef.getCasADiObject(), ex.getCasADiObject(), revers);
     }
 
-    public static void extract(DMVector ex, DMVector v, DMVector vdef, Dict opts) {
-        DM.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), opts);
+    public static void extract(DMVector ex, DMVector v, DMVector vdef, Dictionary opts) {
+        DM.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), opts.getCasADiObject());
     }
 
     public static void extract(DMVector ex, DMVector v, DMVector vdef) {
@@ -50,16 +50,16 @@ public class DMUtils {
         return new DMVector(DM.cse(e.getCasADiObject()));
     }
 
-    public static DMVectorCollection forward(DMVector ex, DMVector arg, DMVectorCollection v, Dict opts) {
-        return new DMVectorCollection(DM.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
+    public static DMVectorCollection forward(DMVector ex, DMVector arg, DMVectorCollection v, Dictionary opts) {
+        return new DMVectorCollection(DM.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public static DMVectorCollection forward(DMVector ex, DMVector arg, DMVectorCollection v) {
         return new DMVectorCollection(DM.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
-    public static DMVectorCollection reverse(DMVector ex, DMVector arg, DMVectorCollection v, Dict opts) {
-        return new DMVectorCollection(DM.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
+    public static DMVectorCollection reverse(DMVector ex, DMVector arg, DMVectorCollection v, Dictionary opts) {
+        return new DMVectorCollection(DM.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public static DMVectorCollection reverse(DMVector ex, DMVector arg, DMVectorCollection v) {

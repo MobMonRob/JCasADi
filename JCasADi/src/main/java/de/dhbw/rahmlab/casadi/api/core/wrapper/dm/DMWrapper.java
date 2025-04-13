@@ -1,15 +1,17 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
 
@@ -21,7 +23,60 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     public DMWrapper(DM dm) {
-        this.dm = dm;
+        this.dm = new DM(dm);
+    }
+
+    public DMWrapper(DMWrapper other) {
+        this.dm = new DM(other.getCasADiObject());
+    }
+
+    public DMWrapper(long nrow, long ncol) {
+        this.dm = new DM(nrow, ncol);
+    }
+
+    public DMWrapper(SparsityWrapper sp) {
+        this.dm = new DM(sp.getCasADiObject());
+    }
+
+    public DMWrapper(SparsityWrapper sp, DMWrapper d) {
+        this.dm = new DM(sp.getCasADiObject(), d.getCasADiObject());
+    }
+
+    public DMWrapper(double value) {
+        this.dm = new DM(value);
+    }
+
+    public DMWrapper(DoubleVectorCollection m) {
+        this.dm = new DM(m.getCasADiObject());
+    }
+
+    public DMWrapper(DoubleVector... m) {
+        DoubleVectorCollection collection = new DoubleVectorCollection();
+        collection.addAll(List.of(m));
+        this.dm = new DM(collection.getCasADiObject());
+    }
+
+    public DMWrapper(DoubleVector x) {
+        this.dm = new DM(x.getCasADiObject());
+    }
+
+    public DMWrapper(double... x) {
+        DoubleVector vector = new DoubleVector(x);
+        this.dm = new DM(vector.getCasADiObject());
+    }
+
+    public DMWrapper(Number x) {
+        this.dm = new DM(x.doubleValue());
+    }
+
+    public DMWrapper(Number... x) {
+        DoubleVector vector = new DoubleVector();
+        Arrays.stream(x).forEach(element -> vector.add(element.doubleValue()));
+        this.dm = new DM();
+    }
+
+    public DMWrapper(Iterable<Double> values) {
+        this.dm = new DM(new DoubleVector(values).getCasADiObject());
     }
 
     public DMWrapper(NumberWrapper number) {
@@ -35,48 +90,12 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         this.dm = new DM(stdVectorDouble);
     }
 
-    public DMWrapper(Sparsity sp, double val, boolean dummy) {
-        this.dm = new DM(sp, val, dummy);
+    public DMWrapper(SparsityWrapper sp, double val, boolean dummy) {
+        this.dm = new DM(sp.getCasADiObject(), val, dummy);
     }
 
-    public DMWrapper(Sparsity sp, DoubleVector d, boolean dummy) {
-        this.dm = new DM(sp, d.getCasADiObject(), dummy);
-    }
-
-    public static DMWrapper fromSparsity(Sparsity sp) {
-        return new DMWrapper(new DM(sp));
-    }
-
-    public static DMWrapper fromValue(double value) {
-        return new DMWrapper(new DM(value));
-    }
-
-    public static DMWrapper fromArray(StdVectorDouble values) {
-        return new DMWrapper(new DM(values));
-    }
-
-    public static DMWrapper fromSparsityAndValues(Sparsity sparsity, DMWrapper values) {
-        return new DMWrapper(new DM(sparsity, values.dm));
-    }
-
-    public static DMWrapper fromSize(long nrow, long ncol) {
-        return new DMWrapper(new DM(nrow, ncol));
-    }
-
-    public static DMWrapper fromDenseMatrix(DoubleVectorCollection m) {
-        return new DMWrapper(new DM(m.getCasADiObject()));
-    }
-
-    public static DMWrapper fromVector(DoubleVector x) {
-        return new DMWrapper(new DM(x.getCasADiObject()));
-    }
-
-    public static DMWrapper fromValues(double... values) {
-        return new DMWrapper(new DM(new DoubleVector(values).getCasADiObject()));
-    }
-
-    public static DMWrapper fromIterable(Iterable<Double> values) {
-        return new DMWrapper(new DM(new DoubleVector(values).getCasADiObject()));
+    public DMWrapper(SparsityWrapper sp, DoubleVector d, boolean dummy) {
+        this.dm = new DM(sp.getCasADiObject(), d.getCasADiObject(), dummy);
     }
 
     public static DMWrapper rand(long nrow, long ncol) {
@@ -91,8 +110,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.rand());
     }
 
-    public static DMWrapper rand(Sparsity sp) {
-        return new DMWrapper(DM.rand(sp));
+    public static DMWrapper rand(SparsityWrapper sp) {
+        return new DMWrapper(DM.rand(sp.getCasADiObject()));
     }
 
     public double scalar() {
@@ -131,9 +150,9 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper get(boolean ind1, Sparsity sp) {
+    public DMWrapper get(boolean ind1, SparsityWrapper sp) {
         DMWrapper output = new DMWrapper();
-        this.dm.get(output.getCasADiObject(), ind1, sp);
+        this.dm.get(output.getCasADiObject(), ind1, sp.getCasADiObject());
         return output;
     }
 
@@ -192,8 +211,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public void set(DMWrapper m, boolean ind1, Sparsity sp) {
-        this.dm.set(m.getCasADiObject(), ind1, sp);
+    public void set(DMWrapper m, boolean ind1, SparsityWrapper sp) {
+        this.dm.set(m.getCasADiObject(), ind1, sp.getCasADiObject());
     }
 
     // ----- Set a submatrix, two arguments -----
@@ -285,8 +304,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper jacobian(DMWrapper x, Dict opts) {
-        return new DMWrapper(DM.jacobian(this.dm, x.getCasADiObject(), opts));
+    public DMWrapper jacobian(DMWrapper x, Dictionary opts) {
+        return new DMWrapper(DM.jacobian(this.dm, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -295,13 +314,13 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public Sparsity jacobianSparsity(DMWrapper x) {
-        return DM.jacobian_sparsity(this.dm, x.getCasADiObject());
+    public SparsityWrapper jacobianSparsity(DMWrapper x) {
+        return new SparsityWrapper(DM.jacobian_sparsity(this.dm, x.getCasADiObject()));
     }
 
     @Override
-    public DMWrapper hessian(DMWrapper x, Dict opts) {
-        return new DMWrapper(DM.hessian(this.dm, x.getCasADiObject(), opts));
+    public DMWrapper hessian(DMWrapper x, Dictionary opts) {
+        return new DMWrapper(DM.hessian(this.dm, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -310,8 +329,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper hessian(DMWrapper x, DMWrapper g, Dict opts) {
-        return new DMWrapper(DM.hessian(this.dm, x.getCasADiObject(), g.getCasADiObject(), opts));
+    public DMWrapper hessian(DMWrapper x, DMWrapper g, Dictionary opts) {
+        return new DMWrapper(DM.hessian(this.dm, x.getCasADiObject(), g.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -330,8 +349,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper pinv(String lsolver, Dict opts) {
-        return new DMWrapper(DM.pinv(this.dm, lsolver, opts));
+    public DMWrapper pinv(String lsolver, Dictionary opts) {
+        return new DMWrapper(DM.pinv(this.dm, lsolver, opts.getCasADiObject()));
     }
 
     @Override
@@ -350,8 +369,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper solve(DMWrapper b, String lsolver, Dict opts) {
-        return new DMWrapper(DM.solve(this.dm, b.getCasADiObject(), lsolver, opts));
+    public DMWrapper solve(DMWrapper b, String lsolver, Dictionary opts) {
+        return new DMWrapper(DM.solve(this.dm, b.getCasADiObject(), lsolver, opts.getCasADiObject()));
     }
 
     @Override
@@ -360,8 +379,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper inv(String lsolver, Dict opts) {
-        return new DMWrapper(DM.inv(this.dm, lsolver, opts));
+    public DMWrapper inv(String lsolver, Dictionary opts) {
+        return new DMWrapper(DM.inv(this.dm, lsolver, opts.getCasADiObject()));
     }
 
     @Override
@@ -459,13 +478,13 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper project(Sparsity sp, boolean intersect) {
-        return new DMWrapper(DM.project(this.dm, sp, intersect));
+    public DMWrapper project(SparsityWrapper sp, boolean intersect) {
+        return new DMWrapper(DM.project(this.dm, sp.getCasADiObject(), intersect));
     }
 
     @Override
-    public DMWrapper project(Sparsity sp) {
-        return new DMWrapper(DM.project(this.dm, sp));
+    public DMWrapper project(SparsityWrapper sp) {
+        return new DMWrapper(DM.project(this.dm, sp.getCasADiObject()));
     }
 
     @Override
@@ -531,13 +550,13 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper reshape(Sparsity sp) {
-        return new DMWrapper(DM.reshape(this.dm, sp));
+    public DMWrapper reshape(SparsityWrapper sp) {
+        return new DMWrapper(DM.reshape(this.dm, sp.getCasADiObject()));
     }
 
     @Override
-    public DMWrapper sparsityCast(Sparsity sp) {
-        return new DMWrapper(DM.sparsity_cast(this.dm, sp));
+    public DMWrapper sparsityCast(SparsityWrapper sp) {
+        return new DMWrapper(DM.sparsity_cast(this.dm, sp.getCasADiObject()));
     }
 
     @Override
@@ -809,12 +828,12 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public Sparsity sparsity() {
-        return this.dm.sparsity();
+    public SparsityWrapper sparsity() {
+        return new SparsityWrapper(this.dm.sparsity());
     }
 
-    public static DMWrapper inf(Sparsity sp) {
-        return new DMWrapper(DM.inf(sp));
+    public static DMWrapper inf(SparsityWrapper sp) {
+        return new DMWrapper(DM.inf(sp.getCasADiObject()));
     }
 
     public static DMWrapper inf(long nrow, long ncol) {
@@ -829,8 +848,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.inf());
     }
 
-    public static DMWrapper nan(Sparsity sp) {
-        return new DMWrapper(DM.nan(sp));
+    public static DMWrapper nan(SparsityWrapper sp) {
+        return new DMWrapper(DM.nan(sp.getCasADiObject()));
     }
 
     public static DMWrapper nan(long nrow, long ncol) {
@@ -967,8 +986,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public Dict info() {
-        return this.dm.info();
+    public Dictionary info() {
+        return new Dictionary(this.dm.info());
     }
 
     public String serialize() {
@@ -1296,8 +1315,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper jtimes(DMWrapper arg, DMWrapper v, boolean tr, Dict opts) {
-        return new DMWrapper(DM.jtimes_(this.dm, arg.getCasADiObject(), v.getCasADiObject(), tr, opts));
+    public DMWrapper jtimes(DMWrapper arg, DMWrapper v, boolean tr, Dictionary opts) {
+        return new DMWrapper(DM.jtimes_(this.dm, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
     }
 
     @Override
@@ -1311,8 +1330,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper gradient(DMWrapper arg, Dict opts) {
-        return new DMWrapper(DM.gradient(this.dm, arg.getCasADiObject(), opts));
+    public DMWrapper gradient(DMWrapper arg, Dictionary opts) {
+        return new DMWrapper(DM.gradient(this.dm, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -1321,8 +1340,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper tangent(DMWrapper arg, Dict opts) {
-        return new DMWrapper(DM.tangent(this.dm, arg.getCasADiObject(), opts));
+    public DMWrapper tangent(DMWrapper arg, Dictionary opts) {
+        return new DMWrapper(DM.tangent(this.dm, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -1331,8 +1350,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper linearize(DMWrapper x, DMWrapper x0, Dict opts) {
-        return new DMWrapper(DM.linearize(this.dm, x.getCasADiObject(), x0.getCasADiObject(), opts));
+    public DMWrapper linearize(DMWrapper x, DMWrapper x0, Dictionary opts) {
+        return new DMWrapper(DM.linearize(this.dm, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -1362,20 +1381,20 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.sym(name));
     }
 
-    public static DMWrapper sym(String name, Sparsity sp) {
-        return new DMWrapper(DM.sym(name, sp));
+    public static DMWrapper sym(String name, SparsityWrapper sp) {
+        return new DMWrapper(DM.sym(name, sp.getCasADiObject()));
     }
 
-    public static DMVector sym(String name, Sparsity sp, long p) {
-        return new DMVector(DM.sym(name, sp, p));
+    public static DMVector sym(String name, SparsityWrapper sp, long p) {
+        return new DMVector(DM.sym(name, sp.getCasADiObject(), p));
     }
 
     public static DMVector sym(String name, long nrow, long ncol, long p) {
         return new DMVector(DM.sym(name, nrow, ncol, p));
     }
 
-    public static DMVectorCollection sym(String name, Sparsity sp, long p, long r) {
-        return new DMVectorCollection(DM.sym(name, sp, p, r));
+    public static DMVectorCollection sym(String name, SparsityWrapper sp, long p, long r) {
+        return new DMVectorCollection(DM.sym(name, sp.getCasADiObject(), p, r));
     }
 
     public static DMVectorCollection sym(String name, long nrow, long ncol, long p, long r) {
@@ -1394,8 +1413,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.zeros());
     }
 
-    public static DMWrapper zeros(Sparsity sp) {
-        return new DMWrapper(DM.zeros(sp));
+    public static DMWrapper zeros(SparsityWrapper sp) {
+        return new DMWrapper(DM.zeros(sp.getCasADiObject()));
     }
 
     public static DMWrapper ones(long nrow, long ncol) {
@@ -1410,8 +1429,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.ones());
     }
 
-    public static DMWrapper ones(Sparsity sp) {
-        return new DMWrapper(DM.ones(sp));
+    public static DMWrapper ones(SparsityWrapper sp) {
+        return new DMWrapper(DM.ones(sp.getCasADiObject()));
     }
 
     @Override
@@ -1423,7 +1442,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public <T extends Number> DMWrapper add(T number) {
         double other = number.doubleValue();
-        DMWrapper summand = DMWrapper.fromValue(other);
+        DMWrapper summand = new DMWrapper(other);
         DM result = DM.plus(this.dm, summand.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1437,7 +1456,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public <T extends Number> DMWrapper subtract(T number) {
         double other = number.doubleValue();
-        DMWrapper subtrahend = DMWrapper.fromValue(other);
+        DMWrapper subtrahend = new DMWrapper(other);
         DM result = DM.minus(this.dm, subtrahend.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1451,7 +1470,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public <T extends Number> DMWrapper multiply(T number) {
         double other = number.doubleValue();
-        DMWrapper multiplicand = DMWrapper.fromValue(other);
+        DMWrapper multiplicand = new DMWrapper(other);
         DM result = DM.times(this.dm, multiplicand.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1468,7 +1487,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         if (other == 0) {
             throw new ArithmeticException("Division by zero is not allowed.");
         }
-        DMWrapper divisor = DMWrapper.fromValue(other);
+        DMWrapper divisor = new DMWrapper(other);
         DM result = DM.rdivide(this.dm, divisor.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1481,7 +1500,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public <T extends Number> DMWrapper lt(T number) {
         double other = number.doubleValue();
-        DMWrapper threshold = DMWrapper.fromValue(other);
+        DMWrapper threshold = new DMWrapper(other);
         DM result = DM.lt(this.dm, threshold.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1494,7 +1513,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public <T extends Number> DMWrapper le(T number) {
         double other = number.doubleValue();
-        DMWrapper threshold = DMWrapper.fromValue(other);
+        DMWrapper threshold = new DMWrapper(other);
         DM result = DM.le(this.dm, threshold.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1507,7 +1526,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public <T extends Number> DMWrapper gt(T number) {
         double other = number.doubleValue();
-        DMWrapper threshold = DMWrapper.fromValue(other);
+        DMWrapper threshold = new DMWrapper(other);
         DM result = DM.gt(this.dm, threshold.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1520,7 +1539,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public <T extends Number> DMWrapper ge(T number) {
         double other = number.doubleValue();
-        DMWrapper threshold = DMWrapper.fromValue(other);
+        DMWrapper threshold = new DMWrapper(other);
         DM result = DM.ge(this.dm, threshold.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1533,7 +1552,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public <T extends Number> DMWrapper eq(T number) {
         double other = number.doubleValue();
-        DMWrapper value = DMWrapper.fromValue(other);
+        DMWrapper value = new DMWrapper(other);
         DM result = DM.eq(this.dm, value.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1546,7 +1565,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     @Override
     public <T extends Number> DMWrapper ne(T number) {
         double other = number.doubleValue();
-        DMWrapper value = DMWrapper.fromValue(other);
+        DMWrapper value = new DMWrapper(other);
         DM result = DM.ne(this.dm, value.getCasADiObject());
         return new DMWrapper(result);
     }
@@ -1750,7 +1769,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
 
     @Override
     public DMWrapper negate() {
-        DMWrapper sign = DMWrapper.fromValue(-1);
+        DMWrapper sign = new DMWrapper(-1);
         return new DMWrapper(DM.times(this.dm, sign.getCasADiObject()));
     }
 

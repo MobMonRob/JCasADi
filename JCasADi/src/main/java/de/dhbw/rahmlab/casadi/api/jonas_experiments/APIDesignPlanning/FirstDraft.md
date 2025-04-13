@@ -1,99 +1,54 @@
-## Erster Entwurf API Design
+### 1. **Aktueller Aufbau der API**
 
-**Wichtig**: API so gestalten, dass sie den typischen Workflow für nicht-lineare Optimierungsprobleme vereinfacht
+Der aktuelle Stand der API basiert auf einem einfachen Ansatz, der darauf abzielt, die grundlegenden Anforderungen der nicht-linearen Optimierung zu erfüllen. Die API umfasst vor allem die Definition von **Variablen**, **Zielfunktionen** und **Nebenbedingungen** sowie deren Verwendung im Optimierungsprozess. Für den Zugriff auf die CasADi-Bibliothek habe ich bereits Wrapper-Klassen entwickelt, die grundlegende mathematische Operationen und Ausdrücke unterstützen, sowie Builder-Klassen, die es ermöglichen, die Variablen und Ausdrücke flexibel zu konfigurieren.
 
-### Typischer Workflow eines NLP-Problems:
+#### **Wichtige Elemente der aktuellen API:**
+- **Wrapper-Klassen:** Ich habe Wrapper für die CasADi-MX und DM-Objekte entwickelt, um eine einfachere Schnittstelle für die mathematischen Objekte zu bieten. Diese Wrapper abstrahieren die komplexeren Interaktionen mit der CasADi-Bibliothek und machen den Code benutzerfreundlicher.
 
-1. **Problemdefinition:**
-    - Definiere Optimierungsvariablen \( x \), Zielfunktion \( f(x) \), und Nebenbedingungen \( g(x) \).
+- **Builder-Klassen:** Builder für die Erstellung von Variablen und Ausdrücken ermöglichen eine einfache, schrittweise Erstellung von mathematischen Ausdrücken, ohne dass der Benutzer sich mit den Details der CasADi-API auseinandersetzen muss.
 
-2. **Zielfunktion definieren:**
-    - Definiere die mathematische Ausdrucksform für die Zielfunktion.
+- **Mathematische Ausdrücke:** Die API stellt grundlegende Operationen für mathematische Ausdrücke wie Addition, Subtraktion und Multiplikation zur Verfügung. Diese Ausdrücke können einfach durch Kettenaufrufe zusammengefügt werden.
 
-3. **Nebenbedingungen formulieren:**
-    - Definiere mathematische Ausdrücke für die Nebenbedingungen und füge sie zum Optimierungsproblem hinzu.
-
-4. **Setze Anfangswerte:**
-    - Initialisiere die Optimierungsvariablen mit Startwerten.
-
-5. **Wähle Lösungsverfahren:**
-    - Wähle einen geeigneten Optimierungsalgorithmus (z.B. IPOPT).
-
-6. **Lösen des Problems:**
-    - Führe das Optimierungsproblem mit dem gewählten Solver aus.
-
-7. **Ausgabe der Lösung:**
-    - Zeige die Werte der Variablen und der Zielfunktion, die das Optimierungsproblem lösen.
-
-8. **Analyse der Lösung:**
-    - Überprüfe, ob die Lösung gültig ist und alle Nebenbedingungen erfüllt sind.
-
-9. **Optional: Überwachung und Visualisierung:**
-    - Verfolge den Fortschritt der Iterationen und visualisiere die Ergebnisse (falls gewünscht).
+#### **Workflow des aktuellen API-Designs:**
+1. **Problemdefinition:** Der Benutzer kann Variablen und Ausdrücke erstellen und diese dann zu einer Zielfunktion und Nebenbedingungen zusammenfügen.
+2. **Zielfunktion und Constraints:** Die API ermöglicht es, eine Zielfunktion zu definieren, sowie lineare und nicht-lineare Nebenbedingungen hinzuzufügen.
+3. **Solver-Auswahl:** Der Benutzer kann einen Optimierer (z.B. IPOPT) wählen, der das Problem löst.
+4. **Ergebnisse:** Nach der Lösung des Problems können die Ergebnisse wie die Werte der Variablen und der Zielfunktion extrahiert werden.
 
 ---
 
-Wichtige Aspekte die beim API-Design berücksichtigt werden sollten:
+### 2. **Zukünftige Überlegungen und Verbesserungen**
 
-### 1. **Fokus auf Variablen & Ausdrücke**
+Obwohl die API bereits grundlegende Funktionalitäten zur Modellierung und Lösung von Optimierungsproblemen bietet, gibt es mehrere Verbesserungsmöglichkeiten und Erweiterungen, um sie benutzerfreundlicher und leistungsfähiger zu gestalten. Der Fokus liegt dabei auf der Verwendung von Design-Patterns wie dem **Builder Pattern** und dem **Fluent Interface**, die den Workflow für den Benutzer erheblich verbessern sollen. Zudem wird die API künftig stärker an der **JSR-331-Spezifikation** ausgerichtet sein, um eine standardisierte und flexible Schnittstelle für Optimierungsprobleme zu bieten.
 
-Für nicht-lineare Optimierung ist es besonders wichtig, 
-dass die Benutzer die mathematischen Ausdrücke für die Zielfunktion und die Nebenbedingungen in einer Art und Weise formulieren können, 
-die der Mathematik selbst nahe kommt. 
+#### **Geplante Änderungen:**
+1. **Verwendung des Builder Patterns für Variablen und Ausdrücke:**
+   - **Ziel:** Das Builder Pattern ermöglicht es, Variablen und Ausdrücke flexibel und schrittweise zu erstellen, ohne dass die API-Nutzer sich mit der internen Logik und den Konstruktoren der CasADi-Objekte beschäftigen müssen. Mit einem **VariableBuilder** und einem **ExpressionBuilder** wird die Erstellung von mathematischen Ausdrücken stark vereinfacht.
+   - **Beispiel:**
+     ```java
+     Variable x = new VariableBuilder().name("x").initialValue(1.0).build();
+     Expression expr = new ExpressionBuilder().addTerm(x.pow(2)).addTerm(Math.sin(y)).build();
+     ```
 
-D. h.: Einfache Möglichkeit bereitstellen, Variablen zu definieren und mathematische Ausdrücke zusammenzusetzen.
+2. **Fluent Interface für Zielfunktion und Nebenbedingungen:**
+   - **Ziel:** Durch die Einführung eines **Fluent Interface** können Zielfunktionen und Nebenbedingungen intuitiv und lesbar definiert werden. Der Benutzer kann die Ausdrücke direkt in der Art und Weise formulieren, wie sie in der mathematischen Notation erscheinen.
+   - **Beispiel:**
+     ```java
+     Objective objective = new ObjectiveBuilder().minimize(expr).build();
+     Constraint constraint1 = new ConstraintBuilder().expression(x.plus(2)).equalTo(5).build();
+     ```
 
-**Kernfunktionen für Variablen:**
-- Erstellen von Variablen (mit Anfangswerten und Grenzen).
-- Bearbeiten von Variablen, wie z.B. Setzen von Startwerten und Boundaries.
+3. **JSR-331-Kompatibilität und Solver-Integration:**
+   - **Ziel:** Die API wird JSR-331-konform sein, was bedeutet, dass sie mit anderen Optimierungsframeworks und -tools kompatibel ist. Ein **SolverBuilder** wird es dem Benutzer ermöglichen, verschiedene Solver wie IPOPT oder SNOPT auszuwählen, die das Problem lösen. Diese Integration ist notwendig, um den Standard in der Optimierungswelt zu nutzen und eine robuste Schnittstelle zu bieten.
+   - **Beispiel:**
+     ```java
+     Solver solver = new SolverBuilder().solverType(SolverType.IPOPT).build();
+     Solution solution = solver.solve(objective, Arrays.asList(constraint1));
+     ```
 
-**Vorschlag API-Design:**
-1. `Variable`: Diese Klasse kann die Variablen der Optimierung repräsentieren. 
-Sollte Methoden bereitstellen, um Variablen zu definieren und auf ihre Eigenschaften zuzugreifen.
+4. **Ergebnisse und Lösungsprozess:**
+   - **Ziel:** Die API wird eine **Solution**-Klasse bieten, die die Ergebnisse der Optimierung enthält, wie z.B. die Werte der Variablen und die Zielfunktion. Es wird auch Methoden zur Analyse der Lösung geben, z.B. zur Überprüfung der Gültigkeit der Lösung und der Erfüllung der Nebenbedingungen.
 
-2. **Mathematische Ausdrücke:** Die API sollte es den Nutzern ermöglichen, Ausdrücke zu erstellen, die mathematisch korrekt sind. 
-Kann durch eine benutzerfreundliche Möglichkeit zur Kombination von Variablen und Operationen wie Addition, Subtraktion, 
-Multiplikation und Division erreicht werden. 
-Um nicht-lineare Ausdrücke zu unterstützen, sollten auch Operationen wie Potenzen, 
-Exponentialfunktionen und andere mathematische Funktionen auf jeden Fall vorhanden sein.
+5. **Weitere Erweiterungen und Fehlerbehandlung:**
+   - **Ziel:** Die API soll erweiterbar sein, um zusätzliche Funktionen zu integrieren. Außerdem wird eine robuste Fehlerbehandlung implementiert, um ungültige Eingaben und fehlgeschlagene Optimierungen zu handhaben.
 
-### 2. **Zielfunktion und Nebenbedingungen**
-
-Für NLP-Probleme besteht das Ziel darin, eine Zielfunktion zu minimieren oder zu maximieren und bestimmte Nebenbedingungen zu berücksichtigen.
-
-**Kernfunktionen für Zielfunktionen und Nebenbedingungen:**
-- Definiere eine Zielfunktion, die durch ein mathematisches Ausdrucksobjekt oder eine Methode dargestellt wird.
-- Definiere Nebenbedingungen (Gleichungen und Ungleichungen).
-- Arbeite mit **nicht-linearen Ausdrücken**, da die typischen NLP-Probleme oft nicht-lineare Beziehungen zwischen den Variablen haben.
-
-**Vorschlag API-Design:**
-1. `Objective`: Diese Klasse kann eine Zielfunktion repräsentieren, die in einem mathematisch korrekten Ausdruck formuliert ist. 
-Sollte auch Methoden zur Manipulation der Zielfunktion enthalten.
-
-2. `Constraint`: Diese Klasse stellt eine Nebenbedingung dar, die entweder eine Gleichung oder Ungleichung sein kann.
-
-    - **Nebenbedingungen**: Diese könnten als Ausdrücke formuliert werden, die entweder als Gleichung (`==`) oder Ungleichung (`<=` oder `>=`) verwendet werden.
-
-### 3. **Solver-Integration**
-
-Für die nicht-lineare Optimierung wird eine Schnittstelle benötigt, um einen Solver zu integrieren, der das Optimierungsproblem löst.
-Dafür auf Solver zurückgreifen, die von JCasADi bereitgestellt werden.
-
-**Kernfunktionen für Solver:**
-- Möglichkeit, den Solver auszuwählen (z.B. IPOPT).
-- Mechanismus zum Starten und Überwachen des Lösungsprozesses.
-
-### 4. **Lösungsprozess und Ergebnisextraktion**
-
-Nachdem das Optimierungsproblem gelöst wurde, müssen die Benutzer auf die Ergebnisse zugreifen können, 
-insbesondere auf die Werte der Variablen und ggf. die Lagrange-Multiplikatoren oder den Wert der Zielfunktion.
-
-**API-Design für Lösungen:**
-1. `Solution`: Diese Klasse sollte den Wert der Optimierungsvariablen nach der Lösung des Problems enthalten.
-2. Möglichkeit, den Wert von Variablen nach dem Lösen des Problems zu extrahieren.
-
-### 5. **Zusätzliche Überlegungen**
-
-- **Erweiterbarkeit**: API sollte flexible sein, d. h. Integration neuer Funktionen ermöglichen
-- **Benutzerfreundliche API**: Es wäre sinnvoll, Methoden hinzuzufügen, die es dem Benutzer ermöglichen, Ausdrücke einfach zu erstellen (z.B. für nicht-lineare Funktionen wie `x^2 + sin(y)` oder `exp(x + y)`).
-- **Fehlerbehandlung**: Fehler- und Ausnahmebehandlungen implementieren, um sicherzustellen, dass ungültige Operationen oder Optimierungsprobleme korrekt behandelt werden.

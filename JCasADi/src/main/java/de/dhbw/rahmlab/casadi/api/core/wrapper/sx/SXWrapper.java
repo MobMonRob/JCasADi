@@ -57,7 +57,7 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
 
     public SXWrapper(DoubleVector... m) {
         DoubleVectorCollection collection = new DoubleVectorCollection();
-        Arrays.stream(m).forEach(collection::add);
+        collection.addAll(Arrays.asList(m));
         this.sx = new SX(collection.getCasADiObject());
     }
 

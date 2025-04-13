@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.utils;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
@@ -9,10 +10,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
-import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
-import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class MXUtils {
 
@@ -56,8 +54,8 @@ public class MXUtils {
      * @param opts Options for the forward computation.
      * @return VectorCollection. A new VectorCollection containing the result of the forward mode.
      */
-    public static MXVectorCollection forward(MXVector ex, MXVector arg, MXVectorCollection v, Dict opts) {
-        return new MXVectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
+    public static MXVectorCollection forward(MXVector ex, MXVector arg, MXVectorCollection v, Dictionary opts) {
+        return new MXVectorCollection(MX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
     }
 
     /**
@@ -81,8 +79,8 @@ public class MXUtils {
      * @param opts Options for the reverse computation.
      * @return VectorCollection. A new VectorCollection containing the result of the reverse mode.
      */
-    public static MXVectorCollection reverse(MXVector ex, MXVector arg, MXVectorCollection v, Dict opts) {
-        return new MXVectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
+    public static MXVectorCollection reverse(MXVector ex, MXVector arg, MXVectorCollection v, Dictionary opts) {
+        return new MXVectorCollection(MX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
     }
 
     /**
@@ -135,8 +133,8 @@ public class MXUtils {
      * @param vdef The MXVector representing the values to substitute.
      * @param opts The dictionary containing options for extraction.
      */
-    public static void extract(MXVector ex, MXVector v, MXVector vdef, Dict opts) {
-        MX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), opts);
+    public static void extract(MXVector ex, MXVector v, MXVector vdef, Dictionary opts) {
+        MX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), opts.getCasADiObject());
     }
 
     /**
@@ -260,8 +258,8 @@ public class MXUtils {
      * @param opts The dictionary containing options for the B-spline computation.
      * @return DM. A new DM containing the dual B-spline result.
      */
-    public static DMWrapper bsplineDual(DoubleVector x, DoubleVectorCollection knots, IntegerVector degree, Dict opts) {
-        return new DMWrapper(MX.bspline_dual(x.getCasADiObject(), knots.getCasADiObject(), degree.getCasADiObject(), opts));
+    public static DMWrapper bsplineDual(DoubleVector x, DoubleVectorCollection knots, IntegerVector degree, Dictionary opts) {
+        return new DMWrapper(MX.bspline_dual(x.getCasADiObject(), knots.getCasADiObject(), degree.getCasADiObject(), opts.getCasADiObject()));
     }
 
     /**

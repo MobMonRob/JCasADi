@@ -1,12 +1,12 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces;
 
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 
 public interface MatrixBuilder<T> {
 
     T setValue(double value);
 
-    T setValues(double... values);
+    T setValues(Number... values);
 
     T setDimensions(long rows, long cols);
 
@@ -16,26 +16,26 @@ public interface MatrixBuilder<T> {
 
     T setIdentitySize(long identitySize);
 
-    T setSparsity(Sparsity sparsity);
+    T setSparsity(SparsityWrapper sparsity);
 
     T setName(String name);
 
-    <N extends Wrapper> N buildFromValues();
+    <N extends Wrapper<?>> N buildFromValues();
 
-    <N extends Wrapper> N buildSymbolic();
+    <N extends Wrapper<?>> N buildSymbolic();
 
-    <N extends Wrapper> N buildOnes();
+    <N extends Wrapper<?>> N buildOnes();
 
-    <N extends Wrapper> N buildNaN();
+    <N extends Wrapper<?>> N buildNaN();
 
-    <N extends Wrapper> N buildInf();
+    <N extends Wrapper<?>> N buildInf();
 
-    <N extends Wrapper> N buildZeroMatrix();
+    <N extends Wrapper<?>> N buildZeroMatrix();
 
-    <N extends Wrapper> N buildIdentityMatrix();
+    <N extends Wrapper<?>> N buildIdentityMatrix();
 
-    <N extends Wrapper> N buildSparseMatrix();
+    <N extends Wrapper<?>> N buildSparseMatrix();
 
-    <N extends Wrapper> N build();
+    <N extends Wrapper<?>> N build();
 
 }

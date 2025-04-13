@@ -3,21 +3,25 @@ package de.dhbw.rahmlab.casadi.api.core.builder;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.MatrixBuilder;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Builder class for creating MXWrapper objects.
  */
 public class MXBuilder implements MatrixBuilder<MXBuilder> {
-    private double value;
-    private double[] values;
-    private long rows;
-    private long cols;
-    private Sparsity sparsity;
+    private Double value;
+    private Double[] values;
+    private Long rows;
+    private Long cols;
+    private SparsityWrapper sparsity;
     private String name;
-    private long identitySize;
+    private Long identitySize;
 
     /**
      * Sets a single constant value for the MX object.
@@ -39,8 +43,10 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @return the current instance of MXBuilder
      */
     @Override
-    public MXBuilder setValues(double... values) {
-        this.values = values;
+    public MXBuilder setValues(Number... values) {
+        this.values = Arrays.stream(values)
+                .map(Number::doubleValue)
+                .toArray(Double[]::new);
         this.value = Double.NaN;
         return this;
     }
@@ -68,7 +74,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
     @Override
     public MXBuilder setRows(long rows) {
         this.rows = rows;
-        this.cols = 1;
+        this.cols = 1L;
         return this;
     }
 
@@ -81,7 +87,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
     @Override
     public MXBuilder setCols(long cols) {
         this.cols = cols;
-        this.rows = 1;
+        this.rows = 1L;
         return this;
     }
 
@@ -109,7 +115,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @return the current instance of MXBuilder
      */
     @Override
-    public MXBuilder setSparsity(Sparsity sparsity) {
+    public MXBuilder setSparsity(SparsityWrapper sparsity) {
         this.sparsity = sparsity;
         return this;
     }
@@ -132,11 +138,12 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @return an MXWrapper containing the constructed MX object
      */
     @Override
+    @SuppressWarnings("unchecked")
     public MXWrapper buildFromValues() {
         if (values == null || values.length == 0) {
             return new MXWrapper(new MX(value));
         } else {
-            return new MXWrapper(new MX(new StdVectorDouble(values)));
+            return new MXWrapper(new MX(new StdVectorDouble(List.of(values))));
         }
     }
 
@@ -152,6 +159,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @throws IllegalArgumentException if the name is not set or is empty
      */
     @Override
+    @SuppressWarnings("unchecked")
     public MXWrapper buildSymbolic() {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name must be set for symbolic MX.");
@@ -160,7 +168,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
         } else if (rows > 0) {
             return MXWrapper.sym(name, rows);
         } else if (sparsity != null) {
-            return MXWrapper.sym(name, sparsity);
+            return MXWrapper.sym(name, sparsity.getCasADiObject());
         } else {
             return MXWrapper.sym(name);
         }
@@ -177,13 +185,14 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @return a MXWrapper containing the constructed matrix or vector filled with ones
      */
     @Override
+    @SuppressWarnings("unchecked")
     public DMWrapper buildOnes() {
         if (rows > 0 && cols > 0) {
             return DMWrapper.ones(rows, cols);
         } else if (rows > 0) {
             return DMWrapper.ones(rows);
         } else if (sparsity != null) {
-            return DMWrapper.ones(sparsity);
+            return DMWrapper.ones(sparsity.getCasADiObject());
         } else {
             return DMWrapper.ones();
         }
@@ -200,13 +209,14 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @return a MXWrapper containing the constructed matrix or vector filled with NaN
      */
     @Override
+    @SuppressWarnings("unchecked")
     public MXWrapper buildNaN() {
         if (rows > 0 && cols > 0) {
             return MXWrapper.nan(rows, cols);
         } else if (rows > 0) {
             return MXWrapper.nan(rows);
         } else if (sparsity != null) {
-            return MXWrapper.nan(sparsity);
+            return MXWrapper.nan(sparsity.getCasADiObject());
         } else {
             return MXWrapper.nan();
         }
@@ -223,13 +233,14 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @return a MXWrapper containing the constructed matrix or vector filled with Infinity
      */
     @Override
+    @SuppressWarnings("unchecked")
     public MXWrapper buildInf() {
         if (rows > 0 && cols > 0) {
             return MXWrapper.inf(rows, cols);
         } else if (rows > 0) {
             return MXWrapper.inf(rows);
         } else if (sparsity != null) {
-            return MXWrapper.inf(sparsity);
+            return MXWrapper.inf(sparsity.getCasADiObject());
         } else {
             return MXWrapper.inf();
         }
@@ -241,13 +252,14 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @return an MXWrapper containing the zero matrix
      */
     @Override
+    @SuppressWarnings("unchecked")
     public MXWrapper buildZeroMatrix() {
         if (rows > 0 && cols > 0) {
             return MXWrapper.zeros(rows, cols);
         } else if (rows > 0) {
             return MXWrapper.zeros(rows);
         } else if (sparsity != null) {
-            return MXWrapper.zeros(sparsity);
+            return MXWrapper.zeros(sparsity.getCasADiObject());
         } else {
             return MXWrapper.zeros();
         }
@@ -259,6 +271,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @return an MXWrapper containing the identity matrix
      */
     @Override
+    @SuppressWarnings("unchecked")
     public MXWrapper buildIdentityMatrix() {
         return MXWrapper.eye(identitySize);
     }
@@ -270,11 +283,12 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @throws IllegalStateException if sparsity is not set
      */
     @Override
+    @SuppressWarnings("unchecked")
     public MXWrapper buildSparseMatrix() {
         if (sparsity == null) {
             throw new IllegalStateException("Sparsity must be set for a sparse matrix.");
         }
-        return new MXWrapper(new MX(sparsity));
+        return new MXWrapper(new MX(sparsity.getCasADiObject()));
     }
 
     /**
@@ -283,26 +297,27 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
      * @return an MXWrapper containing the constructed MX object
      */
     @Override
+    @SuppressWarnings("unchecked")
     public MXWrapper build() {
         if (sparsity != null && values != null) {
-            return MXWrapper.fromSparsityAndValues(sparsity, buildFromValues());
+            return new MXWrapper(sparsity, buildFromValues());
         }
         if (sparsity != null) {
-            return MXWrapper.fromSparsity(sparsity);
+            return new MXWrapper(sparsity);
         }
         if (values != null) {
-            return MXWrapper.fromValues(values);
+            return new MXWrapper(values);
         }
         if (rows > 0 && cols > 0) {
-            return MXWrapper.fromSize(rows, cols);
+            return new MXWrapper(rows, cols);
         }
         if (rows > 0) {
-            this.cols = 1;
-            return MXWrapper.fromSize(rows, cols);
+            this.cols = 1L;
+            return new MXWrapper(rows, cols);
         }
         if (cols > 0) {
-            this.rows = 1;
-            return MXWrapper.fromSize(rows, cols);
+            this.rows = 1L;
+            return new MXWrapper(rows, cols);
         }
         if (rows > 0 && cols > 0 && rows == cols) {
             return MXWrapper.eye(rows);

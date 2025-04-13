@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.problem;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
@@ -57,8 +58,8 @@ public class NLPResult {
         return new MXVector(this.optiSol.value_parameters());
     }
 
-    public Dict getStats() {
-        return this.optiSol.stats();
+    public Dictionary getStats() {
+        return new Dictionary(this.optiSol.stats());
     }
 
     public NLPProblem getProblem() {

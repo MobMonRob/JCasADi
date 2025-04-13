@@ -1,18 +1,22 @@
 package de.dhbw.rahmlab.casadi.api.core.builder;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.MatrixBuilder;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SXBuilder implements MatrixBuilder<SXBuilder> {
-    private double value;
-    private double[] values;
-    private long rows;
-    private long cols;
+    private Double value;
+    private Double[] values;
+    private Long rows;
+    private Long cols;
     private String name;
-    private Sparsity sparsity;
-    private long identitySize;
+    private SparsityWrapper sparsity;
+    private Long identitySize;
 
     @Override
     public SXBuilder setValue(double value) {
@@ -22,8 +26,10 @@ public class SXBuilder implements MatrixBuilder<SXBuilder> {
     }
 
     @Override
-    public SXBuilder setValues(double... values) {
-        this.values = values;
+    public SXBuilder setValues(Number... values) {
+        this.values = Arrays.stream(values)
+                .map(Number::doubleValue)
+                .toArray(Double[]::new);
         this.value = Double.NaN;
         return this;
     }
@@ -38,14 +44,14 @@ public class SXBuilder implements MatrixBuilder<SXBuilder> {
     @Override
     public SXBuilder setRows(long rows) {
         this.rows = rows;
-        this.cols = 1;
+        this.cols = 1L;
         return this;
     }
 
     @Override
     public SXBuilder setCols(long cols) {
         this.cols = cols;
-        this.rows = 1;
+        this.rows = 1L;
         return this;
     }
 
@@ -56,7 +62,7 @@ public class SXBuilder implements MatrixBuilder<SXBuilder> {
     }
 
     @Override
-    public SXBuilder setSparsity(Sparsity sparsity) {
+    public SXBuilder setSparsity(SparsityWrapper sparsity) {
         this.sparsity = sparsity;
         return this;
     }
@@ -68,15 +74,17 @@ public class SXBuilder implements MatrixBuilder<SXBuilder> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SXWrapper buildFromValues() {
         if (values == null || values.length == 0) {
             return new SXWrapper(value);
         } else {
-            return new SXWrapper(new DoubleVector(values));
+            return new SXWrapper(new DoubleVector(List.of(values)));
         }
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SXWrapper buildSymbolic() {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name must be set for symbolic SX.");
@@ -86,46 +94,49 @@ public class SXBuilder implements MatrixBuilder<SXBuilder> {
         } else if (rows > 0) {
             return SXWrapper.sym(name, rows);
         } else if (sparsity != null) {
-            return SXWrapper.sym(name, sparsity);
+            return SXWrapper.sym(name, sparsity.getCasADiObject());
         } else {
             return SXWrapper.sym(name);
         }
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SXWrapper buildOnes() {
         if (rows > 0 && cols > 0) {
             return SXWrapper.ones(rows, cols);
         } else if (rows > 0) {
             return SXWrapper.ones(rows);
         } else if (sparsity != null) {
-            return SXWrapper.ones(sparsity);
+            return SXWrapper.ones(sparsity.getCasADiObject());
         } else {
             return SXWrapper.ones();
         }
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SXWrapper buildNaN() {
         if (rows > 0 && cols > 0) {
             return SXWrapper.nan(rows, cols);
         } else if (rows > 0) {
             return SXWrapper.nan(rows);
         } else if (sparsity != null) {
-            return SXWrapper.nan(sparsity);
+            return SXWrapper.nan(sparsity.getCasADiObject());
         } else {
             return SXWrapper.nan();
         }
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SXWrapper buildInf() {
         if (rows > 0 && cols > 0) {
             return SXWrapper.inf(rows, cols);
         } else if (rows > 0) {
             return SXWrapper.inf(rows);
         } else if (sparsity != null) {
-            return SXWrapper.inf(sparsity);
+            return SXWrapper.inf(sparsity.getCasADiObject());
         } else {
             return SXWrapper.inf();
         }
@@ -137,58 +148,62 @@ public class SXBuilder implements MatrixBuilder<SXBuilder> {
         } else if (rows > 0) {
             return SXWrapper.rand(rows);
         } else if (sparsity != null) {
-            return SXWrapper.rand(sparsity);
+            return SXWrapper.rand(sparsity.getCasADiObject());
         } else {
             return SXWrapper.rand();
         }
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SXWrapper buildZeroMatrix() {
         if (rows > 0 && cols > 0) {
             return SXWrapper.zeros(rows, cols);
         } else if (rows > 0) {
             return SXWrapper.zeros(rows);
         } else if (sparsity != null) {
-            return SXWrapper.zeros(sparsity);
+            return SXWrapper.zeros(sparsity.getCasADiObject());
         } else {
             return SXWrapper.zeros();
         }
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SXWrapper buildIdentityMatrix() {
         return SXWrapper.eye(identitySize);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SXWrapper buildSparseMatrix() {
         if (sparsity == null) {
             throw new IllegalArgumentException("Sparsity must be set for identity matrix.");
         }
-        return new SXWrapper(sparsity);
+        return new SXWrapper(sparsity.getCasADiObject());
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SXWrapper build() {
         if (sparsity != null && values != null) {
-            return new SXWrapper(sparsity, buildFromValues());
+            return new SXWrapper(sparsity.getCasADiObject(), buildFromValues());
         }
         if (sparsity != null) {
-            return new SXWrapper(sparsity);
+            return new SXWrapper(sparsity.getCasADiObject());
         }
         if (values != null) {
-            return new SXWrapper(new DoubleVector(values));
+            return new SXWrapper(new DoubleVector(List.of(values)));
         }
         if (rows > 0 && cols > 0) {
             return new SXWrapper(rows, cols);
         }
         if (rows > 0) {
-            this.cols = 1;
+            this.cols = 1L;
             return new SXWrapper(rows, cols);
         }
         if (cols > 0) {
-            this.rows = 1;
+            this.rows = 1L;
             return new SXWrapper(rows, cols);
         }
         if (rows > 0 && cols > 0 && rows == cols) {

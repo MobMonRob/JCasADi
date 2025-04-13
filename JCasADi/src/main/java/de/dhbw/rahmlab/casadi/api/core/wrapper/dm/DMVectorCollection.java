@@ -1,7 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVectorCollection;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDM;
 
 import java.util.AbstractList;

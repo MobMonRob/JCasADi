@@ -1,14 +1,14 @@
 package de.dhbw.rahmlab.casadi.api.core.utils;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.StringVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class SXUtils {
 
@@ -54,8 +54,8 @@ public class SXUtils {
         SX.substitute_inplace(v.getCasADiObject(), vdef.getCasADiObject(), ex.getCasADiObject(), revers);
     }
 
-    public static void extract(SXVector ex, SXVector v, SXVector vdef, Dict ops) {
-        SX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), ops);
+    public static void extract(SXVector ex, SXVector v, SXVector vdef, Dictionary ops) {
+        SX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), ops.getCasADiObject());
     }
 
     public static void extract(SXVector ex, SXVector v, SXVector vdef) {
@@ -86,16 +86,16 @@ public class SXUtils {
         return new SXVector(SX.cse(e.getCasADiObject()));
     }
 
-    public static SXVectorCollection forward(SXVector ex, SXVector arg, SXVectorCollection v, Dict opts) {
-        return new SXVectorCollection(SX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
+    public static SXVectorCollection forward(SXVector ex, SXVector arg, SXVectorCollection v, Dictionary opts) {
+        return new SXVectorCollection(SX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public static SXVectorCollection forward(SXVector ex, SXVector arg, SXVectorCollection v) {
         return new SXVectorCollection(SX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
-    public static SXVectorCollection reverse(SXVector ex, SXVector arg, SXVectorCollection v, Dict opts) {
-        return new SXVectorCollection(SX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts));
+    public static SXVectorCollection reverse(SXVector ex, SXVector arg, SXVectorCollection v, Dictionary opts) {
+        return new SXVectorCollection(SX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public static SXVectorCollection reverse(SXVector ex, SXVector arg, SXVectorCollection v) {
@@ -138,12 +138,12 @@ public class SXUtils {
         SX.rng(seed);
     }
 
-    public static void toFile(String filename, Sparsity sp, SXComponent nonzeros, String format) {
-        SX.to_file(filename, sp, nonzeros.getCasADiObject(), format);
+    public static void toFile(String filename, SparsityWrapper sp, SXComponent nonzeros, String format) {
+        SX.to_file(filename, sp.getCasADiObject(), nonzeros.getCasADiObject(), format);
     }
 
-    public static void toFile(String filename, Sparsity sp, SXComponent nonzeros) {
-        SX.to_file(filename, sp, nonzeros.getCasADiObject());
+    public static void toFile(String filename, SparsityWrapper sp, SXComponent nonzeros) {
+        SX.to_file(filename, sp.getCasADiObject(), nonzeros.getCasADiObject());
     }
 
     public static DMWrapper fromFile(String filename, String formatHint) {

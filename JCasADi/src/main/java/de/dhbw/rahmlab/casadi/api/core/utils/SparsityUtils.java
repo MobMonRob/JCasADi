@@ -15,42 +15,6 @@ public class SparsityUtils {
         return new SparsityWrapper(Sparsity.scalar());
     }
 
-    public static SparsityWrapper dense(long nrow, long ncol) {
-        return new SparsityWrapper(Sparsity.dense(nrow, ncol));
-    }
-
-    public static SparsityWrapper dense(long nrow) {
-        return new SparsityWrapper(Sparsity.dense(nrow));
-    }
-
-    public static SparsityWrapper unit(long n, long el) {
-        return new SparsityWrapper(Sparsity.unit(n, el));
-    }
-
-    public static SparsityWrapper upper(long n) {
-        return new SparsityWrapper(Sparsity.upper(n));
-    }
-
-    public static SparsityWrapper lower(long n) {
-        return new SparsityWrapper(Sparsity.lower(n));
-    }
-
-    public static SparsityWrapper diag(long nrow) {
-        return new SparsityWrapper(Sparsity.diag(nrow));
-    }
-
-    public static SparsityWrapper diag(long nrow, long ncol) {
-        return new SparsityWrapper(Sparsity.diag(nrow, ncol));
-    }
-
-    public static SparsityWrapper band(long n, long p) {
-        return new SparsityWrapper(Sparsity.band(n, p));
-    }
-
-    public static SparsityWrapper banded(long n, long p) {
-        return new SparsityWrapper(Sparsity.banded(n, p));
-    }
-
     public static SparsityWrapper rowcol(IntegerVector row, IntegerVector col, long nrow, long ncol) {
         return new SparsityWrapper(Sparsity.rowcol(row.getCasADiObject(), col.getCasADiObject(), nrow, ncol));
     }
