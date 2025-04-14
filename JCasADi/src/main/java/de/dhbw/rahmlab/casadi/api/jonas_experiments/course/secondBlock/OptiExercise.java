@@ -1,8 +1,8 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course.secondBlock;
 
 import de.dhbw.rahmlab.casadi.api.core.builder.MXBuilder;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.MXVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
@@ -374,7 +374,9 @@ public class OptiExercise {
         MXWrapper x1 = new MXBuilder().setName("X").setDimensions(2, 2).build();
         MXWrapper y1 = new MXBuilder().setName("Y").setDimensions(2, 2).build();
 
-        MXVector vectorMX = new MXVector().add(x1).add(y1);
+		MXVector vectorMX = new MXVector();
+		vectorMX.add(x1);
+		vectorMX.add(y1);
 
         for(int i = 0; i < vectorMX.size(); i++) {
             System.out.println(vectorMX.get(i).getCasADiObject());

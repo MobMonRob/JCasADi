@@ -324,18 +324,6 @@ public class NLPProblem {
         this.nlpProblem.callback_class();
     }
 
-    public String getClassname() {
-        return this.nlpProblem.class_name();
-    }
-
-    public boolean isNull() {
-        return this.nlpProblem.is_null();
-    }
-
-    public long hash() {
-        return this.nlpProblem.__hash__();
-    }
-
     public Opti getCasADiObject() {
         return nlpProblem;
     }

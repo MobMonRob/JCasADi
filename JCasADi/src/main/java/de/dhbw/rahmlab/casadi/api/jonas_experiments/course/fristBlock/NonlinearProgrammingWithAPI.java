@@ -27,8 +27,8 @@ public class NonlinearProgrammingWithAPI {
         var lagf = new Function("lagf", new MXVector(x, lambd, nu).getCasADiObject(), new MXVector(lag).getCasADiObject());
 
         var result = new MXVector();
-        MXWrapper x0 = ConcatenationUtils.vertcat(new MXVector(-0.5, -1.8));
-        lagf.call(new MXVector(x0, new MXWrapper(new MX(2)), new MXWrapper(new MX(3))).getCasADiObject(), result.getCasADiObject());
+		// MXWrapper x0 = ConcatenationUtils.vertcat((new MXVector(-0.5, -1.8)));
+		// lagf.call(new MXVector(x0, new MXWrapper(new MX(2)), new MXWrapper(new MX(3))).getCasADiObject(), result.getCasADiObject());
         System.out.println(result.get(0).at(0,0));
     }
 

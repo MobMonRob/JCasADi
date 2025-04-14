@@ -3,6 +3,7 @@ package de.dhbw.rahmlab.casadi.nativelib;
 import de.dhbw.rahmlab.casadi.impl.casadi.GlobalOptions;
 import de.dhbw.rahmlab.nativelibloader.api.NativeLib;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class NativeLibLoader {

@@ -8,8 +8,13 @@ import java.util.Map;
 
 import static de.dhbw.rahmlab.casadi.impl.casadi.MX.mtimes;
 import static de.dhbw.rahmlab.casadi.impl.core__.*;
+import de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader;
 
 public class Nlpsol {
+
+	static {
+		NativeLibLoader.setDebug(true);
+	}
 
     // Exercise sheet
     static double m = 0.04593; // ball mass [kg]
@@ -35,7 +40,7 @@ public class Nlpsol {
         var ode = new StdMapStringToMX(inputMap);
         var options = new Dict();
         options.put("tf", new GenericType(1));
-        var intg = integrator("intg", "cvodes", ode, options);
+		var intg = integrator("intg", "rk", ode, options);
         return intg;
     }
 
@@ -48,7 +53,7 @@ public class Nlpsol {
         var function_input = new StdMapStringToMX(ode_T);
         var dict = new Dict();
         dict.put("tf", new GenericType(1));
-        var intg = integrator("intg", "cvodes", function_input, dict);
+		var intg = integrator("intg", "rk", function_input, dict);
 
         System.out.println(intg);
 
@@ -312,7 +317,12 @@ public class Nlpsol {
         System.out.println(result1.get("x"));
     }
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
+		var path = System.getenv("LD_LIBRARY_PATH");
+		System.out.println(path);
+		System.out.println("....");
+		System.out.println("....");
+		System.out.println("....");
 //        exercise_presentation();
 //        exercise1_1();
 //        exercise1_2();
@@ -320,8 +330,8 @@ public class Nlpsol {
 //        exercise2_2();
 //        exercise2_3();
 //        exercise2_4();
-        exercise2_5();
-//        exercise3_1();
+//        exercise2_5();
+		exercise3_1();
 //        exercise3_2();
     }
 
