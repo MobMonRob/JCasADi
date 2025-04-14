@@ -8,13 +8,13 @@ public interface Collection<T> {
 
     T set(int index, T vector);
 
-    <N extends Collection> N insert(T vector);
+    <N extends Collection<?>> N insert(T vector);
 
-    <N extends Collection> N insert(int index, T vector);
+    <N extends Collection<?>> N insert(int index, T vector);
 
-    <N extends Collection> N clearAndAdd(T vector);
+    <N extends Collection<?>> N clearAndAdd(T vector);
 
-    <N extends Collection> N reserveAndAdd(long n, T vector);
+    <N extends Collection<?>> N reserveAndAdd(long n, T vector);
 
     T remove(int index);
 

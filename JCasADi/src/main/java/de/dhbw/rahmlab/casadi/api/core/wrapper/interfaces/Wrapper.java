@@ -1,22 +1,21 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.BooleanVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.StringVector;
-import de.dhbw.rahmlab.casadi.impl.casadi.IM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
-public interface Wrapper<T extends Wrapper> {
+public interface Wrapper<T extends Wrapper<?>> {
 
     String typeName();
 
-    Sparsity sparsity();
+    SparsityWrapper sparsity();
 
     boolean nonzero();
 
@@ -66,7 +65,7 @@ public interface Wrapper<T extends Wrapper> {
 
     long op();
 
-    Dict info();
+    Dictionary info();
 
     T binary(long op, T y);
 
@@ -78,7 +77,7 @@ public interface Wrapper<T extends Wrapper> {
 
     T get(boolean ind1, IMWrapper rr);
 
-    T get(boolean ind1, Sparsity sp);
+    T get(boolean ind1, SparsityWrapper sp);
 
     T get(boolean ind1, Slice rr, Slice cc);
 
@@ -96,7 +95,7 @@ public interface Wrapper<T extends Wrapper> {
 
     void set(T m, boolean ind1, IMWrapper rr);
 
-    void set(T m, boolean ind1, Sparsity sp);
+    void set(T m, boolean ind1, SparsityWrapper sp);
 
     void set(T m, boolean ind1, Slice rr, Slice cc);
 
@@ -140,21 +139,21 @@ public interface Wrapper<T extends Wrapper> {
 
     T reshape(long nrow, long ncol);
 
-    T reshape(Sparsity sp);
+    T reshape(SparsityWrapper sp);
 
-    T sparsityCast(Sparsity sp);
+    T sparsityCast(SparsityWrapper sp);
 
     T kron(T b);
 
-    T jacobian(T x, Dict opts);
+    T jacobian(T x, Dictionary opts);
 
     T jacobian(T x);
 
-    T hessian(T x, Dict opts);
+    T hessian(T x, Dictionary opts);
 
     T hessian(T x);
 
-    T hessian(T x, T g, Dict opts);
+    T hessian(T x, T g, Dictionary opts);
 
     T hessian(T x, T g);
 
@@ -164,23 +163,23 @@ public interface Wrapper<T extends Wrapper> {
 
     BooleanVector whichDepends(T var);
 
-    Sparsity jacobianSparsity(T x);
+    SparsityWrapper jacobianSparsity(T x);
 
     T substitute(T v, T vdef);
 
     T solve(T b);
 
-    T solve(T b, String lsolver, Dict dict);
+    T solve(T b, String lsolver, Dictionary dict);
 
     T invMinor();
 
     T inv();
 
-    T inv(String lsolver, Dict dict);
+    T inv(String lsolver, Dictionary dict);
 
     T pinv();
 
-    T pinv(String lsolver, Dict dict);
+    T pinv(String lsolver, Dictionary dict);
 
     T expmConst(T t);
 
@@ -232,9 +231,9 @@ public interface Wrapper<T extends Wrapper> {
 
     T densify();
 
-    T project(Sparsity sp, boolean intersect);
+    T project(SparsityWrapper sp, boolean intersect);
 
-    T project(Sparsity sp);
+    T project(SparsityWrapper sp);
 
     T cumsum(long axis);
 
@@ -366,21 +365,21 @@ public interface Wrapper<T extends Wrapper> {
 
     T logsumexp();
 
-    T jtimes(T arg, T v, boolean tr, Dict opts);
+    T jtimes(T arg, T v, boolean tr, Dictionary opts);
 
     T jtimes(T arg, T v, boolean tr);
 
     T jtimes(T arg, T v);
 
-    T gradient(T arg, Dict opts);
+    T gradient(T arg, Dictionary opts);
 
     T gradient(T arg);
 
-    T tangent(T arg, Dict opts);
+    T tangent(T arg, Dictionary opts);
 
     T tangent(T arg);
 
-    T linearize(T x, T x0, Dict opts);
+    T linearize(T x, T x0, Dictionary opts);
 
     T linearize(T x, T x0);
 

@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.im;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.*;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
@@ -7,8 +8,6 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.IM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 import java.util.Arrays;
 import java.util.List;
@@ -93,16 +92,16 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         this.im = new IM(vector.getCasADiObject());
     }
 
-    public IMWrapper(Sparsity sp, long val, boolean dummy) {
-        this.im = new IM(sp, val, dummy);
+    public IMWrapper(SparsityWrapper sp, long val, boolean dummy) {
+        this.im = new IM(sp.getCasADiObject(), val, dummy);
     }
 
-    public IMWrapper(Sparsity sp, IntegerVector val, boolean dummy) {
-        this.im = new IM(sp, val.getCasADiObject(), dummy);
+    public IMWrapper(SparsityWrapper sp, IntegerVector val, boolean dummy) {
+        this.im = new IM(sp.getCasADiObject(), val.getCasADiObject(), dummy);
     }
 
-    public static IMWrapper inf(Sparsity sp) {
-        return new IMWrapper(IM.inf(sp));
+    public static IMWrapper inf(SparsityWrapper sp) {
+        return new IMWrapper(IM.inf(sp.getCasADiObject()));
     }
 
     public static IMWrapper inf(long nrow, long ncol) {
@@ -117,8 +116,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         return new IMWrapper(IM.inf());
     }
 
-    public static IMWrapper nan(Sparsity sp) {
-        return new IMWrapper(IM.nan(sp));
+    public static IMWrapper nan(SparsityWrapper sp) {
+        return new IMWrapper(IM.nan(sp.getCasADiObject()));
     }
 
     public static IMWrapper nan(long nrow, long ncol) {
@@ -149,8 +148,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         return new IMWrapper(IM.rand());
     }
 
-    public static IMWrapper rand(Sparsity sp) {
-        return new IMWrapper(IM.rand(sp));
+    public static IMWrapper rand(SparsityWrapper sp) {
+        return new IMWrapper(IM.rand(sp.getCasADiObject()));
     }
 
     public static IMWrapper sym(String name, long nrow, long ncol) {
@@ -165,8 +164,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         return new IMWrapper(IM.sym(name));
     }
 
-    public static IMWrapper sym(String name, Sparsity sp) {
-        return new IMWrapper(IM.sym(name, sp));
+    public static IMWrapper sym(String name, SparsityWrapper sp) {
+        return new IMWrapper(IM.sym(name, sp.getCasADiObject()));
     }
 
     public static IMWrapper zeros(long nrow, long ncol) {
@@ -181,8 +180,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         return new IMWrapper(IM.zeros());
     }
 
-    public static IMWrapper zeros(Sparsity sp) {
-        return new IMWrapper(IM.zeros(sp));
+    public static IMWrapper zeros(SparsityWrapper sp) {
+        return new IMWrapper(IM.zeros(sp.getCasADiObject()));
     }
 
     public static IMWrapper ones(long nrow, long ncol) {
@@ -197,8 +196,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         return new IMWrapper(IM.ones());
     }
 
-    public static IMWrapper ones(Sparsity sp) {
-        return new IMWrapper(IM.ones(sp));
+    public static IMWrapper ones(SparsityWrapper sp) {
+        return new IMWrapper(IM.ones(sp.getCasADiObject()));
     }
 
     public long scalar() {
@@ -237,9 +236,9 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper get(boolean ind1, Sparsity sp) {
+    public IMWrapper get(boolean ind1, SparsityWrapper sp) {
         IMWrapper output = new IMWrapper();
-        this.im.get(output.getCasADiObject(), ind1, sp);
+        this.im.get(output.getCasADiObject(), ind1, sp.getCasADiObject());
         return output;
     }
 
@@ -296,8 +295,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public void set(IMWrapper m, boolean ind1, Sparsity sp) {
-        this.im.set(m.getCasADiObject(), ind1, sp);
+    public void set(IMWrapper m, boolean ind1, SparsityWrapper sp) {
+        this.im.set(m.getCasADiObject(), ind1, sp.getCasADiObject());
     }
 
     @Override
@@ -386,8 +385,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper jacobian(IMWrapper x, Dict opts) {
-        return new IMWrapper(IM.jacobian(this.im, x.getCasADiObject(), opts));
+    public IMWrapper jacobian(IMWrapper x, Dictionary opts) {
+        return new IMWrapper(IM.jacobian(this.im, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -396,13 +395,13 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public Sparsity jacobianSparsity(IMWrapper x) {
-        return IM.jacobian_sparsity(this.im, x.getCasADiObject());
+    public SparsityWrapper jacobianSparsity(IMWrapper x) {
+        return new SparsityWrapper(IM.jacobian_sparsity(this.im, x.getCasADiObject()));
     }
 
     @Override
-    public IMWrapper hessian(IMWrapper x, Dict opts) {
-        return new IMWrapper(IM.hessian(this.im, x.getCasADiObject(), opts));
+    public IMWrapper hessian(IMWrapper x, Dictionary opts) {
+        return new IMWrapper(IM.hessian(this.im, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -411,8 +410,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper hessian(IMWrapper x, IMWrapper g, Dict opts) {
-        return new IMWrapper(IM.hessian(this.im, x.getCasADiObject(), g.getCasADiObject(), opts));
+    public IMWrapper hessian(IMWrapper x, IMWrapper g, Dictionary opts) {
+        return new IMWrapper(IM.hessian(this.im, x.getCasADiObject(), g.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -431,8 +430,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper pinv(String lsolver, Dict dict) {
-        return new IMWrapper(IM.pinv(this.im, lsolver, dict));
+    public IMWrapper pinv(String lsolver, Dictionary dict) {
+        return new IMWrapper(IM.pinv(this.im, lsolver, dict.getCasADiObject()));
     }
 
     @Override
@@ -451,8 +450,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper solve(IMWrapper b, String lsolver, Dict dict) {
-        return new IMWrapper(IM.solve(this.im, b.getCasADiObject(), lsolver, dict));
+    public IMWrapper solve(IMWrapper b, String lsolver, Dictionary dict) {
+        return new IMWrapper(IM.solve(this.im, b.getCasADiObject(), lsolver, dict.getCasADiObject()));
     }
 
     @Override
@@ -461,8 +460,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper inv(String lsolver, Dict dict) {
-        return new IMWrapper(IM.inv(this.im, lsolver, dict));
+    public IMWrapper inv(String lsolver, Dictionary dict) {
+        return new IMWrapper(IM.inv(this.im, lsolver, dict.getCasADiObject()));
     }
 
     @Override
@@ -557,13 +556,13 @@ public class IMWrapper implements Wrapper<IMWrapper> {
 
 
     @Override
-    public IMWrapper project(Sparsity sp, boolean intersect) {
-        return new IMWrapper(IM.project(this.im, sp, intersect));
+    public IMWrapper project(SparsityWrapper sp, boolean intersect) {
+        return new IMWrapper(IM.project(this.im, sp.getCasADiObject(), intersect));
     }
 
     @Override
-    public IMWrapper project(Sparsity sp) {
-        return new IMWrapper(IM.project(this.im, sp));
+    public IMWrapper project(SparsityWrapper sp) {
+        return new IMWrapper(IM.project(this.im, sp.getCasADiObject()));
     }
 
     @Override
@@ -613,13 +612,13 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper reshape(Sparsity sp) {
-        return new IMWrapper(IM.reshape(this.im, sp));
+    public IMWrapper reshape(SparsityWrapper sp) {
+        return new IMWrapper(IM.reshape(this.im, sp.getCasADiObject()));
     }
 
     @Override
-    public IMWrapper sparsityCast(Sparsity sp) {
-        return new IMWrapper(IM.sparsity_cast(this.im, sp));
+    public IMWrapper sparsityCast(SparsityWrapper sp) {
+        return new IMWrapper(IM.sparsity_cast(this.im, sp.getCasADiObject()));
     }
 
     @Override
@@ -894,8 +893,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public Sparsity sparsity() {
-        return this.im.sparsity();
+    public SparsityWrapper sparsity() {
+        return new SparsityWrapper(this.im.sparsity());
     }
 
     public long elementHash() {
@@ -1016,8 +1015,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public Dict info() {
-        return this.im.info();
+    public Dictionary info() {
+        return new Dictionary(this.im.info());
     }
 
     public String serialize() {
@@ -1330,8 +1329,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper jtimes(IMWrapper arg, IMWrapper v, boolean tr, Dict opts) {
-        return new IMWrapper(IM.jtimes_(this.im, arg.getCasADiObject(), v.getCasADiObject(), tr, opts));
+    public IMWrapper jtimes(IMWrapper arg, IMWrapper v, boolean tr, Dictionary opts) {
+        return new IMWrapper(IM.jtimes_(this.im, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
     }
 
     @Override
@@ -1345,8 +1344,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper gradient(IMWrapper arg, Dict opts) {
-        return new IMWrapper(IM.gradient(this.im, arg.getCasADiObject(), opts));
+    public IMWrapper gradient(IMWrapper arg, Dictionary opts) {
+        return new IMWrapper(IM.gradient(this.im, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -1355,8 +1354,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper tangent(IMWrapper arg, Dict opts) {
-        return new IMWrapper(IM.tangent(this.im, arg.getCasADiObject(), opts));
+    public IMWrapper tangent(IMWrapper arg, Dictionary opts) {
+        return new IMWrapper(IM.tangent(this.im, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -1365,8 +1364,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper linearize(IMWrapper x, IMWrapper x0, Dict opts) {
-        return new IMWrapper(IM.linearize(this.im, x.getCasADiObject(), x0.getCasADiObject(), opts));
+    public IMWrapper linearize(IMWrapper x, IMWrapper x0, Dictionary opts) {
+        return new IMWrapper(IM.linearize(this.im, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override

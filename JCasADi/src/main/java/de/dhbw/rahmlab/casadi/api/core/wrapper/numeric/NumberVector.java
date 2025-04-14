@@ -1,7 +1,5 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.numeric;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
-
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;

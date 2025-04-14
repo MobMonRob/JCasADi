@@ -1,19 +1,16 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.sx;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.*;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SymbolicExpression;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
-import de.dhbw.rahmlab.casadi.impl.casadi.IM;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorDouble;
 
-import javax.constraints.ConstrainedVariable;
-import javax.constraints.Problem;
 import java.util.Arrays;
 
 public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
@@ -33,12 +30,12 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         this.sx = new SX(nrow, ncol);
     }
 
-    public SXWrapper(Sparsity sp) {
-        this.sx = new SX(sp);
+    public SXWrapper(SparsityWrapper sp) {
+        this.sx = new SX(sp.getCasADiObject());
     }
 
-    public SXWrapper(Sparsity sp, SXWrapper d) {
-        this.sx = new SX(sp, d.getCasADiObject());
+    public SXWrapper(SparsityWrapper sp, SXWrapper d) {
+        this.sx = new SX(sp.getCasADiObject(), d.getCasADiObject());
     }
 
     public SXWrapper(Number value) {
@@ -65,12 +62,12 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         this.sx = new SX(x.getCasADiObject());
     }
 
-    public SXWrapper(Sparsity sp, SXComponent val, boolean dummy) {
-        this.sx = new SX(sp, val.getCasADiObject(), dummy);
+    public SXWrapper(SparsityWrapper sp, SXComponent val, boolean dummy) {
+        this.sx = new SX(sp.getCasADiObject(), val.getCasADiObject(), dummy);
     }
 
-    public SXWrapper(Sparsity sp, SXComponentVector d, boolean dummy) {
-        this.sx = new SX(sp, d.getCasADiObject(), dummy);
+    public SXWrapper(SparsityWrapper sp, SXComponentVector d, boolean dummy) {
+        this.sx = new SX(sp.getCasADiObject(), d.getCasADiObject(), dummy);
     }
 
     public SXComponent scalar() {
@@ -110,9 +107,9 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper get(boolean ind1, Sparsity sp) {
+    public SXWrapper get(boolean ind1, SparsityWrapper sp) {
         SXWrapper output = new SXWrapper();
-        this.sx.get(output.getCasADiObject(), ind1, sp);
+        this.sx.get(output.getCasADiObject(), ind1, sp.getCasADiObject());
         return output;
     }
 
@@ -171,8 +168,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public void set(SXWrapper m, boolean ind1, Sparsity sp) {
-        this.sx.set(m.getCasADiObject(), ind1, sp);
+    public void set(SXWrapper m, boolean ind1, SparsityWrapper sp) {
+        this.sx.set(m.getCasADiObject(), ind1, sp.getCasADiObject());
     }
 
     // ----- Set a submatrix, two arguments -----
@@ -262,8 +259,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper jacobian(SXWrapper x, Dict opts) {
-        return new SXWrapper(SX.jacobian(this.sx, x.getCasADiObject(), opts));
+    public SXWrapper jacobian(SXWrapper x, Dictionary opts) {
+        return new SXWrapper(SX.jacobian(this.sx, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -272,13 +269,13 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public Sparsity jacobianSparsity(SXWrapper x) {
-        return SX.jacobian_sparsity(this.sx, x.getCasADiObject());
+    public SparsityWrapper jacobianSparsity(SXWrapper x) {
+        return new SparsityWrapper(SX.jacobian_sparsity(this.sx, x.getCasADiObject()));
     }
 
     @Override
-    public SXWrapper hessian(SXWrapper x, Dict opts) {
-        return new SXWrapper(SX.hessian(this.sx, x.getCasADiObject(), opts));
+    public SXWrapper hessian(SXWrapper x, Dictionary opts) {
+        return new SXWrapper(SX.hessian(this.sx, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -287,8 +284,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper hessian(SXWrapper x, SXWrapper g, Dict opts) {
-        return new SXWrapper(SX.hessian(this.sx, x.getCasADiObject(), g.getCasADiObject(), opts));
+    public SXWrapper hessian(SXWrapper x, SXWrapper g, Dictionary opts) {
+        return new SXWrapper(SX.hessian(this.sx, x.getCasADiObject(), g.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -307,8 +304,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper pinv(String lsolver, Dict dict) {
-        return new SXWrapper(SX.pinv(this.sx, lsolver, dict));
+    public SXWrapper pinv(String lsolver, Dictionary dict) {
+        return new SXWrapper(SX.pinv(this.sx, lsolver, dict.getCasADiObject()));
     }
 
     @Override
@@ -327,8 +324,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper solve(SXWrapper b, String lsolver, Dict dict) {
-        return new SXWrapper(SX.solve(this.sx, b.getCasADiObject(), lsolver, dict));
+    public SXWrapper solve(SXWrapper b, String lsolver, Dictionary dict) {
+        return new SXWrapper(SX.solve(this.sx, b.getCasADiObject(), lsolver, dict.getCasADiObject()));
     }
 
     @Override
@@ -337,8 +334,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper inv(String lsolver, Dict dict) {
-        return new SXWrapper(SX.inv(this.sx, lsolver, dict));
+    public SXWrapper inv(String lsolver, Dictionary dict) {
+        return new SXWrapper(SX.inv(this.sx, lsolver, dict.getCasADiObject()));
     }
 
     @Override
@@ -436,13 +433,13 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper project(Sparsity sp, boolean intersect) {
-        return new SXWrapper(SX.project(this.sx, sp, intersect));
+    public SXWrapper project(SparsityWrapper sp, boolean intersect) {
+        return new SXWrapper(SX.project(this.sx, sp.getCasADiObject(), intersect));
     }
 
     @Override
-    public SXWrapper project(Sparsity sp) {
-        return new SXWrapper(SX.project(this.sx, sp));
+    public SXWrapper project(SparsityWrapper sp) {
+        return new SXWrapper(SX.project(this.sx, sp.getCasADiObject()));
     }
 
     @Override
@@ -505,13 +502,13 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper reshape(Sparsity sp) {
-        return new SXWrapper(SX.reshape(this.sx, sp));
+    public SXWrapper reshape(SparsityWrapper sp) {
+        return new SXWrapper(SX.reshape(this.sx, sp.getCasADiObject()));
     }
 
     @Override
-    public SXWrapper sparsityCast(Sparsity sp) {
-        return new SXWrapper(SX.sparsity_cast(this.sx, sp));
+    public SXWrapper sparsityCast(SparsityWrapper sp) {
+        return new SXWrapper(SX.sparsity_cast(this.sx, sp.getCasADiObject()));
     }
 
     @Override
@@ -783,12 +780,12 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public Sparsity sparsity() {
-        return this.sx.sparsity();
+    public SparsityWrapper sparsity() {
+        return new SparsityWrapper(this.sx.sparsity());
     }
 
-    public static SXWrapper inf(Sparsity sp) {
-        return new SXWrapper(SX.inf(sp));
+    public static SXWrapper inf(SparsityWrapper sp) {
+        return new SXWrapper(SX.inf(sp.getCasADiObject()));
     }
 
     public static SXWrapper inf(long nrow, long ncol) {
@@ -803,8 +800,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return new SXWrapper(SX.inf());
     }
 
-    public static SXWrapper nan(Sparsity sp) {
-        return new SXWrapper(SX.nan(sp));
+    public static SXWrapper nan(SparsityWrapper sp) {
+        return new SXWrapper(SX.nan(sp.getCasADiObject()));
     }
 
     public static SXWrapper nan(long nrow, long ncol) {
@@ -948,8 +945,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return new SXWrapper(SX.rand());
     }
 
-    public static SXWrapper rand(Sparsity sp) {
-        return new SXWrapper(SX.rand(sp));
+    public static SXWrapper rand(SparsityWrapper sp) {
+        return new SXWrapper(SX.rand(sp.getCasADiObject()));
     }
 
     public void exportCode(String lang) {
@@ -957,8 +954,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public Dict info() {
-        return this.sx.info();
+    public Dictionary info() {
+        return new Dictionary(this.sx.info());
     }
 
     public String serialize() {
@@ -1286,8 +1283,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper jtimes(SXWrapper arg, SXWrapper v, boolean tr, Dict opts) {
-        return new SXWrapper(SX.jtimes_(this.sx, arg.getCasADiObject(), v.getCasADiObject(), tr, opts));
+    public SXWrapper jtimes(SXWrapper arg, SXWrapper v, boolean tr, Dictionary opts) {
+        return new SXWrapper(SX.jtimes_(this.sx, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
     }
 
     @Override
@@ -1301,8 +1298,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper gradient(SXWrapper arg, Dict opts) {
-        return new SXWrapper(SX.gradient(this.sx, arg.getCasADiObject(), opts));
+    public SXWrapper gradient(SXWrapper arg, Dictionary opts) {
+        return new SXWrapper(SX.gradient(this.sx, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -1311,8 +1308,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper tangent(SXWrapper arg, Dict opts) {
-        return new SXWrapper(SX.tangent(this.sx, arg.getCasADiObject(), opts));
+    public SXWrapper tangent(SXWrapper arg, Dictionary opts) {
+        return new SXWrapper(SX.tangent(this.sx, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -1321,8 +1318,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper linearize(SXWrapper x, SXWrapper x0, Dict opts) {
-        return new SXWrapper(SX.linearize(this.sx, x.getCasADiObject(), x0.getCasADiObject(), opts));
+    public SXWrapper linearize(SXWrapper x, SXWrapper x0, Dictionary opts) {
+        return new SXWrapper(SX.linearize(this.sx, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
@@ -1352,20 +1349,20 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return new SXWrapper(SX.sym(name));
     }
 
-    public static SXWrapper sym(String name, Sparsity sp) {
-        return new SXWrapper(SX.sym(name, sp));
+    public static SXWrapper sym(String name, SparsityWrapper sp) {
+        return new SXWrapper(SX.sym(name, sp.getCasADiObject()));
     }
 
-    public static SXVector sym(String name, Sparsity sp, long p) {
-        return new SXVector(SX.sym(name, sp, p));
+    public static SXVector sym(String name, SparsityWrapper sp, long p) {
+        return new SXVector(SX.sym(name, sp.getCasADiObject(), p));
     }
 
     public static SXVector sym(String name, long nrow, long ncol, long p) {
         return new SXVector(SX.sym(name, nrow, ncol, p));
     }
 
-    public static SXVectorCollection sym(String name, Sparsity sp, long p, long r) {
-        return new SXVectorCollection(SX.sym(name, sp, p, r));
+    public static SXVectorCollection sym(String name, SparsityWrapper sp, long p, long r) {
+        return new SXVectorCollection(SX.sym(name, sp.getCasADiObject(), p, r));
     }
 
     public static SXVectorCollection sym(String name, long nrow, long ncol, long p, long r) {
@@ -1384,8 +1381,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return new SXWrapper(SX.zeros());
     }
 
-    public static SXWrapper zeros(Sparsity sp) {
-        return new SXWrapper(SX.zeros(sp));
+    public static SXWrapper zeros(SparsityWrapper sp) {
+        return new SXWrapper(SX.zeros(sp.getCasADiObject()));
     }
 
     public static SXWrapper ones(long nrow, long ncol) {
@@ -1400,8 +1397,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return new SXWrapper(SX.ones());
     }
 
-    public static SXWrapper ones(Sparsity sp) {
-        return new SXWrapper(SX.ones(sp));
+    public static SXWrapper ones(SparsityWrapper sp) {
+        return new SXWrapper(SX.ones(sp.getCasADiObject()));
     }
 
     @Override

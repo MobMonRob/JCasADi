@@ -1,9 +1,8 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.mx;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubMatrix;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SymbolicExpression;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
@@ -11,8 +10,6 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
-import de.dhbw.rahmlab.casadi.impl.std.*;
-import javax.constraints.*;
 import java.util.Arrays;
 
 /**
@@ -165,8 +162,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param val The constant value to fill the matrix.
      * @param dummy A boolean parameter used internally.
      */
-    public MXWrapper(Sparsity sp, double val, boolean dummy) {
-        this.mx = new MX(sp, val, dummy);
+    public MXWrapper(SparsityWrapper sp, double val, boolean dummy) {
+        this.mx = new MX(sp.getCasADiObject(), val, dummy);
     }
 
     /**
@@ -190,8 +187,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return sparsity
      */
     @Override
-    public Sparsity sparsity() {
-        return this.mx.sparsity();
+    public SparsityWrapper sparsity() {
+        return new SparsityWrapper(this.mx.sparsity());
     }
 
     /**
@@ -209,8 +206,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      *
      * @return Sparsity
      */
-    public Sparsity getSparsity() {
-        return this.mx.get_sparsity();
+    public SparsityWrapper getSparsity() {
+        return new SparsityWrapper(this.mx.get_sparsity());
     }
 
     /**
@@ -686,8 +683,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return Dict. A dictionary containing the information of the MX expression.
      */
     @Override
-    public Dict info() {
-        return this.mx.info();
+    public Dictionary info() {
+        return new Dictionary(this.mx.info());
     }
 
     /**
@@ -754,8 +751,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param sp The sparsity pattern that defines the matrix structure.
      * @return MXWrapper
      */
-    public static MXWrapper inf(Sparsity sp) {
-        MX result = MX.inf(sp);
+    public static MXWrapper inf(SparsityWrapper sp) {
+        MX result = MX.inf(sp.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -809,8 +806,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param sp The sparsity pattern that defines the matrix structure.
      * @return MXWrapper
      */
-    public static MXWrapper nan(Sparsity sp) {
-        MX result = MX.nan(sp);
+    public static MXWrapper nan(SparsityWrapper sp) {
+        MX result = MX.nan(sp.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -938,9 +935,9 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return A new MXWrapper containing the extracted submatrix.
      */
     @Override
-    public MXWrapper get(boolean ind1, Sparsity sp) {
+    public MXWrapper get(boolean ind1, SparsityWrapper sp) {
         MXWrapper output = new MXWrapper();
-        this.mx.get(output.mx, ind1, sp);
+        this.mx.get(output.mx, ind1, sp.getCasADiObject());
         return output;
     }
 
@@ -1213,8 +1210,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param sp The Sparsity used to define the rows to be set.
      */
     @Override
-    public void set(MXWrapper m, boolean ind1, Sparsity sp) {
-        this.mx.set(m.mx, ind1, sp);
+    public void set(MXWrapper m, boolean ind1, SparsityWrapper sp) {
+        this.mx.set(m.mx, ind1, sp.getCasADiObject());
     }
 
     // ----- Set a submatrix, two arguments -----
@@ -1705,8 +1702,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the reshaped MX object.
      */
     @Override
-    public MXWrapper reshape(Sparsity sp) {
-        return new MXWrapper(MX.reshape(this.mx, sp));
+    public MXWrapper reshape(SparsityWrapper sp) {
+        return new MXWrapper(MX.reshape(this.mx, sp.getCasADiObject()));
     }
 
     /**
@@ -1716,8 +1713,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the sparsity-cast MX object.
      */
     @Override
-    public MXWrapper sparsityCast(Sparsity sp) {
-        return new MXWrapper(MX.sparsity_cast(this.mx, sp));
+    public MXWrapper sparsityCast(SparsityWrapper sp) {
+        return new MXWrapper(MX.sparsity_cast(this.mx, sp.getCasADiObject()));
     }
 
     /**
@@ -1739,8 +1736,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the Jacobian matrix.
      */
     @Override
-    public MXWrapper jacobian(MXWrapper x, Dict opts) {
-        return new MXWrapper(MX.jacobian(this.mx, x.mx, opts));
+    public MXWrapper jacobian(MXWrapper x, Dictionary opts) {
+        return new MXWrapper(MX.jacobian(this.mx, x.mx, opts.getCasADiObject()));
     }
 
     /**
@@ -1762,8 +1759,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
      */
     @Override
-    public MXWrapper hessian(MXWrapper x, Dict opts) {
-        return new MXWrapper(MX.hessian(this.mx, x.mx, opts));
+    public MXWrapper hessian(MXWrapper x, Dictionary opts) {
+        return new MXWrapper(MX.hessian(this.mx, x.mx, opts.getCasADiObject()));
     }
 
     /**
@@ -1786,8 +1783,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the Hessian matrix.
      */
     @Override
-    public MXWrapper hessian(MXWrapper x, MXWrapper g, Dict opts) {
-        return new MXWrapper(MX.hessian(this.mx, x.mx, g.mx, opts));
+    public MXWrapper hessian(MXWrapper x, MXWrapper g, Dictionary opts) {
+        return new MXWrapper(MX.hessian(this.mx, x.mx, g.mx, opts.getCasADiObject()));
     }
 
     /**
@@ -1845,8 +1842,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return Sparsity. A new Sparsity object containing the sparsity pattern of the Jacobian matrix.
      */
     @Override
-    public Sparsity jacobianSparsity(MXWrapper x) {
-        return new Sparsity(MX.jacobian_sparsity(this.mx, x.mx));
+    public SparsityWrapper jacobianSparsity(MXWrapper x) {
+        return new SparsityWrapper(MX.jacobian_sparsity(this.mx, x.mx));
     }
 
     /**
@@ -1887,8 +1884,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the solution vector x.
      */
     @Override
-    public MXWrapper solve(MXWrapper b, String lsolver, Dict dict) {
-        MX result = MX.solve(this.mx, b.mx, lsolver, dict);
+    public MXWrapper solve(MXWrapper b, String lsolver, Dictionary dict) {
+        MX result = MX.solve(this.mx, b.mx, lsolver, dict.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -1938,8 +1935,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the inverse of the matrix.
      */
     @Override
-    public MXWrapper inv(String lsolver, Dict dict) {
-        MX result = MX.inv(this.mx, lsolver, dict);
+    public MXWrapper inv(String lsolver, Dictionary dict) {
+        MX result = MX.inv(this.mx, lsolver, dict.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -1978,8 +1975,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the pseudo-inverse of the matrix.
      */
     @Override
-    public MXWrapper pinv(String lsolver, Dict dict) {
-        MX result = MX.pinv(this.mx, lsolver, dict);
+    public MXWrapper pinv(String lsolver, Dictionary dict) {
+        MX result = MX.pinv(this.mx, lsolver, dict.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2310,8 +2307,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the projected expression.
      */
     @Override
-    public MXWrapper project(Sparsity sp, boolean intersect) {
-        MX result = MX.project(this.mx, sp, intersect);
+    public MXWrapper project(SparsityWrapper sp, boolean intersect) {
+        MX result = MX.project(this.mx, sp.getCasADiObject(), intersect);
         return new MXWrapper(result);
     }
 
@@ -2322,8 +2319,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the projected expression.
      */
     @Override
-    public MXWrapper project(Sparsity sp) {
-        MX result = MX.project(this.mx, sp);
+    public MXWrapper project(SparsityWrapper sp) {
+        MX result = MX.project(this.mx, sp.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2367,8 +2364,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param options The dictionary containing options for the computation.
      * @return MXWrapper. A new MXWrapper containing the low-level representation.
      */
-    public MXWrapper low(MXWrapper p, Dict options) {
-        MX result = MX.low(this.mx, p.mx, options);
+    public MXWrapper low(MXWrapper p, Dictionary options) {
+        MX result = MX.low(this.mx, p.mx, options.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2402,8 +2399,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param options The dictionary containing options for the expansion.
      * @return MXWrapper. A new MXWrapper containing the expanded expression.
      */
-    public MXWrapper matrixExpand(MXVector boundary, Dict options) {
-        MX result = MX.matrix_expand(this.mx, boundary.getCasADiObject(), options);
+    public MXWrapper matrixExpand(MXVector boundary, Dictionary options) {
+        MX result = MX.matrix_expand(this.mx, boundary.getCasADiObject(), options.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2415,8 +2412,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param options The dictionary containing options for the expansion.
      * @return MXVector. A new MXVector containing the expanded expressions.
      */
-    public MXVector matrixExpand(MXVector e, MXVector boundary, Dict options) {
-        return new MXVector(MX.matrix_expand(e.getCasADiObject(), boundary.getCasADiObject(), options));
+    public MXVector matrixExpand(MXVector e, MXVector boundary, Dictionary options) {
+        return new MXVector(MX.matrix_expand(e.getCasADiObject(), boundary.getCasADiObject(), options.getCasADiObject()));
     }
 
     /**
@@ -2450,8 +2447,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param opts The dictionary containing options for the B-spline.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, IntegerVector degree, long m, Dict opts) {
-        MX result = MX.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m, opts);
+    public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, IntegerVector degree, long m, Dictionary opts) {
+        MX result = MX.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m, opts.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2479,8 +2476,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param opts The dictionary containing options for the B-spline.
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
-    public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, IntegerVector degree, long m, Dict opts) {
-        MX result = MX.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m, opts);
+    public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, IntegerVector degree, long m, Dictionary opts) {
+        MX result = MX.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m, opts.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2504,8 +2501,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param opts The dictionary containing options for the convexification.
      * @return MXWrapper. A new MXWrapper containing the convexified expression.
      */
-    public MXWrapper convexify(Dict opts) {
-        MX result = MX.convexify(this.mx, opts);
+    public MXWrapper convexify(Dictionary opts) {
+        MX result = MX.convexify(this.mx, opts.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2553,8 +2550,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param opts The dictionary containing options for the interpolation.
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
-    public MXWrapper interpnLinear(MXVector x, MXVector xq, Dict opts) {
-        MX result = MX.interpn_linear(x.getCasADiObject(), this.mx, xq.getCasADiObject(), opts);
+    public MXWrapper interpnLinear(MXVector x, MXVector xq, Dictionary opts) {
+        MX result = MX.interpn_linear(x.getCasADiObject(), this.mx, xq.getCasADiObject(), opts.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3404,8 +3401,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the result of the Jacobian times vector operation.
      */
     @Override
-    public MXWrapper jtimes(MXWrapper arg, MXWrapper v, boolean tr, Dict opts) {
-        return new MXWrapper(MX.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject(), tr, opts));
+    public MXWrapper jtimes(MXWrapper arg, MXWrapper v, boolean tr, Dictionary opts) {
+        return new MXWrapper(MX.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
     }
 
     /**
@@ -3441,8 +3438,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the gradient of the expression.
      */
     @Override
-    public MXWrapper gradient(MXWrapper arg, Dict opts) {
-        return new MXWrapper(MX.gradient(this.mx, arg.getCasADiObject(), opts));
+    public MXWrapper gradient(MXWrapper arg, Dictionary opts) {
+        return new MXWrapper(MX.gradient(this.mx, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     /**
@@ -3464,8 +3461,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the tangent of the expression.
      */
     @Override
-    public MXWrapper tangent(MXWrapper arg, Dict opts) {
-        return new MXWrapper(MX.tangent(this.mx, arg.getCasADiObject(), opts));
+    public MXWrapper tangent(MXWrapper arg, Dictionary opts) {
+        return new MXWrapper(MX.tangent(this.mx, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     /**
@@ -3488,8 +3485,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the linearized function.
      */
     @Override
-    public MXWrapper linearize(MXWrapper x, MXWrapper x0, Dict opts) {
-        return new MXWrapper(MX.linearize(this.mx, x.getCasADiObject(), x0.getCasADiObject(), opts));
+    public MXWrapper linearize(MXWrapper x, MXWrapper x0, Dictionary opts) {
+        return new MXWrapper(MX.linearize(this.mx, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
     }
 
     /**
@@ -3566,8 +3563,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param sp The Sparsity object representing the sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
      */
-    public static MXWrapper sym(String name, Sparsity sp) {
-        return new MXWrapper(MX.sym(name, sp));
+    public static MXWrapper sym(String name, SparsityWrapper sp) {
+        return new MXWrapper(MX.sym(name, sp.getCasADiObject()));
     }
 
     /**
@@ -3578,8 +3575,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param p The length of the vector.
      * @return MXVector. A new MXVector containing the symbolic primitives.
      */
-    public static MXVector sym(String name, Sparsity sp, long p) {
-        return new MXVector(MX.sym(name, sp, p));
+    public static MXVector sym(String name, SparsityWrapper sp, long p) {
+        return new MXVector(MX.sym(name, sp.getCasADiObject(), p));
     }
 
     /**
@@ -3604,8 +3601,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param r The length of the outer vector.
      * @return VectorCollection. A new VectorCollection containing the symbolic primitives.
      */
-    public static MXVectorCollection sym(String name, Sparsity sp, long p, long r) {
-        return new MXVectorCollection(MX.sym(name, sp, p, r));
+    public static MXVectorCollection sym(String name, SparsityWrapper sp, long p, long r) {
+        return new MXVectorCollection(MX.sym(name, sp.getCasADiObject(), p, r));
     }
 
     /**
@@ -3658,8 +3655,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param sp The Sparsity object representing the sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    public static MXWrapper zeros(Sparsity sp) {
-        return new MXWrapper(MX.zeros(sp));
+    public static MXWrapper zeros(SparsityWrapper sp) {
+        return new MXWrapper(MX.zeros(sp.getCasADiObject()));
     }
 
     /**
@@ -3698,8 +3695,8 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @param sp The Sparsity object representing the sparsity pattern.
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
-    public static MXWrapper ones(Sparsity sp) {
-        return new MXWrapper(MX.ones(sp));
+    public static MXWrapper ones(SparsityWrapper sp) {
+        return new MXWrapper(MX.ones(sp.getCasADiObject()));
     }
 
     /**
