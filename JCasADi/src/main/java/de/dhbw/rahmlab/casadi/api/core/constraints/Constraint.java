@@ -1,13 +1,9 @@
 package de.dhbw.rahmlab.casadi.api.core.constraints;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
-
-import java.util.Map;
 
 /**
  * Abstract class representing a general constraint in an optimization problem.

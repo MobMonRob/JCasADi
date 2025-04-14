@@ -170,7 +170,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
         } else if (rows > 0) {
             return DMWrapper.sym(name, rows);
         } else if (sparsity != null) {
-            return DMWrapper.sym(name, sparsity.getCasADiObject());
+            return DMWrapper.sym(name, sparsity);
         } else {
             return DMWrapper.sym(name);
         }
@@ -194,7 +194,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
         } else if (rows > 0) {
             return DMWrapper.ones(rows);
         } else if (sparsity != null) {
-            return DMWrapper.ones(sparsity.getCasADiObject());
+            return DMWrapper.ones(sparsity);
         } else {
             return DMWrapper.ones();
         }
@@ -218,7 +218,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
         } else if (rows > 0) {
             return DMWrapper.nan(rows);
         } else if (sparsity != null) {
-            return DMWrapper.nan(sparsity.getCasADiObject());
+            return DMWrapper.nan(sparsity);
         } else {
             return DMWrapper.nan();
         }
@@ -242,7 +242,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
         } else if (rows > 0) {
             return DMWrapper.inf(rows);
         } else if (sparsity != null) {
-            return DMWrapper.inf(sparsity.getCasADiObject());
+            return DMWrapper.inf(sparsity);
         } else {
             return DMWrapper.inf();
         }
@@ -264,7 +264,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
         } else if (rows > 0) {
             return DMWrapper.rand(rows);
         } else if (sparsity != null) {
-            return DMWrapper.rand(sparsity.getCasADiObject());
+            return DMWrapper.rand(sparsity);
         } else {
             return DMWrapper.rand();
         }
@@ -283,7 +283,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
         } else if (rows > 0) {
             return DMWrapper.zeros(rows);
         } else if (sparsity != null) {
-            return DMWrapper.zeros(sparsity.getCasADiObject());
+            return DMWrapper.zeros(sparsity);
         } else {
             return DMWrapper.zeros();
         }

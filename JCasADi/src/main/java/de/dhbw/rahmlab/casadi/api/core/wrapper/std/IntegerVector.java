@@ -103,7 +103,7 @@ public class IntegerVector extends AbstractList<Long> {
      * @param value the long value to add
      * @return this IntegerVector for method chaining
      */
-    public IntegerVector add(Long value) {
+    public IntegerVector insert(Long value) {
         this.stdVectorCasadiInt.add(value);
         return this;
     }
@@ -115,7 +115,7 @@ public class IntegerVector extends AbstractList<Long> {
      * @param value the long value to add
      * @return this IntegerVector for method chaining
      */
-    public IntegerVector add(int index, Long value) {
+    public IntegerVector insert(int index, Long value) {
         this.stdVectorCasadiInt.add(index, value);
         return this;
     }

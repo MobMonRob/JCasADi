@@ -5,7 +5,6 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.MatrixBuilder;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 
 import java.util.Arrays;
@@ -168,7 +167,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
         } else if (rows > 0) {
             return MXWrapper.sym(name, rows);
         } else if (sparsity != null) {
-            return MXWrapper.sym(name, sparsity.getCasADiObject());
+            return MXWrapper.sym(name, sparsity);
         } else {
             return MXWrapper.sym(name);
         }
@@ -192,7 +191,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
         } else if (rows > 0) {
             return DMWrapper.ones(rows);
         } else if (sparsity != null) {
-            return DMWrapper.ones(sparsity.getCasADiObject());
+            return DMWrapper.ones(sparsity);
         } else {
             return DMWrapper.ones();
         }
@@ -216,7 +215,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
         } else if (rows > 0) {
             return MXWrapper.nan(rows);
         } else if (sparsity != null) {
-            return MXWrapper.nan(sparsity.getCasADiObject());
+            return MXWrapper.nan(sparsity);
         } else {
             return MXWrapper.nan();
         }
@@ -240,7 +239,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
         } else if (rows > 0) {
             return MXWrapper.inf(rows);
         } else if (sparsity != null) {
-            return MXWrapper.inf(sparsity.getCasADiObject());
+            return MXWrapper.inf(sparsity);
         } else {
             return MXWrapper.inf();
         }
@@ -259,7 +258,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
         } else if (rows > 0) {
             return MXWrapper.zeros(rows);
         } else if (sparsity != null) {
-            return MXWrapper.zeros(sparsity.getCasADiObject());
+            return MXWrapper.zeros(sparsity);
         } else {
             return MXWrapper.zeros();
         }

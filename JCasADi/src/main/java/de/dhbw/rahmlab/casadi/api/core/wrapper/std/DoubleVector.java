@@ -107,7 +107,7 @@ public class DoubleVector extends AbstractList<Double> {
      * @param value the double value to be added to the collection
      * @return the current instance of DoubleVector for method chaining
      */
-    public DoubleVector add(Double value) {
+    public DoubleVector insert(Double value) {
         this.stdVectorDouble.add(value);
         return this;
     }
@@ -124,7 +124,7 @@ public class DoubleVector extends AbstractList<Double> {
      * @param value the double value to be added to the collection
      * @return the current instance of DoubleVector for method chaining
      */
-    public DoubleVector add(int index, Double value) {
+    public DoubleVector insert(int index, Double value) {
         this.stdVectorDouble.add(index, value);
         return this;
     }

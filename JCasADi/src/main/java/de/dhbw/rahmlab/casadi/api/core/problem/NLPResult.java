@@ -7,7 +7,6 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.OptiSol;
-import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
 public class NLPResult {
 
@@ -33,7 +32,7 @@ public class NLPResult {
         return this.optiSol.toString();
     }
 
-    public DMWrapper value(Wrapper x, MXWrapper... values) {
+    public DMWrapper value(Wrapper<?> x, MXWrapper... values) {
         if (values == null || values.length == 0) {
             return handleValueWithoutParameters(x);
         } else {
@@ -42,7 +41,7 @@ public class NLPResult {
         }
     }
 
-    public DMWrapper value(Wrapper x, MXVector values) {
+    public DMWrapper value(Wrapper<?> x, MXVector values) {
         if (values == null) {
             return handleValueWithoutParameters(x);
         } else {
@@ -94,7 +93,7 @@ public class NLPResult {
         return new DMWrapper(this.optiSol.value(x.getCasADiObject()));
     }
 
-    private DMWrapper handleValueWithoutParameters(Wrapper x) {
+    private DMWrapper handleValueWithoutParameters(Wrapper<?> x) {
         if (x instanceof MXWrapper mxWrapper) {
             return new DMWrapper(this.optiSol.value(mxWrapper.getCasADiObject()));
         } else if (x instanceof DMWrapper dmWrapper) {
@@ -106,7 +105,7 @@ public class NLPResult {
         }
     }
 
-    private DMWrapper handleValueWithParameters(Wrapper x, MXVector values) {
+    private DMWrapper handleValueWithParameters(Wrapper<?> x, MXVector values) {
         if (x instanceof MXWrapper mxWrapper) {
             return new DMWrapper(this.optiSol.value(mxWrapper.getCasADiObject(), values.getCasADiObject()));
         } else if (x instanceof DMWrapper dmWrapper) {

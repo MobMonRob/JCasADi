@@ -2,7 +2,6 @@ package de.dhbw.rahmlab.casadi.api.core.builder;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.MatrixBuilder;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 
 import java.util.Arrays;
@@ -121,7 +120,7 @@ public class IMBuilder implements MatrixBuilder<IMBuilder> {
         } else if (rows != null && rows > 0) {
             result = IMWrapper.sym(name, rows);
         } else if (sparsity != null) {
-            result = IMWrapper.sym(name, sparsity.getCasADiObject());
+            result = IMWrapper.sym(name, sparsity);
         } else {
             result = IMWrapper.sym(name);
         }
@@ -142,7 +141,7 @@ public class IMBuilder implements MatrixBuilder<IMBuilder> {
         } else if (rows != null) {
             result = IMWrapper.ones(rows);
         } else if (sparsity != null) {
-            result = IMWrapper.ones(sparsity.getCasADiObject());
+            result = IMWrapper.ones(sparsity);
         } else {
             result = IMWrapper.ones();
         }
@@ -163,7 +162,7 @@ public class IMBuilder implements MatrixBuilder<IMBuilder> {
         } else if (rows != null) {
             result = IMWrapper.nan(rows);
         } else if (sparsity != null) {
-            result = IMWrapper.nan(sparsity.getCasADiObject());
+            result = IMWrapper.nan(sparsity);
         } else {
             result = IMWrapper.nan();
         }
@@ -184,7 +183,7 @@ public class IMBuilder implements MatrixBuilder<IMBuilder> {
         } else if (rows != null) {
             result = IMWrapper.inf(rows);
         } else if (sparsity != null) {
-            result = IMWrapper.inf(sparsity.getCasADiObject());
+            result = IMWrapper.inf(sparsity);
         } else {
             result = IMWrapper.inf();
         }
@@ -205,7 +204,7 @@ public class IMBuilder implements MatrixBuilder<IMBuilder> {
         } else if (rows != null) {
             result = IMWrapper.zeros(rows);
         } else if (sparsity != null) {
-            result = IMWrapper.zeros(sparsity.getCasADiObject());
+            result = IMWrapper.zeros(sparsity);
         } else {
             result = IMWrapper.zeros();
         }
@@ -253,7 +252,7 @@ public class IMBuilder implements MatrixBuilder<IMBuilder> {
         } else if (rows != null) {
             result = IMWrapper.rand(rows);
         } else if (sparsity != null) {
-            result = IMWrapper.rand(sparsity.getCasADiObject());
+            result = IMWrapper.rand(sparsity);
         } else {
             result = IMWrapper.rand();
         }

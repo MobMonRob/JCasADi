@@ -4,7 +4,6 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.DoubleVector;
 
 /**
  * Represents an equality constraint of the form lhs = rhs.

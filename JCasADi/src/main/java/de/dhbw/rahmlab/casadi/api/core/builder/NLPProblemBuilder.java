@@ -151,9 +151,9 @@ public class NLPProblemBuilder {
         // Set solver if defined
         if (solver != null) {
             if (pluginOptions != null && solverOptions != null) {
-                problem.setSolver(solver, pluginOptions.getCasADiObject(), solverOptions.getCasADiObject());
+                problem.setSolver(solver, pluginOptions, solverOptions);
             } else if (pluginOptions != null) {
-                problem.setSolver(solver, pluginOptions.getCasADiObject());
+                problem.setSolver(solver, pluginOptions);
             } else {
                 problem.setSolver(solver);
             }
