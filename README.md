@@ -36,6 +36,9 @@ Install the packages (order matters):
 1. `sudo dpkg -i swig4.0_4.0.1-5build1_amd64.deb`
 2. `sudo dpkg -i swig_4.0.1-5build1_all.deb`
 
+Prevent SWIG from upgrade:\
+`sudo apt-mark hold swig`
+
 
 ## Prepare build
 Clone this repository.
