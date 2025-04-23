@@ -9,6 +9,9 @@ source "./_bash_config.sh"
 run() {
 	clearCurrentPlatform
 
+	# Suboptimal. New download for each platform. But fast enough.
+	bash "./download_Noarch.sh"
+
 	bash "./build_$currentPlatform.sh"
 
 	if [[ "$currentPlatform" == "$platformWindows" ]]; then
