@@ -9,11 +9,15 @@ source "./_bash_config.sh"
 run() {
 	clearCurrentPlatform
 
-	if [[ "$currentPlatform" != "$platformLinux" ]]; then
-		exit 1
-	fi
-
-	./generate-wrapper_Multiarch.sh
+	# Would be faster if shared between platforms. Noarch instead of Multiarch.
+	export previousPlatform="$currentPlatform"
+	#setCurrentPlatform "$platformNoarch"
+	#if [[ "$(isSuccessTokenSet)" == "false" ]]; then
+	#	clearCurrentPlatform
+		./generate-wrapper_Multiarch.sh
+	#	setSuccessToken
+	#fi
+	#setCurrentPlatform "$previousPlatform"
 
 	bash "./generate-dynlib_$currentPlatform.sh"
 

@@ -9,9 +9,9 @@ source "./_bash_config.sh"
 run() {
 	mkdir -p "$linuxTarget"
 
-	local -r wrapLibTarget="$wrapLibDir" #/$linuxTarget"
-	local -r wrapLibInclude="$wrapLibTarget/include" #/casadi/core"
-	local -r linkLibDir="$wrapLibTarget/lib"
+	local -r wrapLibTarget="$wrapLibDir/$linuxTarget"
+	local -r wrapLibInclude="$wrapLibTarget/casadi/include" #/casadi/core"
+	local -r linkLibDir="$wrapLibTarget/casadi"
 
 	local -r SwigCppArray=($(find "$linuxTmp"/*.cpp -maxdepth 0 -mindepth 0 -type f -printf '%f\n'))
 
