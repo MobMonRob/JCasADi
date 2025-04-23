@@ -9,7 +9,7 @@ source "./_bash_config.sh"
 run() {
 	clearCurrentPlatform
 
-	# Would be faster if shared between platforms. Noarch instead of Multiarch.
+	# Would be faster if shared between platforms.
 	export previousPlatform="$currentPlatform"
 	#setCurrentPlatform "$platformNoarch"
 	#if [[ "$(isSuccessTokenSet)" == "false" ]]; then
