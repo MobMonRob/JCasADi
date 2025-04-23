@@ -47,15 +47,20 @@
 #undef SWIG_IF_ELSE
 #define SWIG_IF_ELSE(is_swig, not_swig) not_swig
 
-// Incude cmath early on, see #622
 %begin %{
-	#include <cmath>
+	// Incude cmath early on, see https://github.com/casadi/casadi/issues/622
+	//#include <cmath>
 	#ifdef _XOPEN_SOURCE
 	#undef _XOPEN_SOURCE
 	#endif
 	#ifdef _POSIX_C_SOURCE
 	#undef _POSIX_C_SOURCE
 	#endif
+
+	// Fix: long long long is too long for gcc
+	// https://github.com/swig/swig/issues/1932#issuecomment-765367026
+	// https://github.com/supranational/blst/issues/53#issuecomment-764709490
+	//#undef __int64
 %}
 
 // Note: Only from 3.0.0 onwards,
@@ -90,6 +95,13 @@
 
 
 //////
+
+//// Start: Fix mingw build.
+
+%ignore casadi::Matrix<casadi::SXElem>::Matrix(std::initializer_list<casadi::SXElem>);
+%ignore casadi::Matrix<double>::Matrix(std::initializer_list<double>);
+
+//// Stop: Fix mingw build.
 
 //// Start: Fix memory safety issues
 
@@ -323,6 +335,8 @@ typedef casadi::Matrix<casadi::SXElem> SX;
 //// Stop: std::vector<double>
 
 //// Start: IM
+// Disabled to fix mingw build.
+/*
 // typedef long long int casadi_int;
 typedef casadi::Matrix<casadi_int> IM;
 
@@ -334,6 +348,7 @@ typedef casadi::Matrix<casadi_int> IM;
 
 // Needs to be after %template(IM)
 %extendAt("Im", casadi::Matrix<casadi_int>)
+*/
 //// Stop: IM
 
 //// Start: DM

@@ -7,6 +7,7 @@ cd "$scriptDir"
 source "./_bash_config.sh"
 
 run() {
+	setCurrentPlatform "$platformWindows"
 	clearCurrentPlatform
 
 	# Would be faster if shared between platforms.
@@ -22,10 +23,6 @@ run() {
 	bash "./generate-dynlib_$currentPlatform.sh"
 
 	./copy-deps_Multiarch.sh
-
-	if [[ "$currentPlatform" == "$platformWindows" ]]; then
-		./copy-mingW-deps_Windows64.sh
-	fi
 
 	setSuccessToken
 }
