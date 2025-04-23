@@ -7,7 +7,6 @@ cd "$scriptDir"
 source "./_bash_config.sh"
 
 run() {
-	setCurrentPlatform "$platformWindows"
 	clearCurrentPlatform
 
 	# Would be faster if shared between platforms.
