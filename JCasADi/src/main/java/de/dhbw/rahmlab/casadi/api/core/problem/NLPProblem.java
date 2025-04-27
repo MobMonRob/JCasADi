@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.problem;
 
-import de.dhbw.rahmlab.casadi.api.core.constraints.Constraint;
+import de.dhbw.rahmlab.casadi.api.core.constraints.AbstractConstraint;
 import de.dhbw.rahmlab.casadi.api.core.solver.CasADiSolver;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
@@ -86,9 +86,9 @@ public class NLPProblem {
         this.nlpProblem.minimize(f.getCasADiObject());
     }
 
-    public void addConstraint(Constraint constraint) {
-        if (constraint.getConstraintExpression() instanceof MXWrapper) {
-            this.nlpProblem.subject_to(((MXWrapper) constraint.getConstraintExpression()).getCasADiObject());
+    public void addConstraint(AbstractConstraint abstractConstraint) {
+        if (abstractConstraint.getExpression() != null) {
+            this.nlpProblem.subject_to(((MXWrapper) abstractConstraint.getExpression()).getCasADiObject());
         } else {
             throw new IllegalArgumentException("The constraint must be either of type MXWrapper or SXWrapper.");
         }
@@ -99,10 +99,10 @@ public class NLPProblem {
         this.nlpProblem.subject_to(vector.getCasADiObject());
     }
 
-    public void addConstraints(Constraint... constraints) {
+    public void addConstraints(AbstractConstraint... abstractConstraints) {
         MXVector vector = new MXVector(
-                Arrays.stream(constraints)
-                        .map(Constraint::getConstraintExpression)
+                Arrays.stream(abstractConstraints)
+                        .map(AbstractConstraint::getExpression)
                         .toList()
         );
         this.nlpProblem.subject_to(vector.getCasADiObject());

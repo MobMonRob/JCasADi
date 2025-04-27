@@ -1,14 +1,10 @@
 package de.dhbw.rahmlab.casadi;
 
-import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
-import de.dhbw.rahmlab.casadi.impl.casadi.GlobalOptions;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 
@@ -43,7 +39,7 @@ public class Demo8CodeGenerationSolution {
         MX xx = MX.sym("x", 2);
         MX yy = MX.sym("y");
 
-        f = new Function("f", new StdVectorMX(new MX[]{xx, yy}), 
+        f = new Function("f", new StdVectorMX(new MX[]{xx, yy}),
                               new StdVectorMX(new MX[]{MX.minus(MX.sqrt(xx),yy)}));
 
         f.generate("fun3",options);

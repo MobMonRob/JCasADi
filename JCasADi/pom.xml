@@ -26,6 +26,11 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.javasolver</groupId>
+			<artifactId>jsr331</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -88,9 +93,9 @@
 						<configuration>
 							<scripts>
 								<script>
-<![CDATA[
-project.properties.setProperty('native_script', ${always_recreate_wrapper} == true ? '"${basedir}"/_regenerate-natives_dependency-recursive_Multiarch.sh' : '"${basedir}"/_ensure-natives_dependency-recursive_Multiarch.sh');
-//println ">>${always_recreate_wrapper}";
+									<![CDATA[
+project.properties.setProperty('native_script', project.properties.getProperty('always_recreate_wrapper') == 'true' ? '"${basedir}"/_regenerate-natives_dependency-recursive_Multiarch.sh' : '"${basedir}"/_ensure-natives_dependency-recursive_Multiarch.sh');
+println "native_script: " + project.properties.getProperty('native_script');
 ]]>
 								</script>
 							</scripts>

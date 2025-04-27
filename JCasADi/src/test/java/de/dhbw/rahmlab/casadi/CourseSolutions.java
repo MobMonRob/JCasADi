@@ -11,7 +11,6 @@ import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -36,7 +35,7 @@ public class CourseSolutions {
         options.put("always_inline", new GenericType(true));
         //TODO possibly syntactic shugar: MX[] direkt als Argument von Function 
         // ermögichen
-        Function f = new Function("f",new StdVectorMX(new MX[]{x,y}), 
+        Function f = new Function("f",new StdVectorMX(new MX[]{x,y}),
                 new StdVectorMX(z), options);
         
         // Funktionsaufruf mit konstaten Argumenten

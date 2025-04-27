@@ -24,7 +24,7 @@ public class Demo1RecapSolution {
         options.put("always_inline", new GenericType(true));
         //TODO possibly syntactic shugar: MX[] direkt als Argument von Function 
         // ermögichen
-        Function f = new Function("f",new StdVectorMX(new MX[]{x,y}), 
+        Function f = new Function("f",new StdVectorMX(new MX[]{x,y}),
                 new StdVectorMX(new MX[]{z}), options);
         StdVectorMX args1 = new StdVectorMX(new MX[]{MX.dot(new MX(2d), x), y});
         StdVectorMX result = new StdVectorMX();

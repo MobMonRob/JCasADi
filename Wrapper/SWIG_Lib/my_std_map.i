@@ -38,7 +38,7 @@
 %javamethodmodifiers std::map::begin "private";
 %javamethodmodifiers std::map::end "private";
 
-%rename(Iterator) std::map::iterator;
+// %rename(TheIter) std::map::iterator;
 %nodefaultctor std::map::iterator;
 %javamethodmodifiers std::map::iterator::getNextUnchecked "private";
 %javamethodmodifiers std::map::iterator::isNot "private";
@@ -54,6 +54,14 @@ template<class K, class T > class map {
     "java.util.AbstractMap<$typemap(jboxtype, K), $typemap(jboxtype, T)>"
 
 %proxycode %{
+
+  /**
+  * Convenience constructor to use with Map.of().
+  */
+  public $javaclassname(java.util.Map<? extends $typemap(jboxtype, K), ? extends $typemap(jboxtype, T)> other) {
+    this();
+    this.putAll(other);
+  }
 
   public int size() {
     return sizeImpl();
@@ -72,7 +80,7 @@ template<class K, class T > class map {
       return null;
     }
 
-    Iterator itr = find(($typemap(jboxtype, K)) key);
+    $typemap(jstype, std::map< K, T >::iterator) itr = find(($typemap(jboxtype, K)) key);
     if (itr.isNot(end())) {
       return itr.getValue();
     }
@@ -81,7 +89,7 @@ template<class K, class T > class map {
   }
 
   public $typemap(jboxtype, T) put($typemap(jboxtype, K) key, $typemap(jboxtype, T) value) {
-    Iterator itr = find(key);
+    $typemap(jstype, std::map< K, T >::iterator) itr = find(key);
     if (itr.isNot(end())) {
       $typemap(jboxtype, T) oldValue = itr.getValue();
       itr.setValue(value);
@@ -97,7 +105,7 @@ template<class K, class T > class map {
       return null;
     }
 
-    Iterator itr = find(($typemap(jboxtype, K)) key);
+    $typemap(jstype, std::map< K, T >::iterator) itr = find(($typemap(jboxtype, K)) key);
     if (itr.isNot(end())) {
       $typemap(jboxtype, T) oldValue = itr.getValue();
       removeUnchecked(itr);
@@ -111,13 +119,13 @@ template<class K, class T > class map {
     java.util.Set<Entry<$typemap(jboxtype, K), $typemap(jboxtype, T)>> setToReturn =
         new java.util.HashSet<Entry<$typemap(jboxtype, K), $typemap(jboxtype, T)>>();
 
-    Iterator itr = begin();
-    final Iterator end = end();
+    $typemap(jstype, std::map< K, T >::iterator) itr = begin();
+    final $typemap(jstype, std::map< K, T >::iterator) end = end();
     while (itr.isNot(end)) {
       setToReturn.add(new Entry<$typemap(jboxtype, K), $typemap(jboxtype, T)>() {
-        private Iterator iterator;
+        private $typemap(jstype, std::map< K, T >::iterator) iterator;
 
-        private Entry<$typemap(jboxtype, K), $typemap(jboxtype, T)> init(Iterator iterator) {
+        private Entry<$typemap(jboxtype, K), $typemap(jboxtype, T)> init($typemap(jstype, std::map< K, T >::iterator) iterator) {
           this.iterator = iterator;
           return this;
         }

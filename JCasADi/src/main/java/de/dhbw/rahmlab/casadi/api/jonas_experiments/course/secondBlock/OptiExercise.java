@@ -1,8 +1,8 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course.secondBlock;
 
 import de.dhbw.rahmlab.casadi.api.core.builder.MXBuilder;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.MXVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
@@ -220,7 +220,7 @@ public class OptiExercise {
         opti.minimize(V);
         opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
         opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
-        opti.solver("ipopt");
+        opti.solver("apopt");
 
         opti.set_initial(x, lineSpace(-2.0, 2.0));
 
@@ -337,54 +337,21 @@ public class OptiExercise {
 //        exercise1_1and1_2and1_3();
 //        exercise2_1();
 //        exercise2_1band2_2();
-//        exercise2_2();
+        exercise2_2();
  //       exercise3_1();
         //exercise3_2();
-        MX a = new MX(2);
-        MX b = new MX(2);
-        MX c = MX.plus(a, b);
-        System.out.println(c);
-        MXWrapper wrapper = new MXBuilder().setValue(0.2).build();
-        MXWrapper wrapper2 = new MXBuilder().setValue(0.2).build();
-        MXWrapper sum = wrapper.add(wrapper2);
-        System.out.println(sum.getCasADiObject());
+        // Vor Erstellung der Wrapper der API:
+        MX y1 = new MX(-0.5);
+        MX y2 = new MX(new StdVectorDouble(new double[]{0, 0.3, 0.5, 9.0}));
+        StdVectorMX y = new StdVectorMX(new MX[]{y1, y2});
+        System.out.println(y);
 
-        MXWrapper x = new MXBuilder().setName("X").setDimensions(2, 2).build();
-        MXWrapper y = new MXBuilder().setName("Y").setDimensions(2, 2).build();
-
-        MXWrapper sum1 = x.add(y);
-
-        System.out.println(sum1.getCasADiObject());
-
-        MXWrapper z = new MXBuilder().setName("Z").setDimensions(3, 1).build();
-        MXWrapper objective = z.T().mtimes(z);
-
-        System.out.println(objective.getCasADiObject());
-
-        MX z1 = MX.sym("Z", 3);
-        MX result = MX.mtimes(z1.T(), z1);
-        System.out.println(result);
-
-        MXWrapper matrix = new MXBuilder().setValues(new double[]{1.0, 2.0, 3.0, 4.0}).buildFromValues();
-        System.out.println(matrix.getCasADiObject());
-
-        MX matrix2 = new MX(new StdVectorDouble(new double[]{1.0, 2.0, 3.0, 4.0}));
-        System.out.println(matrix2);
-
-        MXWrapper x1 = new MXBuilder().setName("X").setDimensions(2, 2).build();
-        MXWrapper y1 = new MXBuilder().setName("Y").setDimensions(2, 2).build();
-
-        MXVector vectorMX = new MXVector().add(x1).add(y1);
-
-        for(int i = 0; i < vectorMX.size(); i++) {
-            System.out.println(vectorMX.get(i).getCasADiObject());
-        }
-
-        StdVectorMX stdVectorMX = new StdVectorMX(new MX[]{x1.getCasADiObject(), y1.getCasADiObject()});
-
-        for(int i = 0; i < stdVectorMX.size(); i++) {
-            System.out.println(stdVectorMX.get(i));
-        }
+        // Nach dem Erstellen der Wrapper der API:
+        MXWrapper x1 = new MXBuilder().setValue(-0.5).build();
+        MXWrapper x2 = new MXBuilder().setValues(0, 0.3, 0.5, 9.0).build();
+        MXVector x = new MXVector(x1, x2);
+        System.out.println(x2);
+        System.out.println(x);
     }
 
     // Notes:

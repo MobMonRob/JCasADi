@@ -54,6 +54,8 @@ public class NonlinearProgramming {
     }
 
     public static void main(String[] args) {
+        System.out.println("------------------ 1.0 ------------------");
+        NonlinearProgramming.solution();
         // 1.2
         MX x0 = MX.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
         Function l = new Function("l", new StdVectorMX(new MX[]{x}), new StdVectorMX(new MX[]{MX.plus(MX.plus(f_ex, MX.times(new MX(2), g_ex)), MX.times(new MX(3), h_ex))}));
@@ -303,6 +305,15 @@ public class NonlinearProgramming {
         for (int i = 0; i < 2; i++) {
             System.out.println(resul.get("x").at(i));
         }
+    }
+
+    public static void exam() {
+
+        var a = MX.sym("a");
+        var b = MX.sym("b");
+        var expression = MX.times(b, MX.sin(MX.plus(MX.times(new MX(2), a), MX.pow(a, new MX(2)))));
+
+        System.out.println(expression);
     }
 
 }

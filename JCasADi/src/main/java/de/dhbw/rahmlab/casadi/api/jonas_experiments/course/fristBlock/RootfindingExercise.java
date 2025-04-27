@@ -125,8 +125,8 @@ public class RootfindingExercise {
 //        SWIGTYPE_p_std__mapT_std__string_casadi__MX_t rfp = new SWIGTYPE_p_std__mapT_std__string_casadi__MX_t();
         StdMapStringToMX rfp = new StdMapStringToMX(map);
         Function rf = rootfinder("rf", "newton", rfp);
-        System.out.println(rf.getClass().getName());
-        System.out.println(rf);
+        System.out.println("Wichtig" + rf.getClass().getName());
+        System.out.println("Wichtig" + rf);
         // 3.2
         StdVectorDM re = new StdVectorDM();
         rf.call(arg3, re);

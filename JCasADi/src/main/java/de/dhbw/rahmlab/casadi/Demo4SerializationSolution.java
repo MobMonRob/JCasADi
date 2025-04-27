@@ -3,12 +3,9 @@ package de.dhbw.rahmlab.casadi;
 import de.dhbw.rahmlab.casadi.impl.casadi.FileDeserializer;
 import de.dhbw.rahmlab.casadi.impl.casadi.FileSerializer;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
-import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
-import java.io.FileDescriptor;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)

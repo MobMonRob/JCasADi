@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.builder;
 
-import de.dhbw.rahmlab.casadi.api.core.constraints.Constraint;
+import de.dhbw.rahmlab.casadi.api.core.constraints.AbstractConstraint;
 import de.dhbw.rahmlab.casadi.api.core.problem.NLPProblem;
 import de.dhbw.rahmlab.casadi.api.core.solver.CasADiSolver;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
@@ -33,7 +33,7 @@ public class NLPProblemBuilder {
     private String problemType = null;
     private final List<MXWrapper> decisionVariables = new ArrayList<>();
     private final List<MXWrapper> parameters = new ArrayList<>();
-    private final List<Constraint> constraints = new ArrayList<>();
+    private final List<AbstractConstraint> abstractConstraints = new ArrayList<>();
     private MXWrapper objective = null;
     private CasADiSolver solver = null;
     private Dictionary pluginOptions = null;
@@ -86,11 +86,11 @@ public class NLPProblemBuilder {
     /**
      * Adds a constraint to the optimization problem.
      *
-     * @param constraint a Constraint object representing a constraint.
+     * @param abstractConstraint a Constraint object representing a constraint.
      * @return the current builder instance.
      */
-    public NLPProblemBuilder addConstraint(Constraint constraint) {
-        this.constraints.add(constraint);
+    public NLPProblemBuilder addConstraint(AbstractConstraint abstractConstraint) {
+        this.abstractConstraints.add(abstractConstraint);
         return this;
     }
 
@@ -145,7 +145,7 @@ public class NLPProblemBuilder {
             problem.minimize(objective);
         }
         // Add all constraints
-        for (Constraint c : constraints) {
+        for (AbstractConstraint c : abstractConstraints) {
             problem.addConstraint(c);
         }
         // Set solver if defined
