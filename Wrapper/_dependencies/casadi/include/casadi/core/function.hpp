@@ -340,6 +340,15 @@ namespace casadi {
         \identifier{1vl} */
     casadi_int index_out(const std::string &name) const;
 
+    /** \brief Does the function have a particularly named input?
+
+        \identifier{2c9} */
+    bool has_in(const std::string &name) const;
+    /** \brief Does the function have a particularly named output?
+
+        \identifier{2ca} */
+    bool has_out(const std::string &name) const;
+
     /** \brief Get default input value
 
         \identifier{1vm} */
@@ -1128,6 +1137,12 @@ namespace casadi {
     template<typename M>
     void call_gen(const std::map<std::string, M>& arg, std::map<std::string, M>& res,
                bool always_inline, bool never_inline) const;
+
+    /** \brief List merge opportunitities
+
+        \identifier{2b6} */
+    void merge(const std::vector<MX>& arg,
+        std::vector<MX>& subs_from, std::vector<MX>& subs_to) const;
 #endif // SWIG
     /// \endcond
 
@@ -1204,6 +1219,9 @@ namespace casadi {
 #ifndef SWIG
     /// Get memory object
     void* memory(int ind) const;
+
+    static std::vector<SX> order(const std::vector<SX>& expr);
+    static std::vector<MX> order(const std::vector<MX>& expr);
 #endif // SWIG
 
     /** \brief Get all functions in the cache
@@ -1334,6 +1352,7 @@ public:
   int ret();
   void _eval();
   void* _self() { return this; }
+  Dict stats() const;
 };
 
 void CASADI_EXPORT _function_buffer_eval(void* raw);

@@ -131,23 +131,29 @@
 
 //// Stop: Fix memory safety issues
 
+#ifndef SWIG
+	#define SWIG
+#endif
+
 //// Start: print fix
 
 %rename(toString) get_str;
 
 // %rename(toString) casadi::Matrix::get_str;
 
-class casadi::SharedObject;
-typedef casadi::SharedObject SharedObject;
 %interface_custom("SharedObject", "ISharedObject", casadi::SharedObject)
-%ignore casadi::WeakRef;
 
-// %rename(toString) casadi::SharedObject::get_str;
+class casadi::SharedObject {
+public:
+	std::string get_str(bool more=false) const;
+};
 
-#ifndef SWIG
-	#define SWIG
-#endif
-%include "casadi/core/shared_object.hpp"
+typedef casadi::SharedObject SharedObject;
+
+//%ignore casadi::WeakRef;
+//%rename(toString) casadi::SharedObject::get_str;
+// Leads to SWIG crash.
+//%include "casadi/core/shared_object.hpp"
 
 //// Stop: print fix
 
@@ -235,11 +241,10 @@ typedef std::vector<std::string> StringVector;
 
 %ignore casadi::GenericMatrix::sparsity; // %ignore casadi::Matrix::sparsity;
 
-%ignore casadi::SparsityInterface::mtimes; // %ignore casadi::Matrix::mtimes;
-%ignore casadi::SparsityInterface::vertsplit;
-%ignore casadi::SparsityInterface::diagsplit;
-%ignore casadi::SparsityInterface::horzsplit;
-%ignore casadi::SparsityInterface::horzsplit_n;
+%rename (mtimes_) casadi::SparsityInterface::mtimes; // %ignore casadi::Matrix::mtimes;
+%rename (vertsplit_) casadi::SparsityInterface::vertsplit;
+%rename (diagsplit_) casadi::SparsityInterface::diagsplit;
+%rename (horzsplit_) casadi::SparsityInterface::horzsplit;
 
 %rename (nnz_) casadi::GenericMatrix::nnz; // %ignore casadi::GenericMatrix::nnz;
 %rename (numel_) casadi::GenericMatrix::numel;
@@ -264,6 +269,7 @@ typedef std::vector<std::string> StringVector;
 %rename (colind_) casadi::GenericMatrix::colind;
 // Stop: Überladungen, die in Netbeans Probleme machen.
 
+%ignore casadi::Matrix::contains;
 // %import "casadi/core/sx_elem.hpp"
 // %ignore casadi::SXElem;
 class casadi::SXElem {
@@ -380,7 +386,7 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 
 		var freeMX = $typemap(jstype, casadi::MX).symvar(this);
 		var freeSX = freeMX.stream().map(freeVar -> $typemap(jstype, casadi::SX).sym(freeVar.name(), freeVar.rows(), freeVar.columns())).toList();
-		
+
 		var inSym = new $typemap(jstype, std::vector<casadi::MX>)(freeMX);
 		var outSym = new $typemap(jstype, std::vector<casadi::MX>)(java.util.List.of(this));
 

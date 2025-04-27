@@ -44,6 +44,15 @@
 #include <string>
 #include <vector>
 
+#ifdef CASADI_WITH_THREAD
+#include <atomic>
+#ifdef CASADI_WITH_THREAD_MINGW
+#include <mingw.mutex.h>
+#else // CASADI_WITH_THREAD_MINGW
+#include <mutex>
+#endif // CASADI_WITH_THREAD_MINGW
+#endif //CASADI_WITH_THREAD
+
 namespace casadi {
 
   /** \brief  forward declaration of Node and Matrix
@@ -147,6 +156,7 @@ namespace casadi {
         \identifier{10p} */
     static SXElem binary(casadi_int op, const SXElem& x, const SXElem& y);
     static SXElem unary(casadi_int op, const SXElem& x);
+    static std::vector<SXElem> call(const Function& f, const std::vector<SXElem>& deps);
 
     /** \brief Check the truth value of this node
 
@@ -178,6 +188,11 @@ namespace casadi {
     const std::string& name() const;
     casadi_int op() const;
     bool is_op(casadi_int op) const;
+    bool is_call() const;
+    bool is_output() const;
+    bool has_output() const;
+    Function which_function() const;
+    casadi_int which_output() const;
 
     /// Checks if expression does not contain NaN or Inf
     bool is_regular() const;
@@ -203,6 +218,11 @@ namespace casadi {
 
         \identifier{10v} */
     casadi_int n_dep() const;
+
+    /** \brief  Get an output
+
+        \identifier{29f} */
+    SXElem get_output(casadi_int oind) const;
 
     /** \brief Returns a number that is unique for a given SXNode.
 
@@ -272,6 +292,11 @@ namespace casadi {
     void serialize(SerializingStream& s) const;
 
     static SXElem deserialize(DeserializingStream& s);
+
+#ifdef CASADI_WITH_THREADSAFE_SYMBOLICS
+    static std::mutex mutex_temp;
+#endif //CASADI_WITH_THREADSAFE_SYMBOLICS
+
   private:
     /// Pointer to node (SXElem is only a reference class)
     SXNode* node;
