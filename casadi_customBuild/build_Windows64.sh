@@ -24,7 +24,7 @@ run() {
 	cmake -DWITH_SELFCONTAINED=ON -DCMAKE_INSTALL_PREFIX="$localTarget2" -DWITH_BUILD_REQUIRED=ON -DWITH_IPOPT=ON -DWITH_BUILD_IPOPT=ON -DWITH_MUMPS=ON -DWITH_BUILD_MUMPS=ON -DWITH_METIS=ON -DWITH_BUILD_METIS=ON -DWITH_BUILD_SUNDIALS=OFF -DWITH_SUNDIALS=OFF -DWITH_BUILD_CSPARSE=OFF -DWITH_CSPARSE=OFF -DWITH_BUILD_TINYXML=OFF -DWITH_TINYXML=OFF -DWITH_MOCKUP_REQUIRED=OFF -DWITH_EXAMPLES=OFF "$scriptDir/$casadiDir" -DCMAKE_TOOLCHAIN_FILE="$scriptDir/mingw.cmake"
 	#/home/fabian/Desktop/minimal_cmake_example/
 
-	time make --jobs="$((2*$(nproc)))"
+	time nice -n19 ionice -c2 -n7 make --jobs="$((1+$(nproc)))"
 
 	rm -rdf "$localTarget2/casadi"
 	mkdir -p "$localTarget2"
