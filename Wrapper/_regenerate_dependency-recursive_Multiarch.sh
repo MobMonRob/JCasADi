@@ -7,7 +7,7 @@ cd "$scriptDir"
 source "./_bash_config.sh"
 
 run() {
-	# bash "$wrapLibDir/_regenerate_dependency-recursive_Multiarch.sh"
+	bash "$wrapLibDir/_regenerate_dependency-recursive_Multiarch.sh"
 
 	./_regenerate_local_Multiarch.sh
 }

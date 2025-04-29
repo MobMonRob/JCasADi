@@ -9,8 +9,7 @@ source "./_bash_config.sh"
 run() {
 	local -r swigJavaOutDir="$currentTarget/java/de/dhbw/rahmlab/"$wrapLibName"/impl"
 
-	local -r wrapLibTarget="$wrapLibDir" #/$linuxTarget"
-	local -r wrapLibInclude="$wrapLibTarget/include" #/casadi/core"
+	local -r wrapLibInclude="$wrapLibDir/$localTarget/$previousPlatform/casadi/include" #/casadi/core"
 
 	mkdir -p "$swigJavaOutDir"
 	mkdir -p "$currentTmp"
@@ -43,7 +42,7 @@ run() {
 		#-ignoremissing -importall
 		#-cpperraswarn
 		#-O
-		swig -Wextra -DSWIGWORDSIZE64 -DSWIG_TYPE_TABLE=casadi -c++ -java -package "de.dhbw.rahmlab."$wrapLibName".impl" -outdir "$swigJavaOutDir" -o "$currentTmp/"$swigModule"_wrap.cpp" -I"$wrapLibInclude" -I"$swigLibDirectory" "$swigModulesDirectory/$swigModule"
+		time swig -Wextra -DSWIGWORDSIZE64 -DSWIG_TYPE_TABLE=casadi -c++ -java -package "de.dhbw.rahmlab."$wrapLibName".impl" -outdir "$swigJavaOutDir" -o "$currentTmp/"$swigModule"_wrap.cpp" -I"$wrapLibInclude" -I"$swigLibDirectory" "$swigModulesDirectory/$swigModule"
 	done
 }
 
