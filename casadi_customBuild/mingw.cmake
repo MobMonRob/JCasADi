@@ -14,6 +14,7 @@ set(TOOLCHAIN_PREFIX x86_64-w64-mingw32)
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc-posix)
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++-posix)
 set(CMAKE_RC_COMPILER ${TOOLCHAIN_PREFIX}-windres-posix)
+set(CMAKE_Fortran_COMPILER ${TOOLCHAIN_PREFIX}-gfortran-posix)
 
 # target environment on the build host system
 #   set 1st to dir with the cross compiler's C/C++ headers/libs
