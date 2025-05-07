@@ -1,12 +1,16 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.generictype;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
 import de.dhbw.rahmlab.casadi.impl.casadi.TypeID;

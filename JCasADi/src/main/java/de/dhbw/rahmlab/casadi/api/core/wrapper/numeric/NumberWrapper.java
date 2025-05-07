@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.numeric;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.NumericValue;
 
 /**
  * A wrapper class for numeric values that implements the NumericValue interface.

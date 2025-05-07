@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.im;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.Vector;
 
 import java.util.AbstractList;
 import java.util.ArrayList;

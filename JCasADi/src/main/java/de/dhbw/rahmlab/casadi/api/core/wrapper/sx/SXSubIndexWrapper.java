@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.sx;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.SubIndex;
 import de.dhbw.rahmlab.casadi.impl.casadi.SxSubIndex;
 
 public class SXSubIndexWrapper extends SXWrapper implements SubIndex {

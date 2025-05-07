@@ -1,7 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity;
 
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorVectorCasadiSparsity;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Collection;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.Collection;
 
 import java.util.AbstractList;
 import java.util.Arrays;

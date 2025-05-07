@@ -2,7 +2,7 @@ package de.dhbw.rahmlab.casadi.api.core.problem;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;

@@ -4,7 +4,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.MapStringToDMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.MapStringToDMWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 
 public class NLPAdvancedModel extends NLPProblem {

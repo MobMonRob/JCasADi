@@ -22,4 +22,8 @@ public enum Comparison {
         return dotFunction;
     }
 
+    public Comparison getComparison() {
+        return this;
+    }
+
 }

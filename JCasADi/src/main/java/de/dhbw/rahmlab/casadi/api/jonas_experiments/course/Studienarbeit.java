@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course;
 
-import de.dhbw.rahmlab.casadi.api.core.builder.ConstraintBuilder;
+import de.dhbw.rahmlab.casadi.api.core.constraints.ConstraintBuilder;
 import de.dhbw.rahmlab.casadi.api.core.constraints.Comparison;
 import de.dhbw.rahmlab.casadi.api.core.constraints.Constraint;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
@@ -90,6 +90,17 @@ public class Studienarbeit {
                 .rhs(y.add(1))
                 .build();
         System.out.println(constraint);
+
+    }
+
+    public static void constraintTest2() {
+
+
+        MX x = MX.sym("x");
+        MX y = MX.sym("y");
+        MX z = MX.sym("z");
+
+        StdVectorMX mxVector = new StdVectorMX(new MX[]{x, y, z});
 
     }
 

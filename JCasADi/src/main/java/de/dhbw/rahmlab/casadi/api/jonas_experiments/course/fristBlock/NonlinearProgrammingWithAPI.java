@@ -1,16 +1,16 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course.fristBlock;
 
-import de.dhbw.rahmlab.casadi.api.core.builder.DMBuilder;
-import de.dhbw.rahmlab.casadi.api.core.builder.MXBuilder;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMBuilder;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXBuilder;
 import de.dhbw.rahmlab.casadi.api.core.problem.NLPProblem;
 import de.dhbw.rahmlab.casadi.api.core.solver.CasADiSolver;
 import de.dhbw.rahmlab.casadi.api.core.utils.CasADiMathUtils;
 import de.dhbw.rahmlab.casadi.api.core.utils.ConcatenationUtils;
-import de.dhbw.rahmlab.casadi.api.core.utils.DMUtils;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMUtils;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.MapStringToDMWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.MapStringToSXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.MapStringToDMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.MapStringToSXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXSubMatrixWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;

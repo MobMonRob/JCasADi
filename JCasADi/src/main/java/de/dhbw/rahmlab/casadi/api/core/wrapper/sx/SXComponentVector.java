@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.sx;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.Vector;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorCasadiSXElem;
 
 import java.util.AbstractList;

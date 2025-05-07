@@ -1,8 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.constraints;
 
-import de.dhbw.rahmlab.casadi.api.core.builder.ConstraintBuilder;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.MapStringToDouble;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.MapStringToDouble;
 
 public interface Constraint {
 
@@ -22,6 +21,8 @@ public interface Constraint {
      * Gibt eine neue Constraint-Instanz zurück, bei der lhs und rhs mit factor multipliziert wurden.
      */
     Constraint scaledBy(double factor);
+
+    Comparison getComparison();
 
     /**
      * String-Repräsentation wie "x^2 + 1 <= y"

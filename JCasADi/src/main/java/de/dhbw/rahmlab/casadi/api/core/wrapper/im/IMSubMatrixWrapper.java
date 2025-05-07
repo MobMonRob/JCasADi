@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.im;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubMatrix;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.SubMatrix;
 import de.dhbw.rahmlab.casadi.impl.casadi.ImSubMatrix;
 
 public class IMSubMatrixWrapper extends IMWrapper implements SubMatrix {

@@ -1,12 +1,17 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.NumericValue;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.Wrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.index.IndexSlice;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 

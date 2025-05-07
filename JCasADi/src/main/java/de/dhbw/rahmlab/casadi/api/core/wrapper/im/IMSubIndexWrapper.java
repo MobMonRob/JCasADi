@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.im;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubIndex;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.SubIndex;
 import de.dhbw.rahmlab.casadi.impl.casadi.ImSubIndex;
 
 public class IMSubIndexWrapper extends IMWrapper implements SubIndex {

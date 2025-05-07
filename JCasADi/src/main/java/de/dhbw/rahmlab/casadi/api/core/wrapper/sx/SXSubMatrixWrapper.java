@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.sx;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.SubMatrix;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.SubMatrix;
 import de.dhbw.rahmlab.casadi.impl.casadi.SxSubMatrix;
 
 public class SXSubMatrixWrapper extends SXWrapper implements SubMatrix {

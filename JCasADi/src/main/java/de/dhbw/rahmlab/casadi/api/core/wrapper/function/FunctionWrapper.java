@@ -1,13 +1,20 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.function;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.MapStringToDMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MapStringToMXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.*;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.str.MapStringToStringVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.MapStringToSXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;

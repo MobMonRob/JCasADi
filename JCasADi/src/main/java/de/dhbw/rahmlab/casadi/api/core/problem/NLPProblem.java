@@ -1,19 +1,21 @@
 package de.dhbw.rahmlab.casadi.api.core.problem;
 
 import de.dhbw.rahmlab.casadi.api.core.constraints.AbstractConstraint;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.NumericValue;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.solver.CasADiSolver;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.NumericValue;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MapStringToMXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.MapStringToMXWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.StringVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
-import de.dhbw.rahmlab.casadi.impl.casadi.*;
+import de.dhbw.rahmlab.casadi.impl.casadi.DM;
+import de.dhbw.rahmlab.casadi.impl.casadi.Opti;
+import de.dhbw.rahmlab.casadi.impl.casadi.OptiAdvanced;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 
 import java.util.Arrays;
@@ -88,7 +90,8 @@ public class NLPProblem {
 
     public void addConstraint(AbstractConstraint abstractConstraint) {
         if (abstractConstraint.getExpression() != null) {
-            this.nlpProblem.subject_to(((MXWrapper) abstractConstraint.getExpression()).getCasADiObject());
+            // ConstraintType swigType = SwigConstraintTypeAdapter.toSwigType(abstractConstraint);
+            this.nlpProblem.subject_to(abstractConstraint.getExpression().getCasADiObject());
         } else {
             throw new IllegalArgumentException("The constraint must be either of type MXWrapper or SXWrapper.");
         }
@@ -106,6 +109,10 @@ public class NLPProblem {
                         .toList()
         );
         this.nlpProblem.subject_to(vector.getCasADiObject());
+
+//        Arrays.stream(abstractConstraints)
+//                .map(SwigConstraintTypeAdapter::toSwigType)
+//                .forEach(type -> System.out.println("Added constraint with type: " + type));
     }
 
     public void clearConstraints() {

@@ -1,6 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
-import de.dhbw.rahmlab.casadi.api.core.wrapper.interfaces.Vector;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.Vector;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 

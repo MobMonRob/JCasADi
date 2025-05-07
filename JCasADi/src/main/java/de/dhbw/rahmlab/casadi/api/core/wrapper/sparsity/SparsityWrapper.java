@@ -1,8 +1,8 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.BooleanVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.std.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 
 public class SparsityWrapper {
