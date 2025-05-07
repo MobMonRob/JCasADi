@@ -17,7 +17,7 @@ Due to the aforementioned threading issues, no longer needed C++ objects will no
 * x86_64-w64-mingw32-g++, x86_64-w64-mingw32-gcc 13.2.0: `sudo apt install mingw-w64 mingw-w64-tools`
 * x86_64-w64-mingw32-gfortran-posix 13.2.0 `sudo apt install gfortran-mingw-w64-x86-64-posix`
 * CMake 3.28.3 `sudo apt install cmake`
-* SWIG 4.0.1 (3.x does not work!) (see section [Ubuntu 24.04 Noble Numbat](#ubuntu-2404-noble-numbat)
+* SWIG 4.0.1 (3.x does not work!) (see section [Ubuntu 24.04 Noble Numbat](#ubuntu-2404-noble-numbat))
 * openjdk 21 LTS: `sudo apt install openjdk-21-jdk openjdk-21-demo openjdk-21-doc openjdk-21-jre-headless openjdk-21-source`
 * Netbeans 25 `sudo apt install snap`, `sudo snap install netbeans --classic`
 
