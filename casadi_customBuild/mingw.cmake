@@ -23,9 +23,10 @@ set(CMAKE_FIND_ROOT_PATH /usr/${TOOLCHAIN_PREFIX})
 # modify default behavior of FIND_XXX() commands to
 # search for headers/libs in the target environment and
 # search for programs in the build host environment
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+## Set to BOTH to fix cross compiling blasfeo and fatrop.
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
 
 # https://stackoverflow.com/questions/55197902/cmake-cross-compiling-linux-to-windows-with-mingw-does-not-find-some-system-hea/55204775#55204775
 #set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES /usr/lib/gcc/${TOOLCHAIN_PREFIX}/7.3-posix)
