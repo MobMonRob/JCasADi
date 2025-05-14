@@ -38,6 +38,11 @@ run() {
 	cmake --install .
 
 	cd "$scriptDir"
+
+	# Replace symlinks with files
+	find "$localTarget2/casadi/" -type l -exec sh -c 'for i in "$@"; do cp --preserve --remove-destination "$(readlink -f "$i")" "$i"; done' sh {} +
+	# Remvoe files which are not .so
+	find "$localTarget2/casadi/" -type f ! -name '*.so' -delete
 }
 
 run_bash run $@
