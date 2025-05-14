@@ -58,6 +58,11 @@ run() {
 
 	# Windows only
 	rm -f "$windowsTarget/casadi"/*.dll.a
+	rm -f "$windowsTarget/casadi"/*.la
+	rm -f "$windowsTarget/casadi"/*.exe
+
+	## Prevent linking errors when linking the wrapper against casadi.
+	rm -f "$windowsTarget/casadi"/*.lib
 }
 
 run_bash run $@
