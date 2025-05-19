@@ -5,7 +5,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVectorCollection;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 
@@ -18,8 +18,8 @@ public class MXUtils {
      * @param vert A boolean indicating whether to compute vertical offsets.
      * @return IntegerVectorCollection. A new IntegerVectorCollection containing the computed offsets.
      */
-    public static IntegerVector offset(MXVector v, boolean vert) {
-        return new IntegerVector(MX.offset(v.getCasADiObject(), vert));
+    public static CasADiIntVector offset(MXVector v, boolean vert) {
+        return new CasADiIntVector(MX.offset(v.getCasADiObject(), vert));
     }
 
     /**
@@ -28,8 +28,8 @@ public class MXUtils {
      * @param v The MXVector representing the vector.
      * @return IntegerVectorCollection. A new IntegerVectorCollection containing the computed offsets.
      */
-    public static IntegerVector offset(MXVector v) {
-        return new IntegerVector(MX.offset(v.getCasADiObject()));
+    public static CasADiIntVector offset(MXVector v) {
+        return new CasADiIntVector(MX.offset(v.getCasADiObject()));
     }
 
     /**
@@ -255,7 +255,7 @@ public class MXUtils {
      * @param opts The dictionary containing options for the B-spline computation.
      * @return DM. A new DM containing the dual B-spline result.
      */
-    public static DMWrapper bsplineDual(DoubleVector x, DoubleVectorCollection knots, IntegerVector degree, Dictionary opts) {
+    public static DMWrapper bsplineDual(DoubleVector x, DoubleVectorCollection knots, CasADiIntVector degree, Dictionary opts) {
         return new DMWrapper(MX.bspline_dual(x.getCasADiObject(), knots.getCasADiObject(), degree.getCasADiObject(), opts.getCasADiObject()));
     }
 
@@ -267,7 +267,7 @@ public class MXUtils {
      * @param degree The IntegerVectorCollection representing the degree of the B-spline.
      * @return DM. A new DM containing the dual B-spline result.
      */
-    public static DMWrapper bsplineDual(DoubleVector x, DoubleVectorCollection knots, IntegerVector degree) {
+    public static DMWrapper bsplineDual(DoubleVector x, DoubleVectorCollection knots, CasADiIntVector degree) {
         return new DMWrapper(MX.bspline_dual(x.getCasADiObject(), knots.getCasADiObject(), degree.getCasADiObject()));
     }
 

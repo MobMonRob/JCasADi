@@ -8,14 +8,14 @@ import java.util.AbstractList;
  * A collection that holds a vector of integer values (StdVectorCasadiInt) {@link StdVectorCasadiInt}
  * and provides methods to manipulate and access its elements.
  */
-public class IntegerVector extends AbstractList<Long> {
+public class CasADiIntVector extends AbstractList<Long> {
 
     private final StdVectorCasadiInt stdVectorCasadiInt;
 
     /**
      * Constructs an empty IntegerVector.
      */
-    public IntegerVector() {
+    public CasADiIntVector() {
         this.stdVectorCasadiInt = new StdVectorCasadiInt();
     }
 
@@ -24,7 +24,7 @@ public class IntegerVector extends AbstractList<Long> {
      *
      * @param initialElements an array of long values to initialize the collection
      */
-    public IntegerVector(long... initialElements) {
+    public CasADiIntVector(long... initialElements) {
         this.stdVectorCasadiInt = new StdVectorCasadiInt(initialElements);
     }
 
@@ -33,7 +33,7 @@ public class IntegerVector extends AbstractList<Long> {
      *
      * @param initialElements an iterable collection of Long values to initialize the collection
      */
-    public IntegerVector(Iterable<Long> initialElements) {
+    public CasADiIntVector(Iterable<Long> initialElements) {
         this.stdVectorCasadiInt = new StdVectorCasadiInt(initialElements);
     }
 
@@ -42,7 +42,7 @@ public class IntegerVector extends AbstractList<Long> {
      *
      * @param other the IntegerVector to copy
      */
-    public IntegerVector(IntegerVector other) {
+    public CasADiIntVector(CasADiIntVector other) {
         this.stdVectorCasadiInt = new StdVectorCasadiInt(other.getCasADiObject());
     }
 
@@ -56,7 +56,7 @@ public class IntegerVector extends AbstractList<Long> {
      *
      * @param stdVectorCasadiInt the StdVectorCasadiInt instance to initialize the collection with
      */
-    public IntegerVector(StdVectorCasadiInt stdVectorCasadiInt) {
+    public CasADiIntVector(StdVectorCasadiInt stdVectorCasadiInt) {
         this.stdVectorCasadiInt = stdVectorCasadiInt;
     }
 
@@ -72,7 +72,7 @@ public class IntegerVector extends AbstractList<Long> {
      * @param count the number of integer elements to initialize in the collection
      * @param value the long value to initialize each element with
      */
-    public IntegerVector(int count, long value) {
+    public CasADiIntVector(int count, long value) {
         this.stdVectorCasadiInt = new StdVectorCasadiInt(count, value);
     }
 
@@ -103,7 +103,7 @@ public class IntegerVector extends AbstractList<Long> {
      * @param value the long value to add
      * @return this IntegerVector for method chaining
      */
-    public IntegerVector insert(Long value) {
+    public CasADiIntVector insert(Long value) {
         this.stdVectorCasadiInt.add(value);
         return this;
     }
@@ -115,7 +115,7 @@ public class IntegerVector extends AbstractList<Long> {
      * @param value the long value to add
      * @return this IntegerVector for method chaining
      */
-    public IntegerVector insert(int index, Long value) {
+    public CasADiIntVector insert(int index, Long value) {
         this.stdVectorCasadiInt.add(index, value);
         return this;
     }

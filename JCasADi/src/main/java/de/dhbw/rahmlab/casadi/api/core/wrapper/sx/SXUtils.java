@@ -5,7 +5,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 
@@ -113,11 +113,11 @@ public class SXUtils {
         SX.print_split(nnz, nonzeros.getCasADiObject(), nz.getCasADiObject(), inter.getCasADiObject());
     }
 
-    public static SXWrapper triplet(IntegerVector row, IntegerVector col, SXWrapper d) {
+    public static SXWrapper triplet(CasADiIntVector row, CasADiIntVector col, SXWrapper d) {
         return new SXWrapper(SX.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject()));
     }
 
-    public static SXWrapper triplet(IntegerVector row, IntegerVector col, SXWrapper d, long nrow, long ncol) {
+    public static SXWrapper triplet(CasADiIntVector row, CasADiIntVector col, SXWrapper d, long nrow, long ncol) {
         return new SXWrapper(SX.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject(), nrow, ncol));
     }
 
@@ -153,12 +153,12 @@ public class SXUtils {
         return new DMWrapper(SX.from_file(filename));
     }
 
-    public static IntegerVector offset(SXVector v, boolean vert) {
-        return new IntegerVector(SX.offset(v.getCasADiObject(), vert));
+    public static CasADiIntVector offset(SXVector v, boolean vert) {
+        return new CasADiIntVector(SX.offset(v.getCasADiObject(), vert));
     }
 
-    public static IntegerVector offset(SXVector v) {
-        return new IntegerVector(SX.offset(v.getCasADiObject()));
+    public static CasADiIntVector offset(SXVector v) {
+        return new CasADiIntVector(SX.offset(v.getCasADiObject()));
     }
 
 }

@@ -1,20 +1,19 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.sx;
 
+import de.dhbw.rahmlab.casadi.api.core.interfaces.SymbolicExpression;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
-import de.dhbw.rahmlab.casadi.api.core.interfaces.SymbolicExpression;
-import de.dhbw.rahmlab.casadi.api.core.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.index.IndexSlice;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 
 import java.util.Arrays;
 
@@ -98,9 +97,9 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper get(boolean ind1, Slice rr) {
+    public SXWrapper get(boolean ind1, IndexSlice rr) {
         SXWrapper output = new SXWrapper();
-        this.sx.get(output.getCasADiObject(), ind1, rr);
+        this.sx.get(output.getCasADiObject(), ind1, rr.getCasADiObject());
         return output;
     }
 
@@ -120,23 +119,32 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
 
     // ----- Get a submatrix, two arguments -----
     @Override
-    public SXWrapper get(boolean ind1, Slice rr, Slice cc) {
+    public SXWrapper get(String sliceDefinitionRR, String sliceDefinitionCC) {
+        IndexSlice indexSliceRR = IndexSlice.slicingSyntax(sliceDefinitionRR);
+        IndexSlice indexSliceCC = IndexSlice.slicingSyntax(sliceDefinitionCC);
         SXWrapper output = new SXWrapper();
-        this.sx.get(output.getCasADiObject(), ind1, rr, cc);
+        this.sx.get(output.getCasADiObject(), true, indexSliceRR.getCasADiObject(), indexSliceCC.getCasADiObject());
         return output;
     }
 
     @Override
-    public SXWrapper get(boolean ind1, Slice rr, IMWrapper cc) {
+    public SXWrapper get(boolean ind1, IndexSlice rr, IndexSlice cc) {
         SXWrapper output = new SXWrapper();
-        this.sx.get(output.getCasADiObject(), ind1, rr, cc.getCasADiObject());
+        this.sx.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
         return output;
     }
 
     @Override
-    public SXWrapper get(boolean ind1, IMWrapper rr, Slice cc) {
+    public SXWrapper get(boolean ind1, IndexSlice rr, IMWrapper cc) {
         SXWrapper output = new SXWrapper();
-        this.sx.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc);
+        this.sx.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public SXWrapper get(boolean ind1, IMWrapper rr, IndexSlice cc) {
+        SXWrapper output = new SXWrapper();
+        this.sx.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
         return output;
     }
 
@@ -163,8 +171,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public void set(SXWrapper m, boolean ind1, Slice rr) {
-        this.sx.set(m.getCasADiObject(), ind1, rr);
+    public void set(SXWrapper m, boolean ind1, IndexSlice rr) {
+        this.sx.set(m.getCasADiObject(), ind1, rr.getCasADiObject());
     }
 
     @Override
@@ -179,18 +187,25 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
 
     // ----- Set a submatrix, two arguments -----
     @Override
-    public void set(SXWrapper m, boolean ind1, Slice rr, Slice cc) {
-        this.sx.set(m.getCasADiObject(), ind1, rr, cc);
+    public void set(SXWrapper m, String sliceDefinition, String sliceDefinitionCC) {
+        IndexSlice indexSliceRR = IndexSlice.slicingSyntax(sliceDefinition);
+        IndexSlice indexSliceCC = IndexSlice.slicingSyntax(sliceDefinitionCC);
+        this.sx.set(m.getCasADiObject(), true, indexSliceRR.getCasADiObject(), indexSliceCC.getCasADiObject());
     }
 
     @Override
-    public void set(SXWrapper m, boolean ind1, Slice rr, IMWrapper cc) {
-        this.sx.set(m.getCasADiObject(), ind1, rr, cc.getCasADiObject());
+    public void set(SXWrapper m, boolean ind1, IndexSlice rr, IndexSlice cc) {
+        this.sx.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void set(SXWrapper m, boolean ind1, IMWrapper rr, Slice cc) {
-        this.sx.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc);
+    public void set(SXWrapper m, boolean ind1, IndexSlice rr, IMWrapper cc) {
+        this.sx.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    @Override
+    public void set(SXWrapper m, boolean ind1, IMWrapper rr, IndexSlice cc) {
+        this.sx.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
@@ -205,9 +220,9 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public SXWrapper getNZ(boolean ind1, Slice k) {
+    public SXWrapper getNZ(boolean ind1, IndexSlice k) {
         SXWrapper output = new SXWrapper();
-        this.sx.get_nz(output.getCasADiObject(), ind1, k);
+        this.sx.get_nz(output.getCasADiObject(), ind1, k.getCasADiObject());
         return output;
     }
 
@@ -219,8 +234,8 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public void setNZ(SXWrapper m, boolean ind1, Slice k) {
-        this.sx.set_nz(m.getCasADiObject(), ind1, k);
+    public void setNZ(SXWrapper m, boolean ind1, IndexSlice k) {
+        this.sx.set_nz(m.getCasADiObject(), ind1, k.getCasADiObject());
     }
 
     @Override
@@ -464,16 +479,16 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
 
     @Override
     public SXWrapper einstein(SXWrapper other, SXWrapper C,
-                              IntegerVector dim_a, IntegerVector dim_b, IntegerVector dim_c,
-                              IntegerVector a, IntegerVector b, IntegerVector c) {
+                              CasADiIntVector dim_a, CasADiIntVector dim_b, CasADiIntVector dim_c,
+                              CasADiIntVector a, CasADiIntVector b, CasADiIntVector c) {
         return new SXWrapper(SX.einstein(this.sx, other.getCasADiObject(), C.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
                 a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
     }
 
     @Override
-    public SXWrapper einstein(SXWrapper other, IntegerVector dim_a, IntegerVector dim_b, IntegerVector dim_c,
-                              IntegerVector a, IntegerVector b, IntegerVector c) {
+    public SXWrapper einstein(SXWrapper other, CasADiIntVector dim_a, CasADiIntVector dim_b, CasADiIntVector dim_c,
+                              CasADiIntVector a, CasADiIntVector b, CasADiIntVector c) {
         return new SXWrapper(SX.einstein(this.sx, other.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
                 a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
@@ -489,15 +504,15 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return new SXWrapper(SX.cumsum(this.sx));
     }
 
-    public SXVector horzsplit(IntegerVector offset) {
+    public SXVector horzsplit(CasADiIntVector offset) {
         return new SXVector(SX.horzsplit(this.sx, offset.getCasADiObject()));
     }
 
-    public SXVector vertsplit(IntegerVector offset) {
+    public SXVector vertsplit(CasADiIntVector offset) {
         return new SXVector(SX.vertsplit(this.sx, offset.getCasADiObject()));
     }
 
-    public SXVector diagsplit(IntegerVector offset1, IntegerVector offset2) {
+    public SXVector diagsplit(CasADiIntVector offset1, CasADiIntVector offset2) {
         return new SXVector(SX.diagsplit(this.sx, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
 
@@ -605,7 +620,7 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return new SXWrapper(SX.mtaylor(this.sx, x.getCasADiObject(), a.getCasADiObject(), order));
     }
 
-    public SXWrapper mtaylor(SXWrapper x, SXWrapper a, long order, IntegerVector orderContributions) {
+    public SXWrapper mtaylor(SXWrapper x, SXWrapper a, long order, CasADiIntVector orderContributions) {
         return new SXWrapper(SX.mtaylor(this.sx, x.getCasADiObject(), a.getCasADiObject(), order, orderContributions.getCasADiObject()));
     }
 
@@ -626,19 +641,19 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         return new DMWrapper(SX.evalf(this.sx));
     }
 
-    public void qrSparse(SXWrapper V, SXWrapper R, SXWrapper beta, IntegerVector prinv, IntegerVector pc, boolean amd) {
+    public void qrSparse(SXWrapper V, SXWrapper R, SXWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean amd) {
         SX.qr_sparse(this.sx, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), amd);
     }
 
-    public void qrSparse(SXWrapper V, SXWrapper R, SXWrapper beta, IntegerVector prinv, IntegerVector pc) {
+    public void qrSparse(SXWrapper V, SXWrapper R, SXWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
         SX.qr_sparse(this.sx, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject());
     }
 
-    public SXWrapper qrSolve(SXWrapper v, SXWrapper r, SXWrapper beta, IntegerVector prinv, IntegerVector pc, boolean tr) {
+    public SXWrapper qrSolve(SXWrapper v, SXWrapper r, SXWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean tr) {
         return new SXWrapper(SX.qr_solve(this.sx, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), tr));
     }
 
-    public SXWrapper qrSolve(SXWrapper v, SXWrapper r, SXWrapper beta, IntegerVector prinv, IntegerVector pc) {
+    public SXWrapper qrSolve(SXWrapper v, SXWrapper r, SXWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
         return new SXWrapper(SX.qr_solve(this.sx, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject()));
     }
 
@@ -646,15 +661,15 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         SX.qr(this.sx, Q.getCasADiObject(), R.getCasADiObject());
     }
 
-    public void ldl(SXWrapper D, SXWrapper LT, IntegerVector p, boolean amd) {
+    public void ldl(SXWrapper D, SXWrapper LT, CasADiIntVector p, boolean amd) {
         SX.ldl(this.sx, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject(), amd);
     }
 
-    public void ldl(SXWrapper D, SXWrapper LT, IntegerVector p) {
+    public void ldl(SXWrapper D, SXWrapper LT, CasADiIntVector p) {
         SX.ldl(this.sx, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject());
     }
 
-    public SXWrapper ldlSolve(SXWrapper D, SXWrapper LT, IntegerVector p) {
+    public SXWrapper ldlSolve(SXWrapper D, SXWrapper LT, CasADiIntVector p) {
         return new SXWrapper(SX.ldl_solve(this.sx, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject()));
     }
 
@@ -747,36 +762,36 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public void erase(IntegerVector rr, IntegerVector cc, boolean ind1) {
+    public void erase(CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
         this.sx.erase(rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     @Override
-    public void erase(IntegerVector rr, IntegerVector cc) {
+    public void erase(CasADiIntVector rr, CasADiIntVector cc) {
         this.sx.erase(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void erase(IntegerVector rr, boolean ind1) {
+    public void erase(CasADiIntVector rr, boolean ind1) {
         this.sx.erase(rr.getCasADiObject(), ind1);
     }
 
     @Override
-    public void erase(IntegerVector rr) {
+    public void erase(CasADiIntVector rr) {
         this.sx.erase(rr.getCasADiObject());
     }
 
-    public void remove(IntegerVector rr, IntegerVector cc) {
+    public void remove(CasADiIntVector rr, CasADiIntVector cc) {
         this.sx.remove(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc, boolean ind1) {
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
         this.sx.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc) {
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc) {
         this.sx.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
@@ -994,7 +1009,7 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
         this.sx.assign(other.getCasADiObject());
     }
 
-    public SXVectorCollection blocksplit(IntegerVector vert_offset, IntegerVector horz_offset) {
+    public SXVectorCollection blocksplit(CasADiIntVector vert_offset, CasADiIntVector horz_offset) {
         return new SXVectorCollection(SX.blocksplit(this.sx, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
 
@@ -1135,13 +1150,13 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     @Override
-    public IntegerVector getRow() {
-        return new IntegerVector(this.sx.get_row());
+    public CasADiIntVector getRow() {
+        return new CasADiIntVector(this.sx.get_row());
     }
 
     @Override
-    public IntegerVector getColInd() {
-        return new IntegerVector(this.sx.get_colind());
+    public CasADiIntVector getColInd() {
+        return new CasADiIntVector(this.sx.get_colind());
     }
 
     @Override

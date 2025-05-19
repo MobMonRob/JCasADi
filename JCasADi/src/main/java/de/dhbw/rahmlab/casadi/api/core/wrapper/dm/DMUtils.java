@@ -2,7 +2,7 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 
 public class DMUtils {
@@ -71,11 +71,11 @@ public class DMUtils {
         return new DMVector(DM.get_free(f.getCasADiObject()));
     }
 
-    public static DMWrapper triplet(IntegerVector row, IntegerVector col, DMWrapper d) {
+    public static DMWrapper triplet(CasADiIntVector row, CasADiIntVector col, DMWrapper d) {
         return new DMWrapper(DM.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject()));
     }
 
-    public static DMWrapper triplet(IntegerVector row, IntegerVector col, DMWrapper d, long nrow, long ncol) {
+    public static DMWrapper triplet(CasADiIntVector row, CasADiIntVector col, DMWrapper d, long nrow, long ncol) {
         return new DMWrapper(DM.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject(), nrow, ncol));
     }
 
@@ -103,12 +103,12 @@ public class DMUtils {
         return new DMWrapper(DM.from_file(filename));
     }
 
-    public static IntegerVector offset(DMVector v, boolean vert) {
-        return new IntegerVector(DM.offset(v.getCasADiObject(), vert));
+    public static CasADiIntVector offset(DMVector v, boolean vert) {
+        return new CasADiIntVector(DM.offset(v.getCasADiObject(), vert));
     }
 
-    public static IntegerVector offset(DMVector v) {
-        return new IntegerVector(DM.offset(v.getCasADiObject()));
+    public static CasADiIntVector offset(DMVector v) {
+        return new CasADiIntVector(DM.offset(v.getCasADiObject()));
     }
 
     public static DMWrapper scalarMatrix(long op, DMWrapper x, DMWrapper y) {

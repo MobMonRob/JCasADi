@@ -1,6 +1,8 @@
 package de.dhbw.rahmlab.casadi.api.core.problem;
 
 import de.dhbw.rahmlab.casadi.api.core.constraints.AbstractConstraint;
+import de.dhbw.rahmlab.casadi.api.core.constraints.Comparison;
+import de.dhbw.rahmlab.casadi.api.core.constraints.ConstraintBuilder;
 import de.dhbw.rahmlab.casadi.api.core.solver.CasADiSolver;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
@@ -37,6 +39,17 @@ public class NLPProblemBuilder {
     private CasADiSolver solver = null;
     private Dictionary pluginOptions = null;
     private Dictionary solverOptions = null;
+    private final List<InitialAssignment> initialAssignments = new ArrayList<>();
+
+    private static class InitialAssignment {
+        MXWrapper variable;
+        Number[] values;
+
+        InitialAssignment(MXWrapper variable, Number... values) {
+            this.variable = variable;
+            this.values = values;
+        }
+    }
 
     /**
      * Specifies the type of the optimization problem.
@@ -94,6 +107,26 @@ public class NLPProblemBuilder {
     }
 
     /**
+     * Add a binary constraint of the form lhs (cmp) rhs.
+     *
+     * @param lhs  left‑hand side expression
+     * @param cmp  comparison operator (EQ, LE, GE, LT, GT)
+     * @param rhs  right‑hand side expression
+     * @return this builder
+     */
+    public NLPProblemBuilder addConstraint(MXWrapper lhs,
+                                           Comparison cmp,
+                                           MXWrapper rhs) {
+        AbstractConstraint c = (AbstractConstraint) ConstraintBuilder
+                .of(lhs)
+                .cmp(cmp)
+                .rhs(rhs)
+                .build();
+        this.abstractConstraints.add(c);
+        return this;
+    }
+
+    /**
      * Specifies the solver to be used.
      *
      * @param solver the CasADiSolver enumeration value.
@@ -116,6 +149,18 @@ public class NLPProblemBuilder {
         this.solver = solver;
         this.pluginOptions = pluginOptions;
         this.solverOptions = solverOptions;
+        return this;
+    }
+
+    public NLPProblemBuilder setInitialDecisionVariable(MXWrapper x, Number... v) {
+        initialAssignments.add(new InitialAssignment(x, v));
+        return this;
+    }
+
+    public NLPProblemBuilder setInitialDecisionVariable(MXWrapper... assignments) {
+        for (MXWrapper assignment : assignments) {
+            initialAssignments.add(new InitialAssignment(assignment));
+        }
         return this;
     }
 
@@ -155,6 +200,13 @@ public class NLPProblemBuilder {
                 problem.setSolver(solver, pluginOptions);
             } else {
                 problem.setSolver(solver);
+            }
+        }
+        for (InitialAssignment assignment : initialAssignments) {
+            if (assignment.values != null && assignment.values.length > 0) {
+                problem.setInitialDecisionVariable(assignment.variable, assignment.values);
+            } else {
+                problem.setInitialDecisionVariables(assignment.variable);
             }
         }
         return problem;

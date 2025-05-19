@@ -1,7 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.index;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 
@@ -237,47 +237,47 @@ public class IndexSlice {
     }
 
     /**
-     * Returns all indices represented by this slice as an {@link IntegerVector}.
+     * Returns all indices represented by this slice as an {@link CasADiIntVector}.
      *
-     * @return an {@link IntegerVector} containing all indices.
+     * @return an {@link CasADiIntVector} containing all indices.
      */
-    public IntegerVector all() {
-        return new IntegerVector(this.slice.all());
+    public CasADiIntVector all() {
+        return new CasADiIntVector(this.slice.all());
     }
 
     /**
-     * Returns all indices represented by this slice as an {@link IntegerVector}
+     * Returns all indices represented by this slice as an {@link CasADiIntVector}
      * with a specified length and index type.
      *
      * @param len the length to apply.
      * @param ind1 whether to use 1-based indexing.
-     * @return an {@link IntegerVector} containing all indices.
+     * @return an {@link CasADiIntVector} containing all indices.
      */
-    public IntegerVector all(long len, boolean ind1) {
-        return new IntegerVector(this.slice.all(len, ind1));
+    public CasADiIntVector all(long len, boolean ind1) {
+        return new CasADiIntVector(this.slice.all(len, ind1));
     }
 
     /**
-     * Returns all indices represented by this slice as an {@link IntegerVector}
+     * Returns all indices represented by this slice as an {@link CasADiIntVector}
      * with a specified length.
      *
      * @param len the length to apply.
-     * @return an {@link IntegerVector} containing all indices.
+     * @return an {@link CasADiIntVector} containing all indices.
      */
-    public IntegerVector all(long len) {
-        return new IntegerVector(this.slice.all(len));
+    public CasADiIntVector all(long len) {
+        return new CasADiIntVector(this.slice.all(len));
     }
 
     /**
-     * Returns all indices represented by this slice as an {@link IntegerVector}
+     * Returns all indices represented by this slice as an {@link CasADiIntVector}
      * based on an outer {@code IndexSlice} and a specified length.
      *
      * @param outer the outer {@code IndexSlice} to use.
      * @param len the length to apply.
-     * @return an {@link IntegerVector} containing all indices.
+     * @return an {@link CasADiIntVector} containing all indices.
      */
-    public IntegerVector all(IndexSlice outer, long len) {
-        return new IntegerVector(this.slice.all(outer.getCasADiObject(), len));
+    public CasADiIntVector all(IndexSlice outer, long len) {
+        return new CasADiIntVector(this.slice.all(outer.getCasADiObject(), len));
     }
 
     /**

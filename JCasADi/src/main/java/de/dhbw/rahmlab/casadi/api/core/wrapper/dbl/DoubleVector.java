@@ -3,6 +3,7 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.dbl;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 
 import java.util.AbstractList;
+import java.util.Arrays;
 
 /**
  * A collection that holds a vector of double values (StdVectorDouble) {@link StdVectorDouble}
@@ -24,8 +25,22 @@ public class DoubleVector extends AbstractList<Double> {
      *
      * @param initialElements an array of double values to initialize the collection
      */
-    public DoubleVector(double[] initialElements) {
+    public DoubleVector(double... initialElements) {
         this.stdVectorDouble = new StdVectorDouble(initialElements);
+    }
+
+    /**
+     * Constructs a DoubleVector with the specified initial elements.
+     *
+     * @param initialElements the elements to initialize the vector with.
+     *                        Each element is converted to a double value and added to the vector.
+     *                        Accepts any number of elements of type Number.
+     */
+    public DoubleVector(Number... initialElements) {
+        this.stdVectorDouble = new StdVectorDouble();
+        Arrays.stream(initialElements).forEach(element -> {
+            this.stdVectorDouble.add(element.doubleValue());
+        });
     }
 
     /**

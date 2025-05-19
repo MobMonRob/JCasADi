@@ -1,7 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.im;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.IM;
 
 public class IMUtils {
@@ -26,11 +26,11 @@ public class IMUtils {
         return new IMWrapper(IM.if_else(x.getCasADiObject(), ifTrue.getCasADiObject(), ifFalse.getCasADiObject()));
     }
 
-    public static IMWrapper triplet(IntegerVector row, IntegerVector col, IMWrapper d) {
+    public static IMWrapper triplet(CasADiIntVector row, CasADiIntVector col, IMWrapper d) {
         return new IMWrapper(IM.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject()));
     }
 
-    public static IMWrapper triplet(IntegerVector row, IntegerVector col, IMWrapper d, long nrow, long ncol) {
+    public static IMWrapper triplet(CasADiIntVector row, CasADiIntVector col, IMWrapper d, long nrow, long ncol) {
         return new IMWrapper(IM.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject(), nrow, ncol));
     }
 

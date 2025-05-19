@@ -1,15 +1,15 @@
 package de.dhbw.rahmlab.casadi.api.core.interfaces;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.index.IndexSlice;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
-import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 
 public interface Wrapper<T extends Wrapper<?>> {
 
@@ -19,17 +19,17 @@ public interface Wrapper<T extends Wrapper<?>> {
 
     boolean nonzero();
 
-    void erase(IntegerVector rr, IntegerVector cc, boolean ind1);
+    void erase(CasADiIntVector rr, CasADiIntVector cc, boolean ind1);
 
-    void erase(IntegerVector rr, IntegerVector cc);
+    void erase(CasADiIntVector rr, CasADiIntVector cc);
 
-    void erase(IntegerVector rr, boolean ind1);
+    void erase(CasADiIntVector rr, boolean ind1);
 
-    void erase(IntegerVector rr);
+    void erase(CasADiIntVector rr);
 
-    void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc, boolean ind1);
+    void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc, boolean ind1);
 
-    void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc);
+    void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc);
 
     T dep(long ch);
 
@@ -73,17 +73,19 @@ public interface Wrapper<T extends Wrapper<?>> {
 
     T get(String sliceDefinition);
 
-    T get(boolean ind1, Slice rr);
+    T get(boolean ind1, IndexSlice rr);
 
     T get(boolean ind1, IMWrapper rr);
 
     T get(boolean ind1, SparsityWrapper sp);
 
-    T get(boolean ind1, Slice rr, Slice cc);
+    T get(String sliceDefinitionRR, String sliceDefinitionCC);
 
-    T get(boolean ind1, Slice rr, IMWrapper cc);
+    T get(boolean ind1, IndexSlice rr, IndexSlice cc);
 
-    T get(boolean ind1, IMWrapper rr, Slice cc);
+    T get(boolean ind1, IndexSlice rr, IMWrapper cc);
+
+    T get(boolean ind1, IMWrapper rr, IndexSlice cc);
 
     T get(boolean ind1, IMWrapper rr, IMWrapper cc);
 
@@ -91,39 +93,41 @@ public interface Wrapper<T extends Wrapper<?>> {
 
     void set(T m, String sliceDefinition);
 
-    void set(T m, boolean ind1, Slice rr);
+    void set(T m, boolean ind1, IndexSlice rr);
 
     void set(T m, boolean ind1, IMWrapper rr);
 
     void set(T m, boolean ind1, SparsityWrapper sp);
 
-    void set(T m, boolean ind1, Slice rr, Slice cc);
+    void set(T m, String sliceDefinitionRR, String sliceDefinitionCC);
 
-    void set(T m, boolean ind1, Slice rr, IMWrapper cc);
+    void set(T m, boolean ind1, IndexSlice rr, IndexSlice cc);
 
-    void set(T m, boolean ind1, IMWrapper rr, Slice cc);
+    void set(T m, boolean ind1, IndexSlice rr, IMWrapper cc);
+
+    void set(T m, boolean ind1, IMWrapper rr, IndexSlice cc);
 
     void set(T m, boolean ind1, IMWrapper rr, IMWrapper cc);
 
     void set(T m, NumberWrapper... slice);
 
-    T getNZ(boolean ind1, Slice k);
+    T getNZ(boolean ind1, IndexSlice k);
 
     T getNZ(boolean ind1, IMWrapper k);
 
-    void setNZ(T m, boolean ind1, Slice k);
+    void setNZ(T m, boolean ind1, IndexSlice k);
 
     void setNZ(T m, boolean ind1, IMWrapper k);
 
     T einstein(T other, T C,
-               IntegerVector dim_a, IntegerVector dim_b,
-               IntegerVector dim_c, IntegerVector a,
-               IntegerVector b, IntegerVector c);
+               CasADiIntVector dim_a, CasADiIntVector dim_b,
+               CasADiIntVector dim_c, CasADiIntVector a,
+               CasADiIntVector b, CasADiIntVector c);
 
     T einstein(T other,
-               IntegerVector dim_a, IntegerVector dim_b,
-               IntegerVector dim_c, IntegerVector a,
-               IntegerVector b, IntegerVector c);
+               CasADiIntVector dim_a, CasADiIntVector dim_b,
+               CasADiIntVector dim_c, CasADiIntVector a,
+               CasADiIntVector b, CasADiIntVector c);
 
     boolean isEqual(T other, long depth);
 
@@ -309,9 +313,9 @@ public interface Wrapper<T extends Wrapper<?>> {
 
     boolean isTril();
 
-    IntegerVector getRow();
+    CasADiIntVector getRow();
 
-    IntegerVector getColInd();
+    CasADiIntVector getColInd();
 
     long row(long el);
 

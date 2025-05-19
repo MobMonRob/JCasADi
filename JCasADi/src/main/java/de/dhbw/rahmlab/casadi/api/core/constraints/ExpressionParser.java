@@ -21,6 +21,12 @@ public class ExpressionParser {
         return evalRPN(rpn);
     }
 
+    public static AbstractConstraint parseConstraint(String expr) {
+        List<String> tokens = tokenize(expr);
+        List<String> rpn    = toRPN(tokens);
+        return evalConstraintRPN(rpn);
+    }
+
     /** 1) Tokenisierung */
     private static List<String> tokenize(String expr) {
         Matcher m = TOKEN.matcher(expr);
@@ -93,4 +99,58 @@ public class ExpressionParser {
         }
         return stack.pop();
     }
+
+    private static AbstractConstraint evalConstraintRPN(List<String> rpn) {
+        Deque<Object> stack = new ArrayDeque<>();
+        for (String t : rpn) {
+            if (t.matches("\\d+(?:\\.\\d*)?")) {
+                stack.push(new MXWrapper(Double.parseDouble(t)));
+            } else if (t.matches("[a-zA-Z_]\\w*")) {
+                stack.push(MXWrapper.sym(t));
+            } else if (t.matches("<=|>=|<|>|=")) {
+                // Constraint-Operator
+                MXWrapper rhs = (MXWrapper) stack.pop();
+                MXWrapper lhs = (MXWrapper) stack.pop();
+                Comparison cmp = parseCmp(t);
+                stack.push(ConstraintBuilder.of(lhs).cmp(cmp).rhs(rhs).build());
+            } else {
+                // Arithmetische Operatoren
+                MXWrapper b = (MXWrapper) stack.pop();
+                MXWrapper a = (MXWrapper) stack.pop();
+                MXWrapper res = switch (t) {
+                    case "+" -> a.add(b);
+                    case "-" -> a.subtract(b);
+                    case "*" -> a.multiply(b);
+                    case "/" -> a.divide(b);
+                    case "^" -> a.pow(b);
+                    default  -> throw new IllegalArgumentException("Unknown op: " + t);
+                };
+                stack.push(res);
+            }
+        }
+        Object result = stack.pop();
+        if (result instanceof AbstractConstraint c) {
+            return c;
+        } else if (result instanceof MXWrapper expr) {
+            // Fallback: expr == 0
+            return (AbstractConstraint) ConstraintBuilder.of(expr)
+                    .cmp(Comparison.EQ)
+                    .rhs(new MXWrapper(0))
+                    .build();
+        } else {
+            throw new IllegalStateException("Unexpected RPN result: " + result);
+        }
+    }
+
+    private static Comparison parseCmp(String sym) {
+        return switch (sym) {
+            case "="  -> Comparison.EQ;
+            case "<=" -> Comparison.LE;
+            case ">=" -> Comparison.GE;
+            case "<"  -> Comparison.LT;
+            case ">"  -> Comparison.GT;
+            default   -> throw new IllegalArgumentException("Unknown comparison: " + sym);
+        };
+    }
+
 }

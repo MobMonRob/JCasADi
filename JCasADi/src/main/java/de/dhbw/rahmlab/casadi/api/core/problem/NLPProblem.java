@@ -161,7 +161,7 @@ public class NLPProblem {
         this.nlpProblem.set_initial(x.getCasADiObject(), DM.vertcat(dmVector));
     }
 
-    public void setInitialDecisionVariable(MXWrapper... assignments) {
+    public void setInitialDecisionVariables(MXWrapper... assignments) {
         MXVector vector = new MXVector(assignments);
         this.nlpProblem.set_initial(vector.getCasADiObject());
     }

@@ -3,7 +3,7 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.function;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
@@ -42,15 +42,15 @@ public class FunctionUtils {
         return new FunctionWrapper(Function.conditional(name, f.getCasADiObject()));
     }
 
-    public static FunctionWrapper bspline(String name, DoubleVectorCollection knots, DoubleVector coeffs, IntegerVector degree, long m, Dictionary opts) {
+    public static FunctionWrapper bspline(String name, DoubleVectorCollection knots, DoubleVector coeffs, CasADiIntVector degree, long m, Dictionary opts) {
         return new FunctionWrapper(Function.bspline(name, knots.getCasADiObject(), coeffs.getCasADiObject(), degree.getCasADiObject(), m, opts.getCasADiObject()));
     }
 
-    public static FunctionWrapper bspline(String name, DoubleVectorCollection knots, DoubleVector coeffs, IntegerVector degree, long m) {
+    public static FunctionWrapper bspline(String name, DoubleVectorCollection knots, DoubleVector coeffs, CasADiIntVector degree, long m) {
         return new FunctionWrapper(Function.bspline(name, knots.getCasADiObject(), coeffs.getCasADiObject(), degree.getCasADiObject(), m));
     }
 
-    public static FunctionWrapper bspline(String name, DoubleVectorCollection knots, DoubleVector coeffs, IntegerVector degree) {
+    public static FunctionWrapper bspline(String name, DoubleVectorCollection knots, DoubleVector coeffs, CasADiIntVector degree) {
         return new FunctionWrapper(Function.bspline(name, knots.getCasADiObject(), coeffs.getCasADiObject(), degree.getCasADiObject()));
     }
 

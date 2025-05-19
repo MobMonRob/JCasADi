@@ -7,12 +7,11 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.index.IndexSlice;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.IM;
-import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,24 +74,24 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         this.im = new IM(collection.getCasADiObject());
     }
 
-    public IMWrapper(IntegerVector x) {
+    public IMWrapper(CasADiIntVector x) {
         this.im = new IM(x.getCasADiObject());
     }
 
     public IMWrapper(Long... x) {
-        IntegerVector vector = new IntegerVector();
+        CasADiIntVector vector = new CasADiIntVector();
         vector.addAll(List.of(x));
         this.im = new IM(vector.getCasADiObject());
     }
 
     public IMWrapper(Number... x) {
-        IntegerVector vector = new IntegerVector();
+        CasADiIntVector vector = new CasADiIntVector();
         Arrays.stream(x).forEach(element -> vector.add(element.longValue()));
         this.im = new IM(vector.getCasADiObject());
     }
 
     public IMWrapper(NumberWrapper... x) {
-        IntegerVector vector = new IntegerVector();
+        CasADiIntVector vector = new CasADiIntVector();
         Arrays.stream(x).forEach(element -> vector.add(element.getLongValue()));
         this.im = new IM(vector.getCasADiObject());
     }
@@ -101,7 +100,7 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         this.im = new IM(sp.getCasADiObject(), val, dummy);
     }
 
-    public IMWrapper(SparsityWrapper sp, IntegerVector val, boolean dummy) {
+    public IMWrapper(SparsityWrapper sp, CasADiIntVector val, boolean dummy) {
         this.im = new IM(sp.getCasADiObject(), val.getCasADiObject(), dummy);
     }
 
@@ -227,9 +226,9 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper get(boolean ind1, Slice rr) {
+    public IMWrapper get(boolean ind1, IndexSlice rr) {
         IMWrapper output = new IMWrapper();
-        this.im.get(output.getCasADiObject(), ind1, rr);
+        this.im.get(output.getCasADiObject(), ind1, rr.getCasADiObject());
         return output;
     }
 
@@ -248,23 +247,32 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper get(boolean ind1, Slice rr, Slice cc) {
+    public IMWrapper get(String sliceDefinitionRR, String sliceDefinitionCC) {
+        IndexSlice indexSliceRR = IndexSlice.slicingSyntax(sliceDefinitionRR);
+        IndexSlice indexSliceCC = IndexSlice.slicingSyntax(sliceDefinitionCC);
         IMWrapper output = new IMWrapper();
-        this.im.get(output.getCasADiObject(), ind1, rr, cc);
+        this.im.get(output.getCasADiObject(), true, indexSliceRR.getCasADiObject(), indexSliceCC.getCasADiObject());
         return output;
     }
 
     @Override
-    public IMWrapper get(boolean ind1, Slice rr, IMWrapper cc) {
+    public IMWrapper get(boolean ind1, IndexSlice rr, IndexSlice cc) {
         IMWrapper output = new IMWrapper();
-        this.im.get(output.getCasADiObject(), ind1, rr, cc.getCasADiObject());
+        this.im.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
         return output;
     }
 
     @Override
-    public IMWrapper get(boolean ind1, IMWrapper rr, Slice cc) {
+    public IMWrapper get(boolean ind1, IndexSlice rr, IMWrapper cc) {
         IMWrapper output = new IMWrapper();
-        this.im.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc);
+        this.im.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public IMWrapper get(boolean ind1, IMWrapper rr, IndexSlice cc) {
+        IMWrapper output = new IMWrapper();
+        this.im.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
         return output;
     }
 
@@ -290,8 +298,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public void set(IMWrapper m, boolean ind1, Slice rr) {
-        this.im.set(m.getCasADiObject(), ind1, rr);
+    public void set(IMWrapper m, boolean ind1, IndexSlice rr) {
+        this.im.set(m.getCasADiObject(), ind1, rr.getCasADiObject());
     }
 
     @Override
@@ -305,18 +313,25 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public void set(IMWrapper m, boolean ind1, Slice rr, Slice cc) {
-        this.im.set(m.getCasADiObject(), ind1, rr, cc);
+    public void set(IMWrapper m, String sliceDefinitionRR, String sliceDefinitionCC) {
+        IndexSlice indexSliceRR = IndexSlice.slicingSyntax(sliceDefinitionRR);
+        IndexSlice indexSliceCC = IndexSlice.slicingSyntax(sliceDefinitionCC);
+        this.im.set(m.getCasADiObject(), true, indexSliceRR.getCasADiObject(), indexSliceCC.getCasADiObject());
     }
 
     @Override
-    public void set(IMWrapper m, boolean ind1, Slice rr, IMWrapper cc) {
-        this.im.set(m.getCasADiObject(), ind1, rr, cc.getCasADiObject());
+    public void set(IMWrapper m, boolean ind1, IndexSlice rr, IndexSlice cc) {
+        this.im.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void set(IMWrapper m, boolean ind1, IMWrapper rr, Slice cc) {
-        this.im.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc);
+    public void set(IMWrapper m, boolean ind1, IndexSlice rr, IMWrapper cc) {
+        this.im.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    @Override
+    public void set(IMWrapper m, boolean ind1, IMWrapper rr, IndexSlice cc) {
+        this.im.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
@@ -331,9 +346,9 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper getNZ(boolean ind1, Slice k) {
+    public IMWrapper getNZ(boolean ind1, IndexSlice k) {
         IMWrapper output = new IMWrapper();
-        this.im.get_nz(output.getCasADiObject(), ind1, k);
+        this.im.get_nz(output.getCasADiObject(), ind1, k.getCasADiObject());
         return output;
     }
 
@@ -345,8 +360,8 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public void setNZ(IMWrapper m, boolean ind1, Slice k) {
-        this.im.set_nz(m.getCasADiObject(), ind1, k);
+    public void setNZ(IMWrapper m, boolean ind1, IndexSlice k) {
+        this.im.set_nz(m.getCasADiObject(), ind1, k.getCasADiObject());
     }
 
     @Override
@@ -586,16 +601,16 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IMWrapper einstein(IMWrapper other, IMWrapper C, IntegerVector dim_a, IntegerVector dim_b,
-                              IntegerVector dim_c, IntegerVector a, IntegerVector b, IntegerVector c) {
+    public IMWrapper einstein(IMWrapper other, IMWrapper C, CasADiIntVector dim_a, CasADiIntVector dim_b,
+                              CasADiIntVector dim_c, CasADiIntVector a, CasADiIntVector b, CasADiIntVector c) {
         return new IMWrapper(IM.einstein(this.im, other.getCasADiObject(), C.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject(), c.getCasADiObject()));
     }
 
     @Override
-    public IMWrapper einstein(IMWrapper other, IntegerVector dim_a, IntegerVector dim_b, IntegerVector dim_c,
-                              IntegerVector a, IntegerVector b, IntegerVector c) {
+    public IMWrapper einstein(IMWrapper other, CasADiIntVector dim_a, CasADiIntVector dim_b, CasADiIntVector dim_c,
+                              CasADiIntVector a, CasADiIntVector b, CasADiIntVector c) {
         return new IMWrapper(IM.einstein(this.im, other.getCasADiObject(), dim_a.getCasADiObject(),
                 dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject(), c.getCasADiObject()));
@@ -715,7 +730,7 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         return new IMWrapper(IM.mtaylor(this.im, x.getCasADiObject(), a.getCasADiObject(), order));
     }
 
-    public IMWrapper mtaylor(IMWrapper x, IMWrapper a, long order, IntegerVector orderContributions) {
+    public IMWrapper mtaylor(IMWrapper x, IMWrapper a, long order, CasADiIntVector orderContributions) {
         return new IMWrapper(IM.mtaylor(this.im, x.getCasADiObject(), a.getCasADiObject(), order, orderContributions.getCasADiObject()));
     }
 
@@ -736,22 +751,22 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         return new DMWrapper(IM.evalf(this.im));
     }
 
-    public void qrSparse(IMWrapper V, IMWrapper R, IMWrapper beta, IntegerVector prinv, IntegerVector pc, boolean amd) {
+    public void qrSparse(IMWrapper V, IMWrapper R, IMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean amd) {
         IM.qr_sparse(this.im, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(),
                 prinv.getCasADiObject(), pc.getCasADiObject(), amd);
     }
 
-    public void qrSparse(IMWrapper V, IMWrapper R, IMWrapper beta, IntegerVector prinv, IntegerVector pc) {
+    public void qrSparse(IMWrapper V, IMWrapper R, IMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
         IM.qr_sparse(this.im, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(),
                 prinv.getCasADiObject(), pc.getCasADiObject());
     }
 
-    public IMWrapper qrSolve(IMWrapper v, IMWrapper r, IMWrapper beta, IntegerVector prinv, IntegerVector pc, boolean tr) {
+    public IMWrapper qrSolve(IMWrapper v, IMWrapper r, IMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean tr) {
         return new IMWrapper(IM.qr_solve(this.im, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(),
                 prinv.getCasADiObject(), pc.getCasADiObject(), tr));
     }
 
-    public IMWrapper qrSolve(IMWrapper v, IMWrapper r, IMWrapper beta, IntegerVector prinv, IntegerVector pc) {
+    public IMWrapper qrSolve(IMWrapper v, IMWrapper r, IMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
         return new IMWrapper(IM.qr_solve(this.im, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(),
                 prinv.getCasADiObject(), pc.getCasADiObject()));
     }
@@ -760,15 +775,15 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         IM.qr(this.im, Q.getCasADiObject(), R.getCasADiObject());
     }
 
-    public void ldl(IMWrapper D, IMWrapper LT, IntegerVector p, boolean amd) {
+    public void ldl(IMWrapper D, IMWrapper LT, CasADiIntVector p, boolean amd) {
         IM.ldl(this.im, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject(), amd);
     }
 
-    public void ldl(IMWrapper D, IMWrapper LT, IntegerVector p) {
+    public void ldl(IMWrapper D, IMWrapper LT, CasADiIntVector p) {
         IM.ldl(this.im, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject());
     }
 
-    public IMWrapper ldlSolve(IMWrapper D, IMWrapper LT, IntegerVector p) {
+    public IMWrapper ldlSolve(IMWrapper D, IMWrapper LT, CasADiIntVector p) {
         return new IMWrapper(IM.ldl_solve(this.im, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject()));
     }
 
@@ -860,41 +875,41 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public void erase(IntegerVector rr, IntegerVector cc, boolean ind1) {
+    public void erase(CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
         this.im.erase(rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     @Override
-    public void erase(IntegerVector rr, IntegerVector cc) {
+    public void erase(CasADiIntVector rr, CasADiIntVector cc) {
         this.im.erase(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void erase(IntegerVector rr, boolean ind1) {
+    public void erase(CasADiIntVector rr, boolean ind1) {
         this.im.erase(rr.getCasADiObject(), ind1);
     }
 
     @Override
-    public void erase(IntegerVector rr) {
+    public void erase(CasADiIntVector rr) {
         this.im.erase(rr.getCasADiObject());
     }
 
-    public void remove(IntegerVector rr, IntegerVector cc) {
+    public void remove(CasADiIntVector rr, CasADiIntVector cc) {
         this.im.remove(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc, boolean ind1) {
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
         this.im.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc) {
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc) {
         this.im.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
-    public IntegerVector nonzeros() {
-        return new IntegerVector(this.im.nonzeros());
+    public CasADiIntVector nonzeros() {
+        return new CasADiIntVector(this.im.nonzeros());
     }
 
     @Override
@@ -987,12 +1002,12 @@ public class IMWrapper implements Wrapper<IMWrapper> {
         return this.im.has_zeros();
     }
 
-    public IntegerVector getNonzeros() {
-        return new IntegerVector(this.im.get_nonzeros());
+    public CasADiIntVector getNonzeros() {
+        return new CasADiIntVector(this.im.get_nonzeros());
     }
 
-    public IntegerVector getElements() {
-        return new IntegerVector(this.im.get_elements());
+    public CasADiIntVector getElements() {
+        return new CasADiIntVector(this.im.get_elements());
     }
 
     @Override
@@ -1180,13 +1195,13 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     @Override
-    public IntegerVector getRow() {
-        return new IntegerVector(this.im.get_row());
+    public CasADiIntVector getRow() {
+        return new CasADiIntVector(this.im.get_row());
     }
 
     @Override
-    public IntegerVector getColInd() {
-        return new IntegerVector(this.im.get_colind());
+    public CasADiIntVector getColInd() {
+        return new CasADiIntVector(this.im.get_colind());
     }
 
     @Override

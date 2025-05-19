@@ -8,7 +8,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.interfaces.NumericValue;
 import de.dhbw.rahmlab.casadi.api.core.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.index.IndexSlice;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
@@ -141,9 +141,9 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper get(boolean ind1, Slice rr) {
+    public DMWrapper get(boolean ind1, IndexSlice rr) {
         DMWrapper output = new DMWrapper();
-        this.dm.get(output.getCasADiObject(), ind1, rr);
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject());
         return output;
     }
 
@@ -163,23 +163,32 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
 
     // ----- Get a submatrix, two arguments -----
     @Override
-    public DMWrapper get(boolean ind1, Slice rr, Slice cc) {
+    public DMWrapper get(String sliceDefinitionRR, String sliceDefinitionCC) {
+        IndexSlice indexSliceRR = IndexSlice.slicingSyntax(sliceDefinitionRR);
+        IndexSlice indexSliceCC = IndexSlice.slicingSyntax(sliceDefinitionCC);
         DMWrapper output = new DMWrapper();
-        this.dm.get(output.getCasADiObject(), ind1, rr, cc);
+        this.dm.get(output.getCasADiObject(), true, indexSliceRR.getCasADiObject(), indexSliceCC.getCasADiObject());
         return output;
     }
 
     @Override
-    public DMWrapper get(boolean ind1, Slice rr, IMWrapper cc) {
+    public DMWrapper get(boolean ind1, IndexSlice rr, IndexSlice cc) {
         DMWrapper output = new DMWrapper();
-        this.dm.get(output.getCasADiObject(), ind1, rr, cc.getCasADiObject());
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
         return output;
     }
 
     @Override
-    public DMWrapper get(boolean ind1, IMWrapper rr, Slice cc) {
+    public DMWrapper get(boolean ind1, IndexSlice rr, IMWrapper cc) {
         DMWrapper output = new DMWrapper();
-        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc);
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper get(boolean ind1, IMWrapper rr, IndexSlice cc) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
         return output;
     }
 
@@ -206,8 +215,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public void set(DMWrapper m, boolean ind1, Slice rr) {
-        this.dm.set(m.getCasADiObject(), ind1, rr);
+    public void set(DMWrapper m, boolean ind1, IndexSlice rr) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject());
     }
 
     @Override
@@ -222,18 +231,25 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
 
     // ----- Set a submatrix, two arguments -----
     @Override
-    public void set(DMWrapper m, boolean ind1, Slice rr, Slice cc) {
-       this.dm.set(m.getCasADiObject(), ind1, rr, cc);
+    public void set(DMWrapper m, String sliceDefinitionRR, String sliceDefinitionCC) {
+        IndexSlice indexSliceRR = IndexSlice.slicingSyntax(sliceDefinitionRR);
+        IndexSlice indexSliceCC = IndexSlice.slicingSyntax(sliceDefinitionCC);
+        this.dm.set(m.getCasADiObject(), true, indexSliceRR.getCasADiObject(), indexSliceCC.getCasADiObject());
     }
 
     @Override
-    public void set(DMWrapper m, boolean ind1, Slice rr, IMWrapper cc) {
-        this.dm.set(m.getCasADiObject(), ind1, rr, cc.getCasADiObject());
+    public void set(DMWrapper m, boolean ind1, IndexSlice rr, IndexSlice cc) {
+       this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void set(DMWrapper m, boolean ind1, IMWrapper rr, Slice cc) {
-        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc);
+    public void set(DMWrapper m, boolean ind1, IndexSlice rr, IMWrapper cc) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    @Override
+    public void set(DMWrapper m, boolean ind1, IMWrapper rr, IndexSlice cc) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
@@ -248,9 +264,9 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public DMWrapper getNZ(boolean ind1, Slice k) {
+    public DMWrapper getNZ(boolean ind1, IndexSlice k) {
         DMWrapper output = new DMWrapper();
-        this.dm.get_nz(output.getCasADiObject(), ind1, k);
+        this.dm.get_nz(output.getCasADiObject(), ind1, k.getCasADiObject());
         return output;
     }
 
@@ -262,8 +278,8 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public void setNZ(DMWrapper m, boolean ind1, Slice k) {
-        this.dm.set_nz(m.getCasADiObject(), ind1, k);
+    public void setNZ(DMWrapper m, boolean ind1, IndexSlice k) {
+        this.dm.set_nz(m.getCasADiObject(), ind1, k.getCasADiObject());
     }
 
     @Override
@@ -509,9 +525,9 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
 
     @Override
     public DMWrapper einstein(DMWrapper other, DMWrapper C,
-                              IntegerVector dim_a, IntegerVector dim_b,
-                              IntegerVector dim_c, IntegerVector a,
-                              IntegerVector b, IntegerVector c) {
+                              CasADiIntVector dim_a, CasADiIntVector dim_b,
+                              CasADiIntVector dim_c, CasADiIntVector a,
+                              CasADiIntVector b, CasADiIntVector c) {
         return new DMWrapper(DM.einstein(this.dm, other.getCasADiObject(), C.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
                 a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
@@ -519,9 +535,9 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
 
     @Override
     public DMWrapper einstein(DMWrapper other,
-                              IntegerVector dim_a, IntegerVector dim_b,
-                              IntegerVector dim_c, IntegerVector a,
-                              IntegerVector b, IntegerVector c) {
+                              CasADiIntVector dim_a, CasADiIntVector dim_b,
+                              CasADiIntVector dim_c, CasADiIntVector a,
+                              CasADiIntVector b, CasADiIntVector c) {
         return new DMWrapper(DM.einstein(this.dm, other.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
                 a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
@@ -537,15 +553,15 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.cumsum(this.dm));
     }
 
-    public DMVector horzsplit(IntegerVector offset) {
+    public DMVector horzsplit(CasADiIntVector offset) {
         return new DMVector(DM.horzsplit(this.dm, offset.getCasADiObject()));
     }
 
-    public DMVector vertsplit(IntegerVector offset) {
+    public DMVector vertsplit(CasADiIntVector offset) {
         return new DMVector(DM.vertsplit(this.dm, offset.getCasADiObject()));
     }
 
-    public DMVector diagsplit(IntegerVector offset1, IntegerVector offset2) {
+    public DMVector diagsplit(CasADiIntVector offset1, CasADiIntVector offset2) {
         return new DMVector(DM.diagsplit(this.dm, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
 
@@ -653,7 +669,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.mtaylor(this.dm, x.getCasADiObject(), a.getCasADiObject(), order));
     }
 
-    public DMWrapper mtaylor(DMWrapper x, DMWrapper a, long order, IntegerVector orderContributions) {
+    public DMWrapper mtaylor(DMWrapper x, DMWrapper a, long order, CasADiIntVector orderContributions) {
         return new DMWrapper(DM.mtaylor(this.dm, x.getCasADiObject(), a.getCasADiObject(), order, orderContributions.getCasADiObject()));
     }
 
@@ -674,19 +690,19 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         return new DMWrapper(DM.evalf(this.dm));
     }
 
-    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, IntegerVector prinv, IntegerVector pc, boolean amd) {
+    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean amd) {
         DM.qr_sparse(this.dm, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), amd);
     }
 
-    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, IntegerVector prinv, IntegerVector pc) {
+    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
         DM.qr_sparse(this.dm, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject());
     }
 
-    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, IntegerVector prinv, IntegerVector pc, boolean tr) {
+    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean tr) {
         return new DMWrapper(DM.qr_solve(this.dm, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), tr));
     }
 
-    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, IntegerVector prinv, IntegerVector pc) {
+    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
         return new DMWrapper(DM.qr_solve(this.dm, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject()));
     }
 
@@ -694,15 +710,15 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         DM.qr(this.dm, Q.getCasADiObject(), R.getCasADiObject());
     }
 
-    public void ldl(DMWrapper D, DMWrapper LT, IntegerVector p, boolean amd) {
+    public void ldl(DMWrapper D, DMWrapper LT, CasADiIntVector p, boolean amd) {
         DM.ldl(this.dm, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject(), amd);
     }
 
-    public void ldl(DMWrapper D, DMWrapper LT, IntegerVector p) {
+    public void ldl(DMWrapper D, DMWrapper LT, CasADiIntVector p) {
         DM.ldl(this.dm, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject());
     }
 
-    public DMWrapper ldlSolve(DMWrapper D, DMWrapper LT, IntegerVector p) {
+    public DMWrapper ldlSolve(DMWrapper D, DMWrapper LT, CasADiIntVector p) {
         return new DMWrapper(DM.ldl_solve(this.dm, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject()));
     }
 
@@ -795,36 +811,36 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public void erase(IntegerVector rr, IntegerVector cc, boolean ind1) {
+    public void erase(CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
         this.dm.erase(rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     @Override
-    public void erase(IntegerVector rr, IntegerVector cc) {
+    public void erase(CasADiIntVector rr, CasADiIntVector cc) {
         this.dm.erase(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void erase(IntegerVector rr, boolean ind1) {
+    public void erase(CasADiIntVector rr, boolean ind1) {
         this.dm.erase(rr.getCasADiObject(), ind1);
     }
 
     @Override
-    public void erase(IntegerVector rr) {
+    public void erase(CasADiIntVector rr) {
         this.dm.erase(rr.getCasADiObject());
     }
 
-    public void remove(IntegerVector rr, IntegerVector cc) {
+    public void remove(CasADiIntVector rr, CasADiIntVector cc) {
         this.dm.remove(rr.getCasADiObject(), cc.getCasADiObject());
     }
 
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc, boolean ind1) {
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
         this.dm.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
     @Override
-    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc) {
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc) {
         this.dm.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
@@ -1026,7 +1042,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         this.dm.assign(other.getCasADiObject());
     }
 
-    public DMVectorCollection blocksplit(IntegerVector vert_offset, IntegerVector horz_offset) {
+    public DMVectorCollection blocksplit(CasADiIntVector vert_offset, CasADiIntVector horz_offset) {
         return new DMVectorCollection(DM.blocksplit(this.dm, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
 
@@ -1167,13 +1183,13 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
     }
 
     @Override
-    public IntegerVector getRow() {
-        return new IntegerVector(this.dm.get_row());
+    public CasADiIntVector getRow() {
+        return new CasADiIntVector(this.dm.get_row());
     }
 
     @Override
-    public IntegerVector getColInd() {
-        return new IntegerVector(this.dm.get_colind());
+    public CasADiIntVector getColInd() {
+        return new CasADiIntVector(this.dm.get_colind());
     }
 
     @Override

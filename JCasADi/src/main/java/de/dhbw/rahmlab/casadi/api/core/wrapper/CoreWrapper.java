@@ -8,7 +8,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.MapStringToDMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.index.IndexSlice;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MapStringToMXWrapper;
@@ -23,7 +23,7 @@ import de.dhbw.rahmlab.casadi.impl.core__;
 
 public class CoreWrapper {
 
-    public static long hashSparsity(long nrow, long ncol, IntegerVector colind, IntegerVector row) {
+    public static long hashSparsity(long nrow, long ncol, CasADiIntVector colind, CasADiIntVector row) {
         return core__.hash_sparsity(nrow, ncol, colind.getCasADiObject(), row.getCasADiObject());
     }
 
@@ -43,23 +43,23 @@ public class CoreWrapper {
         core__.update_dict(target.getCasADiObject(), source.getCasADiObject());
     }
 
-    public static IndexSlice toSlice(IntegerVector v, boolean ind1) {
+    public static IndexSlice toSlice(CasADiIntVector v, boolean ind1) {
         return new IndexSlice(core__.to_slice(v.getCasADiObject(), ind1));
     }
 
-    public static IndexSlice toSlice(IntegerVector v) {
+    public static IndexSlice toSlice(CasADiIntVector v) {
         return new IndexSlice(core__.to_slice(v.getCasADiObject()));
     }
 
-    public static boolean isSlice(IntegerVector v, boolean ind1) {
+    public static boolean isSlice(CasADiIntVector v, boolean ind1) {
         return core__.is_slice(v.getCasADiObject(), ind1);
     }
 
-    public static boolean isSlice(IntegerVector v) {
+    public static boolean isSlice(CasADiIntVector v) {
         return core__.is_slice(v.getCasADiObject());
     }
 
-    public static boolean isSlice2(IntegerVector v) {
+    public static boolean isSlice2(CasADiIntVector v) {
         return core__.is_slice2(v.getCasADiObject());
     }
 
@@ -594,23 +594,23 @@ public class CoreWrapper {
         return new FunctionWrapper(core__.interpolant(name, solver, grid.getCasADiObject()));
     }
 
-    public static FunctionWrapper interpolant(String name, String solver, IntegerVector gridDims, long m, Dictionary opts) {
+    public static FunctionWrapper interpolant(String name, String solver, CasADiIntVector gridDims, long m, Dictionary opts) {
         return new FunctionWrapper(core__.interpolant(name, solver, gridDims.getCasADiObject(), m, opts.getCasADiObject()));
     }
 
-    public static FunctionWrapper interpolant(String name, String solver, IntegerVector gridDims, long m) {
+    public static FunctionWrapper interpolant(String name, String solver, CasADiIntVector gridDims, long m) {
         return new FunctionWrapper(core__.interpolant(name, solver, gridDims.getCasADiObject(), m));
     }
 
-    public static FunctionWrapper interpolant(String name, String solver, IntegerVector gridDims) {
+    public static FunctionWrapper interpolant(String name, String solver, CasADiIntVector gridDims) {
         return new FunctionWrapper(core__.interpolant(name, solver, gridDims.getCasADiObject()));
     }
 
-    public static FunctionWrapper interpolant(String name, String solver, IntegerVector gridDims, DoubleVector values, Dictionary opts) {
+    public static FunctionWrapper interpolant(String name, String solver, CasADiIntVector gridDims, DoubleVector values, Dictionary opts) {
         return new FunctionWrapper(core__.interpolant(name, solver, gridDims.getCasADiObject(), values.getCasADiObject(), opts.getCasADiObject()));
     }
 
-    public static FunctionWrapper interpolant(String name, String solver, IntegerVector gridDims, DoubleVector values) {
+    public static FunctionWrapper interpolant(String name, String solver, CasADiIntVector gridDims, DoubleVector values) {
         return new FunctionWrapper(core__.interpolant(name, solver, gridDims.getCasADiObject(), values.getCasADiObject()));
     }
 
@@ -739,11 +739,11 @@ public class CoreWrapper {
         return new FunctionWrapper(core__.dae_init_gen(dae.getCasADiObject(), daeRed.getCasADiObject(), initSolver));
     }
 
-    public static void detectSimpleBounds(SXWrapper xX, SXWrapper p, SXWrapper g, SXWrapper lbg, SXWrapper ubg, IntegerVector arg5, SXWrapper arg6, SXWrapper arg7, FunctionWrapper arg8, FunctionWrapper arg9) {
+    public static void detectSimpleBounds(SXWrapper xX, SXWrapper p, SXWrapper g, SXWrapper lbg, SXWrapper ubg, CasADiIntVector arg5, SXWrapper arg6, SXWrapper arg7, FunctionWrapper arg8, FunctionWrapper arg9) {
         core__.detect_simple_bounds(xX.getCasADiObject(), p.getCasADiObject(), g.getCasADiObject(), lbg.getCasADiObject(), ubg.getCasADiObject(), arg5.getCasADiObject(), arg6.getCasADiObject(), arg7.getCasADiObject(), arg8.getCasADiObject(), arg9.getCasADiObject());
     }
 
-    public static void detectSimpleBounds(MXWrapper xX, MXWrapper p, MXWrapper g, MXWrapper lbg, MXWrapper ubg, IntegerVector arg5, MXWrapper arg6, MXWrapper arg7, FunctionWrapper arg8, FunctionWrapper arg9) {
+    public static void detectSimpleBounds(MXWrapper xX, MXWrapper p, MXWrapper g, MXWrapper lbg, MXWrapper ubg, CasADiIntVector arg5, MXWrapper arg6, MXWrapper arg7, FunctionWrapper arg8, FunctionWrapper arg9) {
         core__.detect_simple_bounds(xX.getCasADiObject(), p.getCasADiObject(), g.getCasADiObject(), lbg.getCasADiObject(), ubg.getCasADiObject(), arg5.getCasADiObject(), arg6.getCasADiObject(), arg7.getCasADiObject(), arg8.getCasADiObject(), arg9.getCasADiObject());
     }
 

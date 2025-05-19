@@ -7,7 +7,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.function.FunctionWrapper;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
@@ -55,7 +55,7 @@ public class CasADiGenericWrapper {
         this.genericType = new GenericType(iv.getCasADiObject());
     }
 
-    public CasADiGenericWrapper(IntegerVector iv) {
+    public CasADiGenericWrapper(CasADiIntVector iv) {
         this.genericType = new GenericType(iv.getCasADiObject());
     }
 
@@ -197,12 +197,12 @@ public class CasADiGenericWrapper {
         return this.genericType.as_string();
     }
 
-    public IntegerVector castToInternalTypeIntegerVector() {
-        return new IntegerVector(this.genericType.as_int_vector());
+    public CasADiIntVector castToInternalTypeIntegerVector() {
+        return new CasADiIntVector(this.genericType.as_int_vector());
     }
 
-    public IntegerVector castToInternalTypeBooleanVector() {
-        return new IntegerVector(this.genericType.as_bool_vector());
+    public CasADiIntVector castToInternalTypeBooleanVector() {
+        return new CasADiIntVector(this.genericType.as_bool_vector());
     }
 
     public DoubleVector castToInternalTypeDoubleVector() {
@@ -249,8 +249,8 @@ public class CasADiGenericWrapper {
         return this.genericType.to_string();
     }
 
-    public IntegerVector convertToIntegerVector() {
-        return new IntegerVector(this.genericType.to_int_vector());
+    public CasADiIntVector convertToIntegerVector() {
+        return new CasADiIntVector(this.genericType.to_int_vector());
     }
 
     public BooleanVector convertToBooleanVector() {

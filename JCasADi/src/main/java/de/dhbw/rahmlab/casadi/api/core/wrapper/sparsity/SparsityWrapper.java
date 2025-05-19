@@ -2,7 +2,7 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
-import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.IntegerVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 
 public class SparsityWrapper {
@@ -21,11 +21,11 @@ public class SparsityWrapper {
         this.sparsity = new Sparsity(nrow, ncol);
     }
 
-    public SparsityWrapper(long nrow, long ncol, IntegerVector colind, IntegerVector row, boolean orderRows) {
+    public SparsityWrapper(long nrow, long ncol, CasADiIntVector colind, CasADiIntVector row, boolean orderRows) {
         this.sparsity = new Sparsity(nrow, ncol, colind.getCasADiObject(), row.getCasADiObject(), orderRows);
     }
 
-    public SparsityWrapper(long nrow, long ncol, IntegerVector colind, IntegerVector row) {
+    public SparsityWrapper(long nrow, long ncol, CasADiIntVector colind, CasADiIntVector row) {
         this.sparsity = new Sparsity(nrow, ncol, colind.getCasADiObject(), row.getCasADiObject());
     }
 
@@ -74,27 +74,27 @@ public class SparsityWrapper {
     }
 
 
-    public IntegerVector permutationVector(boolean invert) {
-        return new IntegerVector(this.sparsity.permutation_vector(invert));
+    public CasADiIntVector permutationVector(boolean invert) {
+        return new CasADiIntVector(this.sparsity.permutation_vector(invert));
     }
 
-    public IntegerVector permutationVector() {
-        return new IntegerVector(this.sparsity.permutation_vector());
+    public CasADiIntVector permutationVector() {
+        return new CasADiIntVector(this.sparsity.permutation_vector());
     }
 
-    public SparsityWrapper getDiag(IntegerVector output) {
+    public SparsityWrapper getDiag(CasADiIntVector output) {
         return new SparsityWrapper(this.sparsity.get_diag(output.getCasADiObject()));
     }
 
-    public IntegerVector compress() {
-        return new IntegerVector(this.sparsity.compress());
+    public CasADiIntVector compress() {
+        return new CasADiIntVector(this.sparsity.compress());
     }
 
     public boolean isEqual(SparsityWrapper y) {
         return this.sparsity.is_equal(y.getCasADiObject());
     }
 
-    public boolean isEqual(long nrow, long ncol, IntegerVector colind, IntegerVector row) {
+    public boolean isEqual(long nrow, long ncol, CasADiIntVector colind, CasADiIntVector row) {
         return this.sparsity.is_equal(nrow, ncol, colind.getCasADiObject(), row.getCasADiObject());
     }
 
@@ -186,12 +186,12 @@ public class SparsityWrapper {
         return this.sparsity.serialize();
     }
 
-    public IntegerVector getRow() {
-        return new IntegerVector(this.sparsity.get_row());
+    public CasADiIntVector getRow() {
+        return new CasADiIntVector(this.sparsity.get_row());
     }
 
-    public IntegerVector getColind() {
-        return new IntegerVector(this.sparsity.get_colind());
+    public CasADiIntVector getColind() {
+        return new CasADiIntVector(this.sparsity.get_colind());
     }
 
     public long colind(long cc) {
@@ -202,8 +202,8 @@ public class SparsityWrapper {
         return this.sparsity.row(el);
     }
 
-    public IntegerVector getCol() {
-        return new IntegerVector(this.sparsity.get_col());
+    public CasADiIntVector getCol() {
+        return new CasADiIntVector(this.sparsity.get_col());
     }
 
     public void resize(long nrow, long ncol) {
@@ -222,47 +222,47 @@ public class SparsityWrapper {
         return this.sparsity.has_nz(rr, cc);
     }
 
-    public IntegerVector getNz(IntegerVector rr, IntegerVector cc) {
-        return new IntegerVector(this.sparsity.get_nz(rr.getCasADiObject(), cc.getCasADiObject()));
+    public CasADiIntVector getNz(CasADiIntVector rr, CasADiIntVector cc) {
+        return new CasADiIntVector(this.sparsity.get_nz(rr.getCasADiObject(), cc.getCasADiObject()));
     }
 
-    public void getNz(IntegerVector inout) {
+    public void getNz(CasADiIntVector inout) {
         this.sparsity.get_nz(inout.getCasADiObject());
     }
 
-    public IntegerVector getLower() {
-        return new IntegerVector(this.sparsity.get_lower());
+    public CasADiIntVector getLower() {
+        return new CasADiIntVector(this.sparsity.get_lower());
     }
 
-    public IntegerVector getUpper() {
-        return new IntegerVector(this.sparsity.get_upper());
+    public CasADiIntVector getUpper() {
+        return new CasADiIntVector(this.sparsity.get_upper());
     }
 
-    public void getCCS(IntegerVector arg0, IntegerVector arg1) {
+    public void getCCS(CasADiIntVector arg0, CasADiIntVector arg1) {
         this.sparsity.get_ccs(arg0.getCasADiObject(), arg1.getCasADiObject());
     }
 
-    public void getCRS(IntegerVector arg0, IntegerVector arg1) {
+    public void getCRS(CasADiIntVector arg0, CasADiIntVector arg1) {
         this.sparsity.get_crs(arg0.getCasADiObject(), arg1.getCasADiObject());
     }
 
-    public void getTriplet(IntegerVector arg0, IntegerVector arg1) {
+    public void getTriplet(CasADiIntVector arg0, CasADiIntVector arg1) {
         this.sparsity.get_triplet(arg0.getCasADiObject(), arg1.getCasADiObject());
     }
 
-    public SparsityWrapper sub(IntegerVector rr, IntegerVector cc, IntegerVector output, boolean ind1) {
+    public SparsityWrapper sub(CasADiIntVector rr, CasADiIntVector cc, CasADiIntVector output, boolean ind1) {
         return new SparsityWrapper(this.sparsity.sub(rr.getCasADiObject(), cc.getCasADiObject(), output.getCasADiObject(), ind1));
     }
 
-    public SparsityWrapper sub(IntegerVector rr, IntegerVector cc, IntegerVector output) {
+    public SparsityWrapper sub(CasADiIntVector rr, CasADiIntVector cc, CasADiIntVector output) {
         return new SparsityWrapper(this.sparsity.sub(rr.getCasADiObject(), cc.getCasADiObject(), output.getCasADiObject()));
     }
 
-    public SparsityWrapper sub(IntegerVector rr, SparsityWrapper sp, IntegerVector output, boolean ind1) {
+    public SparsityWrapper sub(CasADiIntVector rr, SparsityWrapper sp, CasADiIntVector output, boolean ind1) {
         return new SparsityWrapper(this.sparsity.sub(rr.getCasADiObject(), sp.getCasADiObject(), output.getCasADiObject(), ind1));
     }
 
-    public SparsityWrapper sub(IntegerVector rr, SparsityWrapper sp, IntegerVector output) {
+    public SparsityWrapper sub(CasADiIntVector rr, SparsityWrapper sp, CasADiIntVector output) {
         return new SparsityWrapper(this.sparsity.sub(rr.getCasADiObject(), sp.getCasADiObject(), output.getCasADiObject()));
     }
 
@@ -270,11 +270,11 @@ public class SparsityWrapper {
         return new SparsityWrapper(this.sparsity.T());
     }
 
-    public SparsityWrapper transpose(IntegerVector output, boolean invertMapping) {
+    public SparsityWrapper transpose(CasADiIntVector output, boolean invertMapping) {
         return new SparsityWrapper(this.sparsity.transpose(output.getCasADiObject(), invertMapping));
     }
 
-    public SparsityWrapper transpose(IntegerVector output) {
+    public SparsityWrapper transpose(CasADiIntVector output) {
         return new SparsityWrapper(this.sparsity.transpose(output.getCasADiObject()));
     }
 
@@ -310,15 +310,15 @@ public class SparsityWrapper {
         return new SparsityWrapper(this.sparsity.pattern_inverse());
     }
 
-    public SparsityVector horzsplit(IntegerVector offset) {
+    public SparsityVector horzsplit(CasADiIntVector offset) {
         return new SparsityVector(Sparsity.horzsplit(this.sparsity, offset.getCasADiObject()));
     }
 
-    public SparsityVector vertsplit(IntegerVector offset) {
+    public SparsityVector vertsplit(CasADiIntVector offset) {
         return new SparsityVector(Sparsity.vertsplit(this.sparsity, offset.getCasADiObject()));
     }
 
-    public SparsityVector diagsplit(IntegerVector offset1, IntegerVector offset2) {
+    public SparsityVector diagsplit(CasADiIntVector offset1, CasADiIntVector offset2) {
         return new SparsityVector(Sparsity.diagsplit(this.sparsity, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
 
@@ -378,48 +378,48 @@ public class SparsityWrapper {
         return new SparsityWrapper(Sparsity.sum1(this.sparsity));
     }
 
-    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc, boolean ind1) {
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
         this.sparsity.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject(), ind1);
     }
 
-    public void enlarge(long nrow, long ncol, IntegerVector rr, IntegerVector cc) {
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc) {
         this.sparsity.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject());
     }
 
-    public void enlargeRows(long nrow, IntegerVector rr, boolean ind1) {
+    public void enlargeRows(long nrow, CasADiIntVector rr, boolean ind1) {
         this.sparsity.enlargeRows(nrow, rr.getCasADiObject(), ind1);
     }
 
-    public void enlargeRows(long nrow, IntegerVector rr) {
+    public void enlargeRows(long nrow, CasADiIntVector rr) {
         this.sparsity.enlargeRows(nrow, rr.getCasADiObject());
     }
 
-    public void enlargeColumns(long ncol, IntegerVector cc, boolean ind1) {
+    public void enlargeColumns(long ncol, CasADiIntVector cc, boolean ind1) {
         this.sparsity.enlargeColumns(ncol, cc.getCasADiObject(), ind1);
     }
 
-    public void enlargeColumns(long ncol, IntegerVector cc) {
+    public void enlargeColumns(long ncol, CasADiIntVector cc) {
         this.sparsity.enlargeColumns(ncol, cc.getCasADiObject());
     }
 
-    public SparsityWrapper makeDense(IntegerVector output) {
+    public SparsityWrapper makeDense(CasADiIntVector output) {
         return new SparsityWrapper(this.sparsity.makeDense(output.getCasADiObject()));
     }
 
-    public IntegerVector erase(IntegerVector rr, IntegerVector cc, boolean ind1) {
-        return new IntegerVector(this.sparsity.erase(rr.getCasADiObject(), cc.getCasADiObject(), ind1));
+    public CasADiIntVector erase(CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
+        return new CasADiIntVector(this.sparsity.erase(rr.getCasADiObject(), cc.getCasADiObject(), ind1));
     }
 
-    public IntegerVector erase(IntegerVector rr, IntegerVector cc) {
-        return new IntegerVector(this.sparsity.erase(rr.getCasADiObject(), cc.getCasADiObject()));
+    public CasADiIntVector erase(CasADiIntVector rr, CasADiIntVector cc) {
+        return new CasADiIntVector(this.sparsity.erase(rr.getCasADiObject(), cc.getCasADiObject()));
     }
 
-    public IntegerVector erase(IntegerVector rr, boolean ind1) {
-        return new IntegerVector(this.sparsity.erase(rr.getCasADiObject(), ind1));
+    public CasADiIntVector erase(CasADiIntVector rr, boolean ind1) {
+        return new CasADiIntVector(this.sparsity.erase(rr.getCasADiObject(), ind1));
     }
 
-    public IntegerVector erase(IntegerVector rr) {
-        return new IntegerVector(this.sparsity.erase(rr.getCasADiObject()));
+    public CasADiIntVector erase(CasADiIntVector rr) {
+        return new CasADiIntVector(this.sparsity.erase(rr.getCasADiObject()));
     }
 
     public void append(SparsityWrapper sp) {
@@ -530,63 +530,63 @@ public class SparsityWrapper {
         return this.sparsity.rowsSequential();
     }
 
-    public void removeDuplicates(IntegerVector inout) {
+    public void removeDuplicates(CasADiIntVector inout) {
         this.sparsity.removeDuplicates(inout.getCasADiObject());
     }
 
-    public IntegerVector etree(boolean ata) {
-        return new IntegerVector(this.sparsity.etree(ata));
+    public CasADiIntVector etree(boolean ata) {
+        return new CasADiIntVector(this.sparsity.etree(ata));
     }
 
-    public IntegerVector etree() {
-        return new IntegerVector(this.sparsity.etree());
+    public CasADiIntVector etree() {
+        return new CasADiIntVector(this.sparsity.etree());
     }
 
-    public SparsityWrapper ldl(IntegerVector output, boolean amd) {
+    public SparsityWrapper ldl(CasADiIntVector output, boolean amd) {
         return new SparsityWrapper(this.sparsity.ldl(output.getCasADiObject(), amd));
     }
 
-    public SparsityWrapper ldl(IntegerVector output) {
+    public SparsityWrapper ldl(CasADiIntVector output) {
         return new SparsityWrapper(this.sparsity.ldl(output.getCasADiObject()));
     }
 
-    public void qrSparse(SparsityWrapper arg0, SparsityWrapper arg1, IntegerVector arg2, IntegerVector arg3, boolean amd) {
+    public void qrSparse(SparsityWrapper arg0, SparsityWrapper arg1, CasADiIntVector arg2, CasADiIntVector arg3, boolean amd) {
         this.sparsity.qr_sparse(arg0.getCasADiObject(), arg1.getCasADiObject(), arg2.getCasADiObject(), arg3.getCasADiObject(), amd);
     }
 
-    public void qrSparse(SparsityWrapper arg0, SparsityWrapper arg1, IntegerVector arg2, IntegerVector arg3) {
+    public void qrSparse(SparsityWrapper arg0, SparsityWrapper arg1, CasADiIntVector arg2, CasADiIntVector arg3) {
         this.sparsity.qr_sparse(arg0.getCasADiObject(), arg1.getCasADiObject(), arg2.getCasADiObject(), arg3.getCasADiObject());
     }
 
-    public long dfs(long j, long top, IntegerVector arg2, IntegerVector arg3, IntegerVector pinv, BooleanVector arg5) {
+    public long dfs(long j, long top, CasADiIntVector arg2, CasADiIntVector arg3, CasADiIntVector pinv, BooleanVector arg5) {
         return this.sparsity.dfs(j, top, arg2.getCasADiObject(), arg3.getCasADiObject(), pinv.getCasADiObject(), arg5.getCasADiObject());
     }
 
-    public long scc(IntegerVector arg0, IntegerVector arg1) {
+    public long scc(CasADiIntVector arg0, CasADiIntVector arg1) {
         return this.sparsity.scc(arg0.getCasADiObject(), arg1.getCasADiObject());
     }
 
-    public long btf(IntegerVector arg0, IntegerVector arg1, IntegerVector arg2, IntegerVector arg3, IntegerVector arg4, IntegerVector arg5) {
+    public long btf(CasADiIntVector arg0, CasADiIntVector arg1, CasADiIntVector arg2, CasADiIntVector arg3, CasADiIntVector arg4, CasADiIntVector arg5) {
         return this.sparsity.btf(arg0.getCasADiObject(), arg1.getCasADiObject(), arg2.getCasADiObject(), arg3.getCasADiObject(), arg4.getCasADiObject(), arg5.getCasADiObject());
     }
 
-    public IntegerVector amd() {
-        return new IntegerVector(this.sparsity.amd());
+    public CasADiIntVector amd() {
+        return new CasADiIntVector(this.sparsity.amd());
     }
 
-    public IntegerVector find(boolean ind1) {
-        return new IntegerVector(this.sparsity.find(ind1));
+    public CasADiIntVector find(boolean ind1) {
+        return new CasADiIntVector(this.sparsity.find(ind1));
     }
 
-    public IntegerVector find() {
-        return new IntegerVector(this.sparsity.find());
+    public CasADiIntVector find() {
+        return new CasADiIntVector(this.sparsity.find());
     }
 
-    public void find(IntegerVector loc, boolean ind1) {
+    public void find(CasADiIntVector loc, boolean ind1) {
         this.sparsity.find(loc.getCasADiObject(), ind1);
     }
 
-    public void find(IntegerVector loc) {
+    public void find(CasADiIntVector loc) {
         this.sparsity.find(loc.getCasADiObject());
     }
 
@@ -626,23 +626,23 @@ public class SparsityWrapper {
         return new SparsityWrapper(this.sparsity.star_coloring2());
     }
 
-    public IntegerVector largestFirst() {
-        return new IntegerVector(this.sparsity.largest_first());
+    public CasADiIntVector largestFirst() {
+        return new CasADiIntVector(this.sparsity.largest_first());
     }
 
-    public SparsityWrapper pmult(IntegerVector p, boolean permuteRows, boolean permuteColumns, boolean invertPermutation) {
+    public SparsityWrapper pmult(CasADiIntVector p, boolean permuteRows, boolean permuteColumns, boolean invertPermutation) {
         return new SparsityWrapper(this.sparsity.pmult(p.getCasADiObject(), permuteRows, permuteColumns, invertPermutation));
     }
 
-    public SparsityWrapper pmult(IntegerVector p, boolean permuteRows, boolean permuteColumns) {
+    public SparsityWrapper pmult(CasADiIntVector p, boolean permuteRows, boolean permuteColumns) {
         return new SparsityWrapper(this.sparsity.pmult(p.getCasADiObject(), permuteRows, permuteColumns));
     }
 
-    public SparsityWrapper pmult(IntegerVector p, boolean permuteRows) {
+    public SparsityWrapper pmult(CasADiIntVector p, boolean permuteRows) {
         return new SparsityWrapper(this.sparsity.pmult(p.getCasADiObject(), permuteRows));
     }
 
-    public SparsityWrapper pmult(IntegerVector p) {
+    public SparsityWrapper pmult(CasADiIntVector p) {
         return new SparsityWrapper(this.sparsity.pmult(p.getCasADiObject()));
     }
 
@@ -694,7 +694,7 @@ public class SparsityWrapper {
         return new SparsityWrapper(Sparsity.kkt(this.sparsity, J.getCasADiObject()));
     }
 
-    public SparsityVectorCollection blocksplit(IntegerVector vertOffset, IntegerVector horzOffset) {
+    public SparsityVectorCollection blocksplit(CasADiIntVector vertOffset, CasADiIntVector horzOffset) {
         return new SparsityVectorCollection(Sparsity.blocksplit(this.sparsity, vertOffset.getCasADiObject(), horzOffset.getCasADiObject()));
     }
 
