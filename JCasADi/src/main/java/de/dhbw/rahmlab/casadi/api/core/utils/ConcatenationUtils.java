@@ -78,6 +78,12 @@ public class ConcatenationUtils {
         return new SXWrapper(SX.vertcat(sxVector.getCasADiObject()));
     }
 
+    /**
+     * Concatenates sparsity patterns vertically.
+     *
+     * @param vector an array of SparsityWrapper objects to concatenate.
+     * @return a SparsityWrapper representing the vertically concatenated sparsity pattern.
+     */
     public static SparsityWrapper vertcat(SparsityWrapper... vector) {
         SparsityVector sparsityVector = new SparsityVector();
         sparsityVector.addAll(Arrays.asList(vector));
@@ -132,6 +138,12 @@ public class ConcatenationUtils {
         return new SXWrapper(SX.veccat(sxVector.getCasADiObject()));
     }
 
+    /**
+     * Concatenates sparsity patterns into a single vector.
+     *
+     * @param vector an array of SparsityWrapper objects to concatenate.
+     * @return a SparsityWrapper representing the vector concatenated sparsity pattern.
+     */
     public static SparsityWrapper veccat(SparsityWrapper... vector) {
         SparsityVector sparsityVector = new SparsityVector();
         sparsityVector.addAll(Arrays.asList(vector));
@@ -186,6 +198,12 @@ public class ConcatenationUtils {
         return new SXWrapper(SX.horzcat(sxVector.getCasADiObject()));
     }
 
+    /**
+     * Concatenates sparsity patterns horizontally.
+     *
+     * @param vector an array of SparsityWrapper objects to concatenate.
+     * @return a SparsityWrapper representing the horizontally concatenated sparsity pattern.
+     */
     public static SparsityWrapper horzcat(SparsityWrapper... vector) {
         SparsityVector sparsityVector = new SparsityVector();
         sparsityVector.addAll(Arrays.asList(vector));
@@ -241,30 +259,60 @@ public class ConcatenationUtils {
         return new SXWrapper(SX.diagcat(sxVector.getCasADiObject()));
     }
 
+    /**
+     * Concatenates sparsity patterns diagonally.
+     *
+     * @param vector an array of SparsityWrapper objects to concatenate.
+     * @return a SparsityWrapper representing the diagonally concatenated sparsity pattern.
+     */
     public static SparsityWrapper diagcat(SparsityWrapper... vector) {
         SparsityVector sparsityVector = new SparsityVector();
         sparsityVector.addAll(Arrays.asList(vector));
         return new SparsityWrapper(Sparsity.diagcat(sparsityVector.getCasADiObject()));
     }
 
+    /**
+     * Concatenates MX vectors into a block structure.
+     *
+     * @param collection an MXVectorCollection containing the vectors to concatenate.
+     * @return an MXWrapper representing the block concatenated MX vectors.
+     */
     public static MXWrapper blockcat(MXVectorCollection collection) {
         MXVectorCollection mxVectorCollection = new MXVectorCollection();
         mxVectorCollection.addAll(collection);
         return new MXWrapper(MX.blockcat(mxVectorCollection.getCasADiObject()));
     }
 
+    /**
+     * Concatenates DM vectors into a block structure.
+     *
+     * @param collection a DMVectorCollection containing the vectors to concatenate.
+     * @return a DMWrapper representing the block concatenated DM vectors.
+     */
     public static DMWrapper blockcat(DMVectorCollection collection) {
         DMVectorCollection dmVectorCollection = new DMVectorCollection();
         dmVectorCollection.addAll(collection);
         return new DMWrapper(DM.blockcat(dmVectorCollection.getCasADiObject()));
     }
 
+    /**
+     * Concatenates SX vectors into a block structure.
+     *
+     * @param collection an SXVectorCollection containing the vectors to concatenate.
+     * @return an SXWrapper representing the block concatenated SX vectors.
+     */
     public static SXWrapper blockcat(SXVectorCollection collection) {
         SXVectorCollection sxVectorCollection = new SXVectorCollection();
         sxVectorCollection.addAll(collection);
         return new SXWrapper(SX.blockcat(sxVectorCollection.getCasADiObject()));
     }
 
+    /**
+     * Concatenates sparsity vectors into a block structure.
+     *
+     * @param collection a SparsityVectorCollection containing the vectors to concatenate.
+     * @return a SparsityWrapper representing the block concatenated sparsity vectors.
+     */
     public static SparsityWrapper blockcat(SparsityVectorCollection collection) {
         SparsityVectorCollection sparsityVectorCollection = new SparsityVectorCollection();
         sparsityVectorCollection.addAll(collection);
