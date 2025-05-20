@@ -1,9 +1,13 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course;
 
-import de.dhbw.rahmlab.casadi.api.core.constraints.ConstraintBuilder;
-import de.dhbw.rahmlab.casadi.api.core.constraints.Comparison;
-import de.dhbw.rahmlab.casadi.api.core.constraints.Constraint;
+import de.dhbw.rahmlab.casadi.api.core.constraints.*;
+import de.dhbw.rahmlab.casadi.api.core.problem.NLPProblem;
+import de.dhbw.rahmlab.casadi.api.core.problem.NLPProblemBuilder;
+import de.dhbw.rahmlab.casadi.api.core.solver.CasADiSolver;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MapStringToMXWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
@@ -71,11 +75,23 @@ public class Studienarbeit {
 
     }
 
+    public static void solverTest3() {
+
+        var matrix = new MXWrapper(4, 4);
+
+        matrix.get("1:2", "2:4");
+
+        MapStringToMXWrapper s = new MapStringToMXWrapper();
+        s.put("1:2", new MXWrapper(4, 4));
+        s.put("2:4", new MXWrapper(4, 4));
+
+    }
+
     public static void test4() {
 
         var values = new StdVectorDouble(new double[]{1, 2, 3});
-        var vector = new DM(values);
-
+        DM vector = new DM(values);
+        ;
         var adjustedElement = DM.minus(vector.at(0), new DM(2));
         vector.set(adjustedElement, true, new Slice(0));
 
@@ -96,11 +112,122 @@ public class Studienarbeit {
     public static void constraintTest2() {
 
 
-        MX x = MX.sym("x");
-        MX y = MX.sym("y");
-        MX z = MX.sym("z");
+        var x1 = MXWrapper.sym("x1");
+        var x2 = MXWrapper.sym("x2");
 
-        StdVectorMX mxVector = new StdVectorMX(new MX[]{x, y, z});
+        NLPProblem problem = new NLPProblemBuilder()
+                .addVariable(x1)
+                .addVariable(x2)
+                .minimize(x1.subtract(1).pow(2).add(x2.sin()))
+                .addConstraint(ExpressionParser.parseConstraint("x1^2 - x2 = 1"))
+                .addConstraint(ExpressionParser.parseConstraint("x1^2 + x2 <= 4"))
+                .setInitialDecisionVariable(x1, 1.5)
+                .setInitialDecisionVariable(x2, 1.25)
+                .setSolver(CasADiSolver.CONIC)
+                .build();
+
+    }
+
+    public static void addbeispiel() {
+
+//        DM x = new DM();
+//        DM result = DM.plus(x, new DM(2));
+
+//        DMWrapper x = new DMWrapper();
+//        DMWrapper result = x.add(2);
+
+        // x * y + 2 - y
+        // vor :
+//        var x = MX.sym("x");
+//        var y = MX.sym("y");
+//        var expression = MX.minus(MX.plus(MX.times(x, y), new MX(2)), y);
+
+        // Nachher:
+        var x = MXWrapper.sym("x");
+        var y = MXWrapper.sym("y");
+        var expression = x.multiply(y).add(2).subtract(y);
+
+        // Python:
+//        x = ca.MX.sym('x')
+//        y = ca.MX.sym('y')
+//        expression = x * y + 2 - y
+
+    }
+
+    public static void solverTest() {
+
+        var x = MXWrapper.sym("x");
+        ScalarConstraint c = new ScalarConstraint(x.multiply(x), Comparison.LE, new MXWrapper(1));
+
+        NLPProblem problem = new NLPProblemBuilder()
+                .addVariable(x)
+                .addConstraint(c)
+                .setSolver(CasADiSolver.CONIC)
+                .build();
+
+    }
+
+    public static void solverTest2() {
+
+        Constraint c = ConstraintBuilder
+                .of(MXWrapper.sym("x").pow(2))
+                .cmp(Comparison.LE)
+                .rhs(MXWrapper.sym("y").add(1))
+                .build();
+
+
+    }
+
+    public static void abschlussMitExpressionParser() {
+
+        var x1 = MXWrapper.sym("x1");
+        var x2 = MXWrapper.sym("x2");
+
+        NLPProblem nlp = new NLPProblemBuilder()
+                .addVariable(x1)
+                .addVariable(x2)
+                .minimize(x1.subtract(1).pow(2).add(x2.sin()))
+                .addConstraint(ExpressionParser.parseConstraint("x1^2 - x2 = 1"))
+                .addConstraint(ExpressionParser.parseConstraint("x1^2 + x2 <= 4"))
+                .setInitialDecisionVariable(x1, 1.5)
+                .setInitialDecisionVariable(x2, 1.25)
+                .setSolver(CasADiSolver.CONIC)
+                .build();
+
+        var result = nlp.solve();
+
+        System.out.println(result.value(x1));
+        System.out.println(result.value(x2));
+
+    }
+
+    public static void abschlussOhnexpressionParser() {
+
+        var x1 = MXWrapper.sym("x1");
+        var x2 = MXWrapper.sym("x2");
+
+        NLPProblem nlp = new NLPProblemBuilder()
+                .addVariable(x1)
+                .addVariable(x2)
+                .minimize(x1.subtract(1).pow(2).add(x2.sin()))
+                .addConstraint(x1.pow(2).subtract(x2), Comparison.EQ, new MXWrapper(1))
+                .addConstraint(x1.pow(2).add(x2), Comparison.LE, new MXWrapper(4))
+                .setInitialDecisionVariable(x1, 1.5)
+                .setInitialDecisionVariable(x2, 1.25)
+                .setSolver(CasADiSolver.CONIC)
+                .build();
+
+        var result = nlp.solve();
+
+        System.out.println(result.value(x1));
+        System.out.println(result.value(x2));
+
+    }
+
+    public static void test223() {
+
+        var vector = new DMWrapper(1, 2, 3);
+        vector.set(vector.at(0).subtract(2), new NumberWrapper(2));
 
     }
 
