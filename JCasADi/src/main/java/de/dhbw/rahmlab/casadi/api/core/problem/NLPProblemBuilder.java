@@ -14,8 +14,8 @@ import java.util.List;
  * Builder class for creating NLPProblem objects.
  * <p>
  * This builder provides a fluent API to configure non-linear optimization problems
- * in a way that closely resembles mathematical notation. It allows to add decision variables,
- * parameters, an objective function, constraints and solver settings.
+ * in a way that closely resembles mathematical notation. It allows the addition of decision variables,
+ * parameters, an objective function, constraints, and solver settings.
  * <p>
  * Example usage:
  * <pre>
@@ -41,10 +41,20 @@ public class NLPProblemBuilder {
     private Dictionary solverOptions = null;
     private final List<InitialAssignment> initialAssignments = new ArrayList<>();
 
+    /**
+     * Represents an initial assignment for a decision variable in the NLPProblem.
+     * This class is used to store the variable and its initial values for configuration during the problem building process.
+     */
     private static class InitialAssignment {
         MXWrapper variable;
         Number[] values;
 
+        /**
+         * Constructs an InitialAssignment with a specified variable and its initial values.
+         *
+         * @param variable the MXWrapper representing the decision variable.
+         * @param values   the initial values for the variable.
+         */
         InitialAssignment(MXWrapper variable, Number... values) {
             this.variable = variable;
             this.values = values;
@@ -98,7 +108,7 @@ public class NLPProblemBuilder {
     /**
      * Adds a constraint to the optimization problem.
      *
-     * @param abstractConstraint a Constraint object representing a constraint.
+     * @param abstractConstraint an AbstractConstraint object representing a constraint.
      * @return the current builder instance.
      */
     public NLPProblemBuilder addConstraint(AbstractConstraint abstractConstraint) {
@@ -107,12 +117,12 @@ public class NLPProblemBuilder {
     }
 
     /**
-     * Add a binary constraint of the form lhs (cmp) rhs.
+     * Adds a binary constraint of the form lhs (cmp) rhs.
      *
-     * @param lhs  left‑hand side expression
-     * @param cmp  comparison operator (EQ, LE, GE, LT, GT)
-     * @param rhs  right‑hand side expression
-     * @return this builder
+     * @param lhs left-hand side expression
+     * @param cmp comparison operator (EQ, LE, GE, LT, GT)
+     * @param rhs right-hand side expression
+     * @return the current builder instance.
      */
     public NLPProblemBuilder addConstraint(MXWrapper lhs,
                                            Comparison cmp,
@@ -140,9 +150,9 @@ public class NLPProblemBuilder {
     /**
      * Specifies the solver along with plugin and solver options.
      *
-     * @param solver the CasADiSolver enumeration value.
-     * @param pluginOptions the plugin options as a Dict.
-     * @param solverOptions the solver options as a Dict.
+     * @param solver        the CasADiSolver enumeration value.
+     * @param pluginOptions the plugin options as a Dictionary.
+     * @param solverOptions the solver options as a Dictionary.
      * @return the current builder instance.
      */
     public NLPProblemBuilder setSolver(CasADiSolver solver, Dictionary pluginOptions, Dictionary solverOptions) {
@@ -152,11 +162,24 @@ public class NLPProblemBuilder {
         return this;
     }
 
+    /**
+     * Sets initial values for a decision variable.
+     *
+     * @param x the MXWrapper representing the decision variable.
+     * @param v the initial values for the variable.
+     * @return the current builder instance.
+     */
     public NLPProblemBuilder setInitialDecisionVariable(MXWrapper x, Number... v) {
         initialAssignments.add(new InitialAssignment(x, v));
         return this;
     }
 
+    /**
+     * Sets initial values for multiple decision variables.
+     *
+     * @param assignments the MXWrapper objects representing the decision variables.
+     * @return the current builder instance.
+     */
     public NLPProblemBuilder setInitialDecisionVariable(MXWrapper... assignments) {
         for (MXWrapper assignment : assignments) {
             initialAssignments.add(new InitialAssignment(assignment));
@@ -202,6 +225,7 @@ public class NLPProblemBuilder {
                 problem.setSolver(solver);
             }
         }
+        // Set initial values for decision variables
         for (InitialAssignment assignment : initialAssignments) {
             if (assignment.values != null && assignment.values.length > 0) {
                 problem.setInitialDecisionVariable(assignment.variable, assignment.values);
