@@ -6,28 +6,49 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for parsing mathematical expressions and constraints.
+ * Provides methods to convert infix expressions to MXWrapper objects and evaluate constraints.
+ */
 public class ExpressionParser {
 
+    /** Regular expression pattern to tokenize numbers, variables, and operators. */
     private static final Pattern TOKEN = Pattern.compile(
-            "\\s*(?<num>\\d+(?:\\.\\d*)?)" +   // Zahlen
-                    "|\\s*(?<var>[a-zA-Z_]\\w*)"       +   // Variablen
-                    "|\\s*(?<op>[+\\-*/^()])"             // Operatoren + Klammern
+            "\\s*(?<num>\\d+(?:\\.\\d*)?)" +   // Numbers
+                    "|\\s*(?<var>[a-zA-Z_]\\w*)"       +   // Variables
+                    "|\\s*(?<op>[+\\-*/^()])"             // Operators and parentheses
     );
 
-    /** Hauptmethode: wandelt Infix-String in MXWrapper um */
+    /**
+     * Main method to convert an infix expression string into an MXWrapper object.
+     *
+     * @param expr the infix expression string
+     * @return an MXWrapper representing the parsed expression
+     */
     public static MXWrapper parse(String expr) {
         List<String> tokens = tokenize(expr);
         List<String> rpn    = toRPN(tokens);
         return evalRPN(rpn);
     }
 
+    /**
+     * Parses a constraint expression string and returns an AbstractConstraint object.
+     *
+     * @param expr the constraint expression string
+     * @return an AbstractConstraint representing the parsed constraint
+     */
     public static AbstractConstraint parseConstraint(String expr) {
         List<String> tokens = tokenize(expr);
         List<String> rpn    = toRPN(tokens);
         return evalConstraintRPN(rpn);
     }
 
-    /** 1) Tokenisierung */
+    /**
+     * Tokenizes the input expression string into a list of tokens.
+     *
+     * @param expr the expression string
+     * @return a list of tokens extracted from the expression
+     */
     private static List<String> tokenize(String expr) {
         Matcher m = TOKEN.matcher(expr);
         List<String> toks = new ArrayList<>();
@@ -39,7 +60,12 @@ public class ExpressionParser {
         return toks;
     }
 
-    /** 2) Shunting-Yard: Infix → RPN */
+    /**
+     * Converts a list of tokens from infix notation to Reverse Polish Notation (RPN) using the Shunting-Yard algorithm.
+     *
+     * @param tokens the list of tokens in infix notation
+     * @return a list of tokens in RPN
+     */
     private static List<String> toRPN(List<String> tokens) {
         List<String> out = new ArrayList<>();
         Deque<String>  ops = new ArrayDeque<>();
@@ -58,7 +84,7 @@ public class ExpressionParser {
                 while (!ops.isEmpty() && !ops.peek().equals("(")) {
                     out.add(ops.pop());
                 }
-                ops.pop();  // "(" entfernen
+                ops.pop();  // Remove "("
             } else {
                 // Operator
                 while (!ops.isEmpty() && prec.get(ops.peek()) >= prec.get(t)) {
@@ -73,16 +99,21 @@ public class ExpressionParser {
         return out;
     }
 
-    /** 3) RPN-Evaluation → MXWrapper */
+    /**
+     * Evaluates a list of tokens in RPN and returns an MXWrapper object.
+     *
+     * @param rpn the list of tokens in RPN
+     * @return an MXWrapper representing the evaluated expression
+     */
     private static MXWrapper evalRPN(List<String> rpn) {
         Deque<MXWrapper> stack = new ArrayDeque<>();
         for (String t: rpn) {
             if (t.matches("\\d+(?:\\.\\d*)?")) {
-                // Zahl → konstantes DM
+                // Number → constant DM
                 double v = Double.parseDouble(t);
                 stack.push(new MXWrapper(v));
             } else if (t.matches("[a-zA-Z_]\\w*")) {
-                // Variable → symbolische MX
+                // Variable → symbolic MX
                 stack.push(MXWrapper.sym(t));
             } else {
                 // Operator
@@ -100,6 +131,12 @@ public class ExpressionParser {
         return stack.pop();
     }
 
+    /**
+     * Evaluates a list of tokens in RPN and returns an AbstractConstraint object.
+     *
+     * @param rpn the list of tokens in RPN
+     * @return an AbstractConstraint representing the evaluated constraint
+     */
     private static AbstractConstraint evalConstraintRPN(List<String> rpn) {
         Deque<Object> stack = new ArrayDeque<>();
         for (String t : rpn) {
@@ -108,13 +145,13 @@ public class ExpressionParser {
             } else if (t.matches("[a-zA-Z_]\\w*")) {
                 stack.push(MXWrapper.sym(t));
             } else if (t.matches("<=|>=|<|>|=")) {
-                // Constraint-Operator
+                // Constraint operator
                 MXWrapper rhs = (MXWrapper) stack.pop();
                 MXWrapper lhs = (MXWrapper) stack.pop();
                 Comparison cmp = parseCmp(t);
                 stack.push(ConstraintBuilder.of(lhs).cmp(cmp).rhs(rhs).build());
             } else {
-                // Arithmetische Operatoren
+                // Arithmetic operators
                 MXWrapper b = (MXWrapper) stack.pop();
                 MXWrapper a = (MXWrapper) stack.pop();
                 MXWrapper res = switch (t) {
@@ -142,6 +179,13 @@ public class ExpressionParser {
         }
     }
 
+    /**
+     * Parses a comparison symbol and returns the corresponding Comparison enum.
+     *
+     * @param sym the comparison symbol
+     * @return the Comparison enum corresponding to the symbol
+     * @throws IllegalArgumentException if the symbol is unknown
+     */
     private static Comparison parseCmp(String sym) {
         return switch (sym) {
             case "="  -> Comparison.EQ;

@@ -14,27 +14,48 @@ import java.util.Map;
  */
 public abstract class AbstractConstraint implements Constraint {
 
+    /** The left-hand side expression of the constraint. */
     protected final MXWrapper lhs;
+
+    /** The right-hand side expression of the constraint. */
     protected final MXWrapper rhs;
+
+    /** The comparison operator used to evaluate the constraint. */
     protected final Comparison cmp;
 
+    /**
+     * Constructs an AbstractConstraint with specified LHS, comparison operator, and RHS.
+     *
+     * @param lhs the left-hand side expression
+     * @param cmp the comparison operator
+     * @param rhs the right-hand side expression
+     */
     protected AbstractConstraint(MXWrapper lhs, Comparison cmp, MXWrapper rhs) {
         this.lhs = lhs;
         this.cmp = cmp;
         this.rhs = rhs;
     }
 
+    /**
+     * Returns the expression representing the difference between LHS and RHS.
+     *
+     * @return the expression as an MXWrapper
+     */
     @Override
     public MXWrapper getExpression() {
-        // immer (lhs – rhs), der Vergleich selbst wird beim Solver verwendet
         return lhs.subtract(rhs);
     }
 
+    /**
+     * Checks if the constraint is feasible given a variable assignment and tolerance.
+     *
+     * @param assignment the variable assignment
+     * @param tol the tolerance level
+     * @return true if the constraint is feasible, false otherwise
+     */
     @Override
     public boolean isFeasible(MapStringToDouble assignment, double tol) {
-        // 1) Alle Variablen im Constraint-Ausdruck ermitteln
         MXVector vars = getExpression().symvar();
-        // 2) CasADi-Funktion bauen und ausführen
         FunctionWrapper fw = new FunctionWrapper(
                 "feasCheck",
                 vars,
@@ -43,7 +64,6 @@ public abstract class AbstractConstraint implements Constraint {
         MapStringToDMWrapper res = fw.call(assignment.getWrapper());
         MapStringToDouble res1 = new MapStringToDouble(res);
 
-        // 3) Elementweise prüfen
         for (Map.Entry<String, Double> entry : res1.entrySet()) {
             String varName = entry.getKey();
             Double wrapper = entry.getValue();
@@ -71,18 +91,41 @@ public abstract class AbstractConstraint implements Constraint {
         return true;
     }
 
+    /**
+     * Scales the constraint by a given factor.
+     *
+     * @param factor the scaling factor
+     * @return a new Constraint scaled by the factor
+     */
     @Override
     public Constraint scaledBy(double factor) {
         return create(lhs.multiply(factor), cmp, rhs.multiply(factor));
     }
 
-    /** Factory-Methode, die je nach cmp die richtige Subklasse liefert. */
+    /**
+     * Factory method to create a specific subclass of Constraint based on the comparison operator.
+     *
+     * @param newLhs the new left-hand side expression
+     * @param cmp the comparison operator
+     * @param newRhs the new right-hand side expression
+     * @return a new Constraint instance
+     */
     protected abstract Constraint create(MXWrapper newLhs, Comparison cmp, MXWrapper newRhs);
 
+    /**
+     * Returns the comparison operator of the constraint.
+     *
+     * @return the comparison operator
+     */
     public Comparison getComparison() {
         return this.cmp;
     }
 
+    /**
+     * Returns a string representation of the constraint.
+     *
+     * @return a string representing the constraint
+     */
     @Override
     public String toString() {
         return lhs + " " + cmp.symbol() + " " + rhs;
