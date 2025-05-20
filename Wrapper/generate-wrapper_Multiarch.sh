@@ -34,15 +34,13 @@ run() {
 
 		echo "->$swigModule"
 
-		#-doxygen generates errors. Need to change the casadi source files manually to fix. Hopefully fixed in newer SWIG version.
-
 		#-debug-tmused -debug-tmsearch -debug-typemap
 		#-debug-tags
-		#-doxygen
 		#-ignoremissing -importall
 		#-cpperraswarn
 		#-O
-		time swig -Wextra -DSWIGWORDSIZE64 -DSWIG_TYPE_TABLE=casadi -c++ -java -package "de.dhbw.rahmlab."$wrapLibName".impl" -outdir "$swigJavaOutDir" -o "$currentTmp/"$swigModule"_wrap.cpp" -I"$wrapLibInclude" -I"$swigLibDirectory" "$swigModulesDirectory/$swigModule"
+		#-v
+		time swig -doxygen -Wextra -DSWIGWORDSIZE64 -DSWIG_TYPE_TABLE=casadi -c++ -java -package "de.dhbw.rahmlab."$wrapLibName".impl" -outdir "$swigJavaOutDir" -o "$currentTmp/"$swigModule"_wrap.cpp" -I"$wrapLibInclude" -I"$swigLibDirectory" "$swigModulesDirectory/$swigModule"
 	done
 }
 
