@@ -70,6 +70,12 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         this.dm = new DM(vector.getCasADiObject());
     }
 
+    public DMWrapper(Double... x) {
+        DoubleVector vector = new DoubleVector(x);
+        this.dm = new DM(vector.getCasADiObject());
+    }
+    
+    /*
     public DMWrapper(Number x) {
         this.dm = new DM(x.doubleValue());
     }
@@ -79,6 +85,7 @@ public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
         Arrays.stream(x).forEach(element -> vector.add(element.doubleValue()));
         this.dm = new DM();
     }
+    */
 
     public DMWrapper(Iterable<Double> values) {
         this.dm = new DM(new DoubleVector(values).getCasADiObject());

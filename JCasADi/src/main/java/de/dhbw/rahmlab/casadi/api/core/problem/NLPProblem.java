@@ -769,33 +769,6 @@ public class NLPProblem {
     }
 
     /**
-     * Retrieves the class name of the optimization problem.
-     *
-     * @return a string representing the class name.
-     */
-    public String getClassname() {
-        return this.nlpProblem.class_name();
-    }
-
-    /**
-     * Checks if the optimization problem is null.
-     *
-     * @return true if the problem is null, false otherwise.
-     */
-    public boolean isNull() {
-        return this.nlpProblem.is_null();
-    }
-
-    /**
-     * Retrieves the hash code of the optimization problem.
-     *
-     * @return the hash code.
-     */
-    public long hash() {
-        return this.nlpProblem.__hash__();
-    }
-
-    /**
      * Retrieves the underlying CasADi object.
      *
      * @return the Opti object representing the optimization problem.

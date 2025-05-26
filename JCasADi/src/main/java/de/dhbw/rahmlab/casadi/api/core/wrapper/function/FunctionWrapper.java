@@ -956,24 +956,12 @@ public class FunctionWrapper {
         return new Dictionary(this.function.info());
     }
 
-    public String getClassName() {
-        return this.function.class_name();
-    }
-
     public String toString(boolean more) {
         return this.function.toString(more);
     }
 
     public String toString() {
         return this.function.toString();
-    }
-
-    public boolean isNull() {
-        return this.function.is_null();
-    }
-
-    public long getHash() {
-        return this.function.__hash__();
     }
 
     public Function getCasADiObject() {

@@ -718,24 +718,12 @@ public class SparsityWrapper {
         return new SparsityVector(Sparsity.vertsplit_n(this.sparsity, n));
     }
 
-    public String className() {
-        return this.sparsity.class_name();
-    }
-
     public String toString(boolean more) {
         return this.sparsity.toString(more);
     }
 
     public String toString() {
         return this.sparsity.toString();
-    }
-
-    public boolean isNull() {
-        return this.sparsity.is_null();
-    }
-
-    public long __hash__() {
-        return this.sparsity.__hash__();
     }
 
     public Sparsity getCasADiObject() {

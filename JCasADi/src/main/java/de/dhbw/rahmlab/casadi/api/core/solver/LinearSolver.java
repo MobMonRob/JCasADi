@@ -212,15 +212,6 @@ public class LinearSolver {
     }
 
     /**
-     * Retrieves the class name of the linear solver.
-     *
-     * @return a string representing the class name.
-     */
-    public String className() {
-        return this.linsol.class_name();
-    }
-
-    /**
      * Converts the linear solver to a string representation with additional details.
      *
      * @param more a flag indicating whether to include more details.
@@ -237,24 +228,6 @@ public class LinearSolver {
      */
     public String toString() {
         return this.linsol.toString();
-    }
-
-    /**
-     * Checks if the linear solver is null.
-     *
-     * @return true if the solver is null, false otherwise.
-     */
-    public boolean isNull() {
-        return this.linsol.is_null();
-    }
-
-    /**
-     * Retrieves the hash code of the linear solver.
-     *
-     * @return the hash code.
-     */
-    public long getHash() {
-        return this.linsol.__hash__();
     }
 
     /**

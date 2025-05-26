@@ -293,24 +293,12 @@ public class CasADiGenericWrapper {
         return new SXWrapper(this.genericType.as_double());
     }
 
-    public String getClassName() {
-        return this.genericType.class_name();
-    }
-
     public String toString(boolean more) {
         return this.genericType.toString(more);
     }
 
     public String toString() {
         return this.genericType.toString();
-    }
-
-    public boolean isNull() {
-        return this.genericType.is_null();
-    }
-
-    public long getHash() {
-        return this.genericType.__hash__();
     }
 
     public GenericType getCasADiObject() {

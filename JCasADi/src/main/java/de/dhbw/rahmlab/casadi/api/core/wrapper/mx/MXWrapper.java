@@ -2846,15 +2846,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     }
 
     /**
-     * Retrieves the class name of the MX object represented by this MXWrapper.
-     *
-     * @return String. The class name of the underlying MX object.
-     */
-    public String className() {
-        return this.mx.class_name();
-    }
-
-    /**
      * Gets the string representation of the MX object represented by this MXWrapper.
      *
      * @param more A boolean indicating whether to include additional information.
@@ -2873,33 +2864,6 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public String toString() {
         return this.mx.toString();
-    }
-
-    /**
-     * Prints the pointer to the internal class of the MX object represented by this MXWrapper.
-     */
-    public void printPtr() {
-        this.mx.print_ptr();
-    }
-
-    /**
-     * Checks if the MX object represented by this MXWrapper is a null pointer.
-     *
-     * @return boolean. True if the object is a null pointer, false otherwise.
-     */
-    public boolean isNull() {
-        return this.mx.is_null();
-    }
-
-    /**
-     * Returns a unique number for the MX object represented by this MXWrapper.
-     *
-     * If the object does not point to any node, "0" is returned.
-     *
-     * @return long. The unique hash number for the MX object.
-     */
-    public long hash() {
-        return this.mx.__hash__();
     }
 
     /**
