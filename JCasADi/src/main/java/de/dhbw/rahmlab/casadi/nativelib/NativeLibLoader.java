@@ -2,8 +2,6 @@ package de.dhbw.rahmlab.casadi.nativelib;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.GlobalOptions;
 import de.dhbw.rahmlab.nativelibloader.api.NativeLib;
-
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +18,7 @@ public class NativeLibLoader {
 
 	private static void loadActually() {
 		try {
-			de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader.init(false);
-			de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader libLoader = de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader.getInstance();
-			List<NativeLib> loadedLibs = libLoader.load(NativeLibLoader.class);
+			List<NativeLib> loadedLibs = de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader.loadLibs(NativeLibLoader.class);
 
 			String os = System.getProperty("os.name").toLowerCase();
 			String delim;
@@ -33,7 +29,7 @@ public class NativeLibLoader {
 				delim = ":";
 			}
 
-			String libPaths = loadedLibs.stream().map(nl -> nl.getPath().getParent()).distinct().map(Path::toString).collect(Collectors.joining(delim));
+			String libPaths = loadedLibs.stream().map(nl -> nl.getPath().getParent()).distinct().map(p -> p.toString()).collect(Collectors.joining(delim));
 			GlobalOptions.setCasadiPath(libPaths);
 
 		} catch (Exception e) {
