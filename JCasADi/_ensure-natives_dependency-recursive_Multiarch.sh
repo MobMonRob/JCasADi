@@ -8,7 +8,9 @@ source "./_bash_config.sh"
 
 perPlatform() {
 	if [[ "$(isSuccessTokenSet)" == "false" ]]; then
-		./_regenerate-natives_dependency-recursive_Multiarch.sh
+		bash "$wrapperDir/_ensure_dependency-recursive_Multiarch.sh"
+
+		./_regenerate-natives_local_Multiarch.sh
 	fi
 }
 
@@ -16,8 +18,8 @@ run() {
 	changePlatformTo "$platformLinux"
 	perPlatform
 
-	#changePlatformTo "$platformWindows"
-	#perPlatform
+	changePlatformTo "$platformWindows"
+	perPlatform
 }
 
 run_bash run $@

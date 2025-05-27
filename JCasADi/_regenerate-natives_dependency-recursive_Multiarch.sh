@@ -16,8 +16,8 @@ run() {
 	changePlatformTo "$platformLinux"
 	perPlatform
 
-	#changePlatformTo "$platformWindows"
-	#perPlatform
+	changePlatformTo "$platformWindows"
+	perPlatform
 }
 
 run_bash run $@

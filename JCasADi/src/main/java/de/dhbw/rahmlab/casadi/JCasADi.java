@@ -11,7 +11,7 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
-
+import de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader;
 import java.util.Scanner;
 
 public class JCasADi {
@@ -32,6 +32,7 @@ public class JCasADi {
 		System.out.println("------------------");
 		// mulTest();
 		System.out.println("------------------");
+        NativeLibLoader.setDebug(true);
 		casadiSharedLibLoadTest();
 	}
 

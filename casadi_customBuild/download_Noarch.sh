@@ -7,12 +7,10 @@ cd "$scriptDir"
 source "./_bash_config.sh"
 
 run() {
-	if [[ "$(isSuccessTokenSet)" == "false" ]]; then
-		bash "$wrapLibDir/_ensure_dependency-recursive_Multiarch.sh"
+	rm -rdf "$casadiDir"
+	mkdir -p "$casadiDir"
 
-		./_regenerate_local_Multiarch.sh
-	fi
+	git clone https://github.com/casadi/casadi.git --branch="3.7.0" --depth=1 --recursive "$casadiDir"
 }
 
 run_bash run $@
-
