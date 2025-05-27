@@ -37,6 +37,9 @@
 	#include "casadi/core/casadi_common.hpp"
 	#include "casadi/core/core.hpp"
 
+	// Avoid linker error in mingw build.
+	template class casadi::Matrix<long long>;
+
 	using namespace casadi;
 %}
 
@@ -335,8 +338,6 @@ typedef casadi::Matrix<casadi::SXElem> SX;
 //// Stop: std::vector<double>
 
 //// Start: IM
-// Disabled to fix mingw build.
-/*
 // typedef long long int casadi_int;
 typedef casadi::Matrix<casadi_int> IM;
 
@@ -348,7 +349,7 @@ typedef casadi::Matrix<casadi_int> IM;
 
 // Needs to be after %template(IM)
 %extendAt("Im", casadi::Matrix<casadi_int>)
-*/
+
 //// Stop: IM
 
 //// Start: DM
