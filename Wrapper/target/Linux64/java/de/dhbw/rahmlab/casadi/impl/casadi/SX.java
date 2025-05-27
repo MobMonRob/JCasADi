@@ -109,8 +109,8 @@ public class SX implements ISxSparsityInterface, ISxGenericMatrix, ISxGenericExp
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr);
   }
 
-  public void get(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t rr) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(rr));
+  public void get(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM rr) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(rr), rr);
   }
 
   public void get(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
@@ -121,24 +121,24 @@ public class SX implements ISxSparsityInterface, ISxGenericMatrix, ISxGenericExp
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(cc), cc);
   }
 
-  public void get(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice rr, SWIGTYPE_p_casadi__MatrixT_long_long_t cc) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_4(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(cc));
+  public void get(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice rr, de.dhbw.rahmlab.casadi.impl.casadi.IM cc) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_4(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(cc), cc);
   }
 
-  public void get(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice cc) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_5(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(rr), de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(cc), cc);
+  public void get(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice cc) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_5(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(cc), cc);
   }
 
-  public void get(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t rr, SWIGTYPE_p_casadi__MatrixT_long_long_t cc) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_6(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(rr), SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(cc));
+  public void get(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM rr, de.dhbw.rahmlab.casadi.impl.casadi.IM cc) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get__SWIG_6(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(cc), cc);
   }
 
   public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice rr) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr);
   }
 
-  public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t rr) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(rr));
+  public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM rr) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(rr), rr);
   }
 
   public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Sparsity sp) {
@@ -149,32 +149,32 @@ public class SX implements ISxSparsityInterface, ISxGenericMatrix, ISxGenericExp
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_3(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(cc), cc);
   }
 
-  public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice rr, SWIGTYPE_p_casadi__MatrixT_long_long_t cc) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_4(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(cc));
+  public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice rr, de.dhbw.rahmlab.casadi.impl.casadi.IM cc) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_4(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(cc), cc);
   }
 
-  public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice cc) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_5(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(rr), de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(cc), cc);
+  public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice cc) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_5(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(cc), cc);
   }
 
-  public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t rr, SWIGTYPE_p_casadi__MatrixT_long_long_t cc) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_6(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(rr), SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(cc));
+  public void set(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM rr, de.dhbw.rahmlab.casadi.impl.casadi.IM cc) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set__SWIG_6(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(rr), rr, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(cc), cc);
   }
 
   public void get_nz(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice k) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get_nz__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(k), k);
   }
 
-  public void get_nz(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t k) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get_nz__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(k));
+  public void get_nz(de.dhbw.rahmlab.casadi.impl.casadi.SX OUTPUT, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM k) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_get_nz__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(OUTPUT), OUTPUT, ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(k), k);
   }
 
   public void set_nz(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice k) {
     de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set_nz__SWIG_0(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.Slice.getCPtr(k), k);
   }
 
-  public void set_nz(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t k) {
-    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set_nz__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, SWIGTYPE_p_casadi__MatrixT_long_long_t.getCPtr(k));
+  public void set_nz(de.dhbw.rahmlab.casadi.impl.casadi.SX m, boolean ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM k) {
+    de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_SX_set_nz__SWIG_1(swigCPtr, this, de.dhbw.rahmlab.casadi.impl.casadi.SX.getCPtr(m), m, ind1, de.dhbw.rahmlab.casadi.impl.casadi.IM.getCPtr(k), k);
   }
 
   public static de.dhbw.rahmlab.casadi.impl.casadi.SX binary(long op, de.dhbw.rahmlab.casadi.impl.casadi.SX x, de.dhbw.rahmlab.casadi.impl.casadi.SX y) {
