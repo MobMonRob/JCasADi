@@ -24,7 +24,7 @@ run() {
 	#-shared .so muss tun, damit sicher der Fehler nicht hier liegt.
 	#-O3
 	#-fpermissive
-	x86_64-w64-mingw32-g++-posix -c -fPIC -cpp -std=c++17 "$windowsTmp/$swigCpp" \
+	x86_64-w64-mingw32-g++-posix -c -fPIC "$windowsTmp/$swigCpp" \
 	-I"$javaIncludeWindows/win32" -I"$javaIncludeWindows" -I"$wrapLibInclude" \
 	-o "$windowsTmp/$swigCpp.o"
 	done
