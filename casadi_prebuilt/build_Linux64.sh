@@ -16,8 +16,8 @@ run() {
 
 	cd "$currentTmp"
 
-	wget https://github.com/casadi/casadi/releases/download/3.7.0/casadi-3.7.0-linux64-py313.zip >/dev/null
-	unzip casadi-3.7.0-linux64-py313.zip >/dev/null
+	wget https://github.com/casadi/casadi/releases/download/3.7.2/casadi-3.7.2-linux64-py313.zip >/dev/null
+	unzip casadi-3.7.2-linux64-py313.zip >/dev/null
 
 	cd ./casadi
 	find . -maxdepth 1 -type f ! -name '*.so' ! -name 'libquadmath*' ! -name 'libgfortran*' -delete
