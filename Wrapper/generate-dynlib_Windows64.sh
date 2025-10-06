@@ -19,12 +19,10 @@ run() {
 	do
 		echo "->$swigCpp"
 
-	#-flto
 	#-c für nicht linken (nur .o erzeugen)
 	#-shared .so muss tun, damit sicher der Fehler nicht hier liegt.
 	#-O3
-	#-fpermissive
-	x86_64-w64-mingw32-g++-posix -c -fPIC "$windowsTmp/$swigCpp" \
+	x86_64-w64-mingw32-g++-posix -D_GLIBCXX_USE_CXX11_ABI=1 -cpp -std=c++17 -static-libstdc++ -c -fPIC "$windowsTmp/$swigCpp" \
 	-I"$javaIncludeWindows/win32" -I"$javaIncludeWindows" -I"$wrapLibInclude" \
 	-o "$windowsTmp/$swigCpp.o"
 	done
@@ -32,8 +30,7 @@ run() {
 	local -r oArray=(${SwigCppArray[@]/%/.o})
 	local -r pathArray=(${oArray[@]/#/$windowsTmp/})
 
-	#-flto
-	x86_64-w64-mingw32-g++-posix -shared -L"$linkLibDir" \
+	x86_64-w64-mingw32-g++-posix -D_GLIBCXX_USE_CXX11_ABI=1 -cpp -std=c++17 -static-libstdc++ -shared -L"$linkLibDir" \
 	-Wl,--start-group \
 	${pathArray[@]} \
 	-lcasadi \
