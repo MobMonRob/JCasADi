@@ -1,6 +1,6 @@
 # JCasADi
 ## Description
-Java Wrapper for [CasADi](https://web.casadi.org/) 3.7.0.
+Java Wrapper for [CasADi](https://web.casadi.org/) 3.7.2.
 
 
 ## Caveats
@@ -19,7 +19,7 @@ Due to the aforementioned threading issues, no longer needed C++ objects will no
 * CMake 3.28.3 `sudo apt install cmake`
 * SWIG 4.2.0 (3.x does not work!) `sudo apt install swig`
 * openjdk 21 LTS: `sudo apt install openjdk-21-jdk openjdk-21-demo openjdk-21-doc openjdk-21-jre-headless openjdk-21-source`
-* Netbeans 25 `sudo apt install snap`, `sudo snap install netbeans --classic`
+* Netbeans 27 `sudo apt install snap`, `sudo snap install netbeans --classic`
 
 
 ## Prepare build
