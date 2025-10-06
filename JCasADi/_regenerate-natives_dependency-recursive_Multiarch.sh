@@ -13,10 +13,10 @@ perPlatform() {
 }
 
 run() {
-	changePlatformTo "$platformWindows"
+	changePlatformTo "$platformLinux"
 	perPlatform
 
-	changePlatformTo "$platformLinux"
+	changePlatformTo "$platformWindows"
 	perPlatform
 }
 
