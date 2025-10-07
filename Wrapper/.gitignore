@@ -1,0 +1,4 @@
+!target
+target/_tmp/**/*.cpp
+target/_tmp/**/*.cpp.o
+
