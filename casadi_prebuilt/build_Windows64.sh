@@ -16,8 +16,9 @@ run() {
 
 	cd "$currentTmp"
 
-	wget https://github.com/casadi/casadi/releases/download/3.7.2/casadi-3.7.2-windows64-py313.zip >/dev/null
-	unzip casadi-3.7.2-windows64-py313.zip >/dev/null
+	wget -q --show-progress https://github.com/casadi/casadi/releases/download/3.7.2/casadi-3.7.2-windows64-py313.zip
+	echo "Unpacking..."
+	unzip -q casadi-3.7.2-windows64-py313.zip
 
 	cd ./casadi
 	find . -maxdepth 1 -type f ! -name '*.dll' -delete
