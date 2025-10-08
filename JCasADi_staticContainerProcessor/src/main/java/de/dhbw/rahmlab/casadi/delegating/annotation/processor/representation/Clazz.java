@@ -56,7 +56,7 @@ public class Clazz {
         DeclaredType to;
         try {
             GenerateDelegate annotation = correspondingElement.getAnnotation(GenerateDelegate.class);
-            annotation.to().getClass();
+            annotation.of().getClass();
             throw new AssertionError("Should have thrown a MirroredTypeException before this.");
         } catch (MirroredTypeException mte) {
             // Save assumption because classes are DeclaredTypes.
