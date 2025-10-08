@@ -1,4 +1,4 @@
-package de.orat.math.cgacasadi.delegating.annotation.api;
+package de.dhbw.rahmlab.casadi.delegating.annotation.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,6 +1,6 @@
-package de.orat.math.cgacasadi.delegating.annotation.processor.representation;
+package de.dhbw.rahmlab.casadi.delegating.annotation.processor.representation;
 
-import de.orat.math.cgacasadi.delegating.annotation.processor.GenerateDelegatingProcessor.Utils;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.GenerateDelegatingProcessor.Utils;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 

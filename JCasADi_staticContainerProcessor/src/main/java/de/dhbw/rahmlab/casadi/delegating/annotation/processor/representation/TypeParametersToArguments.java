@@ -1,6 +1,6 @@
-package de.orat.math.cgacasadi.delegating.annotation.processor.representation;
+package de.dhbw.rahmlab.casadi.delegating.annotation.processor.representation;
 
-import de.orat.math.cgacasadi.delegating.annotation.processor.common.ErrorException;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.common.ErrorException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

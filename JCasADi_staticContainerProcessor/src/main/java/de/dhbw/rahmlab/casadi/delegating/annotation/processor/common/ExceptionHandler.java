@@ -1,4 +1,4 @@
-package de.orat.math.cgacasadi.delegating.annotation.processor.common;
+package de.dhbw.rahmlab.casadi.delegating.annotation.processor.common;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

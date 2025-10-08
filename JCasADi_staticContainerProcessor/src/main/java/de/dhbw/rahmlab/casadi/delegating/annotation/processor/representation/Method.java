@@ -1,7 +1,7 @@
-package de.orat.math.cgacasadi.delegating.annotation.processor.representation;
+package de.dhbw.rahmlab.casadi.delegating.annotation.processor.representation;
 
-import de.orat.math.cgacasadi.delegating.annotation.processor.GenerateDelegatingProcessor.Utils;
-import de.orat.math.cgacasadi.delegating.annotation.processor.common.WarningException;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.GenerateDelegatingProcessor.Utils;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.common.WarningException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;

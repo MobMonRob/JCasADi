@@ -1,6 +1,6 @@
-package de.orat.math.cgacasadi.delegating.annotation.processor.generation;
+package de.dhbw.rahmlab.casadi.delegating.annotation.processor.generation;
 
-import de.orat.math.cgacasadi.delegating.annotation.processor.representation.Clazz;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.representation.Clazz;
 import java.io.IOException;
 import java.util.List;
 import javax.annotation.processing.Filer;

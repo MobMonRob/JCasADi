@@ -1,4 +1,4 @@
-package de.orat.math.cgacasadi.delegating.annotation.processor.generation;
+package de.dhbw.rahmlab.casadi.delegating.annotation.processor.generation;
 
 import com.squareup.javapoet.ClassName;
 

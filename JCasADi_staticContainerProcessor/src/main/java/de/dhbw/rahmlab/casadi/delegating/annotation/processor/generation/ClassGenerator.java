@@ -1,4 +1,4 @@
-package de.orat.math.cgacasadi.delegating.annotation.processor.generation;
+package de.dhbw.rahmlab.casadi.delegating.annotation.processor.generation;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
@@ -6,10 +6,10 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import static de.orat.math.cgacasadi.delegating.annotation.processor.generation.Classes.T_Override;
-import de.orat.math.cgacasadi.delegating.annotation.processor.representation.Clazz;
-import de.orat.math.cgacasadi.delegating.annotation.processor.representation.Method;
-import de.orat.math.cgacasadi.delegating.annotation.processor.representation.Parameter;
+import static de.dhbw.rahmlab.casadi.delegating.annotation.processor.generation.Classes.T_Override;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.representation.Clazz;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.representation.Method;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.representation.Parameter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,9 @@
-package de.orat.math.cgacasadi.delegating.annotation.processor;
+package de.dhbw.rahmlab.casadi.delegating.annotation.processor;
 
 import com.google.auto.service.AutoService;
-import de.orat.math.cgacasadi.delegating.annotation.processor.common.ExceptionHandler;
-import de.orat.math.cgacasadi.delegating.annotation.processor.generation.ClassesGenerator;
-import de.orat.math.cgacasadi.delegating.annotation.processor.representation.Clazz;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.common.ExceptionHandler;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.generation.ClassesGenerator;
+import de.dhbw.rahmlab.casadi.delegating.annotation.processor.representation.Clazz;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +17,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import de.orat.math.cgacasadi.delegating.annotation.api.GenerateDelegate;
+import de.dhbw.rahmlab.casadi.delegating.annotation.api.GenerateDelegate;
 
 @AutoService(Processor.class)
 public final class GenerateDelegatingProcessor extends AbstractProcessor {
