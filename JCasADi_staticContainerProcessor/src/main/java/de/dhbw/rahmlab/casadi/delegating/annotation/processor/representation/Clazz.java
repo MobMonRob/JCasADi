@@ -4,20 +4,16 @@ import de.dhbw.rahmlab.casadi.delegating.annotation.api.GenerateDelegate;
 import de.dhbw.rahmlab.casadi.delegating.annotation.processor.GenerateDelegatingProcessor.Utils;
 import de.dhbw.rahmlab.casadi.delegating.annotation.processor.common.ErrorException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
-import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.type.MirroredTypesException;
 
 /**
  * Convention: representation of target structure, not source structure. With other words, being directly
@@ -25,7 +21,6 @@ import javax.lang.model.type.MirroredTypeException;
  */
 public class Clazz {
 
-    public final TypeElement correspondingElement;
     public final String qualifiedName;
     public final String simpleName;
     public final String enclosingQualifiedName;
@@ -33,120 +28,62 @@ public class Clazz {
      * Unmodifiable
      */
     public final List<Method> methods;
-    public final DeclaredType annotatedTo;
 
-    /**
-     * Unmodifiable
-     */
-    public final Collection<DeclaredType> commonSuperTypes;
+    public final TypeElement annotatedType;
 
-    public Clazz(TypeElement correspondingElement, Utils utils) throws ErrorException, Exception {
-        this.correspondingElement = correspondingElement;
-        this.simpleName = correspondingElement.getSimpleName().toString();
-        this.enclosingQualifiedName = ((QualifiedNameable) correspondingElement.getEnclosingElement()).getQualifiedName().toString();
-        this.qualifiedName = correspondingElement.getQualifiedName().toString();
+    public Clazz(TypeElement annotatedType, Utils utils) throws ErrorException, Exception {
 
-        ElementKind kind = correspondingElement.getKind();
+        this.annotatedType = annotatedType;
+        this.enclosingQualifiedName = ((QualifiedNameable) annotatedType.getEnclosingElement()).getQualifiedName().toString();
+
+        ElementKind kind = annotatedType.getKind();
         if (kind != ElementKind.CLASS) {
-            throw ErrorException.create(correspondingElement,
+            throw ErrorException.create(annotatedType,
                 "Expected \"%s\" to be a class, but was \"%s\".",
-                this.qualifiedName, kind);
+                annotatedType.getQualifiedName().toString(), kind);
         }
 
-        DeclaredType to;
+        GenerateDelegate annotation = annotatedType.getAnnotation(GenerateDelegate.class);
+        List<DeclaredType> delegateClasses;
         try {
-            GenerateDelegate annotation = correspondingElement.getAnnotation(GenerateDelegate.class);
             annotation.of().getClass();
-            throw new AssertionError("Should have thrown a MirroredTypeException before this.");
-        } catch (MirroredTypeException mte) {
+            throw new AssertionError("Should have thrown a MirroredTypesException before this.");
+        } catch (MirroredTypesException mte) {
             // Save assumption because classes are DeclaredTypes.
-            to = (DeclaredType) mte.getTypeMirror();
+            delegateClasses = (List<DeclaredType>) mte.getTypeMirrors();
         }
-        this.annotatedTo = to;
+        this.simpleName = annotation.name();
+        this.qualifiedName = String.format("%s.%s", this.enclosingQualifiedName, this.simpleName);
 
-        var toSuperTypeElements = computeSuperTypes(to, utils).values().stream().map(tm -> ((DeclaredType) tm).asElement()).collect(Collectors.toSet());
-        Map<String, DeclaredType> commonSuperTypes = computeSuperTypes((DeclaredType) correspondingElement.asType(), utils);
-        var commonSuperTypeElemenents = commonSuperTypes.entrySet().stream().filter(e -> !toSuperTypeElements.contains(((DeclaredType) e.getValue()).asElement())).toList();
-        commonSuperTypes.entrySet().removeAll(commonSuperTypeElemenents);
-        // commonSuperTypes.keySet().forEach(k -> System.out.println(k));
-        this.commonSuperTypes = Collections.unmodifiableCollection(commonSuperTypes.values());
-
-        this.methods = Collections.unmodifiableList(Clazz.computeMethods(commonSuperTypes, correspondingElement, utils));
+        this.methods = Collections.unmodifiableList(Clazz.computeMethods(delegateClasses, utils));
     }
 
-    private static Map<String, DeclaredType> computeSuperTypes(DeclaredType baseType, Utils utils) {
-        // Compute all recursive super types
-        Map<String, DeclaredType> allSuperTypes = new LinkedHashMap<>();
-        {
-            List<DeclaredType> currentSubTypes = List.of(baseType);
-            while (!currentSubTypes.isEmpty()) {
-                List<DeclaredType> nextSubTypes = new ArrayList<>();
-                for (var currentSubType : currentSubTypes) {
-                    var previousEntry = allSuperTypes.putIfAbsent(currentSubType.toString(), currentSubType);
-                    if (previousEntry != null) {
-                        continue;
-                    }
+    private static final Set<Modifier> publicStatic = Set.of(Modifier.STATIC, Modifier.PUBLIC);
 
-                    // Includes substitutions.
-                    var currentSuperTypes = (List<DeclaredType>) utils.typeUtils().directSupertypes(currentSubType);
-                    nextSubTypes.addAll(currentSuperTypes);
-                }
-                currentSubTypes = nextSubTypes;
-            }
-        }
-        allSuperTypes.remove(baseType.toString());
-        allSuperTypes.remove("java.lang.Object");
-        // allSuperTypes.keySet().forEach(s -> System.out.println("superTypes: " + s.toString() + s.hashCode()));
-        return allSuperTypes;
-    }
+    private static List<Method> computeMethods(List<DeclaredType> delegateClasses, Utils utils) throws ErrorException {
+        List<Method> allStaticMethods = new ArrayList<>();
 
-    private static List<Method> computeMethods(Map<String, DeclaredType> superTypes, TypeElement baseTypeElement, Utils utils) throws ErrorException {
-        List<Method> allMethods = new ArrayList<>();
-
-        // Don't generate methods which are already contained in the annotated class.
-        Set<String> previousMethodElementsNames = baseTypeElement.getEnclosedElements().stream()
-            .filter(el -> el.getKind() == ElementKind.METHOD)
-            .map(m -> (ExecutableElement) m)
-            .map(e -> e.getSimpleName().toString())
-            .collect(Collectors.toCollection(HashSet::new));
-
-        for (DeclaredType superInterface : superTypes.values()) {
-            List<ExecutableElement> interfaceDefaultMethodElements = ((TypeElement) superInterface.asElement()).getEnclosedElements().stream()
+        for (DeclaredType delegateClass : delegateClasses) {
+            List<ExecutableElement> staticMethodElements = ((TypeElement) delegateClass.asElement()).
+                getEnclosedElements().stream()
                 .filter(el -> el.getKind() == ElementKind.METHOD)
+                .filter(el -> el.getModifiers().containsAll(publicStatic))
                 .map(m -> (ExecutableElement) m)
-                // Remove overrides
-                .filter(m -> !previousMethodElementsNames.contains(m.getSimpleName().toString()))
                 .toList();
-
-            List<String> methodElementsNames = interfaceDefaultMethodElements.stream()
-                .map(me -> me.getSimpleName().toString())
-                .toList();
-            previousMethodElementsNames.addAll(methodElementsNames);
-
-            TypeParametersToArguments typeParametersToArguments = new TypeParametersToArguments(superInterface);
-            List<Method> containedMethods = checkCreateMethods(interfaceDefaultMethodElements, utils, typeParametersToArguments);
-            allMethods.addAll(containedMethods);
+            List<Method> staticMethods = checkCreateMethods(staticMethodElements, utils);
+            allStaticMethods.addAll(staticMethods);
         }
 
-        return allMethods;
+        return allStaticMethods;
     }
 
-    private static List<Method> checkCreateMethods(List<ExecutableElement> methodElements, Utils utils, TypeParametersToArguments typeParametersToArguments) {
+    private static List<Method> checkCreateMethods(List<ExecutableElement> methodElements, Utils utils) {
         List<Method> methods = new ArrayList<>(methodElements.size());
-        Set<String> methodNames = new HashSet<>(methodElements.size());
 
         for (ExecutableElement methodElement : methodElements) {
             utils.exceptionHandler().handle(() -> {
-                Method methodRepr = new Method(methodElement, typeParametersToArguments, utils);
-
-                if (methodNames.contains(methodRepr.name)) {
-                    throw ErrorException.create(methodElement,
-                        "Forbidden overloaded method: \"%s\".",
-                        methodElement.getSimpleName());
-                }
-
+                Method methodRepr = new Method(methodElement, utils);
                 methods.add(methodRepr);
-                methodNames.add(methodRepr.name);
             });
         }
 

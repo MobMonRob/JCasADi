@@ -13,8 +13,8 @@ public final class Parameter {
     public final TypeMirror type;
     public final String identifier;
 
-    protected Parameter(VariableElement correspondingElement, TypeParametersToArguments typeParametersToArguments, Utils utils) {
-        this.type = typeParametersToArguments.clearTypeParameterIfPresent(correspondingElement.asType());
+    protected Parameter(VariableElement correspondingElement, Utils utils) {
+        this.type = correspondingElement.asType();
         this.identifier = correspondingElement.getSimpleName().toString();
     }
 }
