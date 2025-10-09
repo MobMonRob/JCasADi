@@ -23,7 +23,7 @@ final class ClassGenerator {
     }
 
     protected static void generate(Clazz c, Filer filer) throws IOException, ClassNotFoundException {
-        String packageName = String.format("%s.gen", c.enclosingQualifiedName);
+        String packageName = String.format("%s", c.enclosingQualifiedName);
         String className = c.simpleName;
         ClassName genClass = ClassName.get(packageName, className);
         ClassName T_at = ClassName.get(c.annotatedType);

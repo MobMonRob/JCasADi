@@ -31,7 +31,7 @@ public class Clazz {
 
     public final TypeElement annotatedType;
 
-    public Clazz(TypeElement annotatedType, Utils utils) throws ErrorException, Exception {
+    public Clazz(TypeElement annotatedType, GenerateDelegate annotation, Utils utils) throws ErrorException, Exception {
 
         this.annotatedType = annotatedType;
         this.enclosingQualifiedName = ((QualifiedNameable) annotatedType.getEnclosingElement()).getQualifiedName().toString();
@@ -43,7 +43,6 @@ public class Clazz {
                 annotatedType.getQualifiedName().toString(), kind);
         }
 
-        GenerateDelegate annotation = annotatedType.getAnnotation(GenerateDelegate.class);
         List<DeclaredType> delegateClasses;
         try {
             annotation.of().getClass();

@@ -18,6 +18,8 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import de.dhbw.rahmlab.casadi.delegating.annotation.api.GenerateDelegate;
+import de.dhbw.rahmlab.casadi.delegating.annotation.api.GenerateDelegates;
+import java.lang.annotation.Annotation;
 
 @AutoService(Processor.class)
 public final class GenerateDelegatingProcessor extends AbstractProcessor {
@@ -32,11 +34,12 @@ public final class GenerateDelegatingProcessor extends AbstractProcessor {
 
     private volatile boolean initialized = false;
 
-    protected static final Set<String> supportedAnnotationTypes = Set.of(GenerateDelegate.class.getCanonicalName());
+    protected static final Set<Class<? extends Annotation>> supportedAnnotationTypes = Set.of(GenerateDelegate.class, GenerateDelegates.class);
+    protected static final Set<String> supportedAnnotationTypeNames = Set.of(GenerateDelegate.class.getCanonicalName(), GenerateDelegates.class.getCanonicalName());
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return supportedAnnotationTypes;
+        return supportedAnnotationTypeNames;
     }
 
     @Override
@@ -77,18 +80,37 @@ public final class GenerateDelegatingProcessor extends AbstractProcessor {
         return true;
     }
 
+    private static record AnnotatedTypeAndAnnotation(TypeElement annotatedType, GenerateDelegate annotation) {
+
+    }
+
     private static List<Clazz> computeClasses(RoundEnvironment roundEnv, Utils utils) {
+        List<AnnotatedTypeAndAnnotation> annotatedTypeAndAnnotationList = new ArrayList<>();
+
         // Safe cast because "@Target(ElementType.TYPE)" of Annotation.
         Set<TypeElement> annotatedTypes = (Set<TypeElement>) roundEnv.getElementsAnnotatedWith(GenerateDelegate.class);
+        for (TypeElement annotatedType : annotatedTypes) {
+            GenerateDelegate annotation = annotatedType.getAnnotation(GenerateDelegate.class);
+            annotatedTypeAndAnnotationList.add(new AnnotatedTypeAndAnnotation(annotatedType, annotation));
+        }
+
+        Set<TypeElement> annotatedTypes2 = (Set<TypeElement>) roundEnv.getElementsAnnotatedWith(GenerateDelegates.class);
+        for (TypeElement annotatedType2 : annotatedTypes2) {
+            GenerateDelegates annotation2 = annotatedType2.getAnnotation(GenerateDelegates.class);
+            GenerateDelegate[] annotations = annotation2.value();
+            for (GenerateDelegate annotation : annotations) {
+                annotatedTypeAndAnnotationList.add(new AnnotatedTypeAndAnnotation(annotatedType2, annotation));
+            }
+        }
 
         List<Clazz> classes = new ArrayList<>(annotatedTypes.size());
-        for (TypeElement annotatedType : annotatedTypes) {
+        for (AnnotatedTypeAndAnnotation annotatedTypeAndAnnotation : annotatedTypeAndAnnotationList) {
             Utils adjustedUtils = new Utils(new ExceptionHandler(utils.exceptionHandler()),
                 utils.elementUtils(),
                 utils.typeUtils());
 
             adjustedUtils.exceptionHandler().handle(() -> {
-                Clazz classRepr = new Clazz(annotatedType, adjustedUtils);
+                Clazz classRepr = new Clazz(annotatedTypeAndAnnotation.annotatedType(), annotatedTypeAndAnnotation.annotation(), adjustedUtils);
                 classes.add(classRepr);
             });
         }
