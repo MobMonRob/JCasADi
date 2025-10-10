@@ -1,8 +1,8 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.im;
 
+import de.dhbw.rahmlab.casadi.ImStatic;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
-import de.dhbw.rahmlab.casadi.impl.casadi.IM;
 
 public class IMUtils {
 

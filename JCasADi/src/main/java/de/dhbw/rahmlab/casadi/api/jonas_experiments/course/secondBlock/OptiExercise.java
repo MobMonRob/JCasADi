@@ -1,5 +1,9 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course.secondBlock;
 
+import de.dhbw.rahmlab.casadi.DmStatic;
+import de.dhbw.rahmlab.casadi.MxStatic;
+import static de.dhbw.rahmlab.casadi.MxStatic.diff;
+import static de.dhbw.rahmlab.casadi.MxStatic.gradient;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXBuilder;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXWrapper;

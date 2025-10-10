@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.sx;
 
+import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.api.core.interfaces.SymbolicExpression;
 import de.dhbw.rahmlab.casadi.api.core.interfaces.Wrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;

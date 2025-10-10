@@ -1,5 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course;
 
+import de.dhbw.rahmlab.casadi.DmStatic;
+import de.dhbw.rahmlab.casadi.MxStatic;
 import de.dhbw.rahmlab.casadi.api.core.constraints.*;
 import de.dhbw.rahmlab.casadi.api.core.problem.NLPProblem;
 import de.dhbw.rahmlab.casadi.api.core.problem.NLPProblemBuilder;

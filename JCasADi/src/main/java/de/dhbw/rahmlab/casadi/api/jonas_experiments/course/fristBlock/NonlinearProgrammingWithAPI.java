@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course.fristBlock;
 
+import de.dhbw.rahmlab.casadi.MxStatic;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMBuilder;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.mx.MXBuilder;
 import de.dhbw.rahmlab.casadi.api.core.problem.NLPProblem;

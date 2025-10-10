@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.problem;
 
+import de.dhbw.rahmlab.casadi.DmStatic;
 import de.dhbw.rahmlab.casadi.api.core.constraints.AbstractConstraint;
 import de.dhbw.rahmlab.casadi.api.core.interfaces.NumericValue;
 import de.dhbw.rahmlab.casadi.api.core.interfaces.Wrapper;

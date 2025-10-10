@@ -1,5 +1,6 @@
 package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
 
+import de.dhbw.rahmlab.casadi.DmStatic;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVectorCollection;

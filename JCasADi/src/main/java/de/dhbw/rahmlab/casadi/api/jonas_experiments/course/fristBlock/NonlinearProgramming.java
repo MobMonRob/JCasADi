@@ -1,5 +1,7 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course.fristBlock;
 
+import de.dhbw.rahmlab.casadi.DmStatic;
+import de.dhbw.rahmlab.casadi.MxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.*;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX;

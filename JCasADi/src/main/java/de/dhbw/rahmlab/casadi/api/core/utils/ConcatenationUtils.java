@@ -1,5 +1,8 @@
 package de.dhbw.rahmlab.casadi.api.core.utils;
 
+import de.dhbw.rahmlab.casadi.DmStatic;
+import de.dhbw.rahmlab.casadi.MxStatic;
+import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.dm.DMWrapper;
@@ -12,9 +15,6 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityVectorCollection
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
-import de.dhbw.rahmlab.casadi.impl.casadi.MX;
-import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 
 import java.util.Arrays;
