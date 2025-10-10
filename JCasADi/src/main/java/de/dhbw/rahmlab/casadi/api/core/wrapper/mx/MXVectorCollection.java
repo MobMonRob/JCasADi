@@ -131,7 +131,7 @@ public class MXVectorCollection extends AbstractList<MXVector> implements Collec
     }
 
     @Override
-    public MXVectorCollection reserveAndAdd(long n, MXVector vector) {
+    public MXVectorCollection reserveAndAdd(int n, MXVector vector) {
         this.reserve(n);
         return this.insert(vector);
     }
@@ -190,7 +190,7 @@ public class MXVectorCollection extends AbstractList<MXVector> implements Collec
      * @param n the number of MXVectors to reserve space for
      */
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorVectorMX.reserve(n);
     }
 

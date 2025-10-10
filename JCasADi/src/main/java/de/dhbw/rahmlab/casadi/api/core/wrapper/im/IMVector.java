@@ -57,7 +57,7 @@ public class IMVector extends AbstractList<IMWrapper> implements Vector<IMWrappe
     }
 
     @Override
-    public IMVector reserveAndAdd(long n, IMWrapper element) {
+    public IMVector reserveAndAdd(int n, IMWrapper element) {
         this.reserve(n);
         return this.insert(element);
     }
@@ -89,7 +89,7 @@ public class IMVector extends AbstractList<IMWrapper> implements Vector<IMWrappe
     }
 
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         if (n > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Cannot reserve more than Integer.MAX_VALUE elements.");
         }

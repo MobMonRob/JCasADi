@@ -81,7 +81,7 @@ public class GenericTypeVector extends AbstractList<CasADiGenericWrapper> implem
     }
 
     @Override
-    public GenericTypeVector reserveAndAdd(long n, CasADiGenericWrapper element) {
+    public GenericTypeVector reserveAndAdd(int n, CasADiGenericWrapper element) {
         this.reserve(n);
         return this.insert(element);
     }
@@ -113,7 +113,7 @@ public class GenericTypeVector extends AbstractList<CasADiGenericWrapper> implem
     }
 
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorCasadiGenericType.reserve(n);
     }
 

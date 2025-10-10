@@ -72,7 +72,7 @@ public class SXVectorCollection extends AbstractList<SXVector> implements Collec
     }
 
     @Override
-    public SXVectorCollection reserveAndAdd(long n, SXVector vector) {
+    public SXVectorCollection reserveAndAdd(int n, SXVector vector) {
         this.reserve(n);
         return this.insert(vector);
     }
@@ -104,7 +104,7 @@ public class SXVectorCollection extends AbstractList<SXVector> implements Collec
     }
 
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorVectorSX.reserve(n);
     }
 

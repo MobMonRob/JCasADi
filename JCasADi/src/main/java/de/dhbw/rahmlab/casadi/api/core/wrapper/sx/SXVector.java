@@ -156,7 +156,7 @@ public class SXVector extends AbstractList<SXWrapper> implements Vector<SXWrappe
      * @return the current SXVector instance for method chaining.
      */
     @Override
-    public SXVector reserveAndAdd(long n, SXWrapper element) {
+    public SXVector reserveAndAdd(int n, SXWrapper element) {
         this.reserve(n);
         return this.insert(element);
     }
@@ -217,7 +217,7 @@ public class SXVector extends AbstractList<SXWrapper> implements Vector<SXWrappe
      * @param n the number of elements to reserve space for.
      */
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorSX.reserve(n);
     }
 

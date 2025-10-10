@@ -72,7 +72,7 @@ public class DMVectorCollection extends AbstractList<DMVector> implements Collec
     }
 
     @Override
-    public DMVectorCollection reserveAndAdd(long n, DMVector vector) {
+    public DMVectorCollection reserveAndAdd(int n, DMVector vector) {
         this.reserve(n);
         return this.insert(vector);
     }
@@ -104,7 +104,7 @@ public class DMVectorCollection extends AbstractList<DMVector> implements Collec
     }
 
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorVectorDM.reserve(n);
     }
 

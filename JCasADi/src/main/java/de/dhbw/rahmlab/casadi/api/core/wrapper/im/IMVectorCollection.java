@@ -57,7 +57,7 @@ public class IMVectorCollection extends AbstractList<IMVector> implements Collec
     }
 
     @Override
-    public IMVectorCollection reserveAndAdd(long n, IMVector vector) {
+    public IMVectorCollection reserveAndAdd(int n, IMVector vector) {
         this.reserve(n);
         return this.insert(vector);
     }
@@ -89,7 +89,7 @@ public class IMVectorCollection extends AbstractList<IMVector> implements Collec
     }
 
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         if (n > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Cannot reserve more than Integer.MAX_VALUE elements.");
         }

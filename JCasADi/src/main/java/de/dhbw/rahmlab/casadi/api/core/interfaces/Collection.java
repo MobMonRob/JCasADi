@@ -63,7 +63,7 @@ public interface Collection<T> {
      * @param <N> The type of the collection.
      * @return The collection instance for method chaining.
      */
-    <N extends Collection<?>> N reserveAndAdd(long n, T vector);
+    <N extends Collection<?>> N reserveAndAdd(int n, T vector);
 
     /**
      * Removes the element at the specified index.
@@ -100,7 +100,7 @@ public interface Collection<T> {
      *
      * @param n The number of elements to reserve space for.
      */
-    void reserve(long n);
+    void reserve(int n);
 
     /**
      * Checks if the collection is empty.

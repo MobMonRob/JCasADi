@@ -163,7 +163,7 @@ public class BooleanVector {
      *
      * @param n the number of boolean values to reserve space for
      */
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorBool.reserve(n);
     }
 

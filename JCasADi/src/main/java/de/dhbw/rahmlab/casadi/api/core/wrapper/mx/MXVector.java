@@ -157,7 +157,7 @@ public class MXVector extends AbstractList<MXWrapper> implements Vector<MXWrappe
      * @return the current MXVector instance for method chaining.
      */
     @Override
-    public MXVector reserveAndAdd(long n, MXWrapper element) {
+    public MXVector reserveAndAdd(int n, MXWrapper element) {
         this.reserve(n);
         return this.insert(element);
     }
@@ -218,7 +218,7 @@ public class MXVector extends AbstractList<MXWrapper> implements Vector<MXWrappe
      * @param n the number of elements to reserve space for.
      */
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorMX.reserve(n);
     }
 

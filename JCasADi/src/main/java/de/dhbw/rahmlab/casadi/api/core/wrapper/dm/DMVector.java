@@ -156,7 +156,7 @@ public class DMVector extends AbstractList<DMWrapper> implements Vector<DMWrappe
      * @return the current DMVector instance for method chaining.
      */
     @Override
-    public DMVector reserveAndAdd(long n, DMWrapper element) {
+    public DMVector reserveAndAdd(int n, DMWrapper element) {
         this.reserve(n);
         return this.insert(element);
     }
@@ -217,7 +217,7 @@ public class DMVector extends AbstractList<DMWrapper> implements Vector<DMWrappe
      * @param n the number of elements to reserve space for.
      */
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorDM.reserve(n);
     }
 

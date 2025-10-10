@@ -72,7 +72,7 @@ public class FunctionVector extends AbstractList<FunctionWrapper> implements Vec
     }
 
     @Override
-    public FunctionVector reserveAndAdd(long n, FunctionWrapper element) {
+    public FunctionVector reserveAndAdd(int n, FunctionWrapper element) {
         this.reserve(n);
         return this.insert(element);
     }
@@ -104,7 +104,7 @@ public class FunctionVector extends AbstractList<FunctionWrapper> implements Vec
     }
 
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorCasadiFunction.reserve(n);
     }
 

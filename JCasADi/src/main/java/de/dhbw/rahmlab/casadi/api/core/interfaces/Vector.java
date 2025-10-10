@@ -63,7 +63,7 @@ public interface Vector<T> {
      * @param <N> The type of the vector.
      * @return The vector instance for method chaining.
      */
-    <N extends Vector<?>> N reserveAndAdd(long n, T element);
+    <N extends Vector<?>> N reserveAndAdd(int n, T element);
 
     /**
      * Removes the element at the specified index.
@@ -100,7 +100,7 @@ public interface Vector<T> {
      *
      * @param n The number of elements to reserve space for.
      */
-    void reserve(long n);
+    void reserve(int n);
 
     /**
      * Checks if the vector is empty.

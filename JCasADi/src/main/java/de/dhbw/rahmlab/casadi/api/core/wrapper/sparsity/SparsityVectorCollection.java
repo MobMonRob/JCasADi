@@ -72,7 +72,7 @@ public class SparsityVectorCollection extends AbstractList<SparsityVector> imple
     }
 
     @Override
-    public SparsityVectorCollection reserveAndAdd(long n, SparsityVector vector) {
+    public SparsityVectorCollection reserveAndAdd(int n, SparsityVector vector) {
         this.reserve(n);
         return this.insert(vector);
     }
@@ -104,7 +104,7 @@ public class SparsityVectorCollection extends AbstractList<SparsityVector> imple
     }
 
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorVectorCasadiSparsity.reserve(n);
     }
 

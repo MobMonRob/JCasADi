@@ -144,7 +144,7 @@ public class LinearSolverVector extends AbstractList<LinearSolver> implements Ve
      * @return the current LinearSolverVector instance.
      */
     @Override
-    public LinearSolverVector reserveAndAdd(long n, LinearSolver element) {
+    public LinearSolverVector reserveAndAdd(int n, LinearSolver element) {
         this.reserve(n);
         return this.insert(element);
     }
@@ -204,7 +204,7 @@ public class LinearSolverVector extends AbstractList<LinearSolver> implements Ve
      * @param n the number of elements to reserve space for.
      */
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorCasadiLinsol.reserve(n);
     }
 

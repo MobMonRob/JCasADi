@@ -165,7 +165,7 @@ public class CasADiIntVector extends AbstractList<Long> {
      *
      * @param n the number of integer values to reserve space for
      */
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorCasadiInt.reserve(n);
     }
 

@@ -152,7 +152,7 @@ public class StringVector {
      *
      * @param n the number of string values to reserve space for
      */
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorStdString.reserve(n);
     }
 

@@ -68,7 +68,7 @@ public class SXComponentVector extends AbstractList<SXComponent> implements Vect
     }
 
     @Override
-    public SXComponentVector reserveAndAdd(long n, SXComponent element) {
+    public SXComponentVector reserveAndAdd(int n, SXComponent element) {
         this.reserve(n);
         return this.insert(element);
     }
@@ -100,7 +100,7 @@ public class SXComponentVector extends AbstractList<SXComponent> implements Vect
     }
 
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorCasadiSXElem.reserve(n);
     }
 

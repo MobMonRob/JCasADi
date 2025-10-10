@@ -133,7 +133,7 @@ public class DoubleVectorCollection extends AbstractList<DoubleVector> implement
     }
 
     @Override
-    public DoubleVectorCollection reserveAndAdd(long n, DoubleVector vector) {
+    public DoubleVectorCollection reserveAndAdd(int n, DoubleVector vector) {
         this.reserve(n);
         return this.insert(vector);
     }
@@ -192,7 +192,7 @@ public class DoubleVectorCollection extends AbstractList<DoubleVector> implement
      * @param n the number of DoubleVector values to reserve space for
      */
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorVectorDouble.reserve(n);
     }
 

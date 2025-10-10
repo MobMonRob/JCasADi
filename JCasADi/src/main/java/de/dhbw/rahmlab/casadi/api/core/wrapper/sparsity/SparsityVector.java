@@ -69,7 +69,7 @@ public class SparsityVector extends AbstractList<SparsityWrapper> implements Vec
     }
 
     @Override
-    public SparsityVector reserveAndAdd(long n, SparsityWrapper element) {
+    public SparsityVector reserveAndAdd(int n, SparsityWrapper element) {
         this.reserve(n);
         return this.insert(element);
     }
@@ -101,7 +101,7 @@ public class SparsityVector extends AbstractList<SparsityWrapper> implements Vec
     }
 
     @Override
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorCasadiSparsity.reserve(n);
     }
 

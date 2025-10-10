@@ -189,7 +189,7 @@ public class DoubleVector extends AbstractList<Double> {
      *
      * @param n the number of double values to reserve space for
      */
-    public void reserve(long n) {
+    public void reserve(int n) {
         this.stdVectorDouble.reserve(n);
     }
 
