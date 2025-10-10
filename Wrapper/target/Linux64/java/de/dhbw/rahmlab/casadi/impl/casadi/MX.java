@@ -1247,14 +1247,6 @@ public class MX implements IMxGenericExpression, IMxGenericMatrix, ISharedObject
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_nullspace(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(A), A), true);
   }
 
-  public static de.dhbw.rahmlab.casadi.impl.casadi.MX repsum(de.dhbw.rahmlab.casadi.impl.casadi.MX x, long n, long m) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_repsum__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, n, m), true);
-  }
-
-  public static de.dhbw.rahmlab.casadi.impl.casadi.MX repsum(de.dhbw.rahmlab.casadi.impl.casadi.MX x, long n) {
-    return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_repsum__SWIG_1(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, n), true);
-  }
-
   public static de.dhbw.rahmlab.casadi.impl.casadi.MX densify(de.dhbw.rahmlab.casadi.impl.casadi.MX x, de.dhbw.rahmlab.casadi.impl.casadi.MX val) {
     return new de.dhbw.rahmlab.casadi.impl.casadi.MX(de.dhbw.rahmlab.casadi.impl.core__JNI.casadi_MX_densify__SWIG_0(de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(x), x, de.dhbw.rahmlab.casadi.impl.casadi.MX.getCPtr(val), val), true);
   }

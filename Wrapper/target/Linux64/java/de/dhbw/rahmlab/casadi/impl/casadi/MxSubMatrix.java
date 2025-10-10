@@ -67,7 +67,8 @@ public class MxSubMatrix extends de.dhbw.rahmlab.casadi.impl.casadi.MX {
 		}
 
 		var freeMX = de.dhbw.rahmlab.casadi.impl.casadi.MX.symvar(this);
-		var freeSX = freeMX.stream().map(freeVar -> de.dhbw.rahmlab.casadi.impl.casadi.SX.sym(freeVar.name(), freeVar.rows(), freeVar.columns())).toList();
+
+		var freeSX = freeMX.stream().map(freeVar -> de.dhbw.rahmlab.casadi.impl.casadi.SxGenericMatrix.sym(freeVar.name(), freeVar.rows(), freeVar.columns())).toList();
 
 		var inSym = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(freeMX);
 		var outSym = new de.dhbw.rahmlab.casadi.impl.std.StdVectorMX(java.util.List.of(this));

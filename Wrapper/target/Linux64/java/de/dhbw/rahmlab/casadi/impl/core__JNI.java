@@ -2474,8 +2474,6 @@ static {
   public final static native long casadi_MX_det(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg1_);
   public final static native long casadi_MX_symvar(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg1_);
   public final static native long casadi_MX_nullspace(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg1_);
-  public final static native long casadi_MX_repsum__SWIG_0(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg1_, long jarg2, long jarg3);
-  public final static native long casadi_MX_repsum__SWIG_1(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg1_, long jarg2);
   public final static native long casadi_MX_densify__SWIG_0(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg1_, long jarg2, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg2_);
   public final static native long casadi_MX_densify__SWIG_1(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg1_);
   public final static native long casadi_MX__bilin(long jarg1, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg1_, long jarg2, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg2_, long jarg3, de.dhbw.rahmlab.casadi.impl.casadi.MX jarg3_);
