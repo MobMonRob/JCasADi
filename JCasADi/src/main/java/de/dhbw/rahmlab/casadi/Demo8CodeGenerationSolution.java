@@ -22,7 +22,7 @@ public class Demo8CodeGenerationSolution {
         SX y = SxStatic.sym("y");
 
         Function f = new Function("f", new StdVectorSX(new SX[]{x,y}), 
-                                           new StdVectorSX(new SX[]{SX.minus(SxStatic.sqrt(x),y)}));
+                                           new StdVectorSX(new SX[]{SxStatic.minus(SxStatic.sqrt(x),y)}));
         f.generate("fun");
 
 
@@ -40,7 +40,7 @@ public class Demo8CodeGenerationSolution {
         MX yy = MxStatic.sym("y");
 
         f = new Function("f", new StdVectorMX(new MX[]{xx, yy}),
-                              new StdVectorMX(new MX[]{MX.minus(MxStatic.sqrt(xx),yy)}));
+                              new StdVectorMX(new MX[]{MxStatic.minus(MxStatic.sqrt(xx),yy)}));
 
         f.generate("fun3",options);
 

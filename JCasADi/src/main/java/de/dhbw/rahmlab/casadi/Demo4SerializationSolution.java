@@ -17,7 +17,7 @@ public class Demo4SerializationSolution {
         // Ex 1.1
         SX x = SxStatic.sym("x");
         Function f = new Function("f", new StdVectorSX(new SX[]{x}), 
-                new StdVectorSX(new SX[]{SX.pow(x, new SX(2)) }));
+                new StdVectorSX(new SX[]{SxStatic.pow(x, new SX(2)) }));
         f.save("f.casadi");
         Function f_loaded = Function.load("f.casadi");
         //TODO
@@ -41,7 +41,7 @@ public class Demo4SerializationSolution {
         FileSerializer fs = new FileSerializer("foo.casadi");
         fs.pack("foo");
         fs.pack(x);
-        fs.pack(new StdVectorSX(new SX[]{SX.pow(x, new SX(2)),SX.sin(x)}));
+        fs.pack(new StdVectorSX(new SX[]{SxStatic.pow(x, new SX(2)),SxStatic.sin(x)}));
         fs.pack(Sparsity.lower(5));
         fs.pack(f);
         

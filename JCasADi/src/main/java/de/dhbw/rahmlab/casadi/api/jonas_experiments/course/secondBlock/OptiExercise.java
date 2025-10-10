@@ -251,7 +251,7 @@ public class OptiExercise {
         var sum = MxStatic.sum1(MxStatic.times(m, y));
         opti.minimize(MxStatic.times(g, sum));
 
-        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{MX.plus(MxStatic.pow(diff(x), new MX(2)), MxStatic.pow(diff(y), new MX(2)))})), MxStatic.vertcat(new StdVectorMX(new MX[]{MX.pow(L, new MX(2))}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.plus(MxStatic.pow(diff(x), new MX(2)), MxStatic.pow(diff(y), new MX(2)))})), MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.pow(L, new MX(2))}))));
         opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
         opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
 
@@ -285,7 +285,7 @@ public class OptiExercise {
         var sum = MxStatic.sum1(MxStatic.times(m, y));
         opti.minimize(MxStatic.times(g, sum));
 
-        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{MX.plus(MxStatic.pow(diff(x), new MX(2)), MxStatic.pow(diff(y), new MX(2)))})), MxStatic.vertcat(new StdVectorMX(new MX[]{MX.pow(L, new MX(2))}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.plus(MxStatic.pow(diff(x), new MX(2)), MxStatic.pow(diff(y), new MX(2)))})), MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.pow(L, new MX(2))}))));
         opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
         opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
 

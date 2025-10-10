@@ -1,6 +1,10 @@
 package de.dhbw.rahmlab.casadi.api.jonas_experiments.course.fristBlock;
 
-import de.dhbw.rahmlab.casadi.impl.casadi.*;
+import de.dhbw.rahmlab.casadi.DmStatic;
+import de.dhbw.rahmlab.casadi.MxStatic;
+import de.dhbw.rahmlab.casadi.impl.casadi.DM;
+import de.dhbw.rahmlab.casadi.impl.casadi.Function;
+import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdMapStringToMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
@@ -9,7 +13,7 @@ import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.dhbw.rahmlab.casadi.impl.casadi.DM.*;
+import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import static de.dhbw.rahmlab.casadi.impl.core__.rootfinder;
 
 /***
@@ -23,10 +27,10 @@ public class RootfindingExercise {
         DM x = new DM(w.get_elements().get(0));
         DM y = new DM(w.get_elements().get(1));
 
-        DM g1 = new DM(tanh(minus(rdivide(times(plus(x, new DM(2)), times(y, y)), new DM(25)), new DM(0.5))));
-        DM g2 = new DM(plus(plus(sin(x), times(new DM(-0.5), y)), new DM(1)));
+        DM g1 = new DM(DmStatic.tanh(DmStatic.minus(DmStatic.rdivide(DmStatic.times(DmStatic.plus(x, new DM(2)), DmStatic.times(y, y)), new DM(25)), new DM(0.5))));
+        DM g2 = new DM(DmStatic.plus(DmStatic.plus(DmStatic.sin(x), DmStatic.times(new DM(-0.5), y)), new DM(1)));
 
-        return vertcat(new StdVectorDM(new DM[]{g1, g2}));
+        return DmStatic.vertcat(new StdVectorDM(new DM[]{g1, g2}));
     }
 
     public static MX gMX(MX w) {
@@ -48,9 +52,9 @@ public class RootfindingExercise {
         DM[] jacobian = new DM[numberOfRows];
         for (int i = 0; i < numberOfRows; i++) {
             DM s = initForwardSeed(numberOfRows, i);
-            jacobian[i] = rdivide(minus(gDM(plus(w, times(s, epsilon))), resultOfG), epsilon);
+            jacobian[i] = DmStatic.rdivide(DmStatic.minus(gDM(DmStatic.plus(w, DmStatic.times(s, epsilon))), resultOfG), epsilon);
         }
-        return horzcat(new StdVectorDM(jacobian));
+        return DmStatic.horzcat(new StdVectorDM(jacobian));
     }
 
     private static DM initForwardSeed(int numberOfRows, int i) {
@@ -62,19 +66,19 @@ public class RootfindingExercise {
                 forwardSeeds[j] = new DM(0);
             }
         }
-        return vertcat(new StdVectorDM(forwardSeeds));
+        return DmStatic.vertcat(new StdVectorDM(forwardSeeds));
     }
 
     public static DM newtonMethod(int steps, DM w) {
         DM result = w;
         for (int i = 0; i < steps; i++) {
-            result = minus(result, solve(computeJacobian(result), gDM(result)));
+            result = DmStatic.minus(result, DmStatic.solve(computeJacobian(result), gDM(result)));
         }
         return result;
     }
 
     public static Function jf(MX w) {
-        return new Function("f", new StdVectorMX(new MX[]{X}), new StdVectorMX(new MX[]{MX.jacobian(gMX(X), X)}));
+        return new Function("f", new StdVectorMX(new MX[]{X}), new StdVectorMX(new MX[]{MxStatic.jacobian(gMX(X), X)}));
     }
 
     public static void main(String[] args) {
@@ -100,23 +104,23 @@ public class RootfindingExercise {
         // [2] means a 2-vector
         // [2x2] means a 2-by-2 matrix
         //2.3
-        Function f = new Function("f", new StdVectorMX(new MX[]{X}), new StdVectorMX(new MX[]{MX.jacobian(gMX(X), X)}));
+        Function f = new Function("f", new StdVectorMX(new MX[]{X}), new StdVectorMX(new MX[]{MxStatic.jacobian(gMX(X), X)}));
         StdVectorDM result = new StdVectorDM();
-        StdVectorDM arg = new StdVectorDM(new DM[]{vertcat(new StdVectorDM(new DM[]{x, y}))});
+        StdVectorDM arg = new StdVectorDM(new DM[]{DmStatic.vertcat(new StdVectorDM(new DM[]{x, y}))});
         f.call(arg, result);
-        System.out.println(vertcat(result));
+        System.out.println(DmStatic.vertcat(result));
         // 2.4
-        DM r = vertcat(new StdVectorDM(new DM[]{x, y}));
-        StdVectorDM arg2 = new StdVectorDM(new DM[]{vertcat(new StdVectorDM(new DM[]{x, y}))});
+        DM r = DmStatic.vertcat(new StdVectorDM(new DM[]{x, y}));
+        StdVectorDM arg2 = new StdVectorDM(new DM[]{DmStatic.vertcat(new StdVectorDM(new DM[]{x, y}))});
         for (int i = 0; i < 5; i++) {
             StdVectorDM e = new StdVectorDM();
             f.call(arg2, e);
-            r = minus(r, solve(vertcat(e), gDM(r)));
+            r = DmStatic.minus(r, DmStatic.solve(DmStatic.vertcat(e), gDM(r)));
             arg2 = new StdVectorDM(new DM[]{r});
         }
         System.out.println(r);
         // 3.1
-        StdVectorDM arg3 = new StdVectorDM(new DM[]{vertcat(new StdVectorDM(new DM[]{x, y})), new DM()});
+        StdVectorDM arg3 = new StdVectorDM(new DM[]{DmStatic.vertcat(new StdVectorDM(new DM[]{x, y})), new DM()});
 //        Function rfp = new Function("rfp", new StdVectorMX(new MX[]{X}), new StdVectorMX(new MX[]{gMX(X)}));
         Map<String, MX> map = new HashMap<>();
         map.put("x", X);

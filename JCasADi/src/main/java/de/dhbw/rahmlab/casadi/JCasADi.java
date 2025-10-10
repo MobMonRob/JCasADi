@@ -182,8 +182,8 @@ public class JCasADi {
 //		casadi::SX fun_obj = pow(posi(0)-posi_des(0), 2) +
 //							 pow(posi(1)-posi_des(1), 2);
 		SX fun_obj = SxStatic.plus(
-			SX.pow(SxStatic.minus(posi.at(0), posi_des.at(0)), new SX(2)),
-			SX.pow(SxStatic.minus(posi.at(1), posi_des.at(1)), new SX(2))
+			SxStatic.pow(SxStatic.minus(posi.at(0), posi_des.at(0)), new SX(2)),
+			SxStatic.pow(SxStatic.minus(posi.at(1), posi_des.at(1)), new SX(2))
 		);
 //
 //		// gradients

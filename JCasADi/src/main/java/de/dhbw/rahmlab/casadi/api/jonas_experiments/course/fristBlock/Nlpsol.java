@@ -71,7 +71,7 @@ public class Nlpsol {
     // function of 2.3
     public static Function shoot2_3(Function fly) {
         var res = new StdVectorMX();
-        fly.call(new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{new MX(0), new MX(0), MxStatic.times(v1, MxStatic.cos(theta_rad)), MxStatic.times(v1, MxStatic.sin(theta_rad))})), T}), res);
+        fly.call(new StdVectorMX(new MX[]{MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(0), new MX(0), MxStatic.times(v1, MxStatic.cos(theta_rad)), MxStatic.times(v1, MxStatic.sin(theta_rad))})), T}), res);
         var shoot = new Function("shoot", new StdVectorMX(new MX[]{v1, theta, T}), res);
         System.out.println("shoot: " + shoot);
         return shoot;
@@ -160,7 +160,7 @@ public class Nlpsol {
         System.out.println(rhs.dim_());
         DmStatic.set_precision(6);
         rhs.set(MxStatic.minus(rhs.at(3), new MX(gravity)), true, new IM(3)); // -> triggers wrong values
-        var f = new Function("rhs", new StdVectorMX(new MX[]{MX.vertcat(new StdVectorMX(new MX[]{p, v}))}), new StdVectorMX(new MX[]{rhs}));
+        var f = new Function("rhs", new StdVectorMX(new MX[]{MxStatic.vertcat(new StdVectorMX(new MX[]{p, v}))}), new StdVectorMX(new MX[]{rhs}));
         System.out.println(f);
         var result = new StdVectorDM();
         f.call(new StdVectorDM(new DM[]{DM.vertcat(new StdVectorDM(new DM[]{new DM(0.0), new DM(0.0), new DM(35.0), new DM(30.0)}))}), result);
@@ -287,7 +287,7 @@ public class Nlpsol {
     public static void exercise3_2() {
         var shoot_distance = shoot_distance2_5();
 
-        var cov_vtheta = MxStatic.diag(MxStatic.vertcat(new StdVectorMX(new MX[]{MX.pow(new MX(1), new MX(2)), MxStatic.pow(new MX(1.2), new MX(2))})));
+        var cov_vtheta = MxStatic.diag(MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.pow(new MX(1), new MX(2)), MxStatic.pow(new MX(1.2), new MX(2))})));
 
         var result = new StdVectorMX();
         shoot_distance.call(new StdVectorMX(new MX[]{v1, theta}), result);

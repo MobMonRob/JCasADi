@@ -60,7 +60,7 @@ public class NonlinearProgramming {
         NonlinearProgramming.solution();
         // 1.2
         MX x0 = MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
-        Function l = new Function("l", new StdVectorMX(new MX[]{x}), new StdVectorMX(new MX[]{MX.plus(MxStatic.plus(f_ex, MxStatic.times(new MX(2), g_ex)), MxStatic.times(new MX(3), h_ex))}));
+        Function l = new Function("l", new StdVectorMX(new MX[]{x}), new StdVectorMX(new MX[]{MxStatic.plus(MxStatic.plus(f_ex, MxStatic.times(new MX(2), g_ex)), MxStatic.times(new MX(3), h_ex))}));
         StdVectorMX result = new StdVectorMX(new MX[]{});
         l.call(new StdVectorMX(new MX[]{x0}), result);
         System.out.println(result.get(0).at(0,0));
@@ -130,8 +130,8 @@ public class NonlinearProgramming {
         MX H = mx.get(4);
         MX G = mx.get(3);
         MX A = MxStatic.vertcat(new StdVectorMX(new MX[]{mx.get(5), mx.get(6)}));
-        MX lba = MxStatic.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), mx.get(1)), MxStatic.times(new MX(-1), MxStatic.inf())}));
-        MX uba = MxStatic.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), mx.get(1)), MxStatic.times(new MX(-1), mx.get(2))}));
+        MX lba = MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.times(new MX(-1), mx.get(1)), MxStatic.times(new MX(-1), MxStatic.inf())}));
+        MX uba = MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.times(new MX(-1), mx.get(1)), MxStatic.times(new MX(-1), mx.get(2))}));
         System.out.println("---- Dim:");
         System.out.println(H.dim_());
         System.out.println(G.dim_());
@@ -237,8 +237,8 @@ public class NonlinearProgramming {
             MX H1 = result1.get(4);
             MX G1 = result1.get(3);
             MX A1 = MxStatic.vertcat(new StdVectorMX(new MX[]{result1.get(5), result1.get(6)}));
-            MX lba1 = MxStatic.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), result1.get(1)), MxStatic.times(new MX(-1), MxStatic.inf())}));
-            MX uba1 = MxStatic.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), result1.get(1)), MxStatic.times(new MX(-1), result1.get(2))}));
+            MX lba1 = MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.times(new MX(-1), result1.get(1)), MxStatic.times(new MX(-1), MxStatic.inf())}));
+            MX uba1 = MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.times(new MX(-1), result1.get(1)), MxStatic.times(new MX(-1), result1.get(2))}));
 
             var re1 = new StdMapStringToMX();
 
@@ -279,7 +279,7 @@ public class NonlinearProgramming {
         Map<String, MX> g_map = new HashMap<>();
         g_map.put("x", MxStatic.vertcat(new StdVectorMX(new MX[]{x, lambd1, nu1})));
         g_map.put("p", tau);
-        g_map.put("g", MxStatic.vertcat(new StdVectorMX(new MX[]{MX.gradient(lag1, x), g, MxStatic.plus(MxStatic.times(nu1, h), tau)})));
+        g_map.put("g", MxStatic.vertcat(new StdVectorMX(new MX[]{MxStatic.gradient(lag1, x), g, MxStatic.plus(MxStatic.times(nu1, h), tau)})));
         var G1 = new StdMapStringToMX(g_map);
         Function rf = rootfinder("rf", "newton", G1);
         System.out.println(rf);

@@ -46,7 +46,7 @@ public class CasADiBasicsExercise {
         var r = new StdVectorMX(new MX[]{new MX(0)});
         for (int i = 1; i <= 10; i++) {
             f.call(new StdVectorMX(new MX[]{new MX(1), MxStatic.sin(MxStatic.times(x, new MX(i)))}), result);
-            r = new StdVectorMX(new MX[]{MX.plus(r.get(0), result.get(0))});
+            r = new StdVectorMX(new MX[]{MxStatic.plus(r.get(0), result.get(0))});
             // Has calls to f appended (f ten times)
             System.out.println(r);
         }
@@ -73,9 +73,9 @@ public class CasADiBasicsExercise {
         MX y = MxStatic.sym("y");
         MX p = MxStatic.sym("p", 2);
         MX A = MxStatic.sym("A", 4, 5);
-        Function f = new Function("f", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MX.times(MxStatic.sin(x), y)}));
-        Function g = new Function("g", new StdVectorMX(new MX[]{x}), new StdVectorMX(new MX[]{MX.sqrt(x), MxStatic.times(x, x)}));
-        Function h = new Function("h", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MX.times(MxStatic.sin(x), y)})); // Does not work as in the video
+        Function f = new Function("f", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MxStatic.times(MxStatic.sin(x), y)}));
+        Function g = new Function("g", new StdVectorMX(new MX[]{x}), new StdVectorMX(new MX[]{MxStatic.sqrt(x), MxStatic.times(x, x)}));
+        Function h = new Function("h", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MxStatic.times(MxStatic.sin(x), y)})); // Does not work as in the video
         // Cannot find a way to implement lambda-Function F in Java
         // -------
         System.out.println(MxStatic.plus(new MX(5), x).getClass().getName()); // 2
@@ -122,7 +122,7 @@ public class CasADiBasicsExercise {
         System.out.println(F(x, y).getClass().getName());// 22
         System.out.println(F(1, 2).getClass().getName());// 23
         // -------
-        Function m = new Function("m", new StdVectorMX(new MX[]{new MX(x)}), new StdVectorMX(new MX[]{MX.sin(x)})); // Goal 1
+        Function m = new Function("m", new StdVectorMX(new MX[]{new MX(x)}), new StdVectorMX(new MX[]{MxStatic.sin(x)})); // Goal 1
         p.at(0); // Goal 2
         p.at(1); // Goal 3
         MX M = vertcat(new StdVectorMX(new MX[]{x, y})); // Goal 4
@@ -130,7 +130,7 @@ public class CasADiBasicsExercise {
         f.call(new StdVectorDM(new DM[]{new DM(1), new DM(2)}), result); // Goal 5
         StdVectorMX result1 = new StdVectorMX();
         f.call(new StdVectorMX(new MX[]{p.at(0), p.at(1)}), result1); // Goal 6
-        Function square = new Function("square", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MX.times(MxStatic.times(MxStatic.sin(x), y), MxStatic.times(MxStatic.sin(x), y))})); // Goal 7
+        Function square = new Function("square", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MxStatic.times(MxStatic.times(MxStatic.sin(x), y), MxStatic.times(MxStatic.sin(x), y))})); // Goal 7
         StdVectorMX result2 = new StdVectorMX();
         //h.call(new StdVectorMX(new MX[]{new MX(5)}), result2); // Goal 8
         Function m1 = new Function("m1", new StdVectorMX(new MX[]{x}), new StdVectorMX(new MX[]{new MX(5)})); // Goal 9
@@ -141,7 +141,7 @@ public class CasADiBasicsExercise {
         SX b = SxStatic.sym("b");
         StdVectorSX re = new StdVectorSX();
         Function f2 = new Function("f2", new StdVectorSX(new SX[]{a, b}), new StdVectorSX(new SX[]{new SX(SxStatic.plus(SxStatic.sin(a), b))}), new StdVectorStdString(new String[]{"x", "y"}), new StdVectorStdString(new String[]{"z"}));
-        Function g2 = new Function("g2", new StdVectorSX(new SX[]{a}), new StdVectorSX(new SX[]{SX.sqrt(a), SxStatic.pow(a, new SX(2))}), new StdVectorStdString(new String[]{"x"}), new StdVectorStdString(new String[]{"p0", "p1"}));
+        Function g2 = new Function("g2", new StdVectorSX(new SX[]{a}), new StdVectorSX(new SX[]{SxStatic.sqrt(a), SxStatic.pow(a, new SX(2))}), new StdVectorStdString(new String[]{"x"}), new StdVectorStdString(new String[]{"p0", "p1"}));
         // Now functions have labels for input and output
         // Cannot find option to use labels in the code
         //f2.call(new StdVectorSX(new SX[]{new SX(3)}), re);
