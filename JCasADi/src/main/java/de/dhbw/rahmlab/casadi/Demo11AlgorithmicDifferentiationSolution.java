@@ -17,9 +17,9 @@ public class Demo11AlgorithmicDifferentiationSolution {
     public static void main(String[] args) {
         
         // # Ex1.1
-        SX x = SX.sym("x");
+        SX x = SxStatic.sym("x");
 
-        SX a = SX.dot(x, SX.sin(x));
+        SX a = SxStatic.dot(x, SxStatic.sin(x));
 
         Dict options = new Dict();
         options.put("live_variables", new GenericType(false));
@@ -52,10 +52,10 @@ public class Demo11AlgorithmicDifferentiationSolution {
         //# a_dot = sin(x) x_dot + x (cos(x) x_dot)
         //# x_bar = sin(x) a_bar + cos(x) (x a_bar)
 
-        SX xdot = SX.sym("xdot");
-        System.out.println(SX.jtimes_(a, x, xdot, false));
-        SX abar = SX.sym("abar");
-        System.out.println(SX.jtimes_(a, x, abar, true));
+        SX xdot = SxStatic.sym("xdot");
+        System.out.println(SxStatic.jtimes_(a, x, xdot, false));
+        SX abar = SxStatic.sym("abar");
+        System.out.println(SxStatic.jtimes_(a, x, abar, true));
 
         
         //# Ex1.5
@@ -78,14 +78,14 @@ public class Demo11AlgorithmicDifferentiationSolution {
         
         // # Ex 2.1
         
-        x = SX.sym("x");
-        SX y = SX.sym("y");
-        SX z = SX.sym("z");
+        x = SxStatic.sym("x");
+        SX y = SxStatic.sym("y");
+        SX z = SxStatic.sym("z");
         //args = vertcat(x,y,z)
         arg = new StdVectorSX(new SX[]{x,y,z});
-        a = SX.dot(x, y);
+        a = SxStatic.dot(x, y);
         //b = cos(z*a)*z
-        SX b = SX.dot(SX.cos(SX.dot(z, a)),z);
+        SX b = SxStatic.dot(SxStatic.cos(SxStatic.dot(z, a)),z);
         //res = vertcat(a,b)
         StdVectorSX res = new StdVectorSX(new SX[]{a,b});
         
@@ -171,9 +171,9 @@ public class Demo11AlgorithmicDifferentiationSolution {
 
         //# Ex 3.1
 
-        //x = SX.sym("x")
-        //y = SX.sym("y")
-        //z = SX.sym("z")
+        //x = SxStatic.sym("x")
+        //y = SxStatic.sym("y")
+        //z = SxStatic.sym("z")
         //args = vertcat(x,y,z)
 
         //a = x*y
@@ -199,18 +199,18 @@ public class Demo11AlgorithmicDifferentiationSolution {
         //# Ex 3.3
 
         //N = 20
-        //x = SX.sym("x",N)
+        //x = SxStatic.sym("x",N)
 
         //sp = Sparsity.diag(N)+Sparsity.rowcol([N-1],range(N),N,N)
 
         //sp.spy() # Dense row - would need full forward seeding to recover each column of this dense row.
 
-        //A = SX.sym("A",sp)
+        //A = SxStatic.sym("A",sp)
 
         //jacobian(A @ x,x,{"helper_options": {"verbose":True}}) # 2 reverse sweeps taken
 
         //print("After transpose")
-        //A = SX.sym("A",sp.T)
+        //A = SxStatic.sym("A",sp.T)
 
         //jacobian(A @ x,x,{"helper_options": {"verbose":True}}) # 2 forward sweeps taken
 

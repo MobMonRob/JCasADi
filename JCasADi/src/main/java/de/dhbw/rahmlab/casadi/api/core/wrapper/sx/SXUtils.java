@@ -22,7 +22,7 @@ public class SXUtils {
      * @return a new {@link SXWrapper} instance with the same dimensions as the input {@link MXWrapper}
      */
     public static SXWrapper convertMXWrapperToSXWrapper(MXWrapper mxWrapper) {
-        return new SXWrapper(SX.sym(mxWrapper.getName(), mxWrapper.rows(), mxWrapper.columns()));
+        return new SXWrapper(SxStatic.sym(mxWrapper.getName(), mxWrapper.rows(), mxWrapper.columns()));
     }
 
     public static SXWrapper convertSXComponentToSXWrapper(SXComponent sxComponent) {
@@ -31,134 +31,134 @@ public class SXUtils {
     }
 
     public static SXWrapper scalarMatrix(long op, SXWrapper x, SXWrapper y) {
-        SX result = SX.scalar_matrix(op, x.getCasADiObject(), y.getCasADiObject());
+        SX result = SxStatic.scalar_matrix(op, x.getCasADiObject(), y.getCasADiObject());
         return new SXWrapper(result);
     }
 
     public static SXWrapper matrixScalar(long op, SXWrapper x, SXWrapper y) {
-        SX result = SX.matrix_scalar(op, x.getCasADiObject(), y.getCasADiObject());
+        SX result = SxStatic.matrix_scalar(op, x.getCasADiObject(), y.getCasADiObject());
         return new SXWrapper(result);
     }
 
     public static SXWrapper matrixMatrix(long op, SXWrapper x, SXWrapper y) {
-        SX result = SX.matrix_matrix(op, x.getCasADiObject(), y.getCasADiObject());
+        SX result = SxStatic.matrix_matrix(op, x.getCasADiObject(), y.getCasADiObject());
         return new SXWrapper(result);
     }
 
     public static SXVector substitute(SXVector ex, SXVector v, SXVector vdef) {
-        return new SXVector(SX.substitute(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject()));
+        return new SXVector(SxStatic.substitute(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject()));
     }
 
     public static void substituteInplace(SXVector v, SXVector vdef, SXVector ex, boolean revers) {
-        SX.substitute_inplace(v.getCasADiObject(), vdef.getCasADiObject(), ex.getCasADiObject(), revers);
+        SxStatic.substitute_inplace(v.getCasADiObject(), vdef.getCasADiObject(), ex.getCasADiObject(), revers);
     }
 
     public static void extract(SXVector ex, SXVector v, SXVector vdef, Dictionary ops) {
-        SX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), ops.getCasADiObject());
+        SxStatic.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), ops.getCasADiObject());
     }
 
     public static void extract(SXVector ex, SXVector v, SXVector vdef) {
-        SX.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject());
+        SxStatic.extract(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject());
     }
 
     public static void shared(SXVector ex, SXVector v, SXVector vdef, String vPrefix, String vSuffix) {
-        SX.shared(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), vPrefix, vSuffix);
+        SxStatic.shared(ex.getCasADiObject(), v.getCasADiObject(), vdef.getCasADiObject(), vPrefix, vSuffix);
     }
 
     public static SXWrapper ifElse(SXWrapper x, SXWrapper ifTrue, SXWrapper ifFalse, boolean shortCircuit) {
-        return new SXWrapper(SX.if_else(x.getCasADiObject(), ifTrue.getCasADiObject(), ifFalse.getCasADiObject(), shortCircuit));
+        return new SXWrapper(SxStatic.if_else(x.getCasADiObject(), ifTrue.getCasADiObject(), ifFalse.getCasADiObject(), shortCircuit));
     }
 
     public static SXWrapper ifElse(SXWrapper x, SXWrapper ifTrue, SXWrapper ifFalse) {
-        return new SXWrapper(SX.if_else(x.getCasADiObject(), ifTrue.getCasADiObject(), ifFalse.getCasADiObject()));
+        return new SXWrapper(SxStatic.if_else(x.getCasADiObject(), ifTrue.getCasADiObject(), ifFalse.getCasADiObject()));
     }
 
     public static SXWrapper conditional(SXWrapper ind, SXVector x, SXWrapper xDefault, boolean shortCircuit) {
-        return new SXWrapper(SX.conditional(ind.getCasADiObject(), x.getCasADiObject(), xDefault.getCasADiObject(), shortCircuit));
+        return new SXWrapper(SxStatic.conditional(ind.getCasADiObject(), x.getCasADiObject(), xDefault.getCasADiObject(), shortCircuit));
     }
 
     public static SXWrapper conditional(SXWrapper ind, SXVector x, SXWrapper xDefault) {
-        return new SXWrapper(SX.conditional(ind.getCasADiObject(), x.getCasADiObject(), xDefault.getCasADiObject()));
+        return new SXWrapper(SxStatic.conditional(ind.getCasADiObject(), x.getCasADiObject(), xDefault.getCasADiObject()));
     }
 
     public static SXVector cse(SXVector e) {
-        return new SXVector(SX.cse(e.getCasADiObject()));
+        return new SXVector(SxStatic.cse(e.getCasADiObject()));
     }
 
     public static SXVectorCollection forward(SXVector ex, SXVector arg, SXVectorCollection v, Dictionary opts) {
-        return new SXVectorCollection(SX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
+        return new SXVectorCollection(SxStatic.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public static SXVectorCollection forward(SXVector ex, SXVector arg, SXVectorCollection v) {
-        return new SXVectorCollection(SX.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
+        return new SXVectorCollection(SxStatic.forward(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     public static SXVectorCollection reverse(SXVector ex, SXVector arg, SXVectorCollection v, Dictionary opts) {
-        return new SXVectorCollection(SX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
+        return new SXVectorCollection(SxStatic.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject(), opts.getCasADiObject()));
     }
 
     public static SXVectorCollection reverse(SXVector ex, SXVector arg, SXVectorCollection v) {
-        return new SXVectorCollection(SX.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
+        return new SXVectorCollection(SxStatic.reverse(ex.getCasADiObject(), arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     public static SXVector getInput(FunctionWrapper f) {
-        return new SXVector(SX.get_input(f.getCasADiObject()));
+        return new SXVector(SxStatic.get_input(f.getCasADiObject()));
     }
 
     public static SXVector getFree(FunctionWrapper f) {
-        return new SXVector(SX.get_free(f.getCasADiObject()));
+        return new SXVector(SxStatic.get_free(f.getCasADiObject()));
     }
 
     public static void printSplit(long nnz, SXComponent nonzeros, StringVector nz, StringVector inter) {
-        SX.print_split(nnz, nonzeros.getCasADiObject(), nz.getCasADiObject(), inter.getCasADiObject());
+        SxStatic.print_split(nnz, nonzeros.getCasADiObject(), nz.getCasADiObject(), inter.getCasADiObject());
     }
 
     public static SXWrapper triplet(CasADiIntVector row, CasADiIntVector col, SXWrapper d) {
-        return new SXWrapper(SX.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject()));
+        return new SXWrapper(SxStatic.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject()));
     }
 
     public static SXWrapper triplet(CasADiIntVector row, CasADiIntVector col, SXWrapper d, long nrow, long ncol) {
-        return new SXWrapper(SX.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject(), nrow, ncol));
+        return new SXWrapper(SxStatic.triplet(row.getCasADiObject(), col.getCasADiObject(), d.getCasADiObject(), nrow, ncol));
     }
 
     public static void setPrecision(long precision) {
-        SX.set_precision(precision);
+        SxStatic.set_precision(precision);
     }
 
     public static void setWidth(long width) {
-        SX.set_width(width);
+        SxStatic.set_width(width);
     }
 
     public static void setScientific(boolean scientific) {
-        SX.set_scientific(scientific);
+        SxStatic.set_scientific(scientific);
     }
 
     public static void rng(long seed) {
-        SX.rng(seed);
+        SxStatic.rng(seed);
     }
 
     public static void toFile(String filename, SparsityWrapper sp, SXComponent nonzeros, String format) {
-        SX.to_file(filename, sp.getCasADiObject(), nonzeros.getCasADiObject(), format);
+        SxStatic.to_file(filename, sp.getCasADiObject(), nonzeros.getCasADiObject(), format);
     }
 
     public static void toFile(String filename, SparsityWrapper sp, SXComponent nonzeros) {
-        SX.to_file(filename, sp.getCasADiObject(), nonzeros.getCasADiObject());
+        SxStatic.to_file(filename, sp.getCasADiObject(), nonzeros.getCasADiObject());
     }
 
     public static DMWrapper fromFile(String filename, String formatHint) {
-        return new DMWrapper(SX.from_file(filename, formatHint));
+        return new DMWrapper(SxStatic.from_file(filename, formatHint));
     }
 
     public static DMWrapper fromFile(String filename) {
-        return new DMWrapper(SX.from_file(filename));
+        return new DMWrapper(SxStatic.from_file(filename));
     }
 
     public static CasADiIntVector offset(SXVector v, boolean vert) {
-        return new CasADiIntVector(SX.offset(v.getCasADiObject(), vert));
+        return new CasADiIntVector(SxStatic.offset(v.getCasADiObject(), vert));
     }
 
     public static CasADiIntVector offset(SXVector v) {
-        return new CasADiIntVector(SX.offset(v.getCasADiObject()));
+        return new CasADiIntVector(SxStatic.offset(v.getCasADiObject()));
     }
 
 }

@@ -43,7 +43,7 @@ public class ConcatenationUtils {
     public static MXWrapper vertcat(MXWrapper... vector) {
         MXVector mxVector = new MXVector();
         mxVector.addAll(Arrays.asList(vector));
-        return new MXWrapper(MX.vertcat(mxVector.getCasADiObject()));
+        return new MXWrapper(MxStatic.vertcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -59,7 +59,7 @@ public class ConcatenationUtils {
     public static DMWrapper vertcat(DMWrapper... vector) {
         DMVector dmVector = new DMVector();
         dmVector.addAll(Arrays.asList(vector));
-        return new DMWrapper(DM.vertcat(dmVector.getCasADiObject()));
+        return new DMWrapper(DmStatic.vertcat(dmVector.getCasADiObject()));
     }
 
     /**
@@ -75,7 +75,7 @@ public class ConcatenationUtils {
     public static SXWrapper vertcat(SXWrapper... vector) {
         SXVector sxVector = new SXVector();
         sxVector.addAll(Arrays.asList(vector));
-        return new SXWrapper(SX.vertcat(sxVector.getCasADiObject()));
+        return new SXWrapper(SxStatic.vertcat(sxVector.getCasADiObject()));
     }
 
     /**
@@ -103,7 +103,7 @@ public class ConcatenationUtils {
     public static MXWrapper veccat(MXWrapper... vector) {
         MXVector mxVector = new MXVector();
         mxVector.addAll(Arrays.asList(vector));
-        return new MXWrapper(MX.veccat(mxVector.getCasADiObject()));
+        return new MXWrapper(MxStatic.veccat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -119,7 +119,7 @@ public class ConcatenationUtils {
     public static DMWrapper veccat(DMWrapper... vector) {
         DMVector dmVector = new DMVector();
         dmVector.addAll(Arrays.asList(vector));
-        return new DMWrapper(DM.veccat(dmVector.getCasADiObject()));
+        return new DMWrapper(DmStatic.veccat(dmVector.getCasADiObject()));
     }
 
     /**
@@ -135,7 +135,7 @@ public class ConcatenationUtils {
     public static SXWrapper veccat(SXWrapper... vector) {
         SXVector sxVector = new SXVector();
         sxVector.addAll(Arrays.asList(vector));
-        return new SXWrapper(SX.veccat(sxVector.getCasADiObject()));
+        return new SXWrapper(SxStatic.veccat(sxVector.getCasADiObject()));
     }
 
     /**
@@ -163,7 +163,7 @@ public class ConcatenationUtils {
     public static MXWrapper horzcat(MXWrapper... vector) {
         MXVector mxVector = new MXVector();
         mxVector.addAll(Arrays.asList(vector));
-        return new MXWrapper(MX.horzcat(mxVector.getCasADiObject()));
+        return new MXWrapper(MxStatic.horzcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -179,7 +179,7 @@ public class ConcatenationUtils {
     public static DMWrapper horzcat(DMWrapper... vector) {
         DMVector dmVector = new DMVector();
         dmVector.addAll(Arrays.asList(vector));
-        return new DMWrapper(DM.horzcat(dmVector.getCasADiObject()));
+        return new DMWrapper(DmStatic.horzcat(dmVector.getCasADiObject()));
     }
 
     /**
@@ -195,7 +195,7 @@ public class ConcatenationUtils {
     public static SXWrapper horzcat(SXWrapper... vector) {
         SXVector sxVector = new SXVector();
         sxVector.addAll(Arrays.asList(vector));
-        return new SXWrapper(SX.horzcat(sxVector.getCasADiObject()));
+        return new SXWrapper(SxStatic.horzcat(sxVector.getCasADiObject()));
     }
 
     /**
@@ -224,7 +224,7 @@ public class ConcatenationUtils {
     public static MXWrapper diagcat(MXWrapper... vector) {
         MXVector mxVector = new MXVector();
         mxVector.addAll(Arrays.asList(vector));
-        return new MXWrapper(MX.diagcat(mxVector.getCasADiObject()));
+        return new MXWrapper(MxStatic.diagcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -240,7 +240,7 @@ public class ConcatenationUtils {
     public static DMWrapper diagcat(DMWrapper... vector) {
         DMVector dmVector = new DMVector();
         dmVector.addAll(Arrays.asList(vector));
-        return new DMWrapper(DM.diagcat(dmVector.getCasADiObject()));
+        return new DMWrapper(DmStatic.diagcat(dmVector.getCasADiObject()));
     }
 
     /**
@@ -256,7 +256,7 @@ public class ConcatenationUtils {
     public static SXWrapper diagcat(SXWrapper... vector) {
         SXVector sxVector = new SXVector();
         sxVector.addAll(Arrays.asList(vector));
-        return new SXWrapper(SX.diagcat(sxVector.getCasADiObject()));
+        return new SXWrapper(SxStatic.diagcat(sxVector.getCasADiObject()));
     }
 
     /**
@@ -280,7 +280,7 @@ public class ConcatenationUtils {
     public static MXWrapper blockcat(MXVectorCollection collection) {
         MXVectorCollection mxVectorCollection = new MXVectorCollection();
         mxVectorCollection.addAll(collection);
-        return new MXWrapper(MX.blockcat(mxVectorCollection.getCasADiObject()));
+        return new MXWrapper(MxStatic.blockcat(mxVectorCollection.getCasADiObject()));
     }
 
     /**
@@ -292,7 +292,7 @@ public class ConcatenationUtils {
     public static DMWrapper blockcat(DMVectorCollection collection) {
         DMVectorCollection dmVectorCollection = new DMVectorCollection();
         dmVectorCollection.addAll(collection);
-        return new DMWrapper(DM.blockcat(dmVectorCollection.getCasADiObject()));
+        return new DMWrapper(DmStatic.blockcat(dmVectorCollection.getCasADiObject()));
     }
 
     /**
@@ -304,7 +304,7 @@ public class ConcatenationUtils {
     public static SXWrapper blockcat(SXVectorCollection collection) {
         SXVectorCollection sxVectorCollection = new SXVectorCollection();
         sxVectorCollection.addAll(collection);
-        return new SXWrapper(SX.blockcat(sxVectorCollection.getCasADiObject()));
+        return new SXWrapper(SxStatic.blockcat(sxVectorCollection.getCasADiObject()));
     }
 
     /**

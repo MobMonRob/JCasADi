@@ -143,9 +143,9 @@ public class NonlinearProgrammingWithAPI {
 
     public static void test123() {
 
-        MX x = MX.sym("x");
-        MX y = MX.sym("y");
-        MX expression = MX.times(x, y);
+        MX x = MxStatic.sym("x");
+        MX y = MxStatic.sym("y");
+        MX expression = MxStatic.times(x, y);
 
         Function f = new Function("f", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{expression}));
 

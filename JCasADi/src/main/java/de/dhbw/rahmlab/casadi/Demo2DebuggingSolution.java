@@ -18,9 +18,9 @@ public class Demo2DebuggingSolution {
         
         // # Ex 1.1
 
-        SX x = SX.sym("x");
-        SX y = SX.sin(x);
-        SX z = SX.plus(SX.mrdivide(y, x), y);// //SX.plus(x, y)); //y/x+y;
+        SX x = SxStatic.sym("x");
+        SX y = SxStatic.sin(x);
+        SX z = SxStatic.plus(SxStatic.mrdivide(y, x), y);// //SX.plus(x, y)); //y/x+y;
 
         Function f = new Function("f",new StdVectorSX(new SX[]{x}),new StdVectorSX(new SX[]{z}));
 
@@ -33,8 +33,8 @@ public class Demo2DebuggingSolution {
         
         // # Ex 1.2
 
-        y = SX.sin(x).printme(new SX(0));
-        z = SX.plus(SX.mrdivide(y,x), y); // SX.plus(x, y));
+        y = SxStatic.sin(x).printme(new SX(0));
+        z = SxStatic.plus(SxStatic.mrdivide(y,x), y); // SxStatic.plus(x, y));
         f = new Function("f",new StdVectorSX(new SX[]{x}),new StdVectorSX(new SX[]{z}));
 
         //f(0.01) # |> 0 : 9.9998333341666645e-03
@@ -47,11 +47,11 @@ public class Demo2DebuggingSolution {
         
         //# Ex 1.3
 
-        MX xx = MX.sym("x");
+        MX xx = MxStatic.sym("x");
 
         // attachAssert(y) If y does not evaluate to 1, a runtime error is raised
-        //MX yassert = MX. // x>=0
-        MX yy = MX.sqrt(xx.attachAssert(MX.ge(xx, new MX(0d)) , "That's not allowed!"));
+        //MX yassert = MxStatic. // x>=0
+        MX yy = MxStatic.sqrt(xx.attachAssert(MxStatic.ge(xx, new MX(0d)) , "That's not allowed!"));
         StdVectorDM result = new StdVectorDM();
 	Function f1 = new Function("f1", new StdVectorMX(new MX[]{xx}),
                                              new StdVectorMX(new MX[]{yy}));
@@ -92,7 +92,7 @@ public class Demo2DebuggingSolution {
         
         //# Ex 1.4
 
-        /*xx = MX.sym("x");
+        /*xx = MxStatic.sym("x");
 
         yy = if_else(x<=1,x**2,-0.5*x**2+3*x-1.5)
 
@@ -108,7 +108,7 @@ public class Demo2DebuggingSolution {
 
         //# Ex 1.6
 
-        /*x = MX.sym("x")
+        /*x = MxStatic.sym("x")
 
         y = if_else(x<=1,(x**2).monitor("true-clause"),(-0.5*x**2+3*x-1.5).monitor("false-clause"))
 
@@ -118,7 +118,7 @@ public class Demo2DebuggingSolution {
 
         //# Ex 1.7
 
-        /*x = MX.sym("x")
+        /*x = MxStatic.sym("x")
 
         y = if_else(x<=1,(x**2).monitor("true-clause"),(-0.5*x**2+3*x-1.5).monitor("false-clause"),True)
 

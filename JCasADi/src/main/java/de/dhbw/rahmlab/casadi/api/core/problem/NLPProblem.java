@@ -299,7 +299,7 @@ public class NLPProblem {
         Arrays.stream(v).forEach(value -> {
             dmVector.add(new DM(value.doubleValue()));
         });
-        this.nlpProblem.set_initial(x.getCasADiObject(), DM.vertcat(dmVector));
+        this.nlpProblem.set_initial(x.getCasADiObject(), DmStatic.vertcat(dmVector));
     }
 
     /**

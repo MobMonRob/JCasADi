@@ -102,7 +102,7 @@ public class IMBuilder implements MatrixBuilder<IMBuilder> {
     /**
      * Builds a symbolic IMWrapper.
      * If dimensions are provided, a matrix or vector is created.
-     * If a sparsity structure is set, it is used to build a sparse symbolic IM.
+     * If a sparsity structure is set, it is used to build a sparse symbolic ImStatic.
      *
      * @return an IMWrapper representing a symbolic IM object.
      * @throws IllegalArgumentException if name is not set.
@@ -111,7 +111,7 @@ public class IMBuilder implements MatrixBuilder<IMBuilder> {
     @SuppressWarnings("unchecked")
     public IMWrapper buildSymbolic() {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name must be set for symbolic IM.");
+            throw new IllegalArgumentException("Name must be set for symbolic ImStatic.");
         }
         IMWrapper result;
         if (rows != null && cols != null && rows > 0 && cols > 0) {

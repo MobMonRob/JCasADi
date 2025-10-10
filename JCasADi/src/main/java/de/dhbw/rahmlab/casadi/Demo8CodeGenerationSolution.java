@@ -18,11 +18,11 @@ public class Demo8CodeGenerationSolution {
     
         // Ex 1.1
 
-        SX x = SX.sym("x", 2);
-        SX y = SX.sym("y");
+        SX x = SxStatic.sym("x", 2);
+        SX y = SxStatic.sym("y");
 
         Function f = new Function("f", new StdVectorSX(new SX[]{x,y}), 
-                                           new StdVectorSX(new SX[]{SX.minus(SX.sqrt(x),y)}));
+                                           new StdVectorSX(new SX[]{SX.minus(SxStatic.sqrt(x),y)}));
         f.generate("fun");
 
 
@@ -36,11 +36,11 @@ public class Demo8CodeGenerationSolution {
         
         // %% Ex 1.3
         
-        MX xx = MX.sym("x", 2);
-        MX yy = MX.sym("y");
+        MX xx = MxStatic.sym("x", 2);
+        MX yy = MxStatic.sym("y");
 
         f = new Function("f", new StdVectorMX(new MX[]{xx, yy}),
-                              new StdVectorMX(new MX[]{MX.minus(MX.sqrt(xx),yy)}));
+                              new StdVectorMX(new MX[]{MX.minus(MxStatic.sqrt(xx),yy)}));
 
         f.generate("fun3",options);
 

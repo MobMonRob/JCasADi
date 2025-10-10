@@ -36,7 +36,7 @@
       ```
     - In Java muss der Funktionsaufruf explizit mit `call` gemacht werden:
       ```java
-      Function f = new Function("f", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MX.times(MX.sin(x), y)}));
+      Function f = new Function("f", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MX.times(MxStatic.sin(x), y)}));
       StdVectorMX input = new StdVectorMX(new MX[]{new MX(1), new MX(2)});
       StdVectorMX output = new StdVectorMX();
       f.call(input, output);
@@ -48,7 +48,7 @@
 7. **Erforderliche Angabe der Klassen bei Operationen**
     - Beispiel in Java für eine Matrixoperation:
       ```java
-      MX.times(A, x)
+      MxStatic.times(A, x)
       ```
         - In Python ist dies nicht notwendig:
       ```python
@@ -90,7 +90,7 @@
 14. **Komplizierte Set-Methode für Submatrix in Java**
     - In Java:
       ```java
-      rhs.set(MX.minus(rhs.at(3), new MX(gravity)), true, new IM(3));
+      rhs.set(MxStatic.minus(rhs.at(3), new MX(gravity)), true, new IM(3));
       ```
     - In Python:
       ```python

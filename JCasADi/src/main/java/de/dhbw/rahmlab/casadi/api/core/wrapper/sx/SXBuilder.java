@@ -85,7 +85,7 @@ public class SXBuilder implements MatrixBuilder<SXBuilder> {
     @SuppressWarnings("unchecked")
     public SXWrapper buildSymbolic() {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name must be set for symbolic SX.");
+            throw new IllegalArgumentException("Name must be set for symbolic SxStatic.");
         }
         if (rows > 0 && cols > 0) {
             return SXWrapper.sym(name, rows, cols);

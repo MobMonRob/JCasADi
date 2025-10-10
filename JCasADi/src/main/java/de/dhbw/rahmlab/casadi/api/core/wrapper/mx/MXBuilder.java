@@ -160,7 +160,7 @@ public class MXBuilder implements MatrixBuilder<MXBuilder> {
     @SuppressWarnings("unchecked")
     public MXWrapper buildSymbolic() {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name must be set for symbolic MX.");
+            throw new IllegalArgumentException("Name must be set for symbolic MxStatic.");
         } else if (rows > 0 && cols > 0) {
             return MXWrapper.sym(name, rows, cols);
         } else if (rows > 0) {

@@ -245,243 +245,243 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
 
     @Override
     public SXWrapper binary(long op, SXWrapper y) {
-        return new SXWrapper(SX.binary(op, this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.binary(op, this.sx, y.getCasADiObject()));
     }
 
     @Override
     public SXWrapper unary(long op) {
-        return new SXWrapper(SX.unary(op, this.sx));
+        return new SXWrapper(SxStatic.unary(op, this.sx));
     }
 
     @Override
     public boolean isEqual(SXWrapper other, long depth) {
-        return SX.is_equal(this.sx, other.getCasADiObject(), depth);
+        return SxStatic.is_equal(this.sx, other.getCasADiObject(), depth);
     }
 
     @Override
     public boolean isEqual(SXWrapper other) {
-        return SX.is_equal(this.sx, other.getCasADiObject());
+        return SxStatic.is_equal(this.sx, other.getCasADiObject());
     }
 
     @Override
     public SXWrapper mmin() {
-        return new SXWrapper(SX.mmin(this.sx));
+        return new SXWrapper(SxStatic.mmin(this.sx));
     }
 
     @Override
     public SXWrapper mmax() {
-        return new SXWrapper(SX.mmax(this.sx));
+        return new SXWrapper(SxStatic.mmax(this.sx));
     }
 
     @Override
     public SXWrapper simplify() {
-        return new SXWrapper(SX.simplify(this.sx));
+        return new SXWrapper(SxStatic.simplify(this.sx));
     }
 
     @Override
     public SXWrapper jacobian(SXWrapper x, Dictionary opts) {
-        return new SXWrapper(SX.jacobian(this.sx, x.getCasADiObject(), opts.getCasADiObject()));
+        return new SXWrapper(SxStatic.jacobian(this.sx, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public SXWrapper jacobian(SXWrapper x) {
-        return new SXWrapper(SX.jacobian(this.sx, x.getCasADiObject()));
+        return new SXWrapper(SxStatic.jacobian(this.sx, x.getCasADiObject()));
     }
 
     @Override
     public SparsityWrapper jacobianSparsity(SXWrapper x) {
-        return new SparsityWrapper(SX.jacobian_sparsity(this.sx, x.getCasADiObject()));
+        return new SparsityWrapper(SxStatic.jacobian_sparsity(this.sx, x.getCasADiObject()));
     }
 
     @Override
     public SXWrapper hessian(SXWrapper x, Dictionary opts) {
-        return new SXWrapper(SX.hessian(this.sx, x.getCasADiObject(), opts.getCasADiObject()));
+        return new SXWrapper(SxStatic.hessian(this.sx, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public SXWrapper hessian(SXWrapper x) {
-        return new SXWrapper(SX.hessian(this.sx, x.getCasADiObject()));
+        return new SXWrapper(SxStatic.hessian(this.sx, x.getCasADiObject()));
     }
 
     @Override
     public SXWrapper hessian(SXWrapper x, SXWrapper g, Dictionary opts) {
-        return new SXWrapper(SX.hessian(this.sx, x.getCasADiObject(), g.getCasADiObject(), opts.getCasADiObject()));
+        return new SXWrapper(SxStatic.hessian(this.sx, x.getCasADiObject(), g.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public SXWrapper hessian(SXWrapper x, SXWrapper g) {
-        return new SXWrapper(SX.hessian(this.sx, x.getCasADiObject(), g.getCasADiObject()));
+        return new SXWrapper(SxStatic.hessian(this.sx, x.getCasADiObject(), g.getCasADiObject()));
     }
 
     @Override
     public SXWrapper substitute(SXWrapper v, SXWrapper vdef) {
-        return new SXWrapper(SX.substitute(this.sx, v.getCasADiObject(), vdef.getCasADiObject()));
+        return new SXWrapper(SxStatic.substitute(this.sx, v.getCasADiObject(), vdef.getCasADiObject()));
     }
 
     @Override
     public SXWrapper pinv() {
-        return new SXWrapper(SX.pinv(this.sx));
+        return new SXWrapper(SxStatic.pinv(this.sx));
     }
 
     @Override
     public SXWrapper pinv(String lsolver, Dictionary dict) {
-        return new SXWrapper(SX.pinv(this.sx, lsolver, dict.getCasADiObject()));
+        return new SXWrapper(SxStatic.pinv(this.sx, lsolver, dict.getCasADiObject()));
     }
 
     @Override
     public SXWrapper expmConst(SXWrapper sxWrapper) {
-        return new SXWrapper(SX.expm_const(this.sx, sxWrapper.getCasADiObject()));
+        return new SXWrapper(SxStatic.expm_const(this.sx, sxWrapper.getCasADiObject()));
     }
 
     @Override
     public SXWrapper expm() {
-        return new SXWrapper(SX.expm(this.sx));
+        return new SXWrapper(SxStatic.expm(this.sx));
     }
 
     @Override
     public SXWrapper solve(SXWrapper b) {
-        return new SXWrapper(SX.solve(this.sx, b.getCasADiObject()));
+        return new SXWrapper(SxStatic.solve(this.sx, b.getCasADiObject()));
     }
 
     @Override
     public SXWrapper solve(SXWrapper b, String lsolver, Dictionary dict) {
-        return new SXWrapper(SX.solve(this.sx, b.getCasADiObject(), lsolver, dict.getCasADiObject()));
+        return new SXWrapper(SxStatic.solve(this.sx, b.getCasADiObject(), lsolver, dict.getCasADiObject()));
     }
 
     @Override
     public SXWrapper inv() {
-        return new SXWrapper(SX.inv(this.sx));
+        return new SXWrapper(SxStatic.inv(this.sx));
     }
 
     @Override
     public SXWrapper inv(String lsolver, Dictionary dict) {
-        return new SXWrapper(SX.inv(this.sx, lsolver, dict.getCasADiObject()));
+        return new SXWrapper(SxStatic.inv(this.sx, lsolver, dict.getCasADiObject()));
     }
 
     @Override
     public long nNodes() {
-        return SX.n_nodes(this.sx);
+        return SxStatic.n_nodes(this.sx);
     }
 
     @Override
     public String printOperator(StringVector args) {
-        return SX.print_operator(this.sx, args.getCasADiObject());
+        return SxStatic.print_operator(this.sx, args.getCasADiObject());
     }
 
     @Override
     public boolean dependsOn(SXWrapper arg) {
-        return SX.depends_on(this.sx, arg.getCasADiObject());
+        return SxStatic.depends_on(this.sx, arg.getCasADiObject());
     }
 
     @Override
     public SXWrapper mrdivide(SXWrapper b) {
-        return new SXWrapper(SX.mrdivide(this.sx, b.getCasADiObject()));
+        return new SXWrapper(SxStatic.mrdivide(this.sx, b.getCasADiObject()));
     }
 
     @Override
     public SXWrapper mldivide(SXWrapper b) {
-        return new SXWrapper(SX.mldivide(this.sx, b.getCasADiObject()));
+        return new SXWrapper(SxStatic.mldivide(this.sx, b.getCasADiObject()));
     }
 
     public SXVector symvar() {
-        return new SXVector(SX.symvar(this.sx));
+        return new SXVector(SxStatic.symvar(this.sx));
     }
 
     @Override
     public SXWrapper det() {
-        return new SXWrapper(SX.det(this.sx));
+        return new SXWrapper(SxStatic.det(this.sx));
     }
 
     @Override
     public SXWrapper invMinor() {
-        return new SXWrapper(SX.inv_minor(this.sx));
+        return new SXWrapper(SxStatic.inv_minor(this.sx));
     }
 
     @Override
     public SXWrapper trace() {
-        return new SXWrapper(SX.trace(this.sx));
+        return new SXWrapper(SxStatic.trace(this.sx));
     }
 
     @Override
     public SXWrapper norm1() {
-        return new SXWrapper(SX.norm_1(this.sx));
+        return new SXWrapper(SxStatic.norm_1(this.sx));
     }
 
     @Override
     public SXWrapper norm2() {
-        return new SXWrapper(SX.norm_2(this.sx));
+        return new SXWrapper(SxStatic.norm_2(this.sx));
     }
 
     @Override
     public SXWrapper normFro() {
-        return new SXWrapper(SX.norm_fro(this.sx));
+        return new SXWrapper(SxStatic.norm_fro(this.sx));
     }
 
     @Override
     public SXWrapper normInf() {
-        return new SXWrapper(SX.norm_inf(this.sx));
+        return new SXWrapper(SxStatic.norm_inf(this.sx));
     }
 
     @Override
     public SXWrapper sum2() {
-        return new SXWrapper(SX.sum2(this.sx));
+        return new SXWrapper(SxStatic.sum2(this.sx));
     }
 
     @Override
     public SXWrapper sum1() {
-        return new SXWrapper(SX.sum1(this.sx));
+        return new SXWrapper(SxStatic.sum1(this.sx));
     }
 
     @Override
     public SXWrapper dot(SXWrapper y) {
-        return new SXWrapper(SX.dot(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.dot(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public SXWrapper nullspace() {
-        return new SXWrapper(SX.nullspace(this.sx));
+        return new SXWrapper(SxStatic.nullspace(this.sx));
     }
 
     @Override
     public SXWrapper diag() {
-        return new SXWrapper(SX.diag(this.sx));
+        return new SXWrapper(SxStatic.diag(this.sx));
     }
 
     @Override
     public SXWrapper unite(SXWrapper B) {
-        return new SXWrapper(SX.unite(this.sx, B.getCasADiObject()));
+        return new SXWrapper(SxStatic.unite(this.sx, B.getCasADiObject()));
     }
 
     @Override
     public SXWrapper project(SparsityWrapper sp, boolean intersect) {
-        return new SXWrapper(SX.project(this.sx, sp.getCasADiObject(), intersect));
+        return new SXWrapper(SxStatic.project(this.sx, sp.getCasADiObject(), intersect));
     }
 
     @Override
     public SXWrapper project(SparsityWrapper sp) {
-        return new SXWrapper(SX.project(this.sx, sp.getCasADiObject()));
+        return new SXWrapper(SxStatic.project(this.sx, sp.getCasADiObject()));
     }
 
     @Override
     public SXWrapper polyval(SXWrapper x) {
-        return new SXWrapper(SX.polyval(this.sx, x.getCasADiObject()));
+        return new SXWrapper(SxStatic.polyval(this.sx, x.getCasADiObject()));
     }
 
     @Override
     public SXWrapper densify(SXWrapper val) {
-        return new SXWrapper(SX.densify(this.sx, val.getCasADiObject()));
+        return new SXWrapper(SxStatic.densify(this.sx, val.getCasADiObject()));
     }
 
     @Override
     public SXWrapper densify() {
-        return new SXWrapper(SX.densify(this.sx));
+        return new SXWrapper(SxStatic.densify(this.sx));
     }
 
     @Override
     public SXWrapper einstein(SXWrapper other, SXWrapper C,
                               CasADiIntVector dim_a, CasADiIntVector dim_b, CasADiIntVector dim_c,
                               CasADiIntVector a, CasADiIntVector b, CasADiIntVector c) {
-        return new SXWrapper(SX.einstein(this.sx, other.getCasADiObject(), C.getCasADiObject(),
+        return new SXWrapper(SxStatic.einstein(this.sx, other.getCasADiObject(), C.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
                 a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
     }
@@ -489,216 +489,216 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     @Override
     public SXWrapper einstein(SXWrapper other, CasADiIntVector dim_a, CasADiIntVector dim_b, CasADiIntVector dim_c,
                               CasADiIntVector a, CasADiIntVector b, CasADiIntVector c) {
-        return new SXWrapper(SX.einstein(this.sx, other.getCasADiObject(),
+        return new SXWrapper(SxStatic.einstein(this.sx, other.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
                 a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
     }
 
     @Override
     public SXWrapper cumsum(long axis) {
-        return new SXWrapper(SX.cumsum(this.sx, axis));
+        return new SXWrapper(SxStatic.cumsum(this.sx, axis));
     }
 
     @Override
     public SXWrapper cumsum() {
-        return new SXWrapper(SX.cumsum(this.sx));
+        return new SXWrapper(SxStatic.cumsum(this.sx));
     }
 
     public SXVector horzsplit(CasADiIntVector offset) {
-        return new SXVector(SX.horzsplit(this.sx, offset.getCasADiObject()));
+        return new SXVector(SxStatic.horzsplit(this.sx, offset.getCasADiObject()));
     }
 
     public SXVector vertsplit(CasADiIntVector offset) {
-        return new SXVector(SX.vertsplit(this.sx, offset.getCasADiObject()));
+        return new SXVector(SxStatic.vertsplit(this.sx, offset.getCasADiObject()));
     }
 
     public SXVector diagsplit(CasADiIntVector offset1, CasADiIntVector offset2) {
-        return new SXVector(SX.diagsplit(this.sx, offset1.getCasADiObject(), offset2.getCasADiObject()));
+        return new SXVector(SxStatic.diagsplit(this.sx, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
 
     @Override
     public SXWrapper reshape(long nrow, long ncol) {
-        return new SXWrapper(SX.reshape(this.sx, nrow, ncol));
+        return new SXWrapper(SxStatic.reshape(this.sx, nrow, ncol));
     }
 
     @Override
     public SXWrapper reshape(SparsityWrapper sp) {
-        return new SXWrapper(SX.reshape(this.sx, sp.getCasADiObject()));
+        return new SXWrapper(SxStatic.reshape(this.sx, sp.getCasADiObject()));
     }
 
     @Override
     public SXWrapper sparsityCast(SparsityWrapper sp) {
-        return new SXWrapper(SX.sparsity_cast(this.sx, sp.getCasADiObject()));
+        return new SXWrapper(SxStatic.sparsity_cast(this.sx, sp.getCasADiObject()));
     }
 
     @Override
     public SXWrapper kron(SXWrapper b) {
-        return new SXWrapper(SX.kron(this.sx, b.getCasADiObject()));
+        return new SXWrapper(SxStatic.kron(this.sx, b.getCasADiObject()));
     }
 
     @Override
     public SXWrapper mtimes(SXWrapper other) {
-        return new SXWrapper(SX.mtimes(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.mtimes(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper mac(SXWrapper y, SXWrapper z) {
-        return new SXWrapper(SX.mac(this.sx, y.getCasADiObject(), z.getCasADiObject()));
+        return new SXWrapper(SxStatic.mac(this.sx, y.getCasADiObject(), z.getCasADiObject()));
     }
 
     public SXWrapper sparsify(double tol) {
-        return new SXWrapper(SX.sparsify(this.sx, tol));
+        return new SXWrapper(SxStatic.sparsify(this.sx, tol));
     }
 
     public SXWrapper sparsify() {
-        return new SXWrapper(SX.sparsify(this.sx));
+        return new SXWrapper(SxStatic.sparsify(this.sx));
     }
 
     public void expand(SXWrapper weights, SXWrapper terms) {
-        SX.expand(this.sx, weights.getCasADiObject(), terms.getCasADiObject());
+        SxStatic.expand(this.sx, weights.getCasADiObject(), terms.getCasADiObject());
     }
 
     public SXWrapper pwConst(SXWrapper tval, SXWrapper val) {
-        return new SXWrapper(SX.pw_const(this.sx, tval.getCasADiObject(), val.getCasADiObject()));
+        return new SXWrapper(SxStatic.pw_const(this.sx, tval.getCasADiObject(), val.getCasADiObject()));
     }
 
     public SXWrapper pwLin(SXWrapper tval, SXWrapper val) {
-        return new SXWrapper(SX.pw_lin(this.sx, tval.getCasADiObject(), val.getCasADiObject()));
+        return new SXWrapper(SxStatic.pw_lin(this.sx, tval.getCasADiObject(), val.getCasADiObject()));
     }
 
     public SXWrapper heaviside() {
-        return new SXWrapper(SX.heaviside(this.sx));
+        return new SXWrapper(SxStatic.heaviside(this.sx));
     }
 
     public SXWrapper rectangle() {
-        return new SXWrapper(SX.rectangle(this.sx));
+        return new SXWrapper(SxStatic.rectangle(this.sx));
     }
 
     public SXWrapper triangle() {
-        return new SXWrapper(SX.triangle(this.sx));
+        return new SXWrapper(SxStatic.triangle(this.sx));
     }
 
     public SXWrapper ramp() {
-        return new SXWrapper(SX.ramp(this.sx));
+        return new SXWrapper(SxStatic.ramp(this.sx));
     }
 
     public SXWrapper gaussQuadrate(SXWrapper x, SXWrapper a, SXWrapper b, long order) {
-        return new SXWrapper(SX.gauss_quadrature(this.sx, x.getCasADiObject(), a.getCasADiObject(),
+        return new SXWrapper(SxStatic.gauss_quadrature(this.sx, x.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject(), order));
     }
 
     public SXWrapper gaussQuadrate(SXWrapper x, SXWrapper a, SXWrapper b) {
-        return new SXWrapper(SX.gauss_quadrature(this.sx, x.getCasADiObject(), a.getCasADiObject(),
+        return new SXWrapper(SxStatic.gauss_quadrature(this.sx, x.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject()));
     }
 
     public SXWrapper gaussQuadrate(SXWrapper x, SXWrapper a, SXWrapper b, long order, SXWrapper w) {
-        return new SXWrapper(SX.gauss_quadrature(this.sx, x.getCasADiObject(), a.getCasADiObject(),
+        return new SXWrapper(SxStatic.gauss_quadrature(this.sx, x.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject(), order, w.getCasADiObject()));
     }
 
     @Override
     public BooleanVector whichDepends(SXWrapper var, long order, boolean tr) {
-        return new BooleanVector(SX.which_depends(this.sx, var.getCasADiObject(), order, tr));
+        return new BooleanVector(SxStatic.which_depends(this.sx, var.getCasADiObject(), order, tr));
     }
 
     @Override
     public BooleanVector whichDepends(SXWrapper var, long order) {
-        return new BooleanVector(SX.which_depends(this.sx, var.getCasADiObject(), order));
+        return new BooleanVector(SxStatic.which_depends(this.sx, var.getCasADiObject(), order));
     }
 
     @Override
     public BooleanVector whichDepends(SXWrapper var) {
-        return new BooleanVector(SX.which_depends(this.sx, var.getCasADiObject()));
+        return new BooleanVector(SxStatic.which_depends(this.sx, var.getCasADiObject()));
     }
 
     public SXWrapper taylor(SXWrapper x, SXWrapper a, long order) {
-        return new SXWrapper(SX.taylor(this.sx, x.getCasADiObject(), a.getCasADiObject(), order));
+        return new SXWrapper(SxStatic.taylor(this.sx, x.getCasADiObject(), a.getCasADiObject(), order));
     }
 
     public SXWrapper mtaylor(SXWrapper x, SXWrapper a, long order) {
-        return new SXWrapper(SX.mtaylor(this.sx, x.getCasADiObject(), a.getCasADiObject(), order));
+        return new SXWrapper(SxStatic.mtaylor(this.sx, x.getCasADiObject(), a.getCasADiObject(), order));
     }
 
     public SXWrapper mtaylor(SXWrapper x, SXWrapper a, long order, CasADiIntVector orderContributions) {
-        return new SXWrapper(SX.mtaylor(this.sx, x.getCasADiObject(), a.getCasADiObject(), order, orderContributions.getCasADiObject()));
+        return new SXWrapper(SxStatic.mtaylor(this.sx, x.getCasADiObject(), a.getCasADiObject(), order, orderContributions.getCasADiObject()));
     }
 
     public SXWrapper polyCoeff(SXWrapper x) {
-        return new SXWrapper(SX.poly_coeff(this.sx, x.getCasADiObject()));
+        return new SXWrapper(SxStatic.poly_coeff(this.sx, x.getCasADiObject()));
     }
 
     public SXWrapper polyRoots() {
-        return new SXWrapper(SX.poly_roots(this.sx));
+        return new SXWrapper(SxStatic.poly_roots(this.sx));
     }
 
     public SXWrapper eigSymbolic() {
-        return new SXWrapper(SX.eig_symbolic(this.sx));
+        return new SXWrapper(SxStatic.eig_symbolic(this.sx));
     }
 
     @Override
     public DMWrapper evalf() {
-        return new DMWrapper(SX.evalf(this.sx));
+        return new DMWrapper(SxStatic.evalf(this.sx));
     }
 
     public void qrSparse(SXWrapper V, SXWrapper R, SXWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean amd) {
-        SX.qr_sparse(this.sx, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), amd);
+        SxStatic.qr_sparse(this.sx, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), amd);
     }
 
     public void qrSparse(SXWrapper V, SXWrapper R, SXWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
-        SX.qr_sparse(this.sx, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject());
+        SxStatic.qr_sparse(this.sx, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject());
     }
 
     public SXWrapper qrSolve(SXWrapper v, SXWrapper r, SXWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean tr) {
-        return new SXWrapper(SX.qr_solve(this.sx, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), tr));
+        return new SXWrapper(SxStatic.qr_solve(this.sx, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), tr));
     }
 
     public SXWrapper qrSolve(SXWrapper v, SXWrapper r, SXWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
-        return new SXWrapper(SX.qr_solve(this.sx, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject()));
+        return new SXWrapper(SxStatic.qr_solve(this.sx, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject()));
     }
 
     public void qr(SXWrapper Q, SXWrapper R) {
-        SX.qr(this.sx, Q.getCasADiObject(), R.getCasADiObject());
+        SxStatic.qr(this.sx, Q.getCasADiObject(), R.getCasADiObject());
     }
 
     public void ldl(SXWrapper D, SXWrapper LT, CasADiIntVector p, boolean amd) {
-        SX.ldl(this.sx, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject(), amd);
+        SxStatic.ldl(this.sx, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject(), amd);
     }
 
     public void ldl(SXWrapper D, SXWrapper LT, CasADiIntVector p) {
-        SX.ldl(this.sx, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject());
+        SxStatic.ldl(this.sx, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject());
     }
 
     public SXWrapper ldlSolve(SXWrapper D, SXWrapper LT, CasADiIntVector p) {
-        return new SXWrapper(SX.ldl_solve(this.sx, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject()));
+        return new SXWrapper(SxStatic.ldl_solve(this.sx, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject()));
     }
 
     public SXWrapper all() {
-        return new SXWrapper(SX.all(this.sx));
+        return new SXWrapper(SxStatic.all(this.sx));
     }
 
     public SXWrapper any() {
-        return new SXWrapper(SX.any(this.sx));
+        return new SXWrapper(SxStatic.any(this.sx));
     }
 
     public SXWrapper adj() {
-        return new SXWrapper(SX.adj(this.sx));
+        return new SXWrapper(SxStatic.adj(this.sx));
     }
 
     public SXWrapper minor(long i, long j) {
-        return new SXWrapper(SX.minor(this.sx, i, j));
+        return new SXWrapper(SxStatic.minor(this.sx, i, j));
     }
 
     public SXWrapper cofactor(long i, long j) {
-        return new SXWrapper(SX.cofactor(this.sx, i, j));
+        return new SXWrapper(SxStatic.cofactor(this.sx, i, j));
     }
 
     public SXWrapper chol() {
-        return new SXWrapper(SX.chol(this.sx));
+        return new SXWrapper(SxStatic.chol(this.sx));
     }
 
     public SXWrapper normInfMul(SXWrapper y) {
-        return new SXWrapper(SX.norm_inf_mul(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.norm_inf_mul(this.sx, y.getCasADiObject()));
     }
 
     @Override
@@ -713,22 +713,22 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
 
     @Override
     public void setMaxDepth(long eq_depth) {
-        SX.set_max_depth(eq_depth);
+        SxStatic.set_max_depth(eq_depth);
     }
 
     @Override
     public void setMaxDepth() {
-        SX.set_max_depth();
+        SxStatic.set_max_depth();
     }
 
     @Override
     public long getMaxDepth() {
-        return SX.get_max_depth();
+        return SxStatic.get_max_depth();
     }
 
     @Override
     public String typeName() {
-        return SX.type_name();
+        return SxStatic.type_name();
     }
 
     public void printSplit(StringVector arg0, StringVector arg1) {
@@ -805,39 +805,39 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     public static SXWrapper inf(SparsityWrapper sp) {
-        return new SXWrapper(SX.inf(sp.getCasADiObject()));
+        return new SXWrapper(SxStatic.inf(sp.getCasADiObject()));
     }
 
     public static SXWrapper inf(long nrow, long ncol) {
-        return new SXWrapper(SX.inf(nrow, ncol));
+        return new SXWrapper(SxStatic.inf(nrow, ncol));
     }
 
     public static SXWrapper inf(long nrow) {
-        return new SXWrapper(SX.inf(nrow));
+        return new SXWrapper(SxStatic.inf(nrow));
     }
 
     public static SXWrapper inf() {
-        return new SXWrapper(SX.inf());
+        return new SXWrapper(SxStatic.inf());
     }
 
     public static SXWrapper nan(SparsityWrapper sp) {
-        return new SXWrapper(SX.nan(sp.getCasADiObject()));
+        return new SXWrapper(SxStatic.nan(sp.getCasADiObject()));
     }
 
     public static SXWrapper nan(long nrow, long ncol) {
-        return new SXWrapper(SX.nan(nrow, ncol));
+        return new SXWrapper(SxStatic.nan(nrow, ncol));
     }
 
     public static SXWrapper nan(long nrow) {
-        return new SXWrapper(SX.nan(nrow));
+        return new SXWrapper(SxStatic.nan(nrow));
     }
 
     public static SXWrapper nan() {
-        return new SXWrapper(SX.nan());
+        return new SXWrapper(SxStatic.nan());
     }
 
     public static SXWrapper eye(long size) {
-        return new SXWrapper(SX.eye(size));
+        return new SXWrapper(SxStatic.eye(size));
     }
 
     public long elementHash() {
@@ -954,19 +954,19 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     public static SXWrapper rand(long nrow, long ncol) {
-        return new SXWrapper(SX.rand(nrow, ncol));
+        return new SXWrapper(SxStatic.rand(nrow, ncol));
     }
 
     public static SXWrapper rand(long nrow) {
-        return new SXWrapper(SX.rand(nrow));
+        return new SXWrapper(SxStatic.rand(nrow));
     }
 
     public static SXWrapper rand() {
-        return new SXWrapper(SX.rand());
+        return new SXWrapper(SxStatic.rand());
     }
 
     public static SXWrapper rand(SparsityWrapper sp) {
-        return new SXWrapper(SX.rand(sp.getCasADiObject()));
+        return new SXWrapper(SxStatic.rand(sp.getCasADiObject()));
     }
 
     public void exportCode(String lang) {
@@ -983,7 +983,7 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     public static SXWrapper deserialize(String s) {
-        return new SXWrapper(SX.deserialize(s));
+        return new SXWrapper(SxStatic.deserialize(s));
     }
 
     public void toFile(String filename, String format) {
@@ -1010,28 +1010,28 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     }
 
     public SXVectorCollection blocksplit(CasADiIntVector vert_offset, CasADiIntVector horz_offset) {
-        return new SXVectorCollection(SX.blocksplit(this.sx, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
+        return new SXVectorCollection(SxStatic.blocksplit(this.sx, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
 
     public SXVectorCollection blocksplit(long vert_incr, long horz_incr) {
-        return new SXVectorCollection(SX.blocksplit(this.sx, vert_incr, horz_incr));
+        return new SXVectorCollection(SxStatic.blocksplit(this.sx, vert_incr, horz_incr));
     }
 
     @Override
     public SXWrapper vec() {
-        return new SXWrapper(SX.vec(this.sx));
+        return new SXWrapper(SxStatic.vec(this.sx));
     }
 
     public SXWrapper repmat(long n, long m) {
-        return new SXWrapper(SX.repmat(this.sx, n, m));
+        return new SXWrapper(SxStatic.repmat(this.sx, n, m));
     }
 
     public SXWrapper repmat(long n) {
-        return new SXWrapper(SX.repmat(this.sx, n));
+        return new SXWrapper(SxStatic.repmat(this.sx, n));
     }
 
     public SXVector vertsplit_n(long n) {
-        return new SXVector(SX.vertsplit_n(this.sx, n));
+        return new SXVector(SxStatic.vertsplit_n(this.sx, n));
     }
 
     @Override
@@ -1171,259 +1171,259 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
 
     @Override
     public SXWrapper interp1d(DoubleVector x, DoubleVector xq, String mode, boolean equidistant) {
-        return new SXWrapper(SX.interp1d(x.getCasADiObject(), this.sx, xq.getCasADiObject(), mode, equidistant));
+        return new SXWrapper(SxStatic.interp1d(x.getCasADiObject(), this.sx, xq.getCasADiObject(), mode, equidistant));
     }
 
     @Override
     public long sprank() {
-        return SX.sprank(this.sx);
+        return SxStatic.sprank(this.sx);
     }
 
     @Override
     public long norm0Mul(SXWrapper y) {
-        return SX.norm_0_mul(this.sx, y.getCasADiObject());
+        return SxStatic.norm_0_mul(this.sx, y.getCasADiObject());
     }
 
     @Override
     public SXWrapper tril(boolean includeDiagonal) {
-        return new SXWrapper(SX.tril(this.sx, includeDiagonal));
+        return new SXWrapper(SxStatic.tril(this.sx, includeDiagonal));
     }
 
     @Override
     public SXWrapper tril() {
-        return new SXWrapper(SX.tril(this.sx));
+        return new SXWrapper(SxStatic.tril(this.sx));
     }
 
     @Override
     public SXWrapper triu(boolean includeDiagonal) {
-        return new SXWrapper(SX.triu(this.sx, includeDiagonal));
+        return new SXWrapper(SxStatic.triu(this.sx, includeDiagonal));
     }
 
     @Override
     public SXWrapper triu() {
-        return new SXWrapper(SX.triu(this.sx));
+        return new SXWrapper(SxStatic.triu(this.sx));
     }
 
     @Override
     public SXWrapper sumsqr() {
-        return new SXWrapper(SX.sumsqr(this.sx));
+        return new SXWrapper(SxStatic.sumsqr(this.sx));
     }
 
     public SXWrapper linspace(SXWrapper b, long nsteps) {
-        return new SXWrapper(SX.linspace(this.sx, b.getCasADiObject(), nsteps));
+        return new SXWrapper(SxStatic.linspace(this.sx, b.getCasADiObject(), nsteps));
     }
 
     @Override
     public SXWrapper cross(SXWrapper b, long dim) {
-        return new SXWrapper(SX.cross(this.sx, b.getCasADiObject(), dim));
+        return new SXWrapper(SxStatic.cross(this.sx, b.getCasADiObject(), dim));
     }
 
     @Override
     public SXWrapper cross(SXWrapper b) {
-        return new SXWrapper(SX.cross(this.sx, b.getCasADiObject()));
+        return new SXWrapper(SxStatic.cross(this.sx, b.getCasADiObject()));
     }
 
     @Override
     public SXWrapper skew() {
-        return new SXWrapper(SX.skew(this.sx));
+        return new SXWrapper(SxStatic.skew(this.sx));
     }
 
     @Override
     public SXWrapper invSkew() {
-        return new SXWrapper(SX.inv_skew(this.sx));
+        return new SXWrapper(SxStatic.inv_skew(this.sx));
     }
 
     @Override
     public SXWrapper tril2symm() {
-        return new SXWrapper(SX.tril2symm(this.sx));
+        return new SXWrapper(SxStatic.tril2symm(this.sx));
     }
 
     @Override
     public SXWrapper triu2symm() {
-        return new SXWrapper(SX.triu2symm(this.sx));
+        return new SXWrapper(SxStatic.triu2symm(this.sx));
     }
 
     public SXWrapper repsum(long n, long m) {
-        return new SXWrapper(SX.repsum(this.sx, n, m));
+        return new SXWrapper(SxStatic.repsum(this.sx, n, m));
     }
 
     public SXWrapper repsum(long n) {
-        return new SXWrapper(SX.repsum(this.sx, n));
+        return new SXWrapper(SxStatic.repsum(this.sx, n));
     }
 
     @Override
     public SXWrapper diff(long n, long axis) {
-        return new SXWrapper(SX.diff(this.sx, n, axis));
+        return new SXWrapper(SxStatic.diff(this.sx, n, axis));
     }
 
     @Override
     public SXWrapper diff(long n) {
-        return new SXWrapper(SX.diff(this.sx, n));
+        return new SXWrapper(SxStatic.diff(this.sx, n));
     }
 
     @Override
     public SXWrapper diff() {
-        return new SXWrapper(SX.diff(this.sx));
+        return new SXWrapper(SxStatic.diff(this.sx));
     }
 
     @Override
     public boolean isLinear(SXWrapper var) {
-        return SX.is_linear(this.sx, var.getCasADiObject());
+        return SxStatic.is_linear(this.sx, var.getCasADiObject());
     }
 
     @Override
     public boolean isQuadratic(SXWrapper var) {
-        return SX.is_quadratic(this.sx, var.getCasADiObject());
+        return SxStatic.is_quadratic(this.sx, var.getCasADiObject());
     }
 
     @Override
     public void quadraticCoeff(SXWrapper var, SXWrapper A, SXWrapper b, SXWrapper c, boolean check) {
-        SX.quadratic_coeff(this.sx, var.getCasADiObject(), A.getCasADiObject(),
+        SxStatic.quadratic_coeff(this.sx, var.getCasADiObject(), A.getCasADiObject(),
                 b.getCasADiObject(), c.getCasADiObject(), check);
     }
 
     @Override
     public void linearCoeff(SXWrapper var, SXWrapper A, SXWrapper b, boolean check) {
-        SX.linear_coeff(this.sx, var.getCasADiObject(), A.getCasADiObject(), b.getCasADiObject(), check);
+        SxStatic.linear_coeff(this.sx, var.getCasADiObject(), A.getCasADiObject(), b.getCasADiObject(), check);
     }
 
     @Override
     public SXWrapper bilin(SXWrapper x, SXWrapper y) {
-        return new SXWrapper(SX.bilin(this.sx, x.getCasADiObject(), y.getCasADiObject()));
+        return new SXWrapper(SxStatic.bilin(this.sx, x.getCasADiObject(), y.getCasADiObject()));
     }
 
     @Override
     public SXWrapper rank1(SXWrapper alpha, SXWrapper x, SXWrapper y) {
-        return new SXWrapper(SX.rank1(this.sx, alpha.getCasADiObject(), x.getCasADiObject(), y.getCasADiObject()));
+        return new SXWrapper(SxStatic.rank1(this.sx, alpha.getCasADiObject(), x.getCasADiObject(), y.getCasADiObject()));
     }
 
     @Override
     public SXWrapper logsumexp() {
-        return new SXWrapper(SX.logsumexp(this.sx));
+        return new SXWrapper(SxStatic.logsumexp(this.sx));
     }
 
     @Override
     public SXWrapper jtimes(SXWrapper arg, SXWrapper v, boolean tr, Dictionary opts) {
-        return new SXWrapper(SX.jtimes_(this.sx, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
+        return new SXWrapper(SxStatic.jtimes_(this.sx, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
     }
 
     @Override
     public SXWrapper jtimes(SXWrapper arg, SXWrapper v, boolean tr) {
-        return new SXWrapper(SX.jtimes_(this.sx, arg.getCasADiObject(), v.getCasADiObject(), tr));
+        return new SXWrapper(SxStatic.jtimes_(this.sx, arg.getCasADiObject(), v.getCasADiObject(), tr));
     }
 
     @Override
     public SXWrapper jtimes(SXWrapper arg, SXWrapper v) {
-        return new SXWrapper(SX.jtimes_(this.sx, arg.getCasADiObject(), v.getCasADiObject()));
+        return new SXWrapper(SxStatic.jtimes_(this.sx, arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     @Override
     public SXWrapper gradient(SXWrapper arg, Dictionary opts) {
-        return new SXWrapper(SX.gradient(this.sx, arg.getCasADiObject(), opts.getCasADiObject()));
+        return new SXWrapper(SxStatic.gradient(this.sx, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public SXWrapper gradient(SXWrapper arg) {
-        return new SXWrapper(SX.gradient(this.sx, arg.getCasADiObject()));
+        return new SXWrapper(SxStatic.gradient(this.sx, arg.getCasADiObject()));
     }
 
     @Override
     public SXWrapper tangent(SXWrapper arg, Dictionary opts) {
-        return new SXWrapper(SX.tangent(this.sx, arg.getCasADiObject(), opts.getCasADiObject()));
+        return new SXWrapper(SxStatic.tangent(this.sx, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public SXWrapper tangent(SXWrapper arg) {
-        return new SXWrapper(SX.tangent(this.sx, arg.getCasADiObject()));
+        return new SXWrapper(SxStatic.tangent(this.sx, arg.getCasADiObject()));
     }
 
     @Override
     public SXWrapper linearize(SXWrapper x, SXWrapper x0, Dictionary opts) {
-        return new SXWrapper(SX.linearize(this.sx, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
+        return new SXWrapper(SxStatic.linearize(this.sx, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public SXWrapper linearize(SXWrapper x, SXWrapper x0) {
-        return new SXWrapper(SX.linearize(this.sx, x.getCasADiObject(), x0.getCasADiObject()));
+        return new SXWrapper(SxStatic.linearize(this.sx, x.getCasADiObject(), x0.getCasADiObject()));
     }
 
     @Override
     public SXWrapper mpower(SXWrapper y) {
-        return new SXWrapper(SX.mpower(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.mpower(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public SXWrapper soc(SXWrapper y) {
-        return new SXWrapper(SX.soc(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.soc(this.sx, y.getCasADiObject()));
     }
 
     public static SXWrapper sym(String name, long nrow, long ncol) {
-        return new SXWrapper(SX.sym(name, nrow, ncol));
+        return new SXWrapper(SxStatic.sym(name, nrow, ncol));
     }
 
     public static SXWrapper sym(String name, long nrow) {
-        return new SXWrapper(SX.sym(name, nrow));
+        return new SXWrapper(SxStatic.sym(name, nrow));
     }
 
     public static SXWrapper sym(String name) {
-        return new SXWrapper(SX.sym(name));
+        return new SXWrapper(SxStatic.sym(name));
     }
 
     public static SXWrapper sym(String name, SparsityWrapper sp) {
-        return new SXWrapper(SX.sym(name, sp.getCasADiObject()));
+        return new SXWrapper(SxStatic.sym(name, sp.getCasADiObject()));
     }
 
     public static SXVector sym(String name, SparsityWrapper sp, long p) {
-        return new SXVector(SX.sym(name, sp.getCasADiObject(), p));
+        return new SXVector(SxStatic.sym(name, sp.getCasADiObject(), p));
     }
 
     public static SXVector sym(String name, long nrow, long ncol, long p) {
-        return new SXVector(SX.sym(name, nrow, ncol, p));
+        return new SXVector(SxStatic.sym(name, nrow, ncol, p));
     }
 
     public static SXVectorCollection sym(String name, SparsityWrapper sp, long p, long r) {
-        return new SXVectorCollection(SX.sym(name, sp.getCasADiObject(), p, r));
+        return new SXVectorCollection(SxStatic.sym(name, sp.getCasADiObject(), p, r));
     }
 
     public static SXVectorCollection sym(String name, long nrow, long ncol, long p, long r) {
-        return new SXVectorCollection(SX.sym(name, nrow, ncol, p, r));
+        return new SXVectorCollection(SxStatic.sym(name, nrow, ncol, p, r));
     }
 
     public static SXWrapper zeros(long nrow, long ncol) {
-        return new SXWrapper(SX.zeros(nrow, ncol));
+        return new SXWrapper(SxStatic.zeros(nrow, ncol));
     }
 
     public static SXWrapper zeros(long nrow) {
-        return new SXWrapper(SX.zeros(nrow));
+        return new SXWrapper(SxStatic.zeros(nrow));
     }
 
     public static SXWrapper zeros() {
-        return new SXWrapper(SX.zeros());
+        return new SXWrapper(SxStatic.zeros());
     }
 
     public static SXWrapper zeros(SparsityWrapper sp) {
-        return new SXWrapper(SX.zeros(sp.getCasADiObject()));
+        return new SXWrapper(SxStatic.zeros(sp.getCasADiObject()));
     }
 
     public static SXWrapper ones(long nrow, long ncol) {
-        return new SXWrapper(SX.ones(nrow, ncol));
+        return new SXWrapper(SxStatic.ones(nrow, ncol));
     }
 
     public static SXWrapper ones(long nrow) {
-        return new SXWrapper(SX.ones(nrow));
+        return new SXWrapper(SxStatic.ones(nrow));
     }
 
     public static SXWrapper ones() {
-        return new SXWrapper(SX.ones());
+        return new SXWrapper(SxStatic.ones());
     }
 
     public static SXWrapper ones(SparsityWrapper sp) {
-        return new SXWrapper(SX.ones(sp.getCasADiObject()));
+        return new SXWrapper(SxStatic.ones(sp.getCasADiObject()));
     }
 
     @Override
     public SXWrapper add(SXWrapper other) {
-        SX result = SX.plus(this.sx, other.getCasADiObject());
+        SX result = SxStatic.plus(this.sx, other.getCasADiObject());
         return new SXWrapper(result);
     }
 
@@ -1431,13 +1431,13 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     public <T extends Number> SXWrapper add(T number) {
         double other = number.doubleValue();
         SXWrapper summand = new SXWrapper(other);
-        SX result = SX.plus(this.sx, summand.getCasADiObject());
+        SX result = SxStatic.plus(this.sx, summand.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper subtract(SXWrapper other) {
-        SX result = SX.minus(this.sx, other.getCasADiObject());
+        SX result = SxStatic.minus(this.sx, other.getCasADiObject());
         return new SXWrapper(result);
     }
 
@@ -1445,13 +1445,13 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     public <T extends Number> SXWrapper subtract(T number) {
         double other = number.doubleValue();
         SXWrapper subtrahend = new SXWrapper(other);
-        SX result = SX.minus(this.sx, subtrahend.getCasADiObject());
+        SX result = SxStatic.minus(this.sx, subtrahend.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper multiply(SXWrapper other) {
-        SX result = SX.times(this.sx, other.getCasADiObject());
+        SX result = SxStatic.times(this.sx, other.getCasADiObject());
         return new SXWrapper(result);
     }
 
@@ -1459,13 +1459,13 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
     public <T extends Number> SXWrapper multiply(T number) {
         double other = number.doubleValue();
         SXWrapper multiplicand = new SXWrapper(other);
-        SX result = SX.times(this.sx, multiplicand.getCasADiObject());
+        SX result = SxStatic.times(this.sx, multiplicand.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper divide(SXWrapper other) {
-        SX result = SX.rdivide(this.sx, other.getCasADiObject());
+        SX result = SxStatic.rdivide(this.sx, other.getCasADiObject());
         return new SXWrapper(result);
     }
 
@@ -1476,289 +1476,289 @@ public class SXWrapper implements Wrapper<SXWrapper>, SymbolicExpression {
             throw new ArithmeticException("Division by zero is not allowed.");
         }
         SXWrapper divisor = new SXWrapper(other);
-        SX result = SX.rdivide(this.sx, divisor.getCasADiObject());
+        SX result = SxStatic.rdivide(this.sx, divisor.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper lt(SXWrapper y) {
-        return new SXWrapper(SX.lt(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.lt(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public <T extends Number> SXWrapper lt(T number) {
         double other = number.doubleValue();
         SXWrapper threshold = new SXWrapper(other);
-        SX result = SX.lt(this.sx, threshold.getCasADiObject());
+        SX result = SxStatic.lt(this.sx, threshold.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper le(SXWrapper y) {
-        return new SXWrapper(SX.le(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.le(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public <T extends Number> SXWrapper le(T number) {
         double other = number.doubleValue();
         SXWrapper threshold = new SXWrapper(other);
-        SX result = SX.le(this.sx, threshold.getCasADiObject());
+        SX result = SxStatic.le(this.sx, threshold.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper gt(SXWrapper y) {
-        return new SXWrapper(SX.gt(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.gt(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public <T extends Number> SXWrapper gt(T number) {
         double other = number.doubleValue();
         SXWrapper threshold = new SXWrapper(other);
-        SX result = SX.gt(this.sx, threshold.getCasADiObject());
+        SX result = SxStatic.gt(this.sx, threshold.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper ge(SXWrapper y) {
-        return new SXWrapper(SX.ge(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.ge(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public <T extends Number> SXWrapper ge(T number) {
         double other = number.doubleValue();
         SXWrapper threshold = new SXWrapper(other);
-        SX result = SX.ge(this.sx, threshold.getCasADiObject());
+        SX result = SxStatic.ge(this.sx, threshold.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper eq(SXWrapper y) {
-        return new SXWrapper(SX.eq(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.eq(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public <T extends Number> SXWrapper eq(T number) {
         double other = number.doubleValue();
         SXWrapper value = new SXWrapper(other);
-        SX result = SX.eq(this.sx, value.getCasADiObject());
+        SX result = SxStatic.eq(this.sx, value.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper ne(SXWrapper y) {
-        return new SXWrapper(SX.ne(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.ne(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public <T extends Number> SXWrapper ne(T number) {
         double other = number.doubleValue();
         SXWrapper value = new SXWrapper(other);
-        SX result = SX.ne(this.sx, value.getCasADiObject());
+        SX result = SxStatic.ne(this.sx, value.getCasADiObject());
         return new SXWrapper(result);
     }
 
     @Override
     public SXWrapper logicAnd(SXWrapper y) {
-        return new SXWrapper(SX.logic_and(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.logic_and(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public SXWrapper logicOr(SXWrapper y) {
-        return new SXWrapper(SX.logic_or(this.sx, y.getCasADiObject()));
+        return new SXWrapper(SxStatic.logic_or(this.sx, y.getCasADiObject()));
     }
 
     @Override
     public SXWrapper logicNot() {
-        return new SXWrapper(SX.logic_not(this.sx));
+        return new SXWrapper(SxStatic.logic_not(this.sx));
     }
 
     @Override
     public SXWrapper abs() {
-        return new SXWrapper(SX.abs(this.sx));
+        return new SXWrapper(SxStatic.abs(this.sx));
     }
 
     @Override
     public SXWrapper sqrt() {
-        return new SXWrapper(SX.sqrt(this.sx));
+        return new SXWrapper(SxStatic.sqrt(this.sx));
     }
 
     @Override
     public SXWrapper sq() {
-        return new SXWrapper(SX.sq(this.sx));
+        return new SXWrapper(SxStatic.sq(this.sx));
     }
 
     @Override
     public SXWrapper sin() {
-        return new SXWrapper(SX.sin(this.sx));
+        return new SXWrapper(SxStatic.sin(this.sx));
     }
 
     @Override
     public SXWrapper cos() {
-        return new SXWrapper(SX.cos(this.sx));
+        return new SXWrapper(SxStatic.cos(this.sx));
     }
 
     @Override
     public SXWrapper tan() {
-        return new SXWrapper(SX.tan(this.sx));
+        return new SXWrapper(SxStatic.tan(this.sx));
     }
 
     @Override
     public SXWrapper atan() {
-        return new SXWrapper(SX.atan(this.sx));
+        return new SXWrapper(SxStatic.atan(this.sx));
     }
 
     @Override
     public SXWrapper asin() {
-        return new SXWrapper(SX.asin(this.sx));
+        return new SXWrapper(SxStatic.asin(this.sx));
     }
 
     @Override
     public SXWrapper acos() {
-        return new SXWrapper(SX.acos(this.sx));
+        return new SXWrapper(SxStatic.acos(this.sx));
     }
 
     @Override
     public SXWrapper tanh() {
-        return new SXWrapper(SX.tanh(this.sx));
+        return new SXWrapper(SxStatic.tanh(this.sx));
     }
 
     @Override
     public SXWrapper sinh() {
-        return new SXWrapper(SX.sinh(this.sx));
+        return new SXWrapper(SxStatic.sinh(this.sx));
     }
 
     @Override
     public SXWrapper cosh() {
-        return new SXWrapper(SX.cosh(this.sx));
+        return new SXWrapper(SxStatic.cosh(this.sx));
     }
 
     @Override
     public SXWrapper atanh() {
-        return new SXWrapper(SX.atanh(this.sx));
+        return new SXWrapper(SxStatic.atanh(this.sx));
     }
 
     @Override
     public SXWrapper asinh() {
-        return new SXWrapper(SX.asinh(this.sx));
+        return new SXWrapper(SxStatic.asinh(this.sx));
     }
 
     @Override
     public SXWrapper acosh() {
-        return new SXWrapper(SX.acosh(this.sx));
+        return new SXWrapper(SxStatic.acosh(this.sx));
     }
 
     @Override
     public SXWrapper exp() {
-        return new SXWrapper(SX.exp(this.sx));
+        return new SXWrapper(SxStatic.exp(this.sx));
     }
 
     @Override
     public SXWrapper log() {
-        return new SXWrapper(SX.log(this.sx));
+        return new SXWrapper(SxStatic.log(this.sx));
     }
 
     @Override
     public SXWrapper log10() {
-        return new SXWrapper(SX.log10(this.sx));
+        return new SXWrapper(SxStatic.log10(this.sx));
     }
 
     @Override
     public SXWrapper log1p() {
-        return new SXWrapper(SX.log1p(this.sx));
+        return new SXWrapper(SxStatic.log1p(this.sx));
     }
 
     @Override
     public SXWrapper expm1() {
-        return new SXWrapper(SX.expm1(this.sx));
+        return new SXWrapper(SxStatic.expm1(this.sx));
     }
 
     @Override
     public SXWrapper floor() {
-        return new SXWrapper(SX.floor(this.sx));
+        return new SXWrapper(SxStatic.floor(this.sx));
     }
 
     @Override
     public SXWrapper ceil() {
-        return new SXWrapper(SX.ceil(this.sx));
+        return new SXWrapper(SxStatic.ceil(this.sx));
     }
 
     @Override
     public SXWrapper erf() {
-        return new SXWrapper(SX.erf(this.sx));
+        return new SXWrapper(SxStatic.erf(this.sx));
     }
 
     @Override
     public SXWrapper erfinv() {
-        return new SXWrapper(SX.erfinv(this.sx));
+        return new SXWrapper(SxStatic.erfinv(this.sx));
     }
 
     @Override
     public SXWrapper sign() {
-        return new SXWrapper(SX.sign(this.sx));
+        return new SXWrapper(SxStatic.sign(this.sx));
     }
 
     @Override
     public SXWrapper pow(SXWrapper other) {
-        return new SXWrapper(SX.pow(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.pow(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public <T extends Number> SXWrapper pow(T exponent) {
         double exp = exponent.doubleValue();
         SX exponentSX = new SX(exp);
-        return new SXWrapper(SX.pow(this.sx, exponentSX));
+        return new SXWrapper(SxStatic.pow(this.sx, exponentSX));
     }
 
     @Override
     public SXWrapper mod(SXWrapper other) {
-        return new SXWrapper(SX.mod(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.mod(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper remainder(SXWrapper other) {
-        return new SXWrapper(SX.remainder(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.remainder(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper atan2(SXWrapper other) {
-        return new SXWrapper(SX.atan2(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.atan2(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper ifElseZero(SXWrapper other) {
-        return new SXWrapper(SX.if_else_zero(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.if_else_zero(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper fmin(SXWrapper other) {
-        return new SXWrapper(SX.fmin(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.fmin(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper fmax(SXWrapper other) {
-        return new SXWrapper(SX.fmax(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.fmax(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper copysign(SXWrapper other) {
-        return new SXWrapper(SX.copysign(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.copysign(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper constpow(SXWrapper other) {
-        return new SXWrapper(SX.constpow(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.constpow(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper hypot(SXWrapper other) {
-        return new SXWrapper(SX.hypot(this.sx, other.getCasADiObject()));
+        return new SXWrapper(SxStatic.hypot(this.sx, other.getCasADiObject()));
     }
 
     @Override
     public SXWrapper negate() {
         SXWrapper sign = new SXWrapper(-1);
-        return new SXWrapper(SX.times(this.sx, sign.getCasADiObject()));
+        return new SXWrapper(SxStatic.times(this.sx, sign.getCasADiObject()));
     }
 
     public SX getCasADiObject() {

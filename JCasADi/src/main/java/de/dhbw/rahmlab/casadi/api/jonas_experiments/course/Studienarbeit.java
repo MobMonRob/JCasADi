@@ -26,9 +26,9 @@ public class Studienarbeit {
 
     public static void test1() {
 
-        MX x = MX.sym("x");
-        MX y = MX.sym("y");
-        MX expression = MX.times(x, y);
+        MX x = MxStatic.sym("x");
+        MX y = MxStatic.sym("y");
+        MX expression = MxStatic.times(x, y);
 
         Function f = new Function("f", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{expression}));
 
@@ -43,12 +43,12 @@ public class Studienarbeit {
 
     public static void test2() {
 
-        var x = MX.sym("x");
-        var v = MX.sym("v");
-        var z = MX.vertcat(new StdVectorMX(new MX[]{x, v}));
+        var x = MxStatic.sym("x");
+        var v = MxStatic.sym("v");
+        var z = MxStatic.vertcat(new StdVectorMX(new MX[]{x, v}));
 
-        var xdot = MX.vertcat(new StdVectorMX(new MX[]{x, new MX(0)}));
-        var alg = MX.minus(MX.plus(x, v), new MX(1));
+        var xdot = MxStatic.vertcat(new StdVectorMX(new MX[]{x, new MX(0)}));
+        var alg = MxStatic.minus(MxStatic.plus(x, v), new MX(1));
 
         StdMapStringToMX dae = new StdMapStringToMX();
         dae.put("x", z);
@@ -92,7 +92,7 @@ public class Studienarbeit {
         var values = new StdVectorDouble(new double[]{1, 2, 3});
         DM vector = new DM(values);
         ;
-        var adjustedElement = DM.minus(vector.at(0), new DM(2));
+        var adjustedElement = DmStatic.minus(vector.at(0), new DM(2));
         vector.set(adjustedElement, true, new Slice(0));
 
     }
@@ -131,16 +131,16 @@ public class Studienarbeit {
     public static void addbeispiel() {
 
 //        DM x = new DM();
-//        DM result = DM.plus(x, new DM(2));
+//        DM result = DmStatic.plus(x, new DM(2));
 
 //        DMWrapper x = new DMWrapper();
 //        DMWrapper result = x.add(2);
 
         // x * y + 2 - y
         // vor :
-//        var x = MX.sym("x");
-//        var y = MX.sym("y");
-//        var expression = MX.minus(MX.plus(MX.times(x, y), new MX(2)), y);
+//        var x = MxStatic.sym("x");
+//        var y = MxStatic.sym("y");
+//        var expression = MxStatic.minus(MxStatic.plus(MxStatic.times(x, y), new MX(2)), y);
 
         // Nachher:
         var x = MXWrapper.sym("x");

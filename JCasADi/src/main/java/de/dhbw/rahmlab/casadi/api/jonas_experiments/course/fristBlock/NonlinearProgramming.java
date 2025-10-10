@@ -18,18 +18,18 @@ public class NonlinearProgramming {
 
     static List<MX> mx = new ArrayList<>();
     // 1.1
-    static MX x = MX.sym("x", 2);
+    static MX x = MxStatic.sym("x", 2);
     // Functions as expressions:
-    static MX f_ex = MX.plus(MX.pow(x.at(0), new MX(2)), MX.pow(MX.tanh(x.at(1)), new MX(2)));
-    static MX g_ex = MX.plus(MX.cos(MX.plus(x.at(0), x.at(1))), new MX(0.5));
-    static MX h_ex = MX.plus(MX.sin(x.at(0)), new MX(0.5));
+    static MX f_ex = MxStatic.plus(MxStatic.pow(x.at(0), new MX(2)), MxStatic.pow(MxStatic.tanh(x.at(1)), new MX(2)));
+    static MX g_ex = MxStatic.plus(MxStatic.cos(MxStatic.plus(x.at(0), x.at(1))), new MX(0.5));
+    static MX h_ex = MxStatic.plus(MxStatic.sin(x.at(0)), new MX(0.5));
 
     // 1.2
     public static MX solution() {
-        MX lambd = MX.sym("lambd");
-        MX x0 = MX.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
-        MX nu = MX.sym("nu");
-        MX lag = MX.plus(MX.plus(f_ex, MX.times(lambd, g_ex)), MX.times(nu, h_ex));
+        MX lambd = MxStatic.sym("lambd");
+        MX x0 = MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
+        MX nu = MxStatic.sym("nu");
+        MX lag = MxStatic.plus(MxStatic.plus(f_ex, MxStatic.times(lambd, g_ex)), MxStatic.times(nu, h_ex));
         Function lagf = new Function("lagf", new StdVectorMX(new MX[]{x, lambd, nu}), new StdVectorMX(new MX[]{lag}));
         StdVectorMX result = new StdVectorMX(new MX[]{});
         lagf.call(new StdVectorMX(new MX[]{x0, new MX(2), new MX(3)}), result);
@@ -38,17 +38,17 @@ public class NonlinearProgramming {
 
     // 1.3
     public static MX solution1_3() {
-        MX lambd = MX.sym("lambd");
-        MX x0 = MX.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
+        MX lambd = MxStatic.sym("lambd");
+        MX x0 = MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
         MX lambda0 = new MX(0.);
         MX nu0 = new MX(0);
-        MX nu = MX.sym("nu");
-        MX lag = MX.plus(MX.plus(f_ex, MX.times(lambd, g_ex)), MX.times(nu, h_ex));
-        Function QPF = new Function("QPF", new StdVectorMX(new MX[]{x, lambd, nu}), new StdVectorMX(new MX[]{f_ex, g_ex, h_ex, MX.gradient(f_ex, x), MX.hessian(lag, x), MX.jacobian(g_ex, x), MX.jacobian(h_ex, x)}));
+        MX nu = MxStatic.sym("nu");
+        MX lag = MxStatic.plus(MxStatic.plus(f_ex, MxStatic.times(lambd, g_ex)), MxStatic.times(nu, h_ex));
+        Function QPF = new Function("QPF", new StdVectorMX(new MX[]{x, lambd, nu}), new StdVectorMX(new MX[]{f_ex, g_ex, h_ex, MxStatic.gradient(f_ex, x), MxStatic.hessian(lag, x), MxStatic.jacobian(g_ex, x), MxStatic.jacobian(h_ex, x)}));
         // 1.4
         StdVectorMX result = new StdVectorMX(new MX[]{});
         QPF.call(new StdVectorMX(new MX[]{x0, lambda0, nu0}), result);
-        DM.set_precision(16);
+        DmStatic.set_precision(16);
         mx = result.stream().toList();
         return result.stream().toList().get(4);
     }
@@ -57,8 +57,8 @@ public class NonlinearProgramming {
         System.out.println("------------------ 1.0 ------------------");
         NonlinearProgramming.solution();
         // 1.2
-        MX x0 = MX.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
-        Function l = new Function("l", new StdVectorMX(new MX[]{x}), new StdVectorMX(new MX[]{MX.plus(MX.plus(f_ex, MX.times(new MX(2), g_ex)), MX.times(new MX(3), h_ex))}));
+        MX x0 = MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
+        Function l = new Function("l", new StdVectorMX(new MX[]{x}), new StdVectorMX(new MX[]{MX.plus(MxStatic.plus(f_ex, MxStatic.times(new MX(2), g_ex)), MxStatic.times(new MX(3), h_ex))}));
         StdVectorMX result = new StdVectorMX(new MX[]{});
         l.call(new StdVectorMX(new MX[]{x0}), result);
         System.out.println(result.get(0).at(0,0));
@@ -127,9 +127,9 @@ public class NonlinearProgramming {
         // 1.5
         MX H = mx.get(4);
         MX G = mx.get(3);
-        MX A = MX.vertcat(new StdVectorMX(new MX[]{mx.get(5), mx.get(6)}));
-        MX lba = MX.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), mx.get(1)), MX.times(new MX(-1), MX.inf())}));
-        MX uba = MX.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), mx.get(1)), MX.times(new MX(-1), mx.get(2))}));
+        MX A = MxStatic.vertcat(new StdVectorMX(new MX[]{mx.get(5), mx.get(6)}));
+        MX lba = MxStatic.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), mx.get(1)), MxStatic.times(new MX(-1), MxStatic.inf())}));
+        MX uba = MxStatic.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), mx.get(1)), MxStatic.times(new MX(-1), mx.get(2))}));
         System.out.println("---- Dim:");
         System.out.println(H.dim_());
         System.out.println(G.dim_());
@@ -219,13 +219,13 @@ public class NonlinearProgramming {
         System.out.println("----------- 1.9 -----------");
 
         // 1.9
-        var lambd2 = MX.sym("lambd");
-        var nu2 = MX.sym("nu");
-        MX x01 = MX.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
+        var lambd2 = MxStatic.sym("lambd");
+        var nu2 = MxStatic.sym("nu");
+        MX x01 = MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
         MX lambda0 = new MX(0);
         MX nu0 = new MX(0);
-        MX lag = MX.plus(MX.plus(f_ex, MX.times(lambd2, g_ex)), MX.times(nu2, h_ex));
-        Function QPF = new Function("QPF", new StdVectorMX(new MX[]{x, lambd2, nu2}), new StdVectorMX(new MX[]{f_ex, g_ex, h_ex, MX.gradient(f_ex, x), MX.hessian(lag, x).at(0), MX.jacobian(g_ex, x), MX.jacobian(h_ex, x)}));
+        MX lag = MxStatic.plus(MxStatic.plus(f_ex, MxStatic.times(lambd2, g_ex)), MxStatic.times(nu2, h_ex));
+        Function QPF = new Function("QPF", new StdVectorMX(new MX[]{x, lambd2, nu2}), new StdVectorMX(new MX[]{f_ex, g_ex, h_ex, MxStatic.gradient(f_ex, x), MxStatic.hessian(lag, x).at(0), MxStatic.jacobian(g_ex, x), MxStatic.jacobian(h_ex, x)}));
         Dict dict = new Dict();
         dict.put("print_iter", new GenericType(false));
         solver = conic("solver", "qrqp", qp_struct, dict);
@@ -234,9 +234,9 @@ public class NonlinearProgramming {
             QPF.call(new StdVectorMX(new MX[]{x0, lambda0, nu0}), result1);
             MX H1 = result1.get(4);
             MX G1 = result1.get(3);
-            MX A1 = MX.vertcat(new StdVectorMX(new MX[]{result1.get(5), result1.get(6)}));
-            MX lba1 = MX.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), result1.get(1)), MX.times(new MX(-1), MX.inf())}));
-            MX uba1 = MX.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), result1.get(1)), MX.times(new MX(-1), result1.get(2))}));
+            MX A1 = MxStatic.vertcat(new StdVectorMX(new MX[]{result1.get(5), result1.get(6)}));
+            MX lba1 = MxStatic.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), result1.get(1)), MxStatic.times(new MX(-1), MxStatic.inf())}));
+            MX uba1 = MxStatic.vertcat(new StdVectorMX(new MX[]{MX.times(new MX(-1), result1.get(1)), MxStatic.times(new MX(-1), result1.get(2))}));
 
             var re1 = new StdMapStringToMX();
 
@@ -253,7 +253,7 @@ public class NonlinearProgramming {
             var dx1 = re1.get("x");
             lambda0 = re1.get("lam_a").at(0);
             nu0 = re1.get("lam_a").at(1);
-            x01 = MX.plus(x01, dx1);
+            x01 = MxStatic.plus(x01, dx1);
             System.out.println("x = " + x01);
         }
         System.out.println("----------- 2.1 -----------");
@@ -266,30 +266,30 @@ public class NonlinearProgramming {
         System.out.println("----------- 2.2 -----------");
 
         // 2.2
-        MX x = MX.sym("x", 2);
-        MX f = MX.plus(MX.pow(x.at(0), new MX(2)), MX.pow(MX.tanh(x.at(1)), new MX(2)));
-        MX g = MX.plus(MX.cos(MX.plus(x.at(0), x.at(1))), new MX(0.5));
-        MX h = MX.plus(MX.sin(x.at(0)), new MX(0.5));
-        var lambd1 = MX.sym("lambd");
-        var nu1 = MX.sym("nu");
-        var lag1 = MX.plus(MX.plus(f, MX.times(lambd1, g)), MX.times(nu1, h));
-        var tau = MX.sym("tau");
+        MX x = MxStatic.sym("x", 2);
+        MX f = MxStatic.plus(MxStatic.pow(x.at(0), new MX(2)), MxStatic.pow(MxStatic.tanh(x.at(1)), new MX(2)));
+        MX g = MxStatic.plus(MxStatic.cos(MxStatic.plus(x.at(0), x.at(1))), new MX(0.5));
+        MX h = MxStatic.plus(MxStatic.sin(x.at(0)), new MX(0.5));
+        var lambd1 = MxStatic.sym("lambd");
+        var nu1 = MxStatic.sym("nu");
+        var lag1 = MxStatic.plus(MxStatic.plus(f, MxStatic.times(lambd1, g)), MxStatic.times(nu1, h));
+        var tau = MxStatic.sym("tau");
         Map<String, MX> g_map = new HashMap<>();
-        g_map.put("x", MX.vertcat(new StdVectorMX(new MX[]{x, lambd1, nu1})));
+        g_map.put("x", MxStatic.vertcat(new StdVectorMX(new MX[]{x, lambd1, nu1})));
         g_map.put("p", tau);
-        g_map.put("g", MX.vertcat(new StdVectorMX(new MX[]{MX.gradient(lag1, x), g, MX.plus(MX.times(nu1, h), tau)})));
+        g_map.put("g", MxStatic.vertcat(new StdVectorMX(new MX[]{MX.gradient(lag1, x), g, MxStatic.plus(MxStatic.times(nu1, h), tau)})));
         var G1 = new StdMapStringToMX(g_map);
         Function rf = rootfinder("rf", "newton", G1);
         System.out.println(rf);
         System.out.println("----------- 2.3 -----------");
 
         // 2.3
-        MX new_x0 = MX.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
+        MX new_x0 = MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-0.5), new MX(-1.8)}));
         MX new_lambda0 = new MX(0.1);
         MX new_nu0 = new MX(0.1);
         var resul = new StdMapStringToMX();
         Map<String, MX> mxMap = new HashMap<>();
-        mxMap.put("x0", MX.vertcat(new StdVectorMX(new MX[]{new_x0, new_lambda0, new_nu0})));
+        mxMap.put("x0", MxStatic.vertcat(new StdVectorMX(new MX[]{new_x0, new_lambda0, new_nu0})));
         mxMap.put("p", new MX(1e-2));
         rf.call(new StdMapStringToMX(mxMap), resul);
         for (int i = 0; i < 2; i++) {
@@ -309,9 +309,9 @@ public class NonlinearProgramming {
 
     public static void exam() {
 
-        var a = MX.sym("a");
-        var b = MX.sym("b");
-        var expression = MX.times(b, MX.sin(MX.plus(MX.times(new MX(2), a), MX.pow(a, new MX(2)))));
+        var a = MxStatic.sym("a");
+        var b = MxStatic.sym("b");
+        var expression = MxStatic.times(b, MxStatic.sin(MxStatic.plus(MxStatic.times(new MX(2), a), MxStatic.pow(a, new MX(2)))));
 
         System.out.println(expression);
     }

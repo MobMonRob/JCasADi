@@ -162,7 +162,7 @@ public class DMBuilder implements MatrixBuilder<DMBuilder> {
     @SuppressWarnings("unchecked")
     public DMWrapper buildSymbolic() {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name must be set for symbolic DM.");
+            throw new IllegalArgumentException("Name must be set for symbolic DmStatic.");
         }
         if (rows > 0 && cols > 0) {
             return DMWrapper.sym(name, rows, cols);

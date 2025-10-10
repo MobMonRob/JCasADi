@@ -105,103 +105,103 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     }
 
     public static IMWrapper inf(SparsityWrapper sp) {
-        return new IMWrapper(IM.inf(sp.getCasADiObject()));
+        return new IMWrapper(ImStatic.inf(sp.getCasADiObject()));
     }
 
     public static IMWrapper inf(long nrow, long ncol) {
-        return new IMWrapper(IM.inf(nrow, ncol));
+        return new IMWrapper(ImStatic.inf(nrow, ncol));
     }
 
     public static IMWrapper inf(long nrow) {
-        return new IMWrapper(IM.inf(nrow));
+        return new IMWrapper(ImStatic.inf(nrow));
     }
 
     public static IMWrapper inf() {
-        return new IMWrapper(IM.inf());
+        return new IMWrapper(ImStatic.inf());
     }
 
     public static IMWrapper nan(SparsityWrapper sp) {
-        return new IMWrapper(IM.nan(sp.getCasADiObject()));
+        return new IMWrapper(ImStatic.nan(sp.getCasADiObject()));
     }
 
     public static IMWrapper nan(long nrow, long ncol) {
-        return new IMWrapper(IM.nan(nrow, ncol));
+        return new IMWrapper(ImStatic.nan(nrow, ncol));
     }
 
     public static IMWrapper nan(long nrow) {
-        return new IMWrapper(IM.nan(nrow));
+        return new IMWrapper(ImStatic.nan(nrow));
     }
 
     public static IMWrapper nan() {
-        return new IMWrapper(IM.nan());
+        return new IMWrapper(ImStatic.nan());
     }
 
     public static IMWrapper eye(long n) {
-        return new IMWrapper(IM.eye(n));
+        return new IMWrapper(ImStatic.eye(n));
     }
 
     public static IMWrapper rand(long nrow, long ncol) {
-        return new IMWrapper(IM.rand(nrow, ncol));
+        return new IMWrapper(ImStatic.rand(nrow, ncol));
     }
 
     public static IMWrapper rand(long nrow) {
-        return new IMWrapper(IM.rand(nrow));
+        return new IMWrapper(ImStatic.rand(nrow));
     }
 
     public static IMWrapper rand() {
-        return new IMWrapper(IM.rand());
+        return new IMWrapper(ImStatic.rand());
     }
 
     public static IMWrapper rand(SparsityWrapper sp) {
-        return new IMWrapper(IM.rand(sp.getCasADiObject()));
+        return new IMWrapper(ImStatic.rand(sp.getCasADiObject()));
     }
 
     public static IMWrapper sym(String name, long nrow, long ncol) {
-        return new IMWrapper(IM.sym(name, nrow, ncol));
+        return new IMWrapper(ImStatic.sym(name, nrow, ncol));
     }
 
     public static IMWrapper sym(String name, long nrow) {
-        return new IMWrapper(IM.sym(name, nrow));
+        return new IMWrapper(ImStatic.sym(name, nrow));
     }
 
     public static IMWrapper sym(String name) {
-        return new IMWrapper(IM.sym(name));
+        return new IMWrapper(ImStatic.sym(name));
     }
 
     public static IMWrapper sym(String name, SparsityWrapper sp) {
-        return new IMWrapper(IM.sym(name, sp.getCasADiObject()));
+        return new IMWrapper(ImStatic.sym(name, sp.getCasADiObject()));
     }
 
     public static IMWrapper zeros(long nrow, long ncol) {
-        return new IMWrapper(IM.zeros(nrow, ncol));
+        return new IMWrapper(ImStatic.zeros(nrow, ncol));
     }
 
     public static IMWrapper zeros(long nrow) {
-        return new IMWrapper(IM.zeros(nrow));
+        return new IMWrapper(ImStatic.zeros(nrow));
     }
 
     public static IMWrapper zeros() {
-        return new IMWrapper(IM.zeros());
+        return new IMWrapper(ImStatic.zeros());
     }
 
     public static IMWrapper zeros(SparsityWrapper sp) {
-        return new IMWrapper(IM.zeros(sp.getCasADiObject()));
+        return new IMWrapper(ImStatic.zeros(sp.getCasADiObject()));
     }
 
     public static IMWrapper ones(long nrow, long ncol) {
-        return new IMWrapper(IM.ones(nrow, ncol));
+        return new IMWrapper(ImStatic.ones(nrow, ncol));
     }
 
     public static IMWrapper ones(long nrow) {
-        return new IMWrapper(IM.ones(nrow));
+        return new IMWrapper(ImStatic.ones(nrow));
     }
 
     public static IMWrapper ones() {
-        return new IMWrapper(IM.ones());
+        return new IMWrapper(ImStatic.ones());
     }
 
     public static IMWrapper ones(SparsityWrapper sp) {
-        return new IMWrapper(IM.ones(sp.getCasADiObject()));
+        return new IMWrapper(ImStatic.ones(sp.getCasADiObject()));
     }
 
     public long scalar() {
@@ -371,239 +371,239 @@ public class IMWrapper implements Wrapper<IMWrapper> {
 
     @Override
     public IMWrapper binary(long op, IMWrapper y) {
-        return new IMWrapper(IM.binary(op, this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.binary(op, this.im, y.getCasADiObject()));
     }
 
     @Override
     public IMWrapper unary(long op) {
-        return new IMWrapper(IM.unary(op, this.im));
+        return new IMWrapper(ImStatic.unary(op, this.im));
     }
 
     @Override
     public boolean isEqual(IMWrapper other, long depth) {
-        return IM.is_equal(this.im, other.getCasADiObject(), depth);
+        return ImStatic.is_equal(this.im, other.getCasADiObject(), depth);
     }
 
     @Override
     public boolean isEqual(IMWrapper other) {
-        return IM.is_equal(this.im, other.getCasADiObject());
+        return ImStatic.is_equal(this.im, other.getCasADiObject());
     }
 
     @Override
     public IMWrapper mmin() {
-        return new IMWrapper(IM.mmin(this.im));
+        return new IMWrapper(ImStatic.mmin(this.im));
     }
 
     @Override
     public IMWrapper mmax() {
-        return new IMWrapper(IM.mmax(this.im));
+        return new IMWrapper(ImStatic.mmax(this.im));
     }
 
     @Override
     public IMWrapper simplify() {
-        return new IMWrapper(IM.simplify(this.im));
+        return new IMWrapper(ImStatic.simplify(this.im));
     }
 
     @Override
     public IMWrapper jacobian(IMWrapper x, Dictionary opts) {
-        return new IMWrapper(IM.jacobian(this.im, x.getCasADiObject(), opts.getCasADiObject()));
+        return new IMWrapper(ImStatic.jacobian(this.im, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public IMWrapper jacobian(IMWrapper x) {
-        return new IMWrapper(IM.jacobian(this.im, x.getCasADiObject()));
+        return new IMWrapper(ImStatic.jacobian(this.im, x.getCasADiObject()));
     }
 
     @Override
     public SparsityWrapper jacobianSparsity(IMWrapper x) {
-        return new SparsityWrapper(IM.jacobian_sparsity(this.im, x.getCasADiObject()));
+        return new SparsityWrapper(ImStatic.jacobian_sparsity(this.im, x.getCasADiObject()));
     }
 
     @Override
     public IMWrapper hessian(IMWrapper x, Dictionary opts) {
-        return new IMWrapper(IM.hessian(this.im, x.getCasADiObject(), opts.getCasADiObject()));
+        return new IMWrapper(ImStatic.hessian(this.im, x.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public IMWrapper hessian(IMWrapper x) {
-        return new IMWrapper(IM.hessian(this.im, x.getCasADiObject()));
+        return new IMWrapper(ImStatic.hessian(this.im, x.getCasADiObject()));
     }
 
     @Override
     public IMWrapper hessian(IMWrapper x, IMWrapper g, Dictionary opts) {
-        return new IMWrapper(IM.hessian(this.im, x.getCasADiObject(), g.getCasADiObject(), opts.getCasADiObject()));
+        return new IMWrapper(ImStatic.hessian(this.im, x.getCasADiObject(), g.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public IMWrapper hessian(IMWrapper x, IMWrapper g) {
-        return new IMWrapper(IM.hessian(this.im, x.getCasADiObject()));
+        return new IMWrapper(ImStatic.hessian(this.im, x.getCasADiObject()));
     }
 
     @Override
     public IMWrapper substitute(IMWrapper v, IMWrapper vdef) {
-        return new IMWrapper(IM.substitute(this.im, v.getCasADiObject(), vdef.getCasADiObject()));
+        return new IMWrapper(ImStatic.substitute(this.im, v.getCasADiObject(), vdef.getCasADiObject()));
     }
 
     @Override
     public IMWrapper pinv() {
-        return new IMWrapper(IM.pinv(this.im));
+        return new IMWrapper(ImStatic.pinv(this.im));
     }
 
     @Override
     public IMWrapper pinv(String lsolver, Dictionary dict) {
-        return new IMWrapper(IM.pinv(this.im, lsolver, dict.getCasADiObject()));
+        return new IMWrapper(ImStatic.pinv(this.im, lsolver, dict.getCasADiObject()));
     }
 
     @Override
     public IMWrapper expmConst(IMWrapper imWrapper) {
-        return new IMWrapper(IM.expm_const(this.im, imWrapper.getCasADiObject()));
+        return new IMWrapper(ImStatic.expm_const(this.im, imWrapper.getCasADiObject()));
     }
 
     @Override
     public IMWrapper expm() {
-        return new IMWrapper(IM.expm(this.im));
+        return new IMWrapper(ImStatic.expm(this.im));
     }
 
     @Override
     public IMWrapper solve(IMWrapper b) {
-        return new IMWrapper(IM.solve(this.im, b.getCasADiObject()));
+        return new IMWrapper(ImStatic.solve(this.im, b.getCasADiObject()));
     }
 
     @Override
     public IMWrapper solve(IMWrapper b, String lsolver, Dictionary dict) {
-        return new IMWrapper(IM.solve(this.im, b.getCasADiObject(), lsolver, dict.getCasADiObject()));
+        return new IMWrapper(ImStatic.solve(this.im, b.getCasADiObject(), lsolver, dict.getCasADiObject()));
     }
 
     @Override
     public IMWrapper inv() {
-        return new IMWrapper(IM.inv(this.im));
+        return new IMWrapper(ImStatic.inv(this.im));
     }
 
     @Override
     public IMWrapper inv(String lsolver, Dictionary dict) {
-        return new IMWrapper(IM.inv(this.im, lsolver, dict.getCasADiObject()));
+        return new IMWrapper(ImStatic.inv(this.im, lsolver, dict.getCasADiObject()));
     }
 
     @Override
     public long nNodes() {
-        return IM.n_nodes(this.im);
+        return ImStatic.n_nodes(this.im);
     }
 
     @Override
     public String printOperator(StringVector args) {
-        return IM.print_operator(this.im, args.getCasADiObject());
+        return ImStatic.print_operator(this.im, args.getCasADiObject());
     }
 
     @Override
     public boolean dependsOn(IMWrapper arg) {
-        return IM.depends_on(this.im, arg.getCasADiObject());
+        return ImStatic.depends_on(this.im, arg.getCasADiObject());
     }
 
     @Override
     public IMWrapper mrdivide(IMWrapper b) {
-        return new IMWrapper(IM.mrdivide(this.im, b.getCasADiObject()));
+        return new IMWrapper(ImStatic.mrdivide(this.im, b.getCasADiObject()));
     }
 
     @Override
     public IMWrapper mldivide(IMWrapper b) {
-        return new IMWrapper(IM.mldivide(this.im, b.getCasADiObject()));
+        return new IMWrapper(ImStatic.mldivide(this.im, b.getCasADiObject()));
     }
 
     @Override
     public IMWrapper det() {
-        return new IMWrapper(IM.det(this.im));
+        return new IMWrapper(ImStatic.det(this.im));
     }
 
     @Override
     public IMWrapper invMinor() {
-        return new IMWrapper(IM.inv_minor(this.im));
+        return new IMWrapper(ImStatic.inv_minor(this.im));
     }
 
     @Override
     public IMWrapper trace() {
-        return new IMWrapper(IM.trace(this.im));
+        return new IMWrapper(ImStatic.trace(this.im));
     }
 
     @Override
     public IMWrapper norm1() {
-        return new IMWrapper(IM.norm_1(this.im));
+        return new IMWrapper(ImStatic.norm_1(this.im));
     }
 
     @Override
     public IMWrapper norm2() {
-        return new IMWrapper(IM.norm_2(this.im));
+        return new IMWrapper(ImStatic.norm_2(this.im));
     }
 
     @Override
     public IMWrapper normFro() {
-        return new IMWrapper(IM.norm_fro(this.im));
+        return new IMWrapper(ImStatic.norm_fro(this.im));
     }
 
     @Override
     public IMWrapper normInf() {
-        return new IMWrapper(IM.norm_inf(this.im));
+        return new IMWrapper(ImStatic.norm_inf(this.im));
     }
 
     @Override
     public IMWrapper sum2() {
-        return new IMWrapper(IM.sum2(this.im));
+        return new IMWrapper(ImStatic.sum2(this.im));
     }
 
     @Override
     public IMWrapper sum1() {
-        return new IMWrapper(IM.sum1(this.im));
+        return new IMWrapper(ImStatic.sum1(this.im));
     }
 
     @Override
     public IMWrapper dot(IMWrapper y) {
-        return new IMWrapper(IM.dot(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.dot(this.im, y.getCasADiObject()));
     }
 
     @Override
     public IMWrapper nullspace() {
-        return new IMWrapper(IM.nullspace(this.im));
+        return new IMWrapper(ImStatic.nullspace(this.im));
     }
 
     @Override
     public IMWrapper diag() {
-        return new IMWrapper(IM.diag(this.im));
+        return new IMWrapper(ImStatic.diag(this.im));
     }
 
     @Override
     public IMWrapper unite(IMWrapper B) {
-        return new IMWrapper(IM.unite(this.im, B.getCasADiObject()));
+        return new IMWrapper(ImStatic.unite(this.im, B.getCasADiObject()));
     }
 
 
     @Override
     public IMWrapper project(SparsityWrapper sp, boolean intersect) {
-        return new IMWrapper(IM.project(this.im, sp.getCasADiObject(), intersect));
+        return new IMWrapper(ImStatic.project(this.im, sp.getCasADiObject(), intersect));
     }
 
     @Override
     public IMWrapper project(SparsityWrapper sp) {
-        return new IMWrapper(IM.project(this.im, sp.getCasADiObject()));
+        return new IMWrapper(ImStatic.project(this.im, sp.getCasADiObject()));
     }
 
     @Override
     public IMWrapper polyval(IMWrapper x) {
-        return new IMWrapper(IM.polyval(this.im, x.getCasADiObject()));
+        return new IMWrapper(ImStatic.polyval(this.im, x.getCasADiObject()));
     }
 
     @Override
     public IMWrapper densify(IMWrapper val) {
-        return new IMWrapper(IM.densify(this.im, val.getCasADiObject()));
+        return new IMWrapper(ImStatic.densify(this.im, val.getCasADiObject()));
     }
 
     @Override
     public IMWrapper densify() {
-        return new IMWrapper(IM.densify(this.im));
+        return new IMWrapper(ImStatic.densify(this.im));
     }
 
     @Override
     public IMWrapper einstein(IMWrapper other, IMWrapper C, CasADiIntVector dim_a, CasADiIntVector dim_b,
                               CasADiIntVector dim_c, CasADiIntVector a, CasADiIntVector b, CasADiIntVector c) {
-        return new IMWrapper(IM.einstein(this.im, other.getCasADiObject(), C.getCasADiObject(),
+        return new IMWrapper(ImStatic.einstein(this.im, other.getCasADiObject(), C.getCasADiObject(),
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject(), c.getCasADiObject()));
     }
@@ -611,208 +611,208 @@ public class IMWrapper implements Wrapper<IMWrapper> {
     @Override
     public IMWrapper einstein(IMWrapper other, CasADiIntVector dim_a, CasADiIntVector dim_b, CasADiIntVector dim_c,
                               CasADiIntVector a, CasADiIntVector b, CasADiIntVector c) {
-        return new IMWrapper(IM.einstein(this.im, other.getCasADiObject(), dim_a.getCasADiObject(),
+        return new IMWrapper(ImStatic.einstein(this.im, other.getCasADiObject(), dim_a.getCasADiObject(),
                 dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject(), c.getCasADiObject()));
     }
 
     @Override
     public IMWrapper cumsum(long axis) {
-        return new IMWrapper(IM.cumsum(this.im, axis));
+        return new IMWrapper(ImStatic.cumsum(this.im, axis));
     }
 
     @Override
     public IMWrapper cumsum() {
-        return new IMWrapper(IM.cumsum(this.im));
+        return new IMWrapper(ImStatic.cumsum(this.im));
     }
 
     @Override
     public IMWrapper reshape(long nrow, long ncol) {
-        return new IMWrapper(IM.reshape(this.im, nrow, ncol));
+        return new IMWrapper(ImStatic.reshape(this.im, nrow, ncol));
     }
 
     @Override
     public IMWrapper reshape(SparsityWrapper sp) {
-        return new IMWrapper(IM.reshape(this.im, sp.getCasADiObject()));
+        return new IMWrapper(ImStatic.reshape(this.im, sp.getCasADiObject()));
     }
 
     @Override
     public IMWrapper sparsityCast(SparsityWrapper sp) {
-        return new IMWrapper(IM.sparsity_cast(this.im, sp.getCasADiObject()));
+        return new IMWrapper(ImStatic.sparsity_cast(this.im, sp.getCasADiObject()));
     }
 
     @Override
     public IMWrapper kron(IMWrapper b) {
-        return new IMWrapper(IM.kron(this.im, b.getCasADiObject()));
+        return new IMWrapper(ImStatic.kron(this.im, b.getCasADiObject()));
     }
 
     @Override
     public IMWrapper mtimes(IMWrapper other) {
-        return new IMWrapper(IM.mtimes(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.mtimes(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper mac(IMWrapper y, IMWrapper z) {
-        return new IMWrapper(IM.mac(this.im, y.getCasADiObject(), z.getCasADiObject()));
+        return new IMWrapper(ImStatic.mac(this.im, y.getCasADiObject(), z.getCasADiObject()));
     }
 
     public IMWrapper sparsify(double tol) {
-        return new IMWrapper(IM.sparsify(this.im, tol));
+        return new IMWrapper(ImStatic.sparsify(this.im, tol));
     }
 
     public IMWrapper sparsify() {
-        return new IMWrapper(IM.sparsify(this.im));
+        return new IMWrapper(ImStatic.sparsify(this.im));
     }
 
     public void expand(IMWrapper weights, IMWrapper terms) {
-        IM.expand(this.im, weights.getCasADiObject(), terms.getCasADiObject());
+        ImStatic.expand(this.im, weights.getCasADiObject(), terms.getCasADiObject());
     }
 
     public IMWrapper pwConst(IMWrapper tval, IMWrapper val) {
-        return new IMWrapper(IM.pw_const(this.im, tval.getCasADiObject(), val.getCasADiObject()));
+        return new IMWrapper(ImStatic.pw_const(this.im, tval.getCasADiObject(), val.getCasADiObject()));
     }
 
     public IMWrapper pwLin(IMWrapper tval, IMWrapper val) {
-        return new IMWrapper(IM.pw_lin(this.im, tval.getCasADiObject(), val.getCasADiObject()));
+        return new IMWrapper(ImStatic.pw_lin(this.im, tval.getCasADiObject(), val.getCasADiObject()));
     }
 
     public IMWrapper heaviside() {
-        return new IMWrapper(IM.heaviside(this.im));
+        return new IMWrapper(ImStatic.heaviside(this.im));
     }
 
     public IMWrapper rectangle() {
-        return new IMWrapper(IM.rectangle(this.im));
+        return new IMWrapper(ImStatic.rectangle(this.im));
     }
 
     public IMWrapper triangle() {
-        return new IMWrapper(IM.triangle(this.im));
+        return new IMWrapper(ImStatic.triangle(this.im));
     }
 
     public IMWrapper ramp() {
-        return new IMWrapper(IM.ramp(this.im));
+        return new IMWrapper(ImStatic.ramp(this.im));
     }
 
     public IMWrapper gaussQuadrate(IMWrapper x, IMWrapper a, IMWrapper b, long order) {
-        return new IMWrapper(IM.gauss_quadrature(this.im, x.getCasADiObject(), a.getCasADiObject(),
+        return new IMWrapper(ImStatic.gauss_quadrature(this.im, x.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject(), order));
     }
 
     public IMWrapper gaussQuadrate(IMWrapper x, IMWrapper a, IMWrapper b) {
-        return new IMWrapper(IM.gauss_quadrature(this.im, x.getCasADiObject(), a.getCasADiObject(),
+        return new IMWrapper(ImStatic.gauss_quadrature(this.im, x.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject()));
     }
 
     public IMWrapper gaussQuadrate(IMWrapper x, IMWrapper a, IMWrapper b, long order, IMWrapper w) {
-        return new IMWrapper(IM.gauss_quadrature(this.im, x.getCasADiObject(), a.getCasADiObject(),
+        return new IMWrapper(ImStatic.gauss_quadrature(this.im, x.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject(), order, w.getCasADiObject()));
     }
 
     @Override
     public BooleanVector whichDepends(IMWrapper var, long order, boolean tr) {
-        return new BooleanVector(IM.which_depends(this.im, var.getCasADiObject(), order, tr));
+        return new BooleanVector(ImStatic.which_depends(this.im, var.getCasADiObject(), order, tr));
     }
 
     @Override
     public BooleanVector whichDepends(IMWrapper var, long order) {
-        return new BooleanVector(IM.which_depends(this.im, var.getCasADiObject(), order));
+        return new BooleanVector(ImStatic.which_depends(this.im, var.getCasADiObject(), order));
     }
 
     @Override
     public BooleanVector whichDepends(IMWrapper var) {
-        return new BooleanVector(IM.which_depends(this.im, var.getCasADiObject()));
+        return new BooleanVector(ImStatic.which_depends(this.im, var.getCasADiObject()));
     }
 
     public IMWrapper taylor(IMWrapper x, IMWrapper a, long order) {
-        return new IMWrapper(IM.taylor(this.im, x.getCasADiObject(), a.getCasADiObject(), order));
+        return new IMWrapper(ImStatic.taylor(this.im, x.getCasADiObject(), a.getCasADiObject(), order));
     }
 
     public IMWrapper mtaylor(IMWrapper x, IMWrapper a, long order) {
-        return new IMWrapper(IM.mtaylor(this.im, x.getCasADiObject(), a.getCasADiObject(), order));
+        return new IMWrapper(ImStatic.mtaylor(this.im, x.getCasADiObject(), a.getCasADiObject(), order));
     }
 
     public IMWrapper mtaylor(IMWrapper x, IMWrapper a, long order, CasADiIntVector orderContributions) {
-        return new IMWrapper(IM.mtaylor(this.im, x.getCasADiObject(), a.getCasADiObject(), order, orderContributions.getCasADiObject()));
+        return new IMWrapper(ImStatic.mtaylor(this.im, x.getCasADiObject(), a.getCasADiObject(), order, orderContributions.getCasADiObject()));
     }
 
     public IMWrapper polyCoeff(IMWrapper x) {
-        return new IMWrapper(IM.poly_coeff(this.im, x.getCasADiObject()));
+        return new IMWrapper(ImStatic.poly_coeff(this.im, x.getCasADiObject()));
     }
 
     public IMWrapper polyRoots() {
-        return new IMWrapper(IM.poly_roots(this.im));
+        return new IMWrapper(ImStatic.poly_roots(this.im));
     }
 
     public IMWrapper eigSymbolic() {
-        return new IMWrapper(IM.eig_symbolic(this.im));
+        return new IMWrapper(ImStatic.eig_symbolic(this.im));
     }
 
     @Override
     public DMWrapper evalf() {
-        return new DMWrapper(IM.evalf(this.im));
+        return new DMWrapper(ImStatic.evalf(this.im));
     }
 
     public void qrSparse(IMWrapper V, IMWrapper R, IMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean amd) {
-        IM.qr_sparse(this.im, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(),
+        ImStatic.qr_sparse(this.im, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(),
                 prinv.getCasADiObject(), pc.getCasADiObject(), amd);
     }
 
     public void qrSparse(IMWrapper V, IMWrapper R, IMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
-        IM.qr_sparse(this.im, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(),
+        ImStatic.qr_sparse(this.im, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(),
                 prinv.getCasADiObject(), pc.getCasADiObject());
     }
 
     public IMWrapper qrSolve(IMWrapper v, IMWrapper r, IMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean tr) {
-        return new IMWrapper(IM.qr_solve(this.im, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(),
+        return new IMWrapper(ImStatic.qr_solve(this.im, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(),
                 prinv.getCasADiObject(), pc.getCasADiObject(), tr));
     }
 
     public IMWrapper qrSolve(IMWrapper v, IMWrapper r, IMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
-        return new IMWrapper(IM.qr_solve(this.im, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(),
+        return new IMWrapper(ImStatic.qr_solve(this.im, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(),
                 prinv.getCasADiObject(), pc.getCasADiObject()));
     }
 
     public void qr(IMWrapper Q, IMWrapper R) {
-        IM.qr(this.im, Q.getCasADiObject(), R.getCasADiObject());
+        ImStatic.qr(this.im, Q.getCasADiObject(), R.getCasADiObject());
     }
 
     public void ldl(IMWrapper D, IMWrapper LT, CasADiIntVector p, boolean amd) {
-        IM.ldl(this.im, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject(), amd);
+        ImStatic.ldl(this.im, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject(), amd);
     }
 
     public void ldl(IMWrapper D, IMWrapper LT, CasADiIntVector p) {
-        IM.ldl(this.im, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject());
+        ImStatic.ldl(this.im, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject());
     }
 
     public IMWrapper ldlSolve(IMWrapper D, IMWrapper LT, CasADiIntVector p) {
-        return new IMWrapper(IM.ldl_solve(this.im, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject()));
+        return new IMWrapper(ImStatic.ldl_solve(this.im, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject()));
     }
 
     public IMWrapper all() {
-        return new IMWrapper(IM.all(this.im));
+        return new IMWrapper(ImStatic.all(this.im));
     }
 
     public IMWrapper any() {
-        return new IMWrapper(IM.any(this.im));
+        return new IMWrapper(ImStatic.any(this.im));
     }
 
     public IMWrapper adj() {
-        return new IMWrapper(IM.adj(this.im));
+        return new IMWrapper(ImStatic.adj(this.im));
     }
 
     public IMWrapper minor(long i, long j) {
-        return new IMWrapper(IM.minor(this.im, i, j));
+        return new IMWrapper(ImStatic.minor(this.im, i, j));
     }
 
     public IMWrapper cofactor(long i, long j) {
-        return new IMWrapper(IM.cofactor(this.im, i, j));
+        return new IMWrapper(ImStatic.cofactor(this.im, i, j));
     }
 
     public IMWrapper chol() {
-        return new IMWrapper(IM.chol(this.im));
+        return new IMWrapper(ImStatic.chol(this.im));
     }
 
     public IMWrapper normInfMul(IMWrapper y) {
-        return new IMWrapper(IM.norm_inf_mul(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.norm_inf_mul(this.im, y.getCasADiObject()));
     }
 
     @Override
@@ -827,22 +827,22 @@ public class IMWrapper implements Wrapper<IMWrapper> {
 
     @Override
     public void setMaxDepth(long eq_depth) {
-        IM.set_max_depth(eq_depth);
+        ImStatic.set_max_depth(eq_depth);
     }
 
     @Override
     public void setMaxDepth() {
-        IM.set_max_depth();
+        ImStatic.set_max_depth();
     }
 
     @Override
     public long getMaxDepth() {
-        return IM.get_max_depth();
+        return ImStatic.get_max_depth();
     }
 
     @Override
     public String typeName() {
-        return IM.type_name();
+        return ImStatic.type_name();
     }
 
     public void printSplit(StringVector arg0, StringVector arg1) {
@@ -1068,15 +1068,15 @@ public class IMWrapper implements Wrapper<IMWrapper> {
 
     @Override
     public IMWrapper vec() {
-        return new IMWrapper(IM.vec(this.im));
+        return new IMWrapper(ImStatic.vec(this.im));
     }
 
     public IMWrapper repmat(long n, long m) {
-        return new IMWrapper(IM.repmat(this.im, n, m));
+        return new IMWrapper(ImStatic.repmat(this.im, n, m));
     }
 
     public IMWrapper repmant(long n) {
-        return new IMWrapper(IM.repmat(this.im, n));
+        return new IMWrapper(ImStatic.repmat(this.im, n));
     }
 
     @Override
@@ -1216,235 +1216,235 @@ public class IMWrapper implements Wrapper<IMWrapper> {
 
     @Override
     public IMWrapper interp1d(DoubleVector x, DoubleVector xq, String mode, boolean equidistant) {
-        return new IMWrapper(IM.interp1d(x.getCasADiObject(), this.im, xq.getCasADiObject(), mode, equidistant));
+        return new IMWrapper(ImStatic.interp1d(x.getCasADiObject(), this.im, xq.getCasADiObject(), mode, equidistant));
     }
 
     @Override
     public long sprank() {
-        return IM.sprank(this.im);
+        return ImStatic.sprank(this.im);
     }
 
     @Override
     public long norm0Mul(IMWrapper y) {
-        return IM.norm_0_mul(this.im, y.getCasADiObject());
+        return ImStatic.norm_0_mul(this.im, y.getCasADiObject());
     }
 
     @Override
     public IMWrapper tril(boolean includeDiagonal) {
-        return new IMWrapper(IM.tril(this.im, includeDiagonal));
+        return new IMWrapper(ImStatic.tril(this.im, includeDiagonal));
     }
 
     @Override
     public IMWrapper tril() {
-        return new IMWrapper(IM.tril(this.im));
+        return new IMWrapper(ImStatic.tril(this.im));
     }
 
     @Override
     public IMWrapper triu(boolean includeDiagonal) {
-        return new IMWrapper(IM.triu(this.im, includeDiagonal));
+        return new IMWrapper(ImStatic.triu(this.im, includeDiagonal));
     }
 
     @Override
     public IMWrapper triu() {
-        return new IMWrapper(IM.triu(this.im));
+        return new IMWrapper(ImStatic.triu(this.im));
     }
 
     @Override
     public IMWrapper sumsqr() {
-        return new IMWrapper(IM.sumsqr(this.im));
+        return new IMWrapper(ImStatic.sumsqr(this.im));
     }
 
     public IMWrapper linspace(IMWrapper b, long nsteps) {
-        return new IMWrapper(IM.linspace(this.im, b.getCasADiObject(), nsteps));
+        return new IMWrapper(ImStatic.linspace(this.im, b.getCasADiObject(), nsteps));
     }
 
     @Override
     public IMWrapper cross(IMWrapper b, long dim) {
-        return new IMWrapper(IM.cross(this.im, b.getCasADiObject(), dim));
+        return new IMWrapper(ImStatic.cross(this.im, b.getCasADiObject(), dim));
     }
 
     @Override
     public IMWrapper cross(IMWrapper b) {
-        return new IMWrapper(IM.cross(this.im, b.getCasADiObject()));
+        return new IMWrapper(ImStatic.cross(this.im, b.getCasADiObject()));
     }
 
     @Override
     public IMWrapper skew() {
-        return new IMWrapper(IM.skew(this.im));
+        return new IMWrapper(ImStatic.skew(this.im));
     }
 
     @Override
     public IMWrapper invSkew() {
-        return new IMWrapper(IM.inv_skew(this.im));
+        return new IMWrapper(ImStatic.inv_skew(this.im));
     }
 
     @Override
     public IMWrapper tril2symm() {
-        return new IMWrapper(IM.tril2symm(this.im));
+        return new IMWrapper(ImStatic.tril2symm(this.im));
     }
 
     @Override
     public IMWrapper triu2symm() {
-        return new IMWrapper(IM.triu2symm(this.im));
+        return new IMWrapper(ImStatic.triu2symm(this.im));
     }
 
     @Override
     public IMWrapper repsum(long n, long m) {
-        return new IMWrapper(IM.repsum(this.im, n, m));
+        return new IMWrapper(ImStatic.repsum(this.im, n, m));
     }
 
     @Override
     public IMWrapper repsum(long n) {
-        return new IMWrapper(IM.repsum(this.im, n));
+        return new IMWrapper(ImStatic.repsum(this.im, n));
     }
 
     @Override
     public IMWrapper diff(long n, long axis) {
-        return new IMWrapper(IM.diff(this.im, n, axis));
+        return new IMWrapper(ImStatic.diff(this.im, n, axis));
     }
 
     @Override
     public IMWrapper diff(long n) {
-        return new IMWrapper(IM.diff(this.im, n));
+        return new IMWrapper(ImStatic.diff(this.im, n));
     }
 
     @Override
     public IMWrapper diff() {
-        return new IMWrapper(IM.diff(this.im));
+        return new IMWrapper(ImStatic.diff(this.im));
     }
 
     @Override
     public boolean isLinear(IMWrapper var) {
-        return IM.is_linear(this.im, var.getCasADiObject());
+        return ImStatic.is_linear(this.im, var.getCasADiObject());
     }
 
     @Override
     public boolean isQuadratic(IMWrapper var) {
-        return IM.is_quadratic(this.im, var.getCasADiObject());
+        return ImStatic.is_quadratic(this.im, var.getCasADiObject());
     }
 
     @Override
     public void quadraticCoeff(IMWrapper var, IMWrapper A, IMWrapper b, IMWrapper c, boolean check) {
-        IM.quadratic_coeff(this.im, var.getCasADiObject(), A.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject(), check);
+        ImStatic.quadratic_coeff(this.im, var.getCasADiObject(), A.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject(), check);
     }
 
     @Override
     public void linearCoeff(IMWrapper var, IMWrapper A, IMWrapper b, boolean check) {
-        IM.linear_coeff(this.im, var.getCasADiObject(), A.getCasADiObject(), b.getCasADiObject(), check);
+        ImStatic.linear_coeff(this.im, var.getCasADiObject(), A.getCasADiObject(), b.getCasADiObject(), check);
     }
 
     @Override
     public IMWrapper bilin(IMWrapper x, IMWrapper y) {
-        return new IMWrapper(IM.bilin(this.im, x.getCasADiObject(), y.getCasADiObject()));
+        return new IMWrapper(ImStatic.bilin(this.im, x.getCasADiObject(), y.getCasADiObject()));
     }
 
     @Override
     public IMWrapper rank1(IMWrapper alpha, IMWrapper x, IMWrapper y) {
-        return new IMWrapper(IM.rank1(this.im, alpha.getCasADiObject(), x.getCasADiObject(), y.getCasADiObject()));
+        return new IMWrapper(ImStatic.rank1(this.im, alpha.getCasADiObject(), x.getCasADiObject(), y.getCasADiObject()));
     }
 
     @Override
     public IMWrapper logsumexp() {
-        return new IMWrapper(IM.logsumexp(this.im));
+        return new IMWrapper(ImStatic.logsumexp(this.im));
     }
 
     @Override
     public IMWrapper jtimes(IMWrapper arg, IMWrapper v, boolean tr, Dictionary opts) {
-        return new IMWrapper(IM.jtimes_(this.im, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
+        return new IMWrapper(ImStatic.jtimes_(this.im, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
     }
 
     @Override
     public IMWrapper jtimes(IMWrapper arg, IMWrapper v, boolean tr) {
-        return new IMWrapper(IM.jtimes_(this.im, arg.getCasADiObject(), v.getCasADiObject(), tr));
+        return new IMWrapper(ImStatic.jtimes_(this.im, arg.getCasADiObject(), v.getCasADiObject(), tr));
     }
 
     @Override
     public IMWrapper jtimes(IMWrapper arg, IMWrapper v) {
-        return new IMWrapper(IM.jtimes_(this.im, arg.getCasADiObject(), v.getCasADiObject()));
+        return new IMWrapper(ImStatic.jtimes_(this.im, arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     @Override
     public IMWrapper gradient(IMWrapper arg, Dictionary opts) {
-        return new IMWrapper(IM.gradient(this.im, arg.getCasADiObject(), opts.getCasADiObject()));
+        return new IMWrapper(ImStatic.gradient(this.im, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public IMWrapper gradient(IMWrapper arg) {
-        return new IMWrapper(IM.gradient(this.im, arg.getCasADiObject()));
+        return new IMWrapper(ImStatic.gradient(this.im, arg.getCasADiObject()));
     }
 
     @Override
     public IMWrapper tangent(IMWrapper arg, Dictionary opts) {
-        return new IMWrapper(IM.tangent(this.im, arg.getCasADiObject(), opts.getCasADiObject()));
+        return new IMWrapper(ImStatic.tangent(this.im, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public IMWrapper tangent(IMWrapper arg) {
-        return new IMWrapper(IM.tangent(this.im, arg.getCasADiObject()));
+        return new IMWrapper(ImStatic.tangent(this.im, arg.getCasADiObject()));
     }
 
     @Override
     public IMWrapper linearize(IMWrapper x, IMWrapper x0, Dictionary opts) {
-        return new IMWrapper(IM.linearize(this.im, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
+        return new IMWrapper(ImStatic.linearize(this.im, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
     }
 
     @Override
     public IMWrapper linearize(IMWrapper x, IMWrapper x0) {
-        return new IMWrapper(IM.linearize(this.im, x.getCasADiObject(), x0.getCasADiObject()));
+        return new IMWrapper(ImStatic.linearize(this.im, x.getCasADiObject(), x0.getCasADiObject()));
     }
 
     @Override
     public IMWrapper mpower(IMWrapper y) {
-        return new IMWrapper(IM.mpower(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.mpower(this.im, y.getCasADiObject()));
     }
 
     @Override
     public IMWrapper soc(IMWrapper y) {
-        return new IMWrapper(IM.soc(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.soc(this.im, y.getCasADiObject()));
     }
 
     @Override
     public IMWrapper add(IMWrapper other) {
-        return new IMWrapper(IM.plus(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.plus(this.im, other.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper add(N number) {
         double other = number.doubleValue();
         IMWrapper summand = new IMWrapper(other);
-        IM result = IM.plus(this.im, summand.getCasADiObject());
+        IM result = ImStatic.plus(this.im, summand.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper subtract(IMWrapper other) {
-        return new IMWrapper(IM.minus(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.minus(this.im, other.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper subtract(N number) {
         double other = number.doubleValue();
         IMWrapper subtrahend = new IMWrapper(other);
-        IM result = IM.minus(this.im, subtrahend.getCasADiObject());
+        IM result = ImStatic.minus(this.im, subtrahend.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper multiply(IMWrapper other) {
-        return new IMWrapper(IM.times(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.times(this.im, other.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper multiply(N number) {
         double other = number.doubleValue();
         IMWrapper multiplicand = new IMWrapper(other);
-        IM result = IM.times(this.im, multiplicand.getCasADiObject());
+        IM result = ImStatic.times(this.im, multiplicand.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper divide(IMWrapper other) {
-        return new IMWrapper(IM.rdivide(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.rdivide(this.im, other.getCasADiObject()));
     }
 
     @Override
@@ -1454,289 +1454,289 @@ public class IMWrapper implements Wrapper<IMWrapper> {
             throw new ArithmeticException("Division by zero is not allowed.");
         }
         IMWrapper divisor = new IMWrapper(other);
-        IM result = IM.rdivide(this.im, divisor.getCasADiObject());
+        IM result = ImStatic.rdivide(this.im, divisor.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper lt(IMWrapper y) {
-        return new IMWrapper(IM.lt(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.lt(this.im, y.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper lt(N number) {
         double other = number.doubleValue();
         IMWrapper threshold = new IMWrapper(other);
-        IM result = IM.lt(this.im, threshold.getCasADiObject());
+        IM result = ImStatic.lt(this.im, threshold.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper le(IMWrapper y) {
-        return new IMWrapper(IM.le(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.le(this.im, y.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper le(N number) {
         double other = number.doubleValue();
         IMWrapper threshold = new IMWrapper(other);
-        IM result = IM.le(this.im, threshold.getCasADiObject());
+        IM result = ImStatic.le(this.im, threshold.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper gt(IMWrapper y) {
-        return new IMWrapper(IM.gt(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.gt(this.im, y.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper gt(N number) {
         double other = number.doubleValue();
         IMWrapper threshold = new IMWrapper(other);
-        IM result = IM.gt(this.im, threshold.getCasADiObject());
+        IM result = ImStatic.gt(this.im, threshold.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper ge(IMWrapper y) {
-        return new IMWrapper(IM.ge(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.ge(this.im, y.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper ge(N number) {
         double other = number.doubleValue();
         IMWrapper threshold = new IMWrapper(other);
-        IM result = IM.ge(this.im, threshold.getCasADiObject());
+        IM result = ImStatic.ge(this.im, threshold.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper eq(IMWrapper y) {
-        return new IMWrapper(IM.eq(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.eq(this.im, y.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper eq(N number) {
         double other = number.doubleValue();
         IMWrapper value = new IMWrapper(other);
-        IM result = IM.eq(this.im, value.getCasADiObject());
+        IM result = ImStatic.eq(this.im, value.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper ne(IMWrapper y) {
-        return new IMWrapper(IM.ne(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.ne(this.im, y.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper ne(N number) {
         double other = number.doubleValue();
         IMWrapper value = new IMWrapper(other);
-        IM result = IM.ne(this.im, value.getCasADiObject());
+        IM result = ImStatic.ne(this.im, value.getCasADiObject());
         return new IMWrapper(result);
     }
 
     @Override
     public IMWrapper logicAnd(IMWrapper y) {
-        return new IMWrapper(IM.logic_and(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.logic_and(this.im, y.getCasADiObject()));
     }
 
     @Override
     public IMWrapper logicOr(IMWrapper y) {
-        return new IMWrapper(IM.logic_or(this.im, y.getCasADiObject()));
+        return new IMWrapper(ImStatic.logic_or(this.im, y.getCasADiObject()));
     }
 
     @Override
     public IMWrapper logicNot() {
-        return new IMWrapper(IM.logic_not(this.im));
+        return new IMWrapper(ImStatic.logic_not(this.im));
     }
 
     @Override
     public IMWrapper abs() {
-        return new IMWrapper(IM.abs(this.im));
+        return new IMWrapper(ImStatic.abs(this.im));
     }
 
     @Override
     public IMWrapper sqrt() {
-        return new IMWrapper(IM.sqrt(this.im));
+        return new IMWrapper(ImStatic.sqrt(this.im));
     }
 
     @Override
     public IMWrapper sq() {
-        return new IMWrapper(IM.sq(this.im));
+        return new IMWrapper(ImStatic.sq(this.im));
     }
 
     @Override
     public IMWrapper sin() {
-        return new IMWrapper(IM.sin(this.im));
+        return new IMWrapper(ImStatic.sin(this.im));
     }
 
     @Override
     public IMWrapper cos() {
-        return new IMWrapper(IM.cos(this.im));
+        return new IMWrapper(ImStatic.cos(this.im));
     }
 
     @Override
     public IMWrapper tan() {
-        return new IMWrapper(IM.tan(this.im));
+        return new IMWrapper(ImStatic.tan(this.im));
     }
 
     @Override
     public IMWrapper atan() {
-        return new IMWrapper(IM.atan(this.im));
+        return new IMWrapper(ImStatic.atan(this.im));
     }
 
     @Override
     public IMWrapper asin() {
-        return new IMWrapper(IM.asin(this.im));
+        return new IMWrapper(ImStatic.asin(this.im));
     }
 
     @Override
     public IMWrapper acos() {
-        return new IMWrapper(IM.acos(this.im));
+        return new IMWrapper(ImStatic.acos(this.im));
     }
 
     @Override
     public IMWrapper tanh() {
-        return new IMWrapper(IM.tanh(this.im));
+        return new IMWrapper(ImStatic.tanh(this.im));
     }
 
     @Override
     public IMWrapper sinh() {
-        return new IMWrapper(IM.sinh(this.im));
+        return new IMWrapper(ImStatic.sinh(this.im));
     }
 
     @Override
     public IMWrapper cosh() {
-        return new IMWrapper(IM.cosh(this.im));
+        return new IMWrapper(ImStatic.cosh(this.im));
     }
 
     @Override
     public IMWrapper atanh() {
-        return new IMWrapper(IM.atanh(this.im));
+        return new IMWrapper(ImStatic.atanh(this.im));
     }
 
     @Override
     public IMWrapper asinh() {
-        return new IMWrapper(IM.asinh(this.im));
+        return new IMWrapper(ImStatic.asinh(this.im));
     }
 
     @Override
     public IMWrapper acosh() {
-        return new IMWrapper(IM.acosh(this.im));
+        return new IMWrapper(ImStatic.acosh(this.im));
     }
 
     @Override
     public IMWrapper exp() {
-        return new IMWrapper(IM.exp(this.im));
+        return new IMWrapper(ImStatic.exp(this.im));
     }
 
     @Override
     public IMWrapper log() {
-        return new IMWrapper(IM.log(this.im));
+        return new IMWrapper(ImStatic.log(this.im));
     }
 
     @Override
     public IMWrapper log10() {
-        return new IMWrapper(IM.log10(this.im));
+        return new IMWrapper(ImStatic.log10(this.im));
     }
 
     @Override
     public IMWrapper log1p() {
-        return new IMWrapper(IM.log1p(this.im));
+        return new IMWrapper(ImStatic.log1p(this.im));
     }
 
     @Override
     public IMWrapper expm1() {
-        return new IMWrapper(IM.expm1(this.im));
+        return new IMWrapper(ImStatic.expm1(this.im));
     }
 
     @Override
     public IMWrapper floor() {
-        return new IMWrapper(IM.floor(this.im));
+        return new IMWrapper(ImStatic.floor(this.im));
     }
 
     @Override
     public IMWrapper ceil() {
-        return new IMWrapper(IM.ceil(this.im));
+        return new IMWrapper(ImStatic.ceil(this.im));
     }
 
     @Override
     public IMWrapper erf() {
-        return new IMWrapper(IM.erf(this.im));
+        return new IMWrapper(ImStatic.erf(this.im));
     }
 
     @Override
     public IMWrapper erfinv() {
-        return new IMWrapper(IM.erfinv(this.im));
+        return new IMWrapper(ImStatic.erfinv(this.im));
     }
 
     @Override
     public IMWrapper sign() {
-        return new IMWrapper(IM.sign(this.im));
+        return new IMWrapper(ImStatic.sign(this.im));
     }
 
     @Override
     public IMWrapper pow(IMWrapper other) {
-        return new IMWrapper(IM.pow(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.pow(this.im, other.getCasADiObject()));
     }
 
     @Override
     public <N extends Number> IMWrapper pow(N exponent) {
         double exp = exponent.doubleValue();
         IM exponentIM = new IM(exp);
-        return new IMWrapper(IM.pow(this.im, exponentIM));
+        return new IMWrapper(ImStatic.pow(this.im, exponentIM));
     }
 
     @Override
     public IMWrapper mod(IMWrapper other) {
-        return new IMWrapper(IM.mod(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.mod(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper remainder(IMWrapper other) {
-        return new IMWrapper(IM.remainder(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.remainder(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper atan2(IMWrapper other) {
-        return new IMWrapper(IM.atan2(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.atan2(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper ifElseZero(IMWrapper other) {
-        return new IMWrapper(IM.if_else_zero(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.if_else_zero(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper fmin(IMWrapper other) {
-        return new IMWrapper(IM.fmin(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.fmin(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper fmax(IMWrapper other) {
-        return new IMWrapper(IM.fmax(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.fmax(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper copysign(IMWrapper other) {
-        return new IMWrapper(IM.copysign(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.copysign(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper constpow(IMWrapper other) {
-        return new IMWrapper(IM.constpow(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.constpow(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper hypot(IMWrapper other) {
-        return new IMWrapper(IM.hypot(this.im, other.getCasADiObject()));
+        return new IMWrapper(ImStatic.hypot(this.im, other.getCasADiObject()));
     }
 
     @Override
     public IMWrapper negate() {
         IMWrapper sign = new IMWrapper(-1);
-        return new IMWrapper(IM.times(this.im, sign.getCasADiObject()));
+        return new IMWrapper(ImStatic.times(this.im, sign.getCasADiObject()));
     }
 
     public IM getCasADiObject() {

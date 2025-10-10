@@ -21,7 +21,7 @@
     ``f = Function("f",[x,y],[sin(x)*y])``\
     ``f(1,2)``\
     vs.\
-    ``Function f = new Function("f", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MX.times(MX.sin(x), y)}));``\
+    ``Function f = new Function("f", new StdVectorMX(new MX[]{x, y}), new StdVectorMX(new MX[]{MX.times(MxStatic.sin(x), y)}));``\
     ``StdVectorMX input = new StdVectorMX(new MX[]{new MX(1), new MX(2)});``\
     ``StdVectorMX output = new StdVectorMX();``\
     ``f.call(input, output);``
@@ -50,7 +50,7 @@
 - Ausgaben sind verschieden, da Typen verschieden sind\
   Siehe: Java ```NonlinearProgramming.java Exercise 1.5``` und zugehörige Python Lösung Exercise 1.5
 - Set-Methode für Submatrix kompliziert/unverstädnlich\
-  Java: ``rhs.set(MX.minus(rhs.at(3), new MX(gravity)), true, new IM(3));``\
+  Java: ``rhs.set(MxStatic.minus(rhs.at(3), new MX(gravity)), true, new IM(3));``\
   vs.\
   Python: ``rhs[3] = rhs[3] - g``\
   Set Methode in Java liefert anderes Ergebnis (siehe Aufgabe Nlpsol 1.1)

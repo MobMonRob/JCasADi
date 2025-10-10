@@ -17,7 +17,7 @@ import static de.dhbw.rahmlab.casadi.impl.core__.rootfinder;
  */
 public class RootfindingExercise {
 
-    public static final MX X = MX.sym("X", 2);
+    public static final MX X = MxStatic.sym("X", 2);
 
     public static DM gDM(DM w) {
         DM x = new DM(w.get_elements().get(0));
@@ -32,9 +32,9 @@ public class RootfindingExercise {
     public static MX gMX(MX w) {
         MX x = w.at(0, 0);
         MX y = w.at(1, 0);
-        MX g1 = MX.tanh(MX.minus(MX.rdivide(MX.times(MX.plus(x, new MX(2)), MX.times(y, y)), new MX(25)), new MX(0.5)));
-        MX g2 = MX.plus(MX.plus(MX.sin(x), MX.times(new MX(-0.5), y)), new MX(1));
-        return MX.vertcat(new StdVectorMX(new MX[]{g1, g2}));
+        MX g1 = MxStatic.tanh(MxStatic.minus(MxStatic.rdivide(MxStatic.times(MxStatic.plus(x, new MX(2)), MxStatic.times(y, y)), new MX(25)), new MX(0.5)));
+        MX g2 = MxStatic.plus(MxStatic.plus(MxStatic.sin(x), MxStatic.times(new MX(-0.5), y)), new MX(1));
+        return MxStatic.vertcat(new StdVectorMX(new MX[]{g1, g2}));
     }
 
     public static DM gMX1(MX w) {
@@ -92,8 +92,8 @@ public class RootfindingExercise {
         System.out.println("Shape: " + X.dim_());
         System.out.println("Result: " + gMX(X));
         System.out.println("Type: " + gMX(X).getClass().getName());
-        System.out.println(MX.jacobian(gMX(X), X).getClass().getName());
-        System.out.println(MX.jacobian(gMX(X), X).dim_());
+        System.out.println(MxStatic.jacobian(gMX(X), X).getClass().getName());
+        System.out.println(MxStatic.jacobian(gMX(X), X).dim_());
         // 2.2
         System.out.println(jf(X));
         // Output: f:(i0[2])->(o0[2x2]) MXFunction

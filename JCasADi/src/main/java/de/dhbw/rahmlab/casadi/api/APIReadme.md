@@ -9,12 +9,12 @@ Diese Datei stellt anhand eines kleinen Python-Beispiels den aktuellen Stand der
 Hier ist der ursprüngliche Python-Code:
 
 ```python
-x = MX.sym('x', 2)
+x = MxStatic.sym('x', 2)
 f = x[0]**2 + tanh(x[1])**2
 g = cos(x[0] + x[1]) + 0.5
 h = sin(x[0]) + 0.5
-lambd = MX.sym('lambd') 
-nu = MX.sym('nu') 
+lambd = MxStatic.sym('lambd') 
+nu = MxStatic.sym('nu') 
 lag = f + lambd * g + nu * h
 ```
 
@@ -23,13 +23,13 @@ lag = f + lambd * g + nu * h
 Hier ist der Java-Code, der vor der Entwicklung der API verwendet wurde:
 
 ```java
-var x = MX.sym("x", 2);
-var f_ex = MX.plus(MX.pow(x.at(0), new MX(2)), MX.pow(MX.tanh(x.at(1)), new MX(2)));
-var g_ex = MX.plus(MX.cos(MX.plus(x.at(0), x.at(1))), new MX(0.5));
-var h_ex = MX.plus(MX.sin(x.at(0)), new MX(0.5));
-var lambd = MX.sym("lambd");
-var nu = MX.sym("nu");
-var lag = MX.plus(MX.plus(f_ex, MX.times(lambd, g_ex)), MX.times(nu, h_ex));
+var x = MxStatic.sym("x", 2);
+var f_ex = MxStatic.plus(MxStatic.pow(x.at(0), new MX(2)), MxStatic.pow(MxStatic.tanh(x.at(1)), new MX(2)));
+var g_ex = MxStatic.plus(MxStatic.cos(MxStatic.plus(x.at(0), x.at(1))), new MX(0.5));
+var h_ex = MxStatic.plus(MxStatic.sin(x.at(0)), new MX(0.5));
+var lambd = MxStatic.sym("lambd");
+var nu = MxStatic.sym("nu");
+var lag = MxStatic.plus(MxStatic.plus(f_ex, MxStatic.times(lambd, g_ex)), MxStatic.times(nu, h_ex));
 ```
 
 ### 3. Aktueller API-Code

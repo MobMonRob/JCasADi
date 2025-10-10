@@ -15,7 +15,7 @@ public class Demo4SerializationSolution {
     public static void main(String[] args) {
         
         // Ex 1.1
-        SX x = SX.sym("x");
+        SX x = SxStatic.sym("x");
         Function f = new Function("f", new StdVectorSX(new SX[]{x}), 
                 new StdVectorSX(new SX[]{SX.pow(x, new SX(2)) }));
         f.save("f.casadi");
@@ -89,7 +89,7 @@ public class Demo4SerializationSolution {
 
         // # Ex 2.1
 
-        // x = SX.sym("x")
+        // x = SxStatic.sym("x")
 
         //f = new Function("f",new StdVectorSX(new SX[]{x}),new StdVectorSX(new SX[]{SX.pow(x, new SX(2)})));
         //FIXME

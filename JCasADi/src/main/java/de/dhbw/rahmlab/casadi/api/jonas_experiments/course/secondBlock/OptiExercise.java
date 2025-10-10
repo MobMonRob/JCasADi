@@ -15,10 +15,10 @@ public class OptiExercise {
 
     static long N_numerical = 25;
     static MX N = new MX(25);
-    static MX m = MX.rdivide(new MX(40), N); // mass [kg]
-    static MX D = MX.times(new MX(70), N); // spring constant [J/m^2]
+    static MX m = MxStatic.rdivide(new MX(40), N); // mass [kg]
+    static MX D = MxStatic.times(new MX(70), N); // spring constant [J/m^2]
     static MX g = new MX(9.81); // gravitational constant [m/s^2]
-    static MX L = MX.rdivide(new MX(5), N); // reference length [m]
+    static MX L = MxStatic.rdivide(new MX(5), N); // reference length [m]
 
     public static void introductionExample() {
         var opti = new Opti();
@@ -27,8 +27,8 @@ public class OptiExercise {
 
         // // Although Opti exists, it is still difficult and confusing to define an expression
         // Confusing/difficult to create
-        var expression = MX.plus(MX.pow(MX.minus(new MX(1), x), new MX(2)), MX.pow(MX.minus(y, MX.pow(x, new MX(2))), new MX(2)));
-        var constraint = MX.eq(MX.plus(MX.pow(x, new MX(2)), MX.pow(y, new MX(2))), new MX(1));
+        var expression = MxStatic.plus(MxStatic.pow(MxStatic.minus(new MX(1), x), new MX(2)), MxStatic.pow(MxStatic.minus(y, MxStatic.pow(x, new MX(2))), new MX(2)));
+        var constraint = MxStatic.eq(MxStatic.plus(MxStatic.pow(x, new MX(2)), MxStatic.pow(y, new MX(2))), new MX(1));
 
         opti.minimize(expression);
         opti.subject_to(constraint);
@@ -39,7 +39,7 @@ public class OptiExercise {
         opti.solver("qrsqp", dict);
         var sol = opti.solve();
 
-        System.out.println(sol.value(MX.vertcat(new StdVectorMX(new MX[]{x, y}))));
+        System.out.println(sol.value(MxStatic.vertcat(new StdVectorMX(new MX[]{x, y}))));
     }
     // Output:
     // This is casadi::QRQP
@@ -94,10 +94,10 @@ public class OptiExercise {
         var x = opti.variable(10);
         var y = opti.variable();
 
-        opti.subject_to(MX.eq(y, new MX(3)));
-        // opti.subject_to(MX.ge(MX.vertcat(new StdVectorMX(new MX[]{x, y})), MX.vertcat(new StdVectorMX(new MX[]{new MX(0), new MX(2)}))));
+        opti.subject_to(MxStatic.eq(y, new MX(3)));
+        // opti.subject_to(MxStatic.ge(MxStatic.vertcat(new StdVectorMX(new MX[]{x, y})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(0), new MX(2)}))));
 
-        opti.minimize(MX.cos(sum1(MX.times(new MX(10), x))));
+        opti.minimize(MxStatic.cos(sum1(MxStatic.times(new MX(10), x))));
 
         System.out.println(opti);
     }
@@ -109,7 +109,7 @@ public class OptiExercise {
         var p = opti.parameter();
 
         opti.subject_to();
-        opti.subject_to(MX.eq(MX.sin(x), p));
+        opti.subject_to(MxStatic.eq(MxStatic.sin(x), p));
 
         opti.set_value(p, new DM(0.2));
         opti.solver("qrsqp");
@@ -123,28 +123,28 @@ public class OptiExercise {
         var x = opti.variable(N_numerical);
         var y = opti.variable(N_numerical);
 
-        var sum = MX.sum1(MX.plus(MX.pow(MX.diff(x), new MX(2)), MX.pow(MX.diff(y), new MX(2))));
-        var V = MX.times(MX.times(new MX(0.5), D), sum);
-        V = MX.plus(V, MX.times(g, MX.sum1(MX.times(m, y))));
+        var sum = MxStatic.sum1(MxStatic.plus(MxStatic.pow(MxStatic.diff(x), new MX(2)), MxStatic.pow(MxStatic.diff(y), new MX(2))));
+        var V = MxStatic.times(MxStatic.times(new MX(0.5), D), sum);
+        V = MxStatic.plus(V, MxStatic.times(g, MxStatic.sum1(MxStatic.times(m, y))));
 
         opti.minimize(V);
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
         opti.solver("qrsqp");
         var sol = opti.solve();
         System.out.println("1.1: " + sol.value(V)); // -> correct value
 
         System.out.println("1.2: ");
-        MX.hessian(opti.f(), opti.x()).at(0).sparsity().spy(); // -> different output as python (only 1 star)
+        MxStatic.hessian(opti.f(), opti.x()).at(0).sparsity().spy(); // -> different output as python (only 1 star)
         // We observe a band structure: there is only coupling between immediately neighbouring points in the objective.
         // We also note that there is no coupling between x and y.
 
         System.out.println("1.3: ");
-        var lag = MX.plus(opti.f(), MX.mtimes(opti.lam_g().T(), opti.g()));
+        var lag = MxStatic.plus(opti.f(), MxStatic.mtimes(opti.lam_g().T(), opti.g()));
         System.out.println(lag); // -> same output as Python
 
         var grad_lag = sol.value(gradient(lag, opti.x()));
-        System.out.println(DM.norm_2(grad_lag)); // -> minimal difference
+        System.out.println(DmStatic.norm_2(grad_lag)); // -> minimal difference
         // Python: 1.833083207755712e-12
         // Java:   1.03145e-09
     }
@@ -155,13 +155,13 @@ public class OptiExercise {
         var x = opti.variable(N_numerical);
         var y = opti.variable(N_numerical);
 
-        var sum = MX.sum1(MX.pow(MX.minus(MX.sqrt(MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))), L), new MX(2)));
-        var V = MX.times(MX.times(new MX(0.5), D), sum);
-        V = MX.plus(V, MX.times(g, MX.sum1(MX.times(m, y))));
+        var sum = MxStatic.sum1(MxStatic.pow(MxStatic.minus(MxStatic.sqrt(MxStatic.plus(MxStatic.pow(diff(x), new MX(2)), MxStatic.pow(diff(y), new MX(2)))), L), new MX(2)));
+        var V = MxStatic.times(MxStatic.times(new MX(0.5), D), sum);
+        V = MxStatic.plus(V, MxStatic.times(g, MxStatic.sum1(MxStatic.times(m, y))));
 
         opti.minimize(V);
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
         opti.solver("qrsqp");
 
         try {
@@ -181,17 +181,17 @@ public class OptiExercise {
         var x = opti.variable(N_numerical);
         var y = opti.variable(N_numerical);
 
-        var sum = MX.sum1(MX.pow(MX.minus(MX.sqrt(MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))), L), new MX(2)));
-        var V = MX.times(MX.times(new MX(0.5), D), sum);
-        V = MX.plus(V, MX.times(g, MX.sum1(MX.times(m, y))));
+        var sum = MxStatic.sum1(MxStatic.pow(MxStatic.minus(MxStatic.sqrt(MxStatic.plus(MxStatic.pow(diff(x), new MX(2)), MxStatic.pow(diff(y), new MX(2)))), L), new MX(2)));
+        var V = MxStatic.times(MxStatic.times(new MX(0.5), D), sum);
+        V = MxStatic.plus(V, MxStatic.times(g, MxStatic.sum1(MxStatic.times(m, y))));
 
         opti.minimize(V);
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
         opti.solver("qrsqp");
 
         opti.set_initial(x, lineSpace(-2.0, 2.0));
-        opti.set_initial(y, DM.zeros(N_numerical)); // test
+        opti.set_initial(y, DmStatic.zeros(N_numerical)); // test
 
         var sol = opti.solve();
 
@@ -213,13 +213,13 @@ public class OptiExercise {
         var x = extractEverySecondElement(z, 0); // Elemente mit geraden Indizes
         var y = extractEverySecondElement(z, 1);
 
-        var sum = MX.sum1(MX.pow(MX.minus(MX.sqrt(MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))), L), new MX(2)));
-        var V = MX.times(MX.times(new MX(0.5), D), sum);
-        V = MX.plus(V, MX.times(g, MX.sum1(MX.times(m, y))));
+        var sum = MxStatic.sum1(MxStatic.pow(MxStatic.minus(MxStatic.sqrt(MxStatic.plus(MxStatic.pow(diff(x), new MX(2)), MxStatic.pow(diff(y), new MX(2)))), L), new MX(2)));
+        var V = MxStatic.times(MxStatic.times(new MX(0.5), D), sum);
+        V = MxStatic.plus(V, MxStatic.times(g, MxStatic.sum1(MxStatic.times(m, y))));
 
         opti.minimize(V);
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
         opti.solver("apopt");
 
         opti.set_initial(x, lineSpace(-2.0, 2.0));
@@ -244,15 +244,15 @@ public class OptiExercise {
         var x = opti.variable(N_numerical);
         var y = opti.variable(N_numerical);
 
-        var sum = MX.sum1(MX.times(m, y));
-        opti.minimize(MX.times(g, sum));
+        var sum = MxStatic.sum1(MxStatic.times(m, y));
+        opti.minimize(MxStatic.times(g, sum));
 
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))})), MX.vertcat(new StdVectorMX(new MX[]{MX.pow(L, new MX(2))}))));
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{MX.plus(MxStatic.pow(diff(x), new MX(2)), MxStatic.pow(diff(y), new MX(2)))})), MxStatic.vertcat(new StdVectorMX(new MX[]{MX.pow(L, new MX(2))}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
 
         opti.set_initial(x, lineSpace(-2.0, 2.0));
-        opti.set_initial(y, DM.times(new DM(-1), DM.sin(lineSpace(0, Math.PI))));
+        opti.set_initial(y, DmStatic.times(new DM(-1), DmStatic.sin(lineSpace(0, Math.PI))));
 
         opti.solver("qrsqp");
 
@@ -278,12 +278,12 @@ public class OptiExercise {
         var x = opti.variable(N_numerical);
         var y = opti.variable(N_numerical);
 
-        var sum = MX.sum1(MX.times(m, y));
-        opti.minimize(MX.times(g, sum));
+        var sum = MxStatic.sum1(MxStatic.times(m, y));
+        opti.minimize(MxStatic.times(g, sum));
 
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{MX.plus(MX.pow(diff(x), new MX(2)), MX.pow(diff(y), new MX(2)))})), MX.vertcat(new StdVectorMX(new MX[]{MX.pow(L, new MX(2))}))));
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
-        opti.subject_to(MX.eq(MX.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MX.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{MX.plus(MxStatic.pow(diff(x), new MX(2)), MxStatic.pow(diff(y), new MX(2)))})), MxStatic.vertcat(new StdVectorMX(new MX[]{MX.pow(L, new MX(2))}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(0), y.at(0)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(-2), new MX(0)}))));
+        opti.subject_to(MxStatic.eq(MxStatic.vertcat(new StdVectorMX(new MX[]{x.at(-1), y.at(-1)})), MxStatic.vertcat(new StdVectorMX(new MX[]{new MX(2), new MX(0)}))));
 
         opti.set_initial(x, lineSpace(-2.0, 2.0));
 
@@ -321,16 +321,16 @@ public class OptiExercise {
             result[j] = z.at(i);
         }
 
-        return MX.vertcat(new StdVectorMX(result));
+        return MxStatic.vertcat(new StdVectorMX(result));
     }
 
     private static DM lineSpace(double start, double end) {
         DM[] linspaceValues = new DM[(int) N_numerical];
         for (int i = 0; i < N_numerical; i++) {
-            linspaceValues[i] = DM.plus(new DM(start), DM.times(new DM(i), DM.rdivide(DM.minus(new DM(end), new DM(start)), DM.minus(new DM(N_numerical), new DM(1)))));
+            linspaceValues[i] = DmStatic.plus(new DM(start), DmStatic.times(new DM(i), DmStatic.rdivide(DmStatic.minus(new DM(end), new DM(start)), DmStatic.minus(new DM(N_numerical), new DM(1)))));
         }
 
-        return DM.vertcat(new StdVectorDM(linspaceValues));
+        return DmStatic.vertcat(new StdVectorDM(linspaceValues));
     }
 
     public static void main(String[] args) {

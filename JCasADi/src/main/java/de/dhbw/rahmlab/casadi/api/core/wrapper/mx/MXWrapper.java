@@ -198,7 +198,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public String typeName() {
-        return MX.type_name();
+        return MxStatic.type_name();
     }
 
     /**
@@ -745,7 +745,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper binary(long op, MXWrapper y) {
-        MX result = MX.binary(op, this.mx, y.getCasADiObject());
+        MX result = MxStatic.binary(op, this.mx, y.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -759,7 +759,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper unary(long op) {
-        MX result = MX.unary(op, this.mx);
+        MX result = MxStatic.unary(op, this.mx);
         return new MXWrapper(result);
     }
 
@@ -773,7 +773,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper
      */
     public static MXWrapper inf(SparsityWrapper sp) {
-        MX result = MX.inf(sp.getCasADiObject());
+        MX result = MxStatic.inf(sp.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -788,7 +788,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper
      */
     public static MXWrapper inf(long nrow, long ncol) {
-        MX result = MX.inf(nrow, ncol);
+        MX result = MxStatic.inf(nrow, ncol);
         return new MXWrapper(result);
     }
 
@@ -802,7 +802,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper
      */
     public static MXWrapper inf(long nrow) {
-        MX result = MX.inf(nrow);
+        MX result = MxStatic.inf(nrow);
         return new MXWrapper(result);
     }
 
@@ -814,7 +814,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper
      */
     public static MXWrapper inf() {
-        MX result = MX.inf();
+        MX result = MxStatic.inf();
         return new MXWrapper(result);
     }
 
@@ -828,7 +828,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper
      */
     public static MXWrapper nan(SparsityWrapper sp) {
-        MX result = MX.nan(sp.getCasADiObject());
+        MX result = MxStatic.nan(sp.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -843,7 +843,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper
      */
     public static MXWrapper nan(long nrow, long ncol) {
-        MX result = MX.nan(nrow, ncol);
+        MX result = MxStatic.nan(nrow, ncol);
         return new MXWrapper(result);
     }
 
@@ -857,7 +857,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper
      */
     public static MXWrapper nan(long nrow) {
-        MX result = MX.nan(nrow);
+        MX result = MxStatic.nan(nrow);
         return new MXWrapper(result);
     }
 
@@ -869,7 +869,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper
      */
     public static MXWrapper nan() {
-        MX result = MX.nan();
+        MX result = MxStatic.nan();
         return new MXWrapper(result);
     }
 
@@ -883,7 +883,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapperg
      */
     public static MXWrapper eye(long size) {
-        MX result = MX.eye(size);
+        MX result = MxStatic.eye(size);
         return new MXWrapper(result);
     }
 
@@ -896,7 +896,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * MX object. The extracted slice is stored in a new MX instance
      * that is returned by this method.
      *
-     * <p>Note: The parameter 'ind1' in the underlying MX.get method is
+     * <p>Note: The parameter 'ind1' in the underlying MxStatic.get method is
      * always set to true, indicating that the slice should include the
      * starting index.</p>
      *
@@ -935,7 +935,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     }
 
     /**
-     * Extracts a submatrix from the current matrix using a single argument of type IM.
+     * Extracts a submatrix from the current matrix using a single argument of type ImStatic.
      *
      * @param ind1 A boolean indicating whether the row indices are inclusive.
      * @param rr The IM used to define the rows of the submatrix.
@@ -996,7 +996,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * rows and columns, which are then used to extract a portion of the MX object. The extracted
      * slice is stored in a new MXWrapper instance that is returned by this method.
      *
-     * <p>Note: The parameter 'ind1' in the underlying MX.get method is always set to true, indicating
+     * <p>Note: The parameter 'ind1' in the underlying MxStatic.get method is always set to true, indicating
      * that the slice should include the starting index.</p>
      *
      * @param sliceDefinitionRR A string representing the row slice definition in the format 'start:stop:step'.
@@ -1167,7 +1167,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * for the slice. The extracted slice is stored in a new MXWrapper instance
      * that is returned by this method.
      *
-     * <p>Note: The parameter 'ind1' in the underlying MX.get method is
+     * <p>Note: The parameter 'ind1' in the underlying MxStatic.get method is
      * always set to true, indicating that the slice should include the
      * starting index.</p>
      *
@@ -1236,7 +1236,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     }
 
     /**
-     * Sets a submatrix in the current matrix using a single argument of type IM.
+     * Sets a submatrix in the current matrix using a single argument of type ImStatic.
      * The specified IM defines the rows to be set in the current matrix.
      *
      * @param m The matrix containing the values to set.
@@ -1270,7 +1270,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * rows and columns, which are then used to determine the portion of the MX object to be replaced.
      * The data from the provided MXWrapper object is inserted into the specified slice of the MX object.
      *
-     * <p>Note: The parameter 'ind1' in the underlying MX.set method is always set to true, indicating
+     * <p>Note: The parameter 'ind1' in the underlying MxStatic.set method is always set to true, indicating
      * that the operation should include the starting index.</p>
      *
      * @param m The MXWrapper object containing the data to be set into the MX object.
@@ -1393,7 +1393,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     }
 
     /**
-     * Retrieves a set of non-zero elements from the current matrix using a single argument of type IM.
+     * Retrieves a set of non-zero elements from the current matrix using a single argument of type ImStatic.
      * The specified IM defines the rows to be considered for non-zero extraction.
      * The result is returned as a new MXWrapper containing the non-zero elements.
      *
@@ -1501,7 +1501,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     }
 
     /**
-     * Sets a set of non-zero elements in the current matrix using a single argument of type IM.
+     * Sets a set of non-zero elements in the current matrix using a single argument of type ImStatic.
      * The specified IM defines the rows to be set in the current matrix.
      *
      * @param m The matrix containing the non-zero values to set.
@@ -1571,7 +1571,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
                               CasADiIntVector dim_a, CasADiIntVector dim_b,
                               CasADiIntVector dim_c, CasADiIntVector a,
                               CasADiIntVector b, CasADiIntVector c) {
-        MX.einstein(this.mx, other.mx, C.mx,
+        MxStatic.einstein(this.mx, other.mx, C.mx,
                 dim_a.getCasADiObject(), dim_b.getCasADiObject(),
                 dim_c.getCasADiObject(), a.getCasADiObject(),
                 b.getCasADiObject(), c.getCasADiObject());
@@ -1611,7 +1611,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
                               CasADiIntVector dim_a, CasADiIntVector dim_b,
                               CasADiIntVector dim_c, CasADiIntVector a,
                               CasADiIntVector b, CasADiIntVector c) {
-        return new MXWrapper(MX.einstein(this.mx, other.getCasADiObject(), dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
+        return new MXWrapper(MxStatic.einstein(this.mx, other.getCasADiObject(), dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(), a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
     }
 
     /**
@@ -1623,7 +1623,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public boolean isEqual(MXWrapper other, long depth) {
-        return MX.is_equal(this.mx, other.getCasADiObject(), depth);
+        return MxStatic.is_equal(this.mx, other.getCasADiObject(), depth);
     }
 
     /**
@@ -1634,7 +1634,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public boolean isEqual(MXWrapper other) {
-        return MX.is_equal(this.mx, other.getCasADiObject());
+        return MxStatic.is_equal(this.mx, other.getCasADiObject());
     }
 
     /**
@@ -1644,7 +1644,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper mmin() {
-        return new MXWrapper(MX.mmin(this.mx));
+        return new MXWrapper(MxStatic.mmin(this.mx));
     }
 
     /**
@@ -1654,7 +1654,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper mmax() {
-        return new MXWrapper(MX.mmax(this.mx));
+        return new MXWrapper(MxStatic.mmax(this.mx));
     }
 
     /**
@@ -1665,7 +1665,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Deprecated
     private MXWrapper horzcat(MXVector mxVector) {
-        return new MXWrapper(MX.horzcat(mxVector.getCasADiObject()));
+        return new MXWrapper(MxStatic.horzcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -1676,7 +1676,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Deprecated
     private MXWrapper diagcat(MXVector mxVector) {
-        return new MXWrapper(MX.diagcat(mxVector.getCasADiObject()));
+        return new MXWrapper(MxStatic.diagcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -1687,7 +1687,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Deprecated
     private MXWrapper vertcat(MXVector mxVector) {
-        return new MXWrapper(MX.vertcat(mxVector.getCasADiObject()));
+        return new MXWrapper(MxStatic.vertcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -1697,7 +1697,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXVector. A vector of MXWrapper objects resulting from the horizontal split.
      */
     public MXVector horzsplit(CasADiIntVector offset) {
-        return new MXVector(MX.horzsplit(this.mx, offset.getCasADiObject()));
+        return new MXVector(MxStatic.horzsplit(this.mx, offset.getCasADiObject()));
     }
 
     /**
@@ -1708,7 +1708,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXVector. A vector of MXWrapper objects resulting from the diagonal split.
      */
     public MXVector diagsplit(CasADiIntVector offset1, CasADiIntVector offset2) {
-        return new MXVector(MX.diagsplit(this.mx, offset1.getCasADiObject(), offset2.getCasADiObject()));
+        return new MXVector(MxStatic.diagsplit(this.mx, offset1.getCasADiObject(), offset2.getCasADiObject()));
     }
 
     /**
@@ -1718,7 +1718,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXVector. A vector of MXWrapper objects resulting from the vertical split.
      */
     public MXVector vertsplit(CasADiIntVector offset) {
-        return new MXVector(MX.vertsplit(this.mx, offset.getCasADiObject()));
+        return new MXVector(MxStatic.vertsplit(this.mx, offset.getCasADiObject()));
     }
 
     /**
@@ -1728,7 +1728,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the result of the block concatenation.
      */
     public MXWrapper blockcat(MXVectorCollection mxVector) {
-        return new MXWrapper(MX.blockcat(mxVector.getCasADiObject()));
+        return new MXWrapper(MxStatic.blockcat(mxVector.getCasADiObject()));
     }
 
     /**
@@ -1739,7 +1739,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper mtimes(MXWrapper other) {
-        return new MXWrapper(MX.mtimes(this.mx, other.mx));
+        return new MXWrapper(MxStatic.mtimes(this.mx, other.mx));
     }
 
     /**
@@ -1751,7 +1751,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper mac(MXWrapper y, MXWrapper z) {
-        return new MXWrapper(MX.mac(this.mx, y.mx, z.mx));
+        return new MXWrapper(MxStatic.mac(this.mx, y.mx, z.mx));
     }
 
     /**
@@ -1763,7 +1763,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper reshape(long nrow, long ncol) {
-        return new MXWrapper(MX.reshape(this.mx, nrow, ncol));
+        return new MXWrapper(MxStatic.reshape(this.mx, nrow, ncol));
     }
 
     /**
@@ -1774,7 +1774,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper reshape(SparsityWrapper sp) {
-        return new MXWrapper(MX.reshape(this.mx, sp.getCasADiObject()));
+        return new MXWrapper(MxStatic.reshape(this.mx, sp.getCasADiObject()));
     }
 
     /**
@@ -1785,7 +1785,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper sparsityCast(SparsityWrapper sp) {
-        return new MXWrapper(MX.sparsity_cast(this.mx, sp.getCasADiObject()));
+        return new MXWrapper(MxStatic.sparsity_cast(this.mx, sp.getCasADiObject()));
     }
 
     /**
@@ -1796,7 +1796,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper kron(MXWrapper b) {
-        return new MXWrapper(MX.kron(this.mx, b.mx));
+        return new MXWrapper(MxStatic.kron(this.mx, b.mx));
     }
 
     /**
@@ -1808,7 +1808,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper jacobian(MXWrapper x, Dictionary opts) {
-        return new MXWrapper(MX.jacobian(this.mx, x.mx, opts.getCasADiObject()));
+        return new MXWrapper(MxStatic.jacobian(this.mx, x.mx, opts.getCasADiObject()));
     }
 
     /**
@@ -1819,7 +1819,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper jacobian(MXWrapper x) {
-        return new MXWrapper(MX.jacobian(this.mx, x.mx));
+        return new MXWrapper(MxStatic.jacobian(this.mx, x.mx));
     }
 
     /**
@@ -1831,7 +1831,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper hessian(MXWrapper x, Dictionary opts) {
-        return new MXWrapper(MX.hessian(this.mx, x.mx, opts.getCasADiObject()));
+        return new MXWrapper(MxStatic.hessian(this.mx, x.mx, opts.getCasADiObject()));
     }
 
     /**
@@ -1842,7 +1842,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper hessian(MXWrapper x) {
-        return new MXWrapper(MX.hessian(this.mx, x.mx));
+        return new MXWrapper(MxStatic.hessian(this.mx, x.mx));
     }
 
     /**
@@ -1855,7 +1855,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper hessian(MXWrapper x, MXWrapper g, Dictionary opts) {
-        return new MXWrapper(MX.hessian(this.mx, x.mx, g.mx, opts.getCasADiObject()));
+        return new MXWrapper(MxStatic.hessian(this.mx, x.mx, g.mx, opts.getCasADiObject()));
     }
 
     /**
@@ -1867,7 +1867,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper hessian(MXWrapper x, MXWrapper g) {
-        return new MXWrapper(MX.hessian(this.mx, x.mx, g.mx));
+        return new MXWrapper(MxStatic.hessian(this.mx, x.mx, g.mx));
     }
 
     /**
@@ -1880,7 +1880,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public BooleanVector whichDepends(MXWrapper var, long order, boolean tr) {
-        return new BooleanVector(MX.which_depends(this.mx, var.mx, order, tr));
+        return new BooleanVector(MxStatic.which_depends(this.mx, var.mx, order, tr));
     }
 
     /**
@@ -1892,7 +1892,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public BooleanVector whichDepends(MXWrapper var, long order) {
-        return new BooleanVector(MX.which_depends(this.mx, var.mx, order));
+        return new BooleanVector(MxStatic.which_depends(this.mx, var.mx, order));
     }
 
     /**
@@ -1903,7 +1903,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public BooleanVector whichDepends(MXWrapper var) {
-        return new BooleanVector(MX.which_depends(this.mx, var.mx));
+        return new BooleanVector(MxStatic.which_depends(this.mx, var.mx));
     }
 
     /**
@@ -1914,7 +1914,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public SparsityWrapper jacobianSparsity(MXWrapper x) {
-        return new SparsityWrapper(MX.jacobian_sparsity(this.mx, x.mx));
+        return new SparsityWrapper(MxStatic.jacobian_sparsity(this.mx, x.mx));
     }
 
     /**
@@ -1926,7 +1926,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper substitute(MXWrapper v, MXWrapper vdef) {
-        return new MXWrapper(MX.substitute(this.mx, v.mx, vdef.mx));
+        return new MXWrapper(MxStatic.substitute(this.mx, v.mx, vdef.mx));
     }
 
     /**
@@ -1939,7 +1939,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper solve(MXWrapper b) {
-        MX result = MX.solve(this.mx, b.mx);
+        MX result = MxStatic.solve(this.mx, b.mx);
         return new MXWrapper(result);
     }
 
@@ -1956,7 +1956,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper solve(MXWrapper b, String lsolver, Dictionary dict) {
-        MX result = MX.solve(this.mx, b.mx, lsolver, dict.getCasADiObject());
+        MX result = MxStatic.solve(this.mx, b.mx, lsolver, dict.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -1970,7 +1970,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the solution vector x.
      */
     public MXWrapper solve(MXWrapper b, String lsolver) {
-        MX result = MX.solve(this.mx, b.mx, lsolver);
+        MX result = MxStatic.solve(this.mx, b.mx, lsolver);
         return new MXWrapper(result);
     }
 
@@ -1981,7 +1981,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper invMinor() {
-        MX result = MX.inv_minor(this.mx);
+        MX result = MxStatic.inv_minor(this.mx);
         return new MXWrapper(result);
     }
 
@@ -1991,7 +1991,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the inverse node of the matrix.
      */
     public MXWrapper invNode() {
-        MX result = MX.inv_node(this.mx);
+        MX result = MxStatic.inv_node(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2007,7 +2007,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper inv(String lsolver, Dictionary dict) {
-        MX result = MX.inv(this.mx, lsolver, dict.getCasADiObject());
+        MX result = MxStatic.inv(this.mx, lsolver, dict.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2020,7 +2020,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the inverse of the matrix.
      */
     public MXWrapper inv(String lsolver) {
-        MX result = MX.inv(this.mx, lsolver);
+        MX result = MxStatic.inv(this.mx, lsolver);
         return new MXWrapper(result);
     }
 
@@ -2031,7 +2031,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper inv() {
-        MX result = MX.inv(this.mx);
+        MX result = MxStatic.inv(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2047,7 +2047,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper pinv(String lsolver, Dictionary dict) {
-        MX result = MX.pinv(this.mx, lsolver, dict.getCasADiObject());
+        MX result = MxStatic.pinv(this.mx, lsolver, dict.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2060,7 +2060,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the pseudo-inverse of the matrix.
      */
     public MXWrapper pinv(String lsolver) {
-        MX result = MX.pinv(this.mx, lsolver);
+        MX result = MxStatic.pinv(this.mx, lsolver);
         return new MXWrapper(result);
     }
 
@@ -2073,7 +2073,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper pinv() {
-        MX result = MX.pinv(this.mx);
+        MX result = MxStatic.pinv(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2085,7 +2085,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper expmConst(MXWrapper t) {
-        MX result = MX.expm_const(this.mx, t.mx);
+        MX result = MxStatic.expm_const(this.mx, t.mx);
         return new MXWrapper(result);
     }
 
@@ -2096,7 +2096,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper expm() {
-        MX result = MX.expm(this.mx);
+        MX result = MxStatic.expm(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2107,7 +2107,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public long nNodes() {
-        return MX.n_nodes(this.mx);
+        return MxStatic.n_nodes(this.mx);
     }
 
     /**
@@ -2118,7 +2118,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public String printOperator(StringVector args) {
-        return MX.print_operator(this.mx, args.getCasADiObject());
+        return MxStatic.print_operator(this.mx, args.getCasADiObject());
     }
 
     /**
@@ -2129,7 +2129,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public boolean dependsOn(MXWrapper arg) {
-        return MX.depends_on(this.mx, arg.mx);
+        return MxStatic.depends_on(this.mx, arg.mx);
     }
 
     /**
@@ -2139,7 +2139,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper simplify() {
-        MX result = MX.simplify(this.mx);
+        MX result = MxStatic.simplify(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2151,7 +2151,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper dot(MXWrapper y) {
-        MX result = MX.dot(this.mx, y.mx);
+        MX result = MxStatic.dot(this.mx, y.mx);
         return new MXWrapper(result);
     }
 
@@ -2163,7 +2163,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper mrdivide(MXWrapper b) {
-        MX result = MX.mrdivide(this.mx, b.mx);
+        MX result = MxStatic.mrdivide(this.mx, b.mx);
         return new MXWrapper(result);
     }
 
@@ -2175,7 +2175,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper mldivide(MXWrapper b) {
-        MX result = MX.mldivide(this.mx, b.mx);
+        MX result = MxStatic.mldivide(this.mx, b.mx);
         return new MXWrapper(result);
     }
 
@@ -2186,7 +2186,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper norm2() {
-        MX result = MX.norm_2(this.mx);
+        MX result = MxStatic.norm_2(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2197,7 +2197,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper normFro() {
-        MX result = MX.norm_fro(this.mx);
+        MX result = MxStatic.norm_fro(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2208,7 +2208,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper norm1() {
-        MX result = MX.norm_1(this.mx);
+        MX result = MxStatic.norm_1(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2219,7 +2219,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper normInf() {
-        MX result = MX.norm_inf(this.mx);
+        MX result = MxStatic.norm_inf(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2231,7 +2231,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper unite(MXWrapper B) {
-        MX result = MX.unite(this.mx, B.mx);
+        MX result = MxStatic.unite(this.mx, B.mx);
         return new MXWrapper(result);
     }
 
@@ -2242,7 +2242,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper trace() {
-        MX result = MX.trace(this.mx);
+        MX result = MxStatic.trace(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2253,7 +2253,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper diag() {
-        MX result = MX.diag(this.mx);
+        MX result = MxStatic.diag(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2264,7 +2264,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper sum2() {
-        MX result = MX.sum2(this.mx);
+        MX result = MxStatic.sum2(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2275,7 +2275,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper sum1() {
-        MX result = MX.sum1(this.mx);
+        MX result = MxStatic.sum1(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2287,7 +2287,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper polyval(MXWrapper x) {
-        MX result = MX.polyval(this.mx, x.mx);
+        MX result = MxStatic.polyval(this.mx, x.mx);
         return new MXWrapper(result);
     }
 
@@ -2298,7 +2298,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper det() {
-        MX result = MX.det(this.mx);
+        MX result = MxStatic.det(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2308,7 +2308,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXVector. A new MXVector containing the symbolic variables.
      */
     public MXVector symvar() {
-        return new MXVector(MX.symvar(this.mx));
+        return new MXVector(MxStatic.symvar(this.mx));
     }
 
     /**
@@ -2318,7 +2318,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper nullspace() {
-        MX result = MX.nullspace(this.mx);
+        MX result = MxStatic.nullspace(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2331,7 +2331,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper repsum(long n, long m) {
-        MX result = MX.repsum(this.mx, n, m);
+        MX result = MxStatic.repsum(this.mx, n, m);
         return new MXWrapper(result);
     }
 
@@ -2343,7 +2343,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper repsum(long n) {
-        MX result = MX.repsum(this.mx, n);
+        MX result = MxStatic.repsum(this.mx, n);
         return new MXWrapper(result);
     }
 
@@ -2355,7 +2355,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper densify(MXWrapper val) {
-        MX result = MX.densify(this.mx, val.mx);
+        MX result = MxStatic.densify(this.mx, val.mx);
         return new MXWrapper(result);
     }
 
@@ -2366,7 +2366,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper densify() {
-        MX result = MX.densify(this.mx);
+        MX result = MxStatic.densify(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2379,7 +2379,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper project(SparsityWrapper sp, boolean intersect) {
-        MX result = MX.project(this.mx, sp.getCasADiObject(), intersect);
+        MX result = MxStatic.project(this.mx, sp.getCasADiObject(), intersect);
         return new MXWrapper(result);
     }
 
@@ -2391,7 +2391,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper project(SparsityWrapper sp) {
-        MX result = MX.project(this.mx, sp.getCasADiObject());
+        MX result = MxStatic.project(this.mx, sp.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2403,7 +2403,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper cumsum(long axis) {
-        MX result = MX.cumsum(this.mx, axis);
+        MX result = MxStatic.cumsum(this.mx, axis);
         return new MXWrapper(result);
     }
 
@@ -2414,7 +2414,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper cumsum() {
-        MX result = MX.cumsum(this.mx);
+        MX result = MxStatic.cumsum(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2424,7 +2424,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the found expression.
      */
     public MXWrapper find() {
-        MX result = MX.find(this.mx);
+        MX result = MxStatic.find(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2436,7 +2436,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the low-level representation.
      */
     public MXWrapper low(MXWrapper p, Dictionary options) {
-        MX result = MX.low(this.mx, p.mx, options.getCasADiObject());
+        MX result = MxStatic.low(this.mx, p.mx, options.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2447,7 +2447,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the low-level representation.
      */
     public MXWrapper low(MXWrapper p) {
-        MX result = MX.low(this.mx, p.mx);
+        MX result = MxStatic.low(this.mx, p.mx);
         return new MXWrapper(result);
     }
 
@@ -2459,7 +2459,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the substituted expression.
      */
     public MXWrapper graphSubstitute(MXVector v, MXVector vdef) {
-        MX result = MX.graph_substitute(this.mx, v.getCasADiObject(), vdef.getCasADiObject());
+        MX result = MxStatic.graph_substitute(this.mx, v.getCasADiObject(), vdef.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2471,7 +2471,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the expanded expression.
      */
     public MXWrapper matrixExpand(MXVector boundary, Dictionary options) {
-        MX result = MX.matrix_expand(this.mx, boundary.getCasADiObject(), options.getCasADiObject());
+        MX result = MxStatic.matrix_expand(this.mx, boundary.getCasADiObject(), options.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2484,7 +2484,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXVector. A new MXVector containing the expanded expressions.
      */
     public MXVector matrixExpand(MXVector e, MXVector boundary, Dictionary options) {
-        return new MXVector(MX.matrix_expand(e.getCasADiObject(), boundary.getCasADiObject(), options.getCasADiObject()));
+        return new MXVector(MxStatic.matrix_expand(e.getCasADiObject(), boundary.getCasADiObject(), options.getCasADiObject()));
     }
 
     /**
@@ -2494,18 +2494,18 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the lifted expression.
      */
     public MXWrapper lift(MXWrapper x_guess) {
-        MX result = MX.lift(this.mx, x_guess.mx);
+        MX result = MxStatic.lift(this.mx, x_guess.mx);
         return new MXWrapper(result);
     }
 
     /**
      * Evaluates the expression numerically.
      *
-     * @return DM. A new DM containing the evaluated result.
+     * @return DmStatic. A new DM containing the evaluated result.
      */
     @Override
     public DMWrapper evalf() {
-        return new DMWrapper(MX.evalf(this.mx));
+        return new DMWrapper(MxStatic.evalf(this.mx));
     }
 
     /**
@@ -2519,7 +2519,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
     public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, CasADiIntVector degree, long m, Dictionary opts) {
-        MX result = MX.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m, opts.getCasADiObject());
+        MX result = MxStatic.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m, opts.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2533,7 +2533,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
     public MXWrapper bspline(DM coeffs, DoubleVectorCollection knots, CasADiIntVector degree, long m) {
-        MX result = MX.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m);
+        MX result = MxStatic.bspline(this.mx, coeffs, knots.getCasADiObject(), degree.getCasADiObject(), m);
         return new MXWrapper(result);
     }
 
@@ -2548,7 +2548,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
     public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, CasADiIntVector degree, long m, Dictionary opts) {
-        MX result = MX.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m, opts.getCasADiObject());
+        MX result = MxStatic.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m, opts.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2562,7 +2562,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the B-spline result.
      */
     public MXWrapper bspline(MXWrapper coeffs, DoubleVectorCollection knots, CasADiIntVector degree, long m) {
-        MX result = MX.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m);
+        MX result = MxStatic.bspline(this.mx, coeffs.mx, knots.getCasADiObject(), degree.getCasADiObject(), m);
         return new MXWrapper(result);
     }
 
@@ -2573,7 +2573,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the convexified expression.
      */
     public MXWrapper convexify(Dictionary opts) {
-        MX result = MX.convexify(this.mx, opts.getCasADiObject());
+        MX result = MxStatic.convexify(this.mx, opts.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2583,7 +2583,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the convexified expression.
      */
     public MXWrapper convexify() {
-        MX result = MX.convexify(this.mx);
+        MX result = MxStatic.convexify(this.mx);
         return new MXWrapper(result);
     }
 
@@ -2594,7 +2594,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the expression with stopped differentiation.
      */
     public MXWrapper stopDiff(long order) {
-        MX result = MX.stop_diff(this.mx, order);
+        MX result = MxStatic.stop_diff(this.mx, order);
         return new MXWrapper(result);
     }
 
@@ -2606,7 +2606,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the expression with stopped differentiation.
      */
     public MXWrapper stopDiff(MXWrapper var, long order) {
-        MX result = MX.stop_diff(this.mx, var.mx, order);
+        MX result = MxStatic.stop_diff(this.mx, var.mx, order);
         return new MXWrapper(result);
     }
 
@@ -2622,7 +2622,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
     public MXWrapper interpnLinear(MXVector x, MXVector xq, Dictionary opts) {
-        MX result = MX.interpn_linear(x.getCasADiObject(), this.mx, xq.getCasADiObject(), opts.getCasADiObject());
+        MX result = MxStatic.interpn_linear(x.getCasADiObject(), this.mx, xq.getCasADiObject(), opts.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2636,7 +2636,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the result of the interpolation.
      */
     public MXWrapper interpnLinear(MXVector x, MXVector xq) {
-        MX result = MX.interpn_linear(x.getCasADiObject(), this.mx, xq.getCasADiObject());
+        MX result = MxStatic.interpn_linear(x.getCasADiObject(), this.mx, xq.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -2704,7 +2704,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * in the matrix associated with this MXWrapper. It can be useful for understanding
      * the structure of the matrix or for debugging purposes.
      *
-     * @return IM. A new IM containing the representation of the nonzero elements.
+     * @return ImStatic. A new IM containing the representation of the nonzero elements.
      */
     public IM mapping() {
         return new IM(this.mx.mapping());
@@ -2717,7 +2717,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public void setMaxDepth(long eq_depth) {
-        MX.set_max_depth(eq_depth);
+        MxStatic.set_max_depth(eq_depth);
     }
 
     /**
@@ -2726,7 +2726,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public void setMaxDepth() {
-        MX.set_max_depth();
+        MxStatic.set_max_depth();
     }
 
     /**
@@ -2736,7 +2736,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public long getMaxDepth() {
-        return MX.get_max_depth();
+        return MxStatic.get_max_depth();
     }
 
     /**
@@ -2800,7 +2800,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
     public MXVectorCollection blocksplit(CasADiIntVector vert_offset, CasADiIntVector horz_offset) {
-        return new MXVectorCollection(MX.blocksplit(this.mx, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
+        return new MXVectorCollection(MxStatic.blocksplit(this.mx, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
     }
 
     /**
@@ -2811,7 +2811,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return VectorCollection. A new VectorCollection containing the split blocks.
      */
     public MXVectorCollection blocksplit(long vert_incr, long horz_incr) {
-        return new MXVectorCollection(MX.blocksplit(this.mx, vert_incr, horz_incr));
+        return new MXVectorCollection(MxStatic.blocksplit(this.mx, vert_incr, horz_incr));
     }
 
     /**
@@ -2822,7 +2822,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Deprecated
     private MXWrapper veccat(MXVector x) {
-        return new MXWrapper(MX.veccat(x.getCasADiObject()));
+        return new MXWrapper(MxStatic.veccat(x.getCasADiObject()));
     }
 
     /**
@@ -2832,7 +2832,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper vec() {
-        return new MXWrapper(MX.vec(this.mx));
+        return new MXWrapper(MxStatic.vec(this.mx));
     }
 
     /**
@@ -2842,7 +2842,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXVector. A new MXVector containing the split parts.
      */
     public MXVector vertsplit_n(long n) {
-        return new MXVector(MX.vertsplit_n(this.mx, n));
+        return new MXVector(MxStatic.vertsplit_n(this.mx, n));
     }
 
     /**
@@ -3160,7 +3160,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper interp1d(DoubleVector x, DoubleVector xq, String mode, boolean equidistant) {
-        return new MXWrapper(MX.interp1d(x.getCasADiObject(), this.mx, xq.getCasADiObject(), mode, equidistant));
+        return new MXWrapper(MxStatic.interp1d(x.getCasADiObject(), this.mx, xq.getCasADiObject(), mode, equidistant));
     }
 
     /**
@@ -3170,7 +3170,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public long sprank() {
-        return MX.sprank(this.mx);
+        return MxStatic.sprank(this.mx);
     }
 
     /**
@@ -3181,7 +3181,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public long norm0Mul(MXWrapper y) {
-        return MX.norm_0_mul(this.mx, y.mx);
+        return MxStatic.norm_0_mul(this.mx, y.mx);
     }
 
     /**
@@ -3192,7 +3192,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper tril(boolean includeDiagonal) {
-        return new MXWrapper(MX.tril(this.mx, includeDiagonal));
+        return new MXWrapper(MxStatic.tril(this.mx, includeDiagonal));
     }
 
     /**
@@ -3202,7 +3202,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper tril() {
-        return new MXWrapper(MX.tril(this.mx));
+        return new MXWrapper(MxStatic.tril(this.mx));
     }
 
     /**
@@ -3212,7 +3212,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the upper triangular part.
      */
     public MXWrapper triu(boolean includeDiagonal) {
-        return new MXWrapper(MX.triu(this.mx, includeDiagonal));
+        return new MXWrapper(MxStatic.triu(this.mx, includeDiagonal));
     }
 
     /**
@@ -3222,7 +3222,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper triu() {
-        return new MXWrapper(MX.triu(this.mx));
+        return new MXWrapper(MxStatic.triu(this.mx));
     }
 
     /**
@@ -3232,7 +3232,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper sumsqr() {
-        return new MXWrapper(MX.sumsqr(this.mx));
+        return new MXWrapper(MxStatic.sumsqr(this.mx));
     }
 
     /**
@@ -3243,7 +3243,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the linearly spaced vector.
      */
     public MXWrapper linspace(MXWrapper b, long nsteps) {
-        return new MXWrapper(MX.linspace(this.mx, b.mx, nsteps));
+        return new MXWrapper(MxStatic.linspace(this.mx, b.mx, nsteps));
     }
 
     /**
@@ -3255,7 +3255,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper cross(MXWrapper b, long dim) {
-        return new MXWrapper(MX.cross(this.mx, b.mx, dim));
+        return new MXWrapper(MxStatic.cross(this.mx, b.mx, dim));
     }
 
     /**
@@ -3266,7 +3266,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper cross(MXWrapper b) {
-        return new MXWrapper(MX.cross(this.mx, b.mx));
+        return new MXWrapper(MxStatic.cross(this.mx, b.mx));
     }
 
     /**
@@ -3276,7 +3276,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper skew() {
-        return new MXWrapper(MX.skew(this.mx));
+        return new MXWrapper(MxStatic.skew(this.mx));
     }
 
     /**
@@ -3286,7 +3286,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper invSkew() {
-        return new MXWrapper(MX.inv_skew(this.mx));
+        return new MXWrapper(MxStatic.inv_skew(this.mx));
     }
 
     /**
@@ -3296,7 +3296,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper tril2symm() {
-        return new MXWrapper(MX.tril2symm(this.mx));
+        return new MXWrapper(MxStatic.tril2symm(this.mx));
     }
 
     /**
@@ -3306,7 +3306,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper triu2symm() {
-        return new MXWrapper(MX.triu2symm(this.mx));
+        return new MXWrapper(MxStatic.triu2symm(this.mx));
     }
 
     /**
@@ -3318,7 +3318,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper diff(long n, long axis) {
-        return new MXWrapper(MX.diff(this.mx, n, axis));
+        return new MXWrapper(MxStatic.diff(this.mx, n, axis));
     }
 
     /**
@@ -3329,7 +3329,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper diff(long n) {
-        return new MXWrapper(MX.diff(this.mx, n));
+        return new MXWrapper(MxStatic.diff(this.mx, n));
     }
 
     /**
@@ -3339,7 +3339,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper diff() {
-        return new MXWrapper(MX.diff(this.mx));
+        return new MXWrapper(MxStatic.diff(this.mx));
     }
 
     /**
@@ -3350,7 +3350,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public boolean isLinear(MXWrapper var) {
-        return MX.is_linear(this.mx, var.mx);
+        return MxStatic.is_linear(this.mx, var.mx);
     }
 
     /**
@@ -3361,7 +3361,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public boolean isQuadratic(MXWrapper var) {
-        return MX.is_quadratic(this.mx, var.mx);
+        return MxStatic.is_quadratic(this.mx, var.mx);
     }
 
     /**
@@ -3375,7 +3375,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public void quadraticCoeff(MXWrapper var, MXWrapper A, MXWrapper b, MXWrapper c, boolean check) {
-        MX.quadratic_coeff(this.mx, var.mx, A.mx, b.mx, c.mx, check);
+        MxStatic.quadratic_coeff(this.mx, var.mx, A.mx, b.mx, c.mx, check);
     }
 
     /**
@@ -3388,7 +3388,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public void linearCoeff(MXWrapper var, MXWrapper A, MXWrapper b, boolean check) {
-        MX.linear_coeff(this.mx, var.mx, A.mx, b.mx, check);
+        MxStatic.linear_coeff(this.mx, var.mx, A.mx, b.mx, check);
     }
 
     /**
@@ -3400,7 +3400,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper bilin(MXWrapper x, MXWrapper y) {
-        return new MXWrapper(MX.bilin(this.mx, x.mx, y.mx));
+        return new MXWrapper(MxStatic.bilin(this.mx, x.mx, y.mx));
     }
 
     /**
@@ -3413,7 +3413,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper rank1(MXWrapper alpha, MXWrapper x, MXWrapper y) {
-        return new MXWrapper(MX.rank1(this.mx, alpha.mx, x.mx, y.mx));
+        return new MXWrapper(MxStatic.rank1(this.mx, alpha.mx, x.mx, y.mx));
     }
 
     /**
@@ -3423,7 +3423,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper logsumexp() {
-        return new MXWrapper(MX.logsumexp(this.mx));
+        return new MXWrapper(MxStatic.logsumexp(this.mx));
     }
 
     /**
@@ -3437,7 +3437,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper jtimes(MXWrapper arg, MXWrapper v, boolean tr, Dictionary opts) {
-        return new MXWrapper(MX.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
+        return new MXWrapper(MxStatic.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
     }
 
     /**
@@ -3450,7 +3450,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper jtimes(MXWrapper arg, MXWrapper v, boolean tr) {
-        return new MXWrapper(MX.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject(), tr));
+        return new MXWrapper(MxStatic.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject(), tr));
     }
 
     /**
@@ -3462,7 +3462,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper jtimes(MXWrapper arg, MXWrapper v) {
-        return new MXWrapper(MX.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject()));
+        return new MXWrapper(MxStatic.jtimes_(this.mx, arg.getCasADiObject(), v.getCasADiObject()));
     }
 
     /**
@@ -3474,7 +3474,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper gradient(MXWrapper arg, Dictionary opts) {
-        return new MXWrapper(MX.gradient(this.mx, arg.getCasADiObject(), opts.getCasADiObject()));
+        return new MXWrapper(MxStatic.gradient(this.mx, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     /**
@@ -3485,7 +3485,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper gradient(MXWrapper arg) {
-        return new MXWrapper(MX.gradient(this.mx, arg.getCasADiObject()));
+        return new MXWrapper(MxStatic.gradient(this.mx, arg.getCasADiObject()));
     }
 
     /**
@@ -3497,7 +3497,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper tangent(MXWrapper arg, Dictionary opts) {
-        return new MXWrapper(MX.tangent(this.mx, arg.getCasADiObject(), opts.getCasADiObject()));
+        return new MXWrapper(MxStatic.tangent(this.mx, arg.getCasADiObject(), opts.getCasADiObject()));
     }
 
     /**
@@ -3508,7 +3508,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper tangent(MXWrapper arg) {
-        return new MXWrapper(MX.tangent(this.mx, arg.getCasADiObject()));
+        return new MXWrapper(MxStatic.tangent(this.mx, arg.getCasADiObject()));
     }
 
     /**
@@ -3521,7 +3521,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper linearize(MXWrapper x, MXWrapper x0, Dictionary opts) {
-        return new MXWrapper(MX.linearize(this.mx, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
+        return new MXWrapper(MxStatic.linearize(this.mx, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
     }
 
     /**
@@ -3533,7 +3533,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper linearize(MXWrapper x, MXWrapper x0) {
-        return new MXWrapper(MX.linearize(this.mx, x.getCasADiObject(), x0.getCasADiObject()));
+        return new MXWrapper(MxStatic.linearize(this.mx, x.getCasADiObject(), x0.getCasADiObject()));
     }
 
     /**
@@ -3544,7 +3544,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper mpower(MXWrapper y) {
-        return new MXWrapper(MX.mpower(this.mx, y.getCasADiObject()));
+        return new MXWrapper(MxStatic.mpower(this.mx, y.getCasADiObject()));
     }
 
     /**
@@ -3555,7 +3555,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper soc(MXWrapper y) {
-        return new MXWrapper(MX.soc(this.mx, y.getCasADiObject()));
+        return new MXWrapper(MxStatic.soc(this.mx, y.getCasADiObject()));
     }
 
     /**
@@ -3567,7 +3567,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
      */
     public static MXWrapper sym(String name, long nrow, long ncol) {
-        return new MXWrapper(MX.sym(name, nrow, ncol));
+        return new MXWrapper(MxStatic.sym(name, nrow, ncol));
     }
 
     /**
@@ -3578,7 +3578,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
      */
     public static MXWrapper sym(String name, long nrow) {
-        return new MXWrapper(MX.sym(name, nrow));
+        return new MXWrapper(MxStatic.sym(name, nrow));
     }
 
     /**
@@ -3588,7 +3588,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
      */
     public static MXWrapper sym(String name) {
-        return new MXWrapper(MX.sym(name));
+        return new MXWrapper(MxStatic.sym(name));
     }
 
     /**
@@ -3599,7 +3599,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created symbolic primitive.
      */
     public static MXWrapper sym(String name, SparsityWrapper sp) {
-        return new MXWrapper(MX.sym(name, sp.getCasADiObject()));
+        return new MXWrapper(MxStatic.sym(name, sp.getCasADiObject()));
     }
 
     /**
@@ -3611,7 +3611,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXVector. A new MXVector containing the symbolic primitives.
      */
     public static MXVector sym(String name, SparsityWrapper sp, long p) {
-        return new MXVector(MX.sym(name, sp.getCasADiObject(), p));
+        return new MXVector(MxStatic.sym(name, sp.getCasADiObject(), p));
     }
 
     /**
@@ -3624,7 +3624,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXVector. A new MXVector containing the symbolic primitives.
      */
     public static MXVector sym(String name, long nrow, long ncol, long p) {
-        return new MXVector(MX.sym(name, nrow, ncol, p));
+        return new MXVector(MxStatic.sym(name, nrow, ncol, p));
     }
 
     /**
@@ -3637,7 +3637,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return VectorCollection. A new VectorCollection containing the symbolic primitives.
      */
     public static MXVectorCollection sym(String name, SparsityWrapper sp, long p, long r) {
-        return new MXVectorCollection(MX.sym(name, sp.getCasADiObject(), p, r));
+        return new MXVectorCollection(MxStatic.sym(name, sp.getCasADiObject(), p, r));
     }
 
     /**
@@ -3651,7 +3651,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return VectorCollection. A new VectorCollection containing the symbolic primitives.
      */
     public static MXVectorCollection sym(String name, long nrow, long ncol, long p, long r) {
-        return new MXVectorCollection(MX.sym(name, nrow, ncol, p, r));
+        return new MXVectorCollection(MxStatic.sym(name, nrow, ncol, p, r));
     }
 
     /**
@@ -3662,7 +3662,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
     public static MXWrapper zeros(long nrow, long ncol) {
-        return new MXWrapper(MX.zeros(nrow, ncol));
+        return new MXWrapper(MxStatic.zeros(nrow, ncol));
     }
 
     /**
@@ -3672,7 +3672,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
     public static MXWrapper zeros(long nrow) {
-        return new MXWrapper(MX.zeros(nrow));
+        return new MXWrapper(MxStatic.zeros(nrow));
     }
 
     /**
@@ -3681,7 +3681,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
     public static MXWrapper zeros() {
-        return new MXWrapper(MX.zeros());
+        return new MXWrapper(MxStatic.zeros());
     }
 
     /**
@@ -3691,7 +3691,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
     public static MXWrapper zeros(SparsityWrapper sp) {
-        return new MXWrapper(MX.zeros(sp.getCasADiObject()));
+        return new MXWrapper(MxStatic.zeros(sp.getCasADiObject()));
     }
 
     /**
@@ -3702,7 +3702,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
     public static MXWrapper ones(long nrow, long ncol) {
-        return new MXWrapper(MX.ones(nrow, ncol));
+        return new MXWrapper(MxStatic.ones(nrow, ncol));
     }
 
     /**
@@ -3712,7 +3712,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
     public static MXWrapper ones(long nrow) {
-        return new MXWrapper(MX.ones(nrow));
+        return new MXWrapper(MxStatic.ones(nrow));
     }
 
     /**
@@ -3721,7 +3721,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
     public static MXWrapper ones() {
-        return new MXWrapper(MX.ones());
+        return new MXWrapper(MxStatic.ones());
     }
 
     /**
@@ -3731,7 +3731,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      * @return MXWrapper. A new MXWrapper containing the created matrix.
      */
     public static MXWrapper ones(SparsityWrapper sp) {
-        return new MXWrapper(MX.ones(sp.getCasADiObject()));
+        return new MXWrapper(MxStatic.ones(sp.getCasADiObject()));
     }
 
     /**
@@ -3744,7 +3744,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper add(MXWrapper other) {
-        MX result = MX.plus(this.mx, other.mx);
+        MX result = MxStatic.plus(this.mx, other.mx);
         return new MXWrapper(result);
     }
 
@@ -3761,7 +3761,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper add(T number) {
         double other = number.doubleValue();
         MXWrapper summand = new MXWrapper(other);
-        MX result = MX.plus(this.mx, summand.getCasADiObject());
+        MX result = MxStatic.plus(this.mx, summand.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3775,7 +3775,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper subtract(MXWrapper other) {
-        MX result = MX.minus(this.mx, other.mx);
+        MX result = MxStatic.minus(this.mx, other.mx);
         return new MXWrapper(result);
     }
 
@@ -3792,7 +3792,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper subtract(T number) {
         double other = number.doubleValue();
         MXWrapper subtrahend = new MXWrapper(other);
-        MX result = MX.minus(this.mx, subtrahend.getCasADiObject());
+        MX result = MxStatic.minus(this.mx, subtrahend.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3806,7 +3806,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper multiply(MXWrapper other) {
-        MX result = MX.times(this.mx, other.mx);
+        MX result = MxStatic.times(this.mx, other.mx);
         return new MXWrapper(result);
     }
 
@@ -3823,7 +3823,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper multiply(T number) {
         double other = number.doubleValue();
         MXWrapper multiplicand = new MXWrapper(other);
-        MX result = MX.times(this.mx, multiplicand.getCasADiObject());
+        MX result = MxStatic.times(this.mx, multiplicand.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3837,7 +3837,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper divide(MXWrapper other) {
-        MX result = MX.rdivide(this.mx, other.mx);
+        MX result = MxStatic.rdivide(this.mx, other.mx);
         return new MXWrapper(result);
     }
 
@@ -3858,7 +3858,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
             throw new ArithmeticException("Division by zero is not allowed.");
         }
         MXWrapper divisor = new MXWrapper(other);
-        MX result = MX.rdivide(this.mx, divisor.getCasADiObject());
+        MX result = MxStatic.rdivide(this.mx, divisor.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3870,7 +3870,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper lt(MXWrapper y) {
-        return new MXWrapper(MX.lt(this.mx, y.mx));
+        return new MXWrapper(MxStatic.lt(this.mx, y.mx));
     }
 
     /**
@@ -3887,7 +3887,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper lt(T number) {
         double other = number.doubleValue();
         MXWrapper threshold = new MXWrapper(other);
-        MX result = MX.lt(this.mx, threshold.getCasADiObject());
+        MX result = MxStatic.lt(this.mx, threshold.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3899,7 +3899,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper le(MXWrapper y) {
-        return new MXWrapper(MX.le(this.mx, y.mx));
+        return new MXWrapper(MxStatic.le(this.mx, y.mx));
     }
 
     /**
@@ -3916,7 +3916,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper le(T number) {
         double other = number.doubleValue();
         MXWrapper threshold = new MXWrapper(other);
-        MX result = MX.le(this.mx, threshold.getCasADiObject());
+        MX result = MxStatic.le(this.mx, threshold.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3928,7 +3928,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper gt(MXWrapper y) {
-        return new MXWrapper(MX.gt(this.mx, y.mx));
+        return new MXWrapper(MxStatic.gt(this.mx, y.mx));
     }
 
     /**
@@ -3945,7 +3945,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper gt(T number) {
         double other = number.doubleValue();
         MXWrapper threshold = new MXWrapper(other);
-        MX result = MX.gt(this.mx, threshold.getCasADiObject());
+        MX result = MxStatic.gt(this.mx, threshold.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3957,7 +3957,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper ge(MXWrapper y) {
-        return new MXWrapper(MX.ge(this.mx, y.mx));
+        return new MXWrapper(MxStatic.ge(this.mx, y.mx));
     }
 
     /**
@@ -3974,7 +3974,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper ge(T number) {
         double other = number.doubleValue();
         MXWrapper threshold = new MXWrapper(other);
-        MX result = MX.ge(this.mx, threshold.getCasADiObject());
+        MX result = MxStatic.ge(this.mx, threshold.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -3986,7 +3986,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper eq(MXWrapper y) {
-        return new MXWrapper(MX.eq(this.mx, y.mx));
+        return new MXWrapper(MxStatic.eq(this.mx, y.mx));
     }
 
     /**
@@ -4003,7 +4003,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper eq(T number) {
         double other = number.doubleValue();
         MXWrapper value = new MXWrapper(other);
-        MX result = MX.eq(this.mx, value.getCasADiObject());
+        MX result = MxStatic.eq(this.mx, value.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -4015,7 +4015,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper ne(MXWrapper y) {
-        return new MXWrapper(MX.ne(this.mx, y.mx));
+        return new MXWrapper(MxStatic.ne(this.mx, y.mx));
     }
 
     /**
@@ -4032,7 +4032,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper ne(T number) {
         double other = number.doubleValue();
         MXWrapper value = new MXWrapper(other);
-        MX result = MX.ne(this.mx, value.getCasADiObject());
+        MX result = MxStatic.ne(this.mx, value.getCasADiObject());
         return new MXWrapper(result);
     }
 
@@ -4047,7 +4047,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper logicAnd(MXWrapper y) {
-        return new MXWrapper(MX.logic_and(this.mx, y.mx));
+        return new MXWrapper(MxStatic.logic_and(this.mx, y.mx));
     }
 
     /**
@@ -4061,7 +4061,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper logicOr(MXWrapper y) {
-        return new MXWrapper(MX.logic_or(this.mx, y.mx));
+        return new MXWrapper(MxStatic.logic_or(this.mx, y.mx));
     }
 
     /**
@@ -4074,7 +4074,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper logicNot() {
-        return new MXWrapper(MX.logic_not(this.mx));
+        return new MXWrapper(MxStatic.logic_not(this.mx));
     }
 
     /**
@@ -4084,7 +4084,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper abs() {
-        return new MXWrapper(MX.abs(this.mx));
+        return new MXWrapper(MxStatic.abs(this.mx));
     }
 
     /**
@@ -4094,7 +4094,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper sqrt() {
-        return new MXWrapper(MX.sqrt(this.mx));
+        return new MXWrapper(MxStatic.sqrt(this.mx));
     }
 
 
@@ -4105,7 +4105,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper sq() {
-        return new MXWrapper(MX.sq(this.mx));
+        return new MXWrapper(MxStatic.sq(this.mx));
     }
 
     /**
@@ -4115,7 +4115,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper sin() {
-        return new MXWrapper(MX.sin(this.mx));
+        return new MXWrapper(MxStatic.sin(this.mx));
     }
 
     /**
@@ -4125,7 +4125,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper cos() {
-        return new MXWrapper(MX.cos(this.mx));
+        return new MXWrapper(MxStatic.cos(this.mx));
     }
 
     /**
@@ -4135,7 +4135,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper tan() {
-        return new MXWrapper(MX.tan(this.mx));
+        return new MXWrapper(MxStatic.tan(this.mx));
     }
 
     /**
@@ -4145,7 +4145,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper atan() {
-        return new MXWrapper(MX.atan(this.mx));
+        return new MXWrapper(MxStatic.atan(this.mx));
     }
 
     /**
@@ -4155,7 +4155,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper asin() {
-        return new MXWrapper(MX.asin(this.mx));
+        return new MXWrapper(MxStatic.asin(this.mx));
     }
 
     /**
@@ -4165,7 +4165,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper acos() {
-        return new MXWrapper(MX.acos(this.mx));
+        return new MXWrapper(MxStatic.acos(this.mx));
     }
 
     /**
@@ -4175,7 +4175,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper tanh() {
-        return new MXWrapper(MX.tanh(this.mx));
+        return new MXWrapper(MxStatic.tanh(this.mx));
     }
 
     /**
@@ -4185,7 +4185,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper sinh() {
-        return new MXWrapper(MX.sinh(this.mx));
+        return new MXWrapper(MxStatic.sinh(this.mx));
     }
 
     /**
@@ -4195,7 +4195,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper cosh() {
-        return new MXWrapper(MX.cosh(this.mx));
+        return new MXWrapper(MxStatic.cosh(this.mx));
     }
 
     /**
@@ -4205,7 +4205,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper atanh() {
-        return new MXWrapper(MX.atanh(this.mx));
+        return new MXWrapper(MxStatic.atanh(this.mx));
     }
 
     /**
@@ -4215,7 +4215,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper asinh() {
-        return new MXWrapper(MX.asinh(this.mx));
+        return new MXWrapper(MxStatic.asinh(this.mx));
     }
 
     /**
@@ -4225,7 +4225,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper acosh() {
-        return new MXWrapper(MX.acosh(this.mx));
+        return new MXWrapper(MxStatic.acosh(this.mx));
     }
 
     /**
@@ -4235,7 +4235,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper exp() {
-        return new MXWrapper(MX.exp(this.mx));
+        return new MXWrapper(MxStatic.exp(this.mx));
     }
 
     /**
@@ -4245,7 +4245,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper log() {
-        return new MXWrapper(MX.log(this.mx));
+        return new MXWrapper(MxStatic.log(this.mx));
     }
 
     /**
@@ -4255,7 +4255,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper log10() {
-        return new MXWrapper(MX.log10(this.mx));
+        return new MXWrapper(MxStatic.log10(this.mx));
     }
 
     /**
@@ -4265,7 +4265,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper log1p() {
-        return new MXWrapper(MX.log1p(this.mx));
+        return new MXWrapper(MxStatic.log1p(this.mx));
     }
 
     /**
@@ -4275,7 +4275,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper expm1() {
-        return new MXWrapper(MX.expm1(this.mx));
+        return new MXWrapper(MxStatic.expm1(this.mx));
     }
 
     /**
@@ -4285,7 +4285,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper floor() {
-        return new MXWrapper(MX.floor(this.mx));
+        return new MXWrapper(MxStatic.floor(this.mx));
     }
 
     /**
@@ -4295,7 +4295,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper ceil() {
-        return new MXWrapper(MX.ceil(this.mx));
+        return new MXWrapper(MxStatic.ceil(this.mx));
     }
 
     /**
@@ -4305,7 +4305,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper erf() {
-        return new MXWrapper(MX.erf(this.mx));
+        return new MXWrapper(MxStatic.erf(this.mx));
     }
 
     /**
@@ -4315,7 +4315,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper erfinv() {
-        return new MXWrapper(MX.erfinv(this.mx));
+        return new MXWrapper(MxStatic.erfinv(this.mx));
     }
 
     /**
@@ -4325,7 +4325,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper sign() {
-        return new MXWrapper(MX.sign(this.mx));
+        return new MXWrapper(MxStatic.sign(this.mx));
     }
 
     /**
@@ -4336,7 +4336,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper pow(MXWrapper other) {
-        return new MXWrapper(MX.pow(this.mx, other.mx));
+        return new MXWrapper(MxStatic.pow(this.mx, other.mx));
     }
 
     /**
@@ -4354,7 +4354,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     public <T extends Number> MXWrapper pow(T exponent) {
         double exp = exponent.doubleValue();
         MX exponentMX = new MX(exp);
-        return new MXWrapper(MX.pow(this.mx, exponentMX));
+        return new MXWrapper(MxStatic.pow(this.mx, exponentMX));
     }
 
     /**
@@ -4365,7 +4365,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper mod(MXWrapper other) {
-        return new MXWrapper(MX.mod(this.mx, other.mx));
+        return new MXWrapper(MxStatic.mod(this.mx, other.mx));
     }
 
     /**
@@ -4376,7 +4376,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper remainder(MXWrapper other) {
-        return new MXWrapper(MX.remainder(this.mx, other.mx));
+        return new MXWrapper(MxStatic.remainder(this.mx, other.mx));
     }
 
     /**
@@ -4387,7 +4387,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper atan2(MXWrapper other) {
-        return new MXWrapper(MX.atan2(this.mx, other.mx));
+        return new MXWrapper(MxStatic.atan2(this.mx, other.mx));
     }
 
     /**
@@ -4398,7 +4398,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper ifElseZero(MXWrapper other) {
-        return new MXWrapper(MX.if_else_zero(this.mx, other.mx));
+        return new MXWrapper(MxStatic.if_else_zero(this.mx, other.mx));
     }
 
     /**
@@ -4409,7 +4409,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper fmin(MXWrapper other) {
-        return new MXWrapper(MX.fmin(this.mx, other.mx));
+        return new MXWrapper(MxStatic.fmin(this.mx, other.mx));
     }
 
     /**
@@ -4420,7 +4420,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper fmax(MXWrapper other) {
-        return new MXWrapper(MX.fmax(this.mx, other.mx));
+        return new MXWrapper(MxStatic.fmax(this.mx, other.mx));
     }
 
     /**
@@ -4431,7 +4431,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper copysign(MXWrapper other) {
-        return new MXWrapper(MX.copysign(this.mx, other.mx));
+        return new MXWrapper(MxStatic.copysign(this.mx, other.mx));
     }
 
     /**
@@ -4442,7 +4442,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper constpow(MXWrapper other) {
-        return new MXWrapper(MX.constpow(this.mx, other.mx));
+        return new MXWrapper(MxStatic.constpow(this.mx, other.mx));
     }
 
     /**
@@ -4453,7 +4453,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
      */
     @Override
     public MXWrapper hypot(MXWrapper other) {
-        return new MXWrapper(MX.hypot(this.mx, other.mx));
+        return new MXWrapper(MxStatic.hypot(this.mx, other.mx));
     }
 
     /**
@@ -4467,7 +4467,7 @@ public class MXWrapper implements Wrapper<MXWrapper>, SymbolicExpression {
     @Override
     public MXWrapper negate() {
         MXWrapper sign = new MXWrapper(-1);
-        return new MXWrapper(MX.times(this.mx, sign.getCasADiObject()));
+        return new MXWrapper(MxStatic.times(this.mx, sign.getCasADiObject()));
     }
 
     /**
