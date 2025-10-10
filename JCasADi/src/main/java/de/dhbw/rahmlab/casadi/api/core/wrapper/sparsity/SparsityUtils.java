@@ -2,6 +2,7 @@ package de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity;
 
 import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
+import de.dhbw.rahmlab.casadi.impl.casadi.SparsitySparsityInterface;
 
 public class SparsityUtils {
 
@@ -62,11 +63,11 @@ public class SparsityUtils {
     }
 
     public static CasADiIntVector offset(SparsityVector v, boolean vert) {
-        return new CasADiIntVector(Sparsity.offset(v.getCasADiObject(), vert));
+        return new CasADiIntVector(SparsitySparsityInterface.offset(v.getCasADiObject(), vert));
     }
 
     public static CasADiIntVector offset(SparsityVector v) {
-        return new CasADiIntVector(Sparsity.offset(v.getCasADiObject()));
+        return new CasADiIntVector(SparsitySparsityInterface.offset(v.getCasADiObject()));
     }
 
 }

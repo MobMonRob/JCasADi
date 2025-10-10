@@ -4,6 +4,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
+import de.dhbw.rahmlab.casadi.impl.casadi.SparsitySparsityInterface;
 
 public class SparsityWrapper {
 
@@ -695,27 +696,27 @@ public class SparsityWrapper {
     }
 
     public SparsityVectorCollection blocksplit(CasADiIntVector vertOffset, CasADiIntVector horzOffset) {
-        return new SparsityVectorCollection(Sparsity.blocksplit(this.sparsity, vertOffset.getCasADiObject(), horzOffset.getCasADiObject()));
+        return new SparsityVectorCollection(SparsitySparsityInterface.blocksplit(this.sparsity, vertOffset.getCasADiObject(), horzOffset.getCasADiObject()));
     }
 
     public SparsityVectorCollection blocksplit(long vertIncr, long horzIncr) {
-        return new SparsityVectorCollection(Sparsity.blocksplit(this.sparsity, vertIncr, horzIncr));
+        return new SparsityVectorCollection(SparsitySparsityInterface.blocksplit(this.sparsity, vertIncr, horzIncr));
     }
 
     public SparsityWrapper vec() {
-        return new SparsityWrapper(Sparsity.vec(this.sparsity));
+        return new SparsityWrapper(SparsitySparsityInterface.vec(this.sparsity));
     }
 
     public SparsityWrapper repmat(long n, long m) {
-        return new SparsityWrapper(Sparsity.repmat(this.sparsity, n, m));
+        return new SparsityWrapper(SparsitySparsityInterface.repmat(this.sparsity, n, m));
     }
 
     public SparsityWrapper repmat(long n) {
-        return new SparsityWrapper(Sparsity.repmat(this.sparsity, n));
+        return new SparsityWrapper(SparsitySparsityInterface.repmat(this.sparsity, n));
     }
 
     public SparsityVector vertsplitN(long n) {
-        return new SparsityVector(Sparsity.vertsplit_n(this.sparsity, n));
+        return new SparsityVector(SparsitySparsityInterface.vertsplit_n(this.sparsity, n));
     }
 
     public String toString(boolean more) {

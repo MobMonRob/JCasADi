@@ -19,6 +19,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
+import de.dhbw.rahmlab.casadi.impl.casadi.SparsitySparsityInterface;
 import de.dhbw.rahmlab.casadi.impl.casadi.SxGenericExpression;
 import de.dhbw.rahmlab.casadi.impl.casadi.SxGenericMatrix;
 import de.dhbw.rahmlab.casadi.impl.casadi.SxSparsityInterface;
@@ -33,6 +34,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@GenerateDelegate(name = "SparsityStatic", of = {Sparsity.class, SparsitySparsityInterface.class})
 @GenerateDelegate(name = "DmStatic", of = {DM.class, DmGenericExpression.class, DmGenericMatrix.class, DmSparsityInterface.class})
 @GenerateDelegate(name = "ImStatic", of = {IM.class, ImGenericExpression.class, ImGenericMatrix.class, ImSparsityInterface.class})
 @GenerateDelegate(name = "MxStatic", of = {MX.class, MxGenericExpression.class, MxGenericMatrix.class, MxSparsityInterface.class})

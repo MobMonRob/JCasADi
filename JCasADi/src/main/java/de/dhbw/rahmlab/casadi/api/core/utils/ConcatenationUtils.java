@@ -16,6 +16,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVectorCollection;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
+import de.dhbw.rahmlab.casadi.impl.casadi.SparsitySparsityInterface;
 
 import java.util.Arrays;
 
@@ -147,7 +148,7 @@ public class ConcatenationUtils {
     public static SparsityWrapper veccat(SparsityWrapper... vector) {
         SparsityVector sparsityVector = new SparsityVector();
         sparsityVector.addAll(Arrays.asList(vector));
-        return new SparsityWrapper(Sparsity.veccat(sparsityVector.getCasADiObject()));
+        return new SparsityWrapper(SparsitySparsityInterface.veccat(sparsityVector.getCasADiObject()));
     }
 
     /**
