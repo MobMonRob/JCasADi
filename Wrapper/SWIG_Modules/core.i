@@ -378,6 +378,7 @@ typedef std::vector<DM> DMVector;
 
 //// Start: MX
 %ignore casadi::MX::repmat; // Still in SparsityInterface which is superclass.
+%ignore casadi::MX::repsum; // Still in GenericExpression which is superclass.
 
 %template_interface("MxGenericMatrix", casadi::GenericMatrix< casadi::MX >) // First to avoid swig crash.
 class casadi::MX; // Forward declaration needed for Template instantiation in SWIG.
