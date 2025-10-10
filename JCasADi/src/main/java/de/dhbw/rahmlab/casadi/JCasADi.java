@@ -1,19 +1,42 @@
 package de.dhbw.rahmlab.casadi;
 
+import de.dhbw.rahmlab.casadi.delegating.annotation.api.GenerateDelegate;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
+import de.dhbw.rahmlab.casadi.impl.casadi.DmGenericExpression;
+import de.dhbw.rahmlab.casadi.impl.casadi.DmGenericMatrix;
+import de.dhbw.rahmlab.casadi.impl.casadi.DmSparsityInterface;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GlobalOptions;
+import de.dhbw.rahmlab.casadi.impl.casadi.IM;
+import de.dhbw.rahmlab.casadi.impl.casadi.ImGenericExpression;
+import de.dhbw.rahmlab.casadi.impl.casadi.ImGenericMatrix;
+import de.dhbw.rahmlab.casadi.impl.casadi.ImSparsityInterface;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
+import de.dhbw.rahmlab.casadi.impl.casadi.MxGenericExpression;
+import de.dhbw.rahmlab.casadi.impl.casadi.MxGenericMatrix;
+import de.dhbw.rahmlab.casadi.impl.casadi.MxSparsityInterface;
+import de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
+import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
+import de.dhbw.rahmlab.casadi.impl.casadi.SxGenericExpression;
+import de.dhbw.rahmlab.casadi.impl.casadi.SxGenericMatrix;
+import de.dhbw.rahmlab.casadi.impl.casadi.SxSparsityInterface;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorStdString;
 import de.dhbw.rahmlab.nativelibloader.api.NativeLibLoader;
+import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+@GenerateDelegate(name = "DmStatic", of = {DM.class, DmGenericExpression.class, DmGenericMatrix.class, DmSparsityInterface.class})
+@GenerateDelegate(name = "ImStatic", of = {IM.class, ImGenericExpression.class, ImGenericMatrix.class, ImSparsityInterface.class})
+@GenerateDelegate(name = "MxStatic", of = {MX.class, MxGenericExpression.class, MxGenericMatrix.class, MxSparsityInterface.class})
+@GenerateDelegate(name = "SxStatic", of = {SX.class, SxGenericExpression.class, SxGenericMatrix.class, SxSparsityInterface.class})
 public class JCasADi {
 
 	public static void main(String[] args) {

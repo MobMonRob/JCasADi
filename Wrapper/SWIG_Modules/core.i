@@ -21,6 +21,8 @@
 #pragma SWIG nowarn=320 // Explicit template instantiation ignored.
 #pragma SWIG nowarn=401 // Nothing known about base class, ignored. Maybe you forgot to instantiate using %template.
 #pragma SWIG nowarn=315 // IM: Nothing known about 'B::horzsplit' ...
+#pragma SWIG nowarn=526 // Using declaration is not actually using, as names are different.
+#pragma SWIG nowarn=327 // SX: Extern template ignored.
 
 // append works for strings
 %naturalvar;
@@ -300,8 +302,8 @@ class casadi::SXElem {
 	%include "casadi/core/sx.hpp"
 #define SWIG
 
+%template_interface("SxGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >) // First, to avoid swig crash.
 %template_interface("SxSparsityInterface", casadi::SparsityInterface< casadi::Matrix< casadi::SXElem > >) // Needed for GenericMatrix
-%template_interface("SxGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >)
 %template_interface("SxGenericExpression", casadi::GenericExpression< casadi::Matrix< casadi::SXElem > >)
 %template(SX) casadi::Matrix<casadi::SXElem>;
 
@@ -341,8 +343,8 @@ typedef casadi::Matrix<casadi::SXElem> SX;
 // typedef long long int casadi_int;
 typedef casadi::Matrix<casadi_int> IM;
 
+%template_interface("ImGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi_int > >) // First to avoid swig crash.
 %template_interface("ImSparsityInterface", casadi::SparsityInterface< casadi::Matrix< casadi_int > >)
-%template_interface("ImGenericMatrix", casadi::GenericMatrix< casadi::Matrix< casadi_int > >)
 %template_interface("ImGenericExpression", casadi::GenericExpression< casadi::Matrix< casadi_int > >)
 // %template_interface("ImPrintable", casadi::Printable< casadi::Matrix< casadi_int > >)
 %template(IM) casadi::Matrix<casadi_int>;
@@ -356,8 +358,8 @@ typedef casadi::Matrix<casadi_int> IM;
 // dm_fwd.hpp
 typedef casadi::Matrix<double> DM;
 
+%template_interface("DmGenericMatrix", casadi::GenericMatrix< casadi::Matrix< double > >) // First to avoid swig crash.
 %template_interface("DmSparsityInterface", casadi::SparsityInterface< casadi::Matrix< double > >)
-%template_interface("DmGenericMatrix", casadi::GenericMatrix< casadi::Matrix< double > >)
 %template_interface("DmGenericExpression", casadi::GenericExpression< casadi::Matrix< double > >)
 // %template_interface("DmPrintable", casadi::Printable< casadi::Matrix< double > >)
 %template(DM) casadi::Matrix<double>;
@@ -376,11 +378,12 @@ typedef std::vector<DM> DMVector;
 
 //// Start: MX
 %ignore casadi::MX::repmat; // Still in SparsityInterface which is superclass.
+%ignore casadi::MX::repsum; // Still in GenericExpression which is superclass.
 
+%template_interface("MxGenericMatrix", casadi::GenericMatrix< casadi::MX >) // First to avoid swig crash.
 class casadi::MX; // Forward declaration needed for Template instantiation in SWIG.
 %template_interface("MxGenericExpression", casadi::GenericExpression< casadi::MX >)
 %template_interface("MxSparsityInterface", casadi::SparsityInterface< casadi::MX >) // Needed for GenericMatrix
-%template_interface("MxGenericMatrix", casadi::GenericMatrix< casadi::MX >)
 
 %ignore casadi::ConvexifyData; // Used only in CodeGenerator within "#ifndef SWIG".
 #undef SWIG
