@@ -393,6 +393,7 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 
 %extendAt("Mx", casadi::MX)
 %extend casadi::SubMatrix<casadi::MX, int, int> {
+%typemap(jstype) casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > > "$javaclassname"
 %proxycode %{
 	/**
 	 * Shows the value if MX is a 1x1 Matrix. Works with MX created via MX.sym(). Be cautious: Will resolve MX dependencies as far as it can. The output is basically MX transformed to SX.
@@ -404,7 +405,8 @@ class casadi::MX; // Forward declaration needed for Template instantiation in SW
 		}
 
 		var freeMX = $typemap(jstype, casadi::MX).symvar(this);
-		var freeSX = freeMX.stream().map(freeVar -> $typemap(jstype, casadi::SX).sym(freeVar.name(), freeVar.rows(), freeVar.columns())).toList();
+
+		var freeSX = freeMX.stream().map(freeVar -> $typemap(jstype, casadi::GenericMatrix< casadi::Matrix< casadi::SXElem > >).sym(freeVar.name(), freeVar.rows(), freeVar.columns())).toList();
 
 		var inSym = new $typemap(jstype, std::vector<casadi::MX>)(freeMX);
 		var outSym = new $typemap(jstype, std::vector<casadi::MX>)(java.util.List.of(this));
