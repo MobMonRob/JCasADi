@@ -1,0 +1,1821 @@
+package de.dhbw.rahmlab.casadi.api.core.wrapper.dm;
+
+import de.dhbw.rahmlab.casadi.DmStatic;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.bool.BooleanVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dbl.DoubleVectorCollection;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.dict.Dictionary;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.im.IMWrapper;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.NumericValue;
+import de.dhbw.rahmlab.casadi.api.core.interfaces.Wrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.index.IndexSlice;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.integer.CasADiIntVector;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.numeric.NumberWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.sparsity.SparsityWrapper;
+import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
+import de.dhbw.rahmlab.casadi.impl.casadi.*;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class DMWrapper implements Wrapper<DMWrapper>, NumericValue {
+
+    private final DM dm;
+    private String id;
+
+    public DMWrapper() {
+        this.dm = new DM();
+    }
+
+    public DMWrapper(DM dm) {
+        this.dm = new DM(dm);
+    }
+
+    public DMWrapper(DMWrapper other) {
+        this.dm = new DM(other.getCasADiObject());
+    }
+
+    public DMWrapper(long nrow, long ncol) {
+        this.dm = new DM(nrow, ncol);
+    }
+
+    public DMWrapper(SparsityWrapper sp) {
+        this.dm = new DM(sp.getCasADiObject());
+    }
+
+    public DMWrapper(SparsityWrapper sp, DMWrapper d) {
+        this.dm = new DM(sp.getCasADiObject(), d.getCasADiObject());
+    }
+
+    public DMWrapper(double value) {
+        this.dm = new DM(value);
+    }
+
+    public DMWrapper(DoubleVectorCollection m) {
+        this.dm = new DM(m.getCasADiObject());
+    }
+
+    public DMWrapper(DoubleVector... m) {
+        DoubleVectorCollection collection = new DoubleVectorCollection();
+        collection.addAll(List.of(m));
+        this.dm = new DM(collection.getCasADiObject());
+    }
+
+    public DMWrapper(DoubleVector x) {
+        this.dm = new DM(x.getCasADiObject());
+    }
+
+    public DMWrapper(double... x) {
+        DoubleVector vector = new DoubleVector(x);
+        this.dm = new DM(vector.getCasADiObject());
+    }
+
+    public DMWrapper(Double... x) {
+        DoubleVector vector = new DoubleVector(x);
+        this.dm = new DM(vector.getCasADiObject());
+    }
+    
+    /*
+    public DMWrapper(Number x) {
+        this.dm = new DM(x.doubleValue());
+    }
+
+    public DMWrapper(Number... x) {
+        DoubleVector vector = new DoubleVector();
+        Arrays.stream(x).forEach(element -> vector.add(element.doubleValue()));
+        this.dm = new DM();
+    }
+    */
+
+    public DMWrapper(Iterable<Double> values) {
+        this.dm = new DM(new DoubleVector(values).getCasADiObject());
+    }
+
+    public DMWrapper(NumberWrapper number) {
+        double doubleValue = number.getDoubleValue();
+        this.dm = new DM(doubleValue);
+    }
+
+    public DMWrapper(NumberWrapper... values) {
+        StdVectorDouble stdVectorDouble = new StdVectorDouble();
+        Arrays.stream(values).forEach(v -> stdVectorDouble.add(v.getDoubleValue()));
+        this.dm = new DM(stdVectorDouble);
+    }
+
+    public DMWrapper(SparsityWrapper sp, double val, boolean dummy) {
+        this.dm = new DM(sp.getCasADiObject(), val, dummy);
+    }
+
+    public DMWrapper(SparsityWrapper sp, DoubleVector d, boolean dummy) {
+        this.dm = new DM(sp.getCasADiObject(), d.getCasADiObject(), dummy);
+    }
+
+    public static DMWrapper rand(long nrow, long ncol) {
+        return new DMWrapper(DmStatic.rand(nrow, ncol));
+    }
+
+    public static DMWrapper rand(long nrow) {
+        return new DMWrapper(DmStatic.rand(nrow));
+    }
+
+    public static DMWrapper rand() {
+        return new DMWrapper(DmStatic.rand());
+    }
+
+    public static DMWrapper rand(SparsityWrapper sp) {
+        return new DMWrapper(DmStatic.rand(sp.getCasADiObject()));
+    }
+
+    public double scalar() {
+        return this.dm.scalar();
+    }
+
+    public boolean hasNZ(long rr, long cc) {
+        return this.dm.has_nz(rr, cc);
+    }
+
+    public boolean nonzero() {
+        return this.dm.__nonzero__();
+    }
+
+    // ----- Get a submatrix, single argument -----
+    @Override
+    public DMWrapper get(String sliceDefinition) {
+        IndexSlice indexSlice = IndexSlice.slicingSyntax(sliceDefinition);
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), true, indexSlice.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper get(boolean ind1, IndexSlice rr) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper get(boolean ind1, IMWrapper rr) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper get(boolean ind1, SparsityWrapper sp) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), ind1, sp.getCasADiObject());
+        return output;
+    }
+
+    // ----- Get a submatrix, two arguments -----
+    @Override
+    public DMWrapper get(String sliceDefinitionRR, String sliceDefinitionCC) {
+        IndexSlice indexSliceRR = IndexSlice.slicingSyntax(sliceDefinitionRR);
+        IndexSlice indexSliceCC = IndexSlice.slicingSyntax(sliceDefinitionCC);
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), true, indexSliceRR.getCasADiObject(), indexSliceCC.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper get(boolean ind1, IndexSlice rr, IndexSlice cc) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper get(boolean ind1, IndexSlice rr, IMWrapper cc) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper get(boolean ind1, IMWrapper rr, IndexSlice cc) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper get(boolean ind1, IMWrapper rr, IMWrapper cc) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper get(NumberWrapper... slice) {
+        IndexSlice indexSlice = new IndexSlice(slice);
+        DMWrapper output = new DMWrapper();
+        this.dm.get(output.getCasADiObject(), true, indexSlice.getCasADiObject());
+        return output;
+    }
+
+    // ----- Set a submatrix, single arguments -----
+    @Override
+    public void set(DMWrapper m, String sliceDefinition) {
+        IndexSlice indexSlice = IndexSlice.slicingSyntax(sliceDefinition);
+        this.dm.set(m.getCasADiObject(), true, indexSlice.getCasADiObject());
+    }
+
+    @Override
+    public void set(DMWrapper m, boolean ind1, IndexSlice rr) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject());
+    }
+
+    @Override
+    public void set(DMWrapper m, boolean ind1, IMWrapper rr) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject());
+    }
+
+    @Override
+    public void set(DMWrapper m, boolean ind1, SparsityWrapper sp) {
+        this.dm.set(m.getCasADiObject(), ind1, sp.getCasADiObject());
+    }
+
+    // ----- Set a submatrix, two arguments -----
+    @Override
+    public void set(DMWrapper m, String sliceDefinitionRR, String sliceDefinitionCC) {
+        IndexSlice indexSliceRR = IndexSlice.slicingSyntax(sliceDefinitionRR);
+        IndexSlice indexSliceCC = IndexSlice.slicingSyntax(sliceDefinitionCC);
+        this.dm.set(m.getCasADiObject(), true, indexSliceRR.getCasADiObject(), indexSliceCC.getCasADiObject());
+    }
+
+    @Override
+    public void set(DMWrapper m, boolean ind1, IndexSlice rr, IndexSlice cc) {
+       this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    @Override
+    public void set(DMWrapper m, boolean ind1, IndexSlice rr, IMWrapper cc) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    @Override
+    public void set(DMWrapper m, boolean ind1, IMWrapper rr, IndexSlice cc) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    @Override
+    public void set(DMWrapper m, boolean ind1, IMWrapper rr, IMWrapper cc) {
+        this.dm.set(m.getCasADiObject(), ind1, rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    @Override
+    public void set(DMWrapper m, NumberWrapper... slice) {
+        IndexSlice indexSlice = new IndexSlice(slice);
+        this.dm.set(m.getCasADiObject(), true, indexSlice.getCasADiObject());
+    }
+
+    @Override
+    public DMWrapper getNZ(boolean ind1, IndexSlice k) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get_nz(output.getCasADiObject(), ind1, k.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public DMWrapper getNZ(boolean ind1, IMWrapper k) {
+        DMWrapper output = new DMWrapper();
+        this.dm.get_nz(output.getCasADiObject(), ind1, k.getCasADiObject());
+        return output;
+    }
+
+    @Override
+    public void setNZ(DMWrapper m, boolean ind1, IndexSlice k) {
+        this.dm.set_nz(m.getCasADiObject(), ind1, k.getCasADiObject());
+    }
+
+    @Override
+    public void setNZ(DMWrapper m, boolean ind1, IMWrapper k) {
+        this.dm.set_nz(m.getCasADiObject(), ind1, k.getCasADiObject());
+    }
+
+    @Override
+    public DMWrapper binary(long op, DMWrapper y) {
+        DM result = DmStatic.binary(op, this.dm, y.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper unary(long op) {
+        DM result = DmStatic.unary(op, this.dm);
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public boolean isEqual(DMWrapper other, long depth) {
+        return DmStatic.is_equal(this.dm, other.getCasADiObject(), depth);
+    }
+
+    @Override
+    public boolean isEqual(DMWrapper other) {
+        return DmStatic.is_equal(this.dm, other.getCasADiObject());
+    }
+
+    @Override
+    public DMWrapper mmin() {
+        return new DMWrapper(DmStatic.mmin(this.dm));
+    }
+
+    @Override
+    public DMWrapper mmax() {
+        return new DMWrapper(DmStatic.mmax(this.dm));
+    }
+
+    @Override
+    public DMWrapper simplify() {
+        return new DMWrapper(DmStatic.simplify(this.dm));
+    }
+
+    @Override
+    public DMWrapper jacobian(DMWrapper x, Dictionary opts) {
+        return new DMWrapper(DmStatic.jacobian(this.dm, x.getCasADiObject(), opts.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper jacobian(DMWrapper x) {
+        return new DMWrapper(DmStatic.jacobian(this.dm, x.getCasADiObject()));
+    }
+
+    @Override
+    public SparsityWrapper jacobianSparsity(DMWrapper x) {
+        return new SparsityWrapper(DmStatic.jacobian_sparsity(this.dm, x.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper hessian(DMWrapper x, Dictionary opts) {
+        return new DMWrapper(DmStatic.hessian(this.dm, x.getCasADiObject(), opts.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper hessian(DMWrapper x) {
+        return new DMWrapper(DmStatic.hessian(this.dm, x.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper hessian(DMWrapper x, DMWrapper g, Dictionary opts) {
+        return new DMWrapper(DmStatic.hessian(this.dm, x.getCasADiObject(), g.getCasADiObject(), opts.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper hessian(DMWrapper x, DMWrapper g) {
+        return new DMWrapper(DmStatic.hessian(this.dm, x.getCasADiObject(), g.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper substitute(DMWrapper v, DMWrapper vdef) {
+        return new DMWrapper(DmStatic.substitute(this.dm, v.getCasADiObject(), vdef.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper pinv() {
+        return new DMWrapper(DmStatic.pinv(this.dm));
+    }
+
+    @Override
+    public DMWrapper pinv(String lsolver, Dictionary opts) {
+        return new DMWrapper(DmStatic.pinv(this.dm, lsolver, opts.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper expmConst(DMWrapper t) {
+        return new DMWrapper(DmStatic.expm_const(this.dm, t.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper expm() {
+        return new DMWrapper(DmStatic.expm(this.dm));
+    }
+
+    @Override
+    public DMWrapper solve(DMWrapper b) {
+        return new DMWrapper(DmStatic.solve(this.dm, b.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper solve(DMWrapper b, String lsolver, Dictionary opts) {
+        return new DMWrapper(DmStatic.solve(this.dm, b.getCasADiObject(), lsolver, opts.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper inv() {
+        return new DMWrapper(DmStatic.inv(this.dm));
+    }
+
+    @Override
+    public DMWrapper inv(String lsolver, Dictionary opts) {
+        return new DMWrapper(DmStatic.inv(this.dm, lsolver, opts.getCasADiObject()));
+    }
+
+    @Override
+    public long nNodes() {
+        return DmStatic.n_nodes(this.dm);
+    }
+
+    @Override
+    public String printOperator(StringVector args) {
+        return DmStatic.print_operator(this.dm, args.getCasADiObject());
+    }
+
+    @Override
+    public boolean dependsOn(DMWrapper arg) {
+        return DmStatic.depends_on(this.dm, arg.getCasADiObject());
+    }
+
+    @Override
+    public DMWrapper mrdivide(DMWrapper y) {
+        return new DMWrapper(DmStatic.mrdivide(this.dm, y.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper mldivide(DMWrapper y) {
+        return new DMWrapper(DmStatic.mldivide(this.dm, y.getCasADiObject()));
+    }
+
+    public DMVector symvar() {
+        return new DMVector(DmStatic.symvar(this.dm));
+    }
+
+    @Override
+    public DMWrapper det() {
+        return new DMWrapper(DmStatic.det(this.dm));
+    }
+
+    @Override
+    public DMWrapper invMinor() {
+        return new DMWrapper(DmStatic.inv_minor(this.dm));
+    }
+
+    @Override
+    public DMWrapper trace() {
+        return new DMWrapper(DmStatic.trace(this.dm));
+    }
+
+    @Override
+    public DMWrapper norm1() {
+        return new DMWrapper(DmStatic.norm_1(this.dm));
+    }
+
+    @Override
+    public DMWrapper norm2() {
+        return new DMWrapper(DmStatic.norm_2(this.dm));
+    }
+
+    @Override
+    public DMWrapper normFro() {
+        return new DMWrapper(DmStatic.norm_fro(this.dm));
+    }
+
+    @Override
+    public DMWrapper normInf() {
+        return new DMWrapper(DmStatic.norm_inf(this.dm));
+    }
+
+    @Override
+    public DMWrapper sum2() {
+        return new DMWrapper(DmStatic.sum2(this.dm));
+    }
+
+    @Override
+    public DMWrapper sum1() {
+        return new DMWrapper(DmStatic.sum1(this.dm));
+    }
+
+    @Override
+    public DMWrapper dot(DMWrapper y) {
+        return new DMWrapper(DmStatic.dot(this.dm, y.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper nullspace() {
+        return new DMWrapper(DmStatic.nullspace(this.dm));
+    }
+
+    @Override
+    public DMWrapper diag() {
+        return new DMWrapper(DmStatic.diag(this.dm));
+    }
+
+    @Override
+    public DMWrapper unite(DMWrapper B) {
+        return new DMWrapper(DmStatic.unite(this.dm, B.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper project(SparsityWrapper sp, boolean intersect) {
+        return new DMWrapper(DmStatic.project(this.dm, sp.getCasADiObject(), intersect));
+    }
+
+    @Override
+    public DMWrapper project(SparsityWrapper sp) {
+        return new DMWrapper(DmStatic.project(this.dm, sp.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper polyval(DMWrapper x) {
+        return new DMWrapper(DmStatic.polyval(this.dm, x.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper densify(DMWrapper val) {
+        return new DMWrapper(DmStatic.densify(this.dm, val.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper densify() {
+        return new DMWrapper(DmStatic.densify(this.dm));
+    }
+
+    @Override
+    public DMWrapper einstein(DMWrapper other, DMWrapper C,
+                              CasADiIntVector dim_a, CasADiIntVector dim_b,
+                              CasADiIntVector dim_c, CasADiIntVector a,
+                              CasADiIntVector b, CasADiIntVector c) {
+        return new DMWrapper(DmStatic.einstein(this.dm, other.getCasADiObject(), C.getCasADiObject(),
+                dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
+                a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper einstein(DMWrapper other,
+                              CasADiIntVector dim_a, CasADiIntVector dim_b,
+                              CasADiIntVector dim_c, CasADiIntVector a,
+                              CasADiIntVector b, CasADiIntVector c) {
+        return new DMWrapper(DmStatic.einstein(this.dm, other.getCasADiObject(),
+                dim_a.getCasADiObject(), dim_b.getCasADiObject(), dim_c.getCasADiObject(),
+                a.getCasADiObject(), b.getCasADiObject(), c.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper cumsum(long axis) {
+        return new DMWrapper(DmStatic.cumsum(this.dm, axis));
+    }
+
+    @Override
+    public DMWrapper cumsum() {
+        return new DMWrapper(DmStatic.cumsum(this.dm));
+    }
+
+    public DMVector horzsplit(CasADiIntVector offset) {
+        return new DMVector(DmStatic.horzsplit(this.dm, offset.getCasADiObject()));
+    }
+
+    public DMVector vertsplit(CasADiIntVector offset) {
+        return new DMVector(DmStatic.vertsplit(this.dm, offset.getCasADiObject()));
+    }
+
+    public DMVector diagsplit(CasADiIntVector offset1, CasADiIntVector offset2) {
+        return new DMVector(DmStatic.diagsplit(this.dm, offset1.getCasADiObject(), offset2.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper reshape(long nrow, long ncol) {
+        return new DMWrapper(DmStatic.reshape(this.dm, nrow, ncol));
+    }
+
+    @Override
+    public DMWrapper reshape(SparsityWrapper sp) {
+        return new DMWrapper(DmStatic.reshape(this.dm, sp.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper sparsityCast(SparsityWrapper sp) {
+        return new DMWrapper(DmStatic.sparsity_cast(this.dm, sp.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper kron(DMWrapper y) {
+        return new DMWrapper(DmStatic.kron(this.dm, y.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper mtimes(DMWrapper y) {
+        return new DMWrapper(DmStatic.mtimes(this.dm, y.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper mac(DMWrapper y, DMWrapper z) {
+        return new DMWrapper(DmStatic.mac(this.dm, y.getCasADiObject(), z.getCasADiObject()));
+    }
+
+    public DMWrapper sparsify(double tol) {
+        return new DMWrapper(DmStatic.sparsify(this.dm, tol));
+    }
+
+    public DMWrapper sparsify() {
+        return new DMWrapper(DmStatic.sparsify(this.dm));
+    }
+
+    public void expand(DMWrapper weights, DMWrapper terms) {
+        DmStatic.expand(this.dm, weights.getCasADiObject(), terms.getCasADiObject());
+    }
+
+    public DMWrapper pwConst(DMWrapper tval, DMWrapper val) {
+        return new DMWrapper(DmStatic.pw_const(this.dm, tval.getCasADiObject(), val.getCasADiObject()));
+    }
+
+    public DMWrapper pwLin(DMWrapper tval, DMWrapper val) {
+        return new DMWrapper(DmStatic.pw_lin(this.dm, tval.getCasADiObject(), val.getCasADiObject()));
+    }
+
+    public DMWrapper heaviside() {
+        return new DMWrapper(DmStatic.heaviside(this.dm));
+    }
+
+    public DMWrapper rectangle() {
+        return new DMWrapper(DmStatic.rectangle(this.dm));
+    }
+
+    public DMWrapper triangle() {
+        return new DMWrapper(DmStatic.triangle(this.dm));
+    }
+
+    public DMWrapper ramp() {
+        return new DMWrapper(DmStatic.ramp(this.dm));
+    }
+
+    public DMWrapper gaussQuadrate(DMWrapper x, DMWrapper a, DMWrapper b, long order) {
+        return new DMWrapper(DmStatic.gauss_quadrature(this.dm, x.getCasADiObject(), a.getCasADiObject(),
+                b.getCasADiObject(), order));
+    }
+
+    public DMWrapper gaussQuadrate(DMWrapper x, DMWrapper a, DMWrapper b) {
+        return new DMWrapper(DmStatic.gauss_quadrature(this.dm, x.getCasADiObject(), a.getCasADiObject(),
+                b.getCasADiObject()));
+    }
+
+    public DMWrapper gaussQuadrate(DMWrapper x, DMWrapper a, DMWrapper b, long order, DMWrapper w) {
+        return new DMWrapper(DmStatic.gauss_quadrature(this.dm, x.getCasADiObject(), a.getCasADiObject(),
+                b.getCasADiObject(), order, w.getCasADiObject()));
+    }
+
+    @Override
+    public BooleanVector whichDepends(DMWrapper var, long order, boolean tr) {
+        return new BooleanVector(DmStatic.which_depends(this.dm, var.getCasADiObject(), order, tr));
+    }
+
+    @Override
+    public BooleanVector whichDepends(DMWrapper var, long order) {
+        return new BooleanVector(DmStatic.which_depends(this.dm, var.getCasADiObject(), order));
+    }
+
+    @Override
+    public BooleanVector whichDepends(DMWrapper var) {
+        return new BooleanVector(DmStatic.which_depends(this.dm, var.getCasADiObject()));
+    }
+
+    public DMWrapper taylor(DMWrapper x, DMWrapper a, long order) {
+        return new DMWrapper(DmStatic.taylor(this.dm, x.getCasADiObject(), a.getCasADiObject(), order));
+    }
+
+    public DMWrapper mtaylor(DMWrapper x, DMWrapper a, long order) {
+        return new DMWrapper(DmStatic.mtaylor(this.dm, x.getCasADiObject(), a.getCasADiObject(), order));
+    }
+
+    public DMWrapper mtaylor(DMWrapper x, DMWrapper a, long order, CasADiIntVector orderContributions) {
+        return new DMWrapper(DmStatic.mtaylor(this.dm, x.getCasADiObject(), a.getCasADiObject(), order, orderContributions.getCasADiObject()));
+    }
+
+    public DMWrapper polyCoeff(DMWrapper x) {
+        return new DMWrapper(DmStatic.poly_coeff(this.dm, x.getCasADiObject()));
+    }
+
+    public DMWrapper polyRoots() {
+        return new DMWrapper(DmStatic.poly_roots(this.dm));
+    }
+
+    public DMWrapper eigSymbolic() {
+        return new DMWrapper(DmStatic.eig_symbolic(this.dm));
+    }
+
+    @Override
+    public DMWrapper evalf() {
+        return new DMWrapper(DmStatic.evalf(this.dm));
+    }
+
+    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean amd) {
+        DmStatic.qr_sparse(this.dm, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), amd);
+    }
+
+    public void qrSparse(DMWrapper V, DMWrapper R, DMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
+        DmStatic.qr_sparse(this.dm, V.getCasADiObject(), R.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject());
+    }
+
+    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc, boolean tr) {
+        return new DMWrapper(DmStatic.qr_solve(this.dm, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject(), tr));
+    }
+
+    public DMWrapper qrSolve(DMWrapper v, DMWrapper r, DMWrapper beta, CasADiIntVector prinv, CasADiIntVector pc) {
+        return new DMWrapper(DmStatic.qr_solve(this.dm, v.getCasADiObject(), r.getCasADiObject(), beta.getCasADiObject(), prinv.getCasADiObject(), pc.getCasADiObject()));
+    }
+
+    public void qr(DMWrapper Q, DMWrapper R) {
+        DmStatic.qr(this.dm, Q.getCasADiObject(), R.getCasADiObject());
+    }
+
+    public void ldl(DMWrapper D, DMWrapper LT, CasADiIntVector p, boolean amd) {
+        DmStatic.ldl(this.dm, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject(), amd);
+    }
+
+    public void ldl(DMWrapper D, DMWrapper LT, CasADiIntVector p) {
+        DmStatic.ldl(this.dm, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject());
+    }
+
+    public DMWrapper ldlSolve(DMWrapper D, DMWrapper LT, CasADiIntVector p) {
+        return new DMWrapper(DmStatic.ldl_solve(this.dm, D.getCasADiObject(), LT.getCasADiObject(), p.getCasADiObject()));
+    }
+
+    public DMWrapper all() {
+        return new DMWrapper(DmStatic.all(this.dm));
+    }
+
+    public DMWrapper any() {
+        return new DMWrapper(DmStatic.any(this.dm));
+    }
+
+    public DMWrapper adj() {
+        return new DMWrapper(DmStatic.adj(this.dm));
+    }
+
+    public DMWrapper minor(long i, long j) {
+        return new DMWrapper(DmStatic.minor(this.dm, i, j));
+    }
+
+    public DMWrapper cofactor(long i, long j) {
+        return new DMWrapper(DmStatic.cofactor(this.dm, i, j));
+    }
+
+    public DMWrapper chol() {
+        return new DMWrapper(DmStatic.chol(this.dm));
+    }
+
+    public DMWrapper normInfMul(DMWrapper y) {
+        return new DMWrapper(DmStatic.norm_inf_mul(this.dm, y.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper printMe(DMWrapper y) {
+        return new DMWrapper(this.dm.printme(y.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper T() {
+        return new DMWrapper(this.dm.T());
+    }
+
+    @Override
+    public void setMaxDepth(long eq_depth) {
+        DmStatic.set_max_depth(eq_depth);
+    }
+
+    @Override
+    public void setMaxDepth() {
+        DmStatic.set_max_depth();
+    }
+
+    @Override
+    public long getMaxDepth() {
+        return DmStatic.get_max_depth();
+    }
+
+    @Override
+    public String typeName() {
+        return DmStatic.type_name();
+    }
+
+    public void printSplit(StringVector arg0, StringVector arg1) {
+        this.dm.print_split(arg0.getCasADiObject(), arg1.getCasADiObject());
+    }
+
+    @Override
+    public String toString(boolean more) {
+        return this.dm.toString(more);
+    }
+
+    @Override
+    public String toString() {
+        return this.dm.toString();
+    }
+
+    public void clear() {
+        this.dm.clear();
+    }
+
+    public void resize(long nrow, long ncol) {
+        this.dm.resize(nrow, ncol);
+    }
+
+    public void reserve(long nnz) {
+        this.dm.reserve(nnz);
+    }
+
+    public void reserve(long nnz, long ncol) {
+        this.dm.reserve(nnz, ncol);
+    }
+
+    @Override
+    public void erase(CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
+        this.dm.erase(rr.getCasADiObject(), cc.getCasADiObject(), ind1);
+    }
+
+    @Override
+    public void erase(CasADiIntVector rr, CasADiIntVector cc) {
+        this.dm.erase(rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    @Override
+    public void erase(CasADiIntVector rr, boolean ind1) {
+        this.dm.erase(rr.getCasADiObject(), ind1);
+    }
+
+    @Override
+    public void erase(CasADiIntVector rr) {
+        this.dm.erase(rr.getCasADiObject());
+    }
+
+    public void remove(CasADiIntVector rr, CasADiIntVector cc) {
+        this.dm.remove(rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    @Override
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc, boolean ind1) {
+        this.dm.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject(), ind1);
+    }
+
+    @Override
+    public void enlarge(long nrow, long ncol, CasADiIntVector rr, CasADiIntVector cc) {
+        this.dm.enlarge(nrow, ncol, rr.getCasADiObject(), cc.getCasADiObject());
+    }
+
+    public DoubleVector nonzeros() {
+        return new DoubleVector(this.dm.nonzeros());
+    }
+
+    @Override
+    public SparsityWrapper sparsity() {
+        return new SparsityWrapper(this.dm.sparsity());
+    }
+
+    public static DMWrapper inf(SparsityWrapper sp) {
+        return new DMWrapper(DmStatic.inf(sp.getCasADiObject()));
+    }
+
+    public static DMWrapper inf(long nrow, long ncol) {
+        return new DMWrapper(DmStatic.inf(nrow, ncol));
+    }
+
+    public static DMWrapper inf(long nrow) {
+        return new DMWrapper(DmStatic.inf(nrow));
+    }
+
+    public static DMWrapper inf() {
+        return new DMWrapper(DmStatic.inf());
+    }
+
+    public static DMWrapper nan(SparsityWrapper sp) {
+        return new DMWrapper(DmStatic.nan(sp.getCasADiObject()));
+    }
+
+    public static DMWrapper nan(long nrow, long ncol) {
+        return new DMWrapper(DmStatic.nan(nrow, ncol));
+    }
+
+    public static DMWrapper nan(long nrow) {
+        return new DMWrapper(DmStatic.nan(nrow));
+    }
+
+    public static DMWrapper nan() {
+        return new DMWrapper(DmStatic.nan());
+    }
+
+    public static DMWrapper eye(long size) {
+        return new DMWrapper(DmStatic.eye(size));
+    }
+
+    public long elementHash() {
+        return this.dm.element_hash();
+    }
+
+    @Override
+    public boolean isRegular() {
+        return this.dm.is_regular();
+    }
+
+    public boolean isSmooth() {
+        return this.dm.is_smooth();
+    }
+
+    public boolean isLeaf() {
+        return this.dm.is_leaf();
+    }
+
+    @Override
+    public boolean isCommutative() {
+        return this.dm.is_commutative();
+    }
+
+    @Override
+    public boolean isSymbolic() {
+        return this.dm.is_symbolic();
+    }
+
+    @Override
+    public boolean isValidInput() {
+        return this.dm.is_valid_input();
+    }
+
+    @Override
+    public boolean hasDuplicates() {
+        return this.dm.has_duplicates();
+    }
+
+    @Override
+    public void resetInput() {
+        this.dm.reset_input();
+    }
+
+    @Override
+    public boolean isConstant() {
+        return this.dm.is_constant();
+    }
+
+    public boolean isInteger() {
+        return this.dm.is_integer();
+    }
+
+    @Override
+    public boolean isZero() {
+        return this.dm.is_zero();
+    }
+
+    @Override
+    public boolean isOne() {
+        return this.dm.is_one();
+    }
+
+    @Override
+    public boolean isMinusOne() {
+        return this.dm.is_minus_one();
+    }
+
+    @Override
+    public boolean isEye() {
+        return this.dm.is_eye();
+    }
+
+    @Override
+    public long op() {
+        return this.dm.op();
+    }
+
+    @Override
+    public boolean isOp(long op) {
+        return this.dm.is_op(op);
+    }
+
+    public boolean hasZeros() {
+        return this.dm.has_zeros();
+    }
+
+    public DoubleVector getNonzeros() {
+        return new DoubleVector(this.dm.get_nonzeros());
+    }
+
+    public DoubleVector getElements() {
+        return new DoubleVector(this.dm.get_elements());
+    }
+
+    @Override
+    public String getName() {
+        return this.dm.name();
+    }
+
+    @Override
+    public DMWrapper dep(long ch) {
+        return new DMWrapper(this.dm.dep(ch));
+    }
+
+    @Override
+    public DMWrapper dep() {
+        return new DMWrapper(this.dm.dep());
+    }
+
+    @Override
+    public long nDep() {
+        return this.dm.n_dep();
+    }
+
+    public void exportCode(String lang) {
+        this.dm.export_code(lang);
+    }
+
+    @Override
+    public Dictionary info() {
+        return new Dictionary(this.dm.info());
+    }
+
+    public String serialize() {
+        return this.dm.serialize();
+    }
+
+    public DMWrapper deserialize(String s) {
+        return new DMWrapper(DmStatic.deserialize(s));
+    }
+
+    public void toFile(String filename, String format) {
+        this.dm.to_file(filename, format);
+    }
+
+    public void toFile(String filename) {
+        this.dm.to_file(filename);
+    }
+
+    @Override
+    public DMSubIndexWrapper at(int rr) {
+        return new DMSubIndexWrapper(this.dm.at(rr));
+    }
+
+    @Override
+    public DMSubMatrixWrapper at(int rr, int cc) {
+        return new DMSubMatrixWrapper(this.dm.at(rr, cc));
+    }
+
+    @Override
+    public void assign(DMWrapper other) {
+        this.dm.assign(other.getCasADiObject());
+    }
+
+    public DMVectorCollection blocksplit(CasADiIntVector vert_offset, CasADiIntVector horz_offset) {
+        return new DMVectorCollection(DmStatic.blocksplit(this.dm, vert_offset.getCasADiObject(), horz_offset.getCasADiObject()));
+    }
+
+    public DMVectorCollection blocksplit(long vert_incr, long horz_incr) {
+        return new DMVectorCollection(DmStatic.blocksplit(this.dm, vert_incr, horz_incr));
+    }
+
+    @Override
+    public DMWrapper vec() {
+        return new DMWrapper(DmStatic.vec(this.dm));
+    }
+
+    public DMWrapper repmat(long n, long m) {
+        return new DMWrapper(DmStatic.repmat(this.dm, n, m));
+    }
+
+    public DMWrapper repmat(long n) {
+        return new DMWrapper(DmStatic.repmat(this.dm, n));
+    }
+
+    public DMVector vertsplit_n(long n) {
+        return new DMVector(DmStatic.vertsplit_n(this.dm, n));
+    }
+
+    @Override
+    public long nnz() {
+        return this.dm.nnz_();
+    }
+
+    @Override
+    public long nnzLower() {
+        return this.dm.nnz_lower_();
+    }
+
+    @Override
+    public long nnzUpper() {
+        return this.dm.nnz_upper_();
+    }
+
+    @Override
+    public long nnzDiag() {
+        return this.dm.nnz_diag();
+    }
+
+    @Override
+    public long numel() {
+        return this.dm.numel_();
+    }
+
+    @Override
+    public long size1() {
+        return this.dm.size1_();
+    }
+
+    @Override
+    public long rows() {
+        return this.dm.rows();
+    }
+
+    @Override
+    public long size2() {
+        return this.dm.size2_();
+    }
+
+    @Override
+    public long columns() {
+        return this.dm.columns();
+    }
+
+    @Override
+    public String dim(boolean withNz) {
+        return this.dm.dim_(withNz);
+    }
+
+    @Override
+    public String dim() {
+        return this.dm.dim_();
+    }
+
+    @Override
+    public long size(long axis) {
+        return this.dm.size_(axis);
+    }
+
+    @Override
+    public boolean isEmpty(boolean both) {
+        return this.dm.is_empty_(both);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.dm.is_empty_();
+    }
+
+    @Override
+    public boolean isDense() {
+        return this.dm.is_dense_();
+    }
+
+    @Override
+    public boolean isScalar(boolean scalarAndDense) {
+        return this.dm.is_scalar_(scalarAndDense);
+    }
+
+    @Override
+    public boolean isScalar() {
+        return this.dm.is_scalar_();
+    }
+
+    @Override
+    public boolean isSquare() {
+        return this.dm.is_square();
+    }
+
+    @Override
+    public boolean isVector() {
+        return this.dm.is_vector_();
+    }
+
+    @Override
+    public boolean isRow() {
+        return this.dm.is_row_();
+    }
+
+    @Override
+    public boolean isColumn() {
+        return this.dm.is_column_();
+    }
+
+    @Override
+    public boolean isTriu() {
+        return this.dm.is_triu_();
+    }
+
+    @Override
+    public boolean isTril() {
+        return this.dm.is_tril_();
+    }
+
+    @Override
+    public CasADiIntVector getRow() {
+        return new CasADiIntVector(this.dm.get_row());
+    }
+
+    @Override
+    public CasADiIntVector getColInd() {
+        return new CasADiIntVector(this.dm.get_colind());
+    }
+
+    @Override
+    public long row(long el) {
+        return this.dm.row_(el);
+    }
+
+    @Override
+    public long colind(long col) {
+        return this.dm.colind_(col);
+    }
+
+    @Override
+    public DMWrapper interp1d(DoubleVector x, DoubleVector xq, String mode, boolean equidistant) {
+        return new DMWrapper(DmStatic.interp1d(x.getCasADiObject(), this.dm, xq.getCasADiObject(), mode, equidistant));
+    }
+
+    @Override
+    public long sprank() {
+        return DmStatic.sprank(this.dm);
+    }
+
+    @Override
+    public long norm0Mul(DMWrapper y) {
+        return DmStatic.norm_0_mul(this.dm, y.getCasADiObject());
+    }
+
+    @Override
+    public DMWrapper tril(boolean includeDiagonal) {
+        return new DMWrapper(DmStatic.tril(this.dm, includeDiagonal));
+    }
+
+    @Override
+    public DMWrapper tril() {
+        return new DMWrapper(DmStatic.tril(this.dm));
+    }
+
+    @Override
+    public DMWrapper triu(boolean includeDiagonal) {
+        return new DMWrapper(DmStatic.triu(this.dm, includeDiagonal));
+    }
+
+    @Override
+    public DMWrapper triu() {
+        return new DMWrapper(DmStatic.triu(this.dm));
+    }
+
+    @Override
+    public DMWrapper sumsqr() {
+        return new DMWrapper(DmStatic.sumsqr(this.dm));
+    }
+
+    public DMWrapper linspace(DMWrapper b, long nsteps) {
+        return new DMWrapper(DmStatic.linspace(this.dm, b.getCasADiObject(), nsteps));
+    }
+
+    @Override
+    public DMWrapper cross(DMWrapper b, long dim) {
+        return new DMWrapper(DmStatic.cross(this.dm, b.getCasADiObject(), dim));
+    }
+
+    @Override
+    public DMWrapper cross(DMWrapper b) {
+        return new DMWrapper(DmStatic.cross(this.dm, b.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper skew() {
+        return new DMWrapper(DmStatic.skew(this.dm));
+    }
+
+    @Override
+    public DMWrapper invSkew() {
+        return new DMWrapper(DmStatic.inv_skew(this.dm));
+    }
+
+    @Override
+    public DMWrapper tril2symm() {
+        return new DMWrapper(DmStatic.tril2symm(this.dm));
+    }
+
+    @Override
+    public DMWrapper triu2symm() {
+        return new DMWrapper(DmStatic.triu2symm(this.dm));
+    }
+
+    public DMWrapper repsum(long n, long m) {
+        return new DMWrapper(DmStatic.repsum(this.dm, n, m));
+    }
+
+    public DMWrapper repsum(long n) {
+        return new DMWrapper(DmStatic.repsum(this.dm, n));
+    }
+
+    @Override
+    public DMWrapper diff(long n, long axis) {
+        return new DMWrapper(DmStatic.diff(this.dm, n, axis));
+    }
+
+    @Override
+    public DMWrapper diff(long n) {
+        return new DMWrapper(DmStatic.diff(this.dm, n));
+    }
+
+    @Override
+    public DMWrapper diff() {
+        return new DMWrapper(DmStatic.diff(this.dm));
+    }
+
+    @Override
+    public boolean isLinear(DMWrapper var) {
+        return DmStatic.is_linear(this.dm, var.getCasADiObject());
+    }
+
+    @Override
+    public boolean isQuadratic(DMWrapper var) {
+        return DmStatic.is_quadratic(this.dm, var.getCasADiObject());
+    }
+
+    @Override
+    public void quadraticCoeff(DMWrapper var, DMWrapper A, DMWrapper b, DMWrapper c, boolean check) {
+        DmStatic.quadratic_coeff(this.dm, var.getCasADiObject(), A.getCasADiObject(),
+                b.getCasADiObject(), c.getCasADiObject(), check);
+    }
+
+    @Override
+    public void linearCoeff(DMWrapper var, DMWrapper A, DMWrapper b, boolean check) {
+        DmStatic.linear_coeff(this.dm, var.getCasADiObject(), A.getCasADiObject(), b.getCasADiObject(), check);
+    }
+
+    @Override
+    public DMWrapper bilin(DMWrapper x, DMWrapper y) {
+        return new DMWrapper(DmStatic.bilin(this.dm, x.getCasADiObject(), y.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper rank1(DMWrapper alpha, DMWrapper x, DMWrapper y) {
+        return new DMWrapper(DmStatic.rank1(this.dm, alpha.getCasADiObject(), x.getCasADiObject(), y.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper logsumexp() {
+        return new DMWrapper(DmStatic.logsumexp(this.dm));
+    }
+
+    @Override
+    public DMWrapper jtimes(DMWrapper arg, DMWrapper v, boolean tr, Dictionary opts) {
+        return new DMWrapper(DmStatic.jtimes_(this.dm, arg.getCasADiObject(), v.getCasADiObject(), tr, opts.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper jtimes(DMWrapper arg, DMWrapper v, boolean tr) {
+        return new DMWrapper(DmStatic.jtimes_(this.dm, arg.getCasADiObject(), v.getCasADiObject(), tr));
+    }
+
+    @Override
+    public DMWrapper jtimes(DMWrapper arg, DMWrapper v) {
+        return new DMWrapper(DmStatic.jtimes_(this.dm, arg.getCasADiObject(), v.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper gradient(DMWrapper arg, Dictionary opts) {
+        return new DMWrapper(DmStatic.gradient(this.dm, arg.getCasADiObject(), opts.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper gradient(DMWrapper arg) {
+        return new DMWrapper(DmStatic.gradient(this.dm, arg.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper tangent(DMWrapper arg, Dictionary opts) {
+        return new DMWrapper(DmStatic.tangent(this.dm, arg.getCasADiObject(), opts.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper tangent(DMWrapper arg) {
+        return new DMWrapper(DmStatic.tangent(this.dm, arg.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper linearize(DMWrapper x, DMWrapper x0, Dictionary opts) {
+        return new DMWrapper(DmStatic.linearize(this.dm, x.getCasADiObject(), x0.getCasADiObject(), opts.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper linearize(DMWrapper x, DMWrapper x0) {
+        return new DMWrapper(DmStatic.linearize(this.dm, x.getCasADiObject(), x0.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper mpower(DMWrapper y) {
+        return new DMWrapper(DmStatic.mpower(this.dm, y.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper soc(DMWrapper y) {
+        return new DMWrapper(DmStatic.soc(this.dm, y.getCasADiObject()));
+    }
+
+    public static DMWrapper sym(String name, long nrow, long ncol) {
+        return new DMWrapper(DmStatic.sym(name, nrow, ncol));
+    }
+
+    public static DMWrapper sym(String name, long nrow) {
+        return new DMWrapper(DmStatic.sym(name, nrow));
+    }
+
+    public static DMWrapper sym(String name) {
+        return new DMWrapper(DmStatic.sym(name));
+    }
+
+    public static DMWrapper sym(String name, SparsityWrapper sp) {
+        return new DMWrapper(DmStatic.sym(name, sp.getCasADiObject()));
+    }
+
+    public static DMVector sym(String name, SparsityWrapper sp, long p) {
+        return new DMVector(DmStatic.sym(name, sp.getCasADiObject(), p));
+    }
+
+    public static DMVector sym(String name, long nrow, long ncol, long p) {
+        return new DMVector(DmStatic.sym(name, nrow, ncol, p));
+    }
+
+    public static DMVectorCollection sym(String name, SparsityWrapper sp, long p, long r) {
+        return new DMVectorCollection(DmStatic.sym(name, sp.getCasADiObject(), p, r));
+    }
+
+    public static DMVectorCollection sym(String name, long nrow, long ncol, long p, long r) {
+        return new DMVectorCollection(DmStatic.sym(name, nrow, ncol, p, r));
+    }
+
+    public static DMWrapper zeros(long nrow, long ncol) {
+        return new DMWrapper(DmStatic.zeros(nrow, ncol));
+    }
+
+    public static DMWrapper zeros(long nrow) {
+        return new DMWrapper(DmStatic.zeros(nrow));
+    }
+
+    public static DMWrapper zeros() {
+        return new DMWrapper(DmStatic.zeros());
+    }
+
+    public static DMWrapper zeros(SparsityWrapper sp) {
+        return new DMWrapper(DmStatic.zeros(sp.getCasADiObject()));
+    }
+
+    public static DMWrapper ones(long nrow, long ncol) {
+        return new DMWrapper(DmStatic.ones(nrow, ncol));
+    }
+
+    public static DMWrapper ones(long nrow) {
+        return new DMWrapper(DmStatic.ones(nrow));
+    }
+
+    public static DMWrapper ones() {
+        return new DMWrapper(DmStatic.ones());
+    }
+
+    public static DMWrapper ones(SparsityWrapper sp) {
+        return new DMWrapper(DmStatic.ones(sp.getCasADiObject()));
+    }
+
+    @Override
+    public DMWrapper add(DMWrapper other) {
+        DM result = DmStatic.plus(this.dm, other.dm);
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public <T extends Number> DMWrapper add(T number) {
+        double other = number.doubleValue();
+        DMWrapper summand = new DMWrapper(other);
+        DM result = DmStatic.plus(this.dm, summand.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper subtract(DMWrapper other) {
+        DM result = DmStatic.minus(this.dm, other.dm);
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public <T extends Number> DMWrapper subtract(T number) {
+        double other = number.doubleValue();
+        DMWrapper subtrahend = new DMWrapper(other);
+        DM result = DmStatic.minus(this.dm, subtrahend.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper multiply(DMWrapper other) {
+        DM result = DmStatic.times(this.dm, other.dm);
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public <T extends Number> DMWrapper multiply(T number) {
+        double other = number.doubleValue();
+        DMWrapper multiplicand = new DMWrapper(other);
+        DM result = DmStatic.times(this.dm, multiplicand.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper divide(DMWrapper other) {
+        DM result = DmStatic.rdivide(this.dm, other.dm);
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public <T extends Number> DMWrapper divide(T number) {
+        double other = number.doubleValue();
+        if (other == 0) {
+            throw new ArithmeticException("Division by zero is not allowed.");
+        }
+        DMWrapper divisor = new DMWrapper(other);
+        DM result = DmStatic.rdivide(this.dm, divisor.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper lt(DMWrapper y) {
+        return new DMWrapper(DmStatic.lt(this.dm, y.dm));
+    }
+
+    @Override
+    public <T extends Number> DMWrapper lt(T number) {
+        double other = number.doubleValue();
+        DMWrapper threshold = new DMWrapper(other);
+        DM result = DmStatic.lt(this.dm, threshold.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper le(DMWrapper y) {
+        return new DMWrapper(DmStatic.le(this.dm, y.dm));
+    }
+
+    @Override
+    public <T extends Number> DMWrapper le(T number) {
+        double other = number.doubleValue();
+        DMWrapper threshold = new DMWrapper(other);
+        DM result = DmStatic.le(this.dm, threshold.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper gt(DMWrapper y) {
+        return new DMWrapper(DmStatic.gt(this.dm, y.dm));
+    }
+
+    @Override
+    public <T extends Number> DMWrapper gt(T number) {
+        double other = number.doubleValue();
+        DMWrapper threshold = new DMWrapper(other);
+        DM result = DmStatic.gt(this.dm, threshold.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper ge(DMWrapper y) {
+        return new DMWrapper(DmStatic.ge(this.dm, y.dm));
+    }
+
+    @Override
+    public <T extends Number> DMWrapper ge(T number) {
+        double other = number.doubleValue();
+        DMWrapper threshold = new DMWrapper(other);
+        DM result = DmStatic.ge(this.dm, threshold.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper eq(DMWrapper y) {
+        return new DMWrapper(DmStatic.eq(this.dm, y.dm));
+    }
+
+    @Override
+    public <T extends Number> DMWrapper eq(T number) {
+        double other = number.doubleValue();
+        DMWrapper value = new DMWrapper(other);
+        DM result = DmStatic.eq(this.dm, value.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper ne(DMWrapper y) {
+        return new DMWrapper(DmStatic.ne(this.dm, y.dm));
+    }
+
+    @Override
+    public <T extends Number> DMWrapper ne(T number) {
+        double other = number.doubleValue();
+        DMWrapper value = new DMWrapper(other);
+        DM result = DmStatic.ne(this.dm, value.getCasADiObject());
+        return new DMWrapper(result);
+    }
+
+    @Override
+    public DMWrapper logicAnd(DMWrapper y) {
+        return new DMWrapper(DmStatic.logic_and(this.dm, y.dm));
+    }
+
+    @Override
+    public DMWrapper logicOr(DMWrapper y) {
+        return new DMWrapper(DmStatic.logic_or(this.dm, y.dm));
+    }
+
+    @Override
+    public DMWrapper logicNot() {
+        return new DMWrapper(DmStatic.logic_not(this.dm));
+    }
+
+    @Override
+    public DMWrapper abs() {
+        return new DMWrapper(DmStatic.abs(this.dm));
+    }
+
+    @Override
+    public DMWrapper sqrt() {
+        return new DMWrapper(DmStatic.sqrt(this.dm));
+    }
+
+    @Override
+    public DMWrapper sq() {
+        return new DMWrapper(DmStatic.sq(this.dm));
+    }
+
+    @Override
+    public DMWrapper sin() {
+        return new DMWrapper(DmStatic.sin(this.dm));
+    }
+
+    @Override
+    public DMWrapper cos() {
+        return new DMWrapper(DmStatic.cos(this.dm));
+    }
+
+    @Override
+    public DMWrapper tan() {
+        return new DMWrapper(DmStatic.tan(this.dm));
+    }
+
+    @Override
+    public DMWrapper atan() {
+        return new DMWrapper(DmStatic.atan(this.dm));
+    }
+
+    @Override
+    public DMWrapper asin() {
+        return new DMWrapper(DmStatic.asin(this.dm));
+    }
+
+    @Override
+    public DMWrapper acos() {
+        return new DMWrapper(DmStatic.acos(this.dm));
+    }
+
+    @Override
+    public DMWrapper tanh() {
+        return new DMWrapper(DmStatic.tanh(this.dm));
+    }
+
+    @Override
+    public DMWrapper sinh() {
+        return new DMWrapper(DmStatic.sinh(this.dm));
+    }
+
+    @Override
+    public DMWrapper cosh() {
+        return new DMWrapper(DmStatic.cosh(this.dm));
+    }
+
+    @Override
+    public DMWrapper atanh() {
+        return new DMWrapper(DmStatic.atanh(this.dm));
+    }
+
+    @Override
+    public DMWrapper asinh() {
+        return new DMWrapper(DmStatic.asinh(this.dm));
+    }
+
+    @Override
+    public DMWrapper acosh() {
+        return new DMWrapper(DmStatic.acosh(this.dm));
+    }
+
+    @Override
+    public DMWrapper exp() {
+        return new DMWrapper(DmStatic.exp(this.dm));
+    }
+
+    @Override
+    public DMWrapper log() {
+        return new DMWrapper(DmStatic.log(this.dm));
+    }
+
+    @Override
+    public DMWrapper log10() {
+        return new DMWrapper(DmStatic.log10(this.dm));
+    }
+
+    @Override
+    public DMWrapper log1p() {
+        return new DMWrapper(DmStatic.log1p(this.dm));
+    }
+
+    @Override
+    public DMWrapper expm1() {
+        return new DMWrapper(DmStatic.expm1(this.dm));
+    }
+
+    @Override
+    public DMWrapper floor() {
+        return new DMWrapper(DmStatic.floor(this.dm));
+    }
+
+    @Override
+    public DMWrapper ceil() {
+        return new DMWrapper(DmStatic.ceil(this.dm));
+    }
+
+    @Override
+    public DMWrapper erf() {
+        return new DMWrapper(DmStatic.erf(this.dm));
+    }
+
+    @Override
+    public DMWrapper erfinv() {
+        return new DMWrapper(DmStatic.erfinv(this.dm));
+    }
+
+    @Override
+    public DMWrapper sign() {
+        return new DMWrapper(DmStatic.sign(this.dm));
+    }
+
+    @Override
+    public DMWrapper pow(DMWrapper other) {
+        return new DMWrapper(DmStatic.pow(this.dm, other.dm));
+    }
+
+    @Override
+    public <T extends Number> DMWrapper pow(T exponent) {
+        double exp = exponent.doubleValue();
+        DM exponentDM = new DM(exp);
+        return new DMWrapper(DmStatic.pow(this.dm, exponentDM));
+    }
+
+    @Override
+    public DMWrapper mod(DMWrapper other) {
+        return new DMWrapper(DmStatic.mod(this.dm, other.dm));
+    }
+
+    @Override
+    public DMWrapper remainder(DMWrapper other) {
+        return new DMWrapper(DmStatic.remainder(this.dm, other.dm));
+    }
+
+    @Override
+    public DMWrapper atan2(DMWrapper other) {
+        return new DMWrapper(DmStatic.atan2(this.dm, other.dm));
+    }
+
+    @Override
+    public DMWrapper ifElseZero(DMWrapper other) {
+        return new DMWrapper(DmStatic.if_else_zero(this.dm, other.dm));
+    }
+
+    @Override
+    public DMWrapper fmin(DMWrapper other) {
+        return new DMWrapper(DmStatic.fmin(this.dm, other.dm));
+    }
+
+    @Override
+    public DMWrapper fmax(DMWrapper other) {
+        return new DMWrapper(DmStatic.fmax(this.dm, other.dm));
+    }
+
+    @Override
+    public DMWrapper copysign(DMWrapper other) {
+        return new DMWrapper(DmStatic.copysign(this.dm, other.dm));
+    }
+
+    @Override
+    public DMWrapper constpow(DMWrapper other) {
+        return new DMWrapper(DmStatic.constpow(this.dm, other.dm));
+    }
+
+    @Override
+    public DMWrapper hypot(DMWrapper other) {
+        return new DMWrapper(DmStatic.hypot(this.dm, other.dm));
+    }
+
+    @Override
+    public DMWrapper negate() {
+        DMWrapper sign = new DMWrapper(-1);
+        return new DMWrapper(DmStatic.times(this.dm, sign.getCasADiObject()));
+    }
+
+    public DM getCasADiObject() {
+        return this.dm;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String var1) {
+        this.id = var1;
+    }
+
+    public DMVector toVector() {
+        return new DMVector(this);
+    }
+
+}

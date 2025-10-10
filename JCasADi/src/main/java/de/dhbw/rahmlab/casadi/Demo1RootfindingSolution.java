@@ -17,18 +17,18 @@ public class Demo1RootfindingSolution {
         
         // Ex 1.1
         
-        MX x = MX.sym("x");
-        MX y = MX.sym("y");
+        MX x = MxStatic.sym("x");
+        MX y = MxStatic.sym("y");
         // TODO plus() sollte direkt doubles auch als Argument ermmöglichen
         // TODO MX-Objekte sollten direkt Methoden haben um damit weiterrechnen zu können
-        MX g1 = MX.tanh(MX.minus(MX.dot(MX.plus(x, new MX(2.0)), MX.dot(MX.sq(y),new MX(1d/25d))), new MX(0.5)));
-        MX g2 = MX.plus(MX.minus(MX.sin(x),MX.dot(new MX(0.5d),y)), new MX(1d));
+        MX g1 = MxStatic.tanh(MxStatic.minus(MxStatic.dot(MxStatic.plus(x, new MX(2.0)), MxStatic.dot(MxStatic.sq(y),new MX(1d/25d))), new MX(0.5)));
+        MX g2 = MxStatic.plus(MxStatic.minus(MxStatic.sin(x),MX.dot(new MX(0.5d),y)), new MX(1d));
         MX[] z = new MX[]{g1, g2};
         Dict options = new Dict();
         options.put("always_inline", new GenericType(true));
         //TODO possibly syntactic shugar: MX[] direkt als Argument von Function 
         // ermögichen
-        Function f = new Function("f",new StdVectorMX(new MX[]{x,y}), 
+        Function f = new Function("f",new StdVectorMX(new MX[]{x,y}),
                 new StdVectorMX(z), options);
         
         // Funktionsaufruf mit konstaten Argumenten
@@ -47,7 +47,7 @@ public class Demo1RootfindingSolution {
         
         //FIXME
         // toString() liefert nur den Pointer
-        // DM.str() liefert einen String, vielleicht fehlt eine vergleichbare Methode
+        // DmStatic.str() liefert einen String, vielleicht fehlt eine vergleichbare Methode
         // für MX? oder sollte die toString()-Methode den symbolischen Ausdruck liefern?
         //System.out.println("f(2*x,y)=" + result.get(0).toString()); // sin(((2.*x)*y)
        
@@ -71,21 +71,21 @@ public class Demo1RootfindingSolution {
                 
         // Ex 1.3
         
-        MX A_mx = MX.sym("A",2,2);
-        MX b_mx = MX.sym("b",2);
+        MX A_mx = MxStatic.sym("A",2,2);
+        MX b_mx = MxStatic.sym("b",2);
        
         // z = A_mx@b_mx
-        //z = MX.times(A_mx, b_mx);
+        //z = MxStatic.times(A_mx, b_mx);
         
         StdVectorMX args2 = new StdVectorMX(new MX[]{A_mx, b_mx});
         
         //Function f_mx = new Function("f", args2, new StdVectorMX(new MX[]{z}));
         
-        SX A_sx = SX.sym("A",2,2);
-        SX b_sx = SX.sym("b",2);
+        SX A_sx = SxStatic.sym("A",2,2);
+        SX b_sx = SxStatic.sym("b",2);
         
         // z = A_sx@b_sx
-        SX z1 = SX.times(A_sx, b_sx);
+        SX z1 = SxStatic.times(A_sx, b_sx);
         
         // Warum gibts die Methode disp() nicht für MX?
         //A_sx.disp(stream);

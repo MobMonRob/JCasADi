@@ -1,14 +1,10 @@
 package de.dhbw.rahmlab.casadi;
 
-import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
-import de.dhbw.rahmlab.casadi.impl.casadi.GlobalOptions;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 
@@ -22,11 +18,11 @@ public class Demo8CodeGenerationSolution {
     
         // Ex 1.1
 
-        SX x = SX.sym("x", 2);
-        SX y = SX.sym("y");
+        SX x = SxStatic.sym("x", 2);
+        SX y = SxStatic.sym("y");
 
         Function f = new Function("f", new StdVectorSX(new SX[]{x,y}), 
-                                           new StdVectorSX(new SX[]{SX.minus(SX.sqrt(x),y)}));
+                                           new StdVectorSX(new SX[]{SxStatic.minus(SxStatic.sqrt(x),y)}));
         f.generate("fun");
 
 
@@ -40,11 +36,11 @@ public class Demo8CodeGenerationSolution {
         
         // %% Ex 1.3
         
-        MX xx = MX.sym("x", 2);
-        MX yy = MX.sym("y");
+        MX xx = MxStatic.sym("x", 2);
+        MX yy = MxStatic.sym("y");
 
-        f = new Function("f", new StdVectorMX(new MX[]{xx, yy}), 
-                              new StdVectorMX(new MX[]{MX.minus(MX.sqrt(xx),yy)}));
+        f = new Function("f", new StdVectorMX(new MX[]{xx, yy}),
+                              new StdVectorMX(new MX[]{MxStatic.minus(MxStatic.sqrt(xx),yy)}));
 
         f.generate("fun3",options);
 

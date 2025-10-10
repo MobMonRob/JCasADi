@@ -1,13 +1,28 @@
 package de.dhbw.rahmlab.casadi;
 
+import de.dhbw.rahmlab.casadi.delegating.annotation.api.GenerateDelegate;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
+import de.dhbw.rahmlab.casadi.impl.casadi.DmGenericExpression;
+import de.dhbw.rahmlab.casadi.impl.casadi.DmGenericMatrix;
+import de.dhbw.rahmlab.casadi.impl.casadi.DmSparsityInterface;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GlobalOptions;
+import de.dhbw.rahmlab.casadi.impl.casadi.IM;
+import de.dhbw.rahmlab.casadi.impl.casadi.ImGenericExpression;
+import de.dhbw.rahmlab.casadi.impl.casadi.ImGenericMatrix;
+import de.dhbw.rahmlab.casadi.impl.casadi.ImSparsityInterface;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
+import de.dhbw.rahmlab.casadi.impl.casadi.MxGenericExpression;
+import de.dhbw.rahmlab.casadi.impl.casadi.MxGenericMatrix;
+import de.dhbw.rahmlab.casadi.impl.casadi.MxSparsityInterface;
 import de.dhbw.rahmlab.casadi.impl.casadi.MxSubMatrix;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Slice;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
+import de.dhbw.rahmlab.casadi.impl.casadi.SparsitySparsityInterface;
+import de.dhbw.rahmlab.casadi.impl.casadi.SxGenericExpression;
+import de.dhbw.rahmlab.casadi.impl.casadi.SxGenericMatrix;
+import de.dhbw.rahmlab.casadi.impl.casadi.SxSparsityInterface;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
@@ -19,6 +34,11 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@GenerateDelegate(name = "SparsityStatic", of = {Sparsity.class, SparsitySparsityInterface.class})
+@GenerateDelegate(name = "DmStatic", of = {DM.class, DmGenericExpression.class, DmGenericMatrix.class, DmSparsityInterface.class})
+@GenerateDelegate(name = "ImStatic", of = {IM.class, ImGenericExpression.class, ImGenericMatrix.class, ImSparsityInterface.class})
+@GenerateDelegate(name = "MxStatic", of = {MX.class, MxGenericExpression.class, MxGenericMatrix.class, MxSparsityInterface.class})
+@GenerateDelegate(name = "SxStatic", of = {SX.class, SxGenericExpression.class, SxGenericMatrix.class, SxSparsityInterface.class})
 public class JCasADi {
 
 	public static void main(String[] args) {
@@ -52,11 +72,11 @@ public class JCasADi {
 		(new Scanner(System.in)).nextLine();
 
 		try {
-			var mv = MX.sym("mv", 2, 1);
+			var mv = MxStatic.sym("mv", 2, 1);
 			System.out.println(mv.dim_(true));
 			Thread.sleep(100);
-			// MX.inv() of 2x1 matrix requires libcasadi_linsol_qr.so.
-			var inv = MX.inv(mv);
+			// MxStatic.inv() of 2x1 matrix requires libcasadi_linsol_qr.so.
+			var inv = MxStatic.inv(mv);
 			System.out.println(inv);
 		} catch (RuntimeException | InterruptedException ex) {
 			ex.printStackTrace();
@@ -73,13 +93,13 @@ public class JCasADi {
 		int zc = za; // Folge aus Multiplikation
 		int sc = sb; // Folge aus Multipklikation
 
-		var a = MX.sym("a", Sparsity.lower(za));
+		var a = MxStatic.sym("a", Sparsity.lower(za));
 		System.out.println("a: " + a.dim_(true));
 
-		var b = MX.sym("b", zb, sb);
+		var b = MxStatic.sym("b", zb, sb);
 		System.out.println("b: " + b.dim_(true));
 
-		var c = MX.mtimes(a, b);
+		var c = MxStatic.mtimes(a, b);
 		System.out.println("c: " + c.toString(true) + " | " + c.dim_(true));
 
 		for (int zeile = 0; zeile < c.rows(); ++zeile) {
@@ -106,36 +126,36 @@ public class JCasADi {
 		System.out.println(mx.at(0, 0)); // MXSubMatrix
 		System.out.println("--1....................\n");
 
-		var a = MX.sym("a", Sparsity.diag(2, 2));
+		var a = MxStatic.sym("a", Sparsity.diag(2, 2));
 		System.out.println(a.at(1, 1).toString(true)); // MX
 		System.out.println(a.at(1, 1)); // MXSubMatrix
 		System.out.println("--2....................\n");
 
-		var mx2 = MX.sym("mx2", Sparsity.diag(2, 2));
-		mx2.at(0, 0).assign(MX.plus(a.at(1, 1), new MX(3.14)));
+		var mx2 = MxStatic.sym("mx2", Sparsity.diag(2, 2));
+		mx2.at(0, 0).assign(MxStatic.plus(a.at(1, 1), new MX(3.14)));
 		mx2.at(1, 1).assign(new MX(22));
 		System.out.println(mx2.at(0, 0).toString(true)); // MX
 		System.out.println(mx2.at(0, 0)); // MXSubMatrix
 		System.out.println("--3....................\n");
 
-		var mx3 = MX.sym("mx3", Sparsity.diag(2, 2));
-		mx3.at(0, 0).assign(MX.plus(mx2.at(0, 0), new MX(13)));
+		var mx3 = MxStatic.sym("mx3", Sparsity.diag(2, 2));
+		mx3.at(0, 0).assign(MxStatic.plus(mx2.at(0, 0), new MX(13)));
 		mx3.at(1, 1).assign(new MX(33));
 		System.out.println(mx3.at(0, 0).toString(true)); // MX
 		System.out.println(mx3.at(0, 0)); // MXSubMatrix
 		System.out.println("--4....................\n");
 
-		var b = SX.sym("b", Sparsity.diag(2, 2));
+		var b = SxStatic.sym("b", Sparsity.diag(2, 2));
 
-		var sx = SX.sym("sx", Sparsity.diag(2, 2));
-		sx.at(0, 0).assign(SX.plus(b.at(1, 1), new SX(3.14)));
+		var sx = SxStatic.sym("sx", Sparsity.diag(2, 2));
+		sx.at(0, 0).assign(SxStatic.plus(b.at(1, 1), new SX(3.14)));
 		sx.at(1, 1).assign(new SX(2.7));
 		System.out.println(sx);
 		System.out.println(sx.at(0, 0));
 		System.out.println("--5....................\n");
 
-		var sx2 = SX.sym("sx2", Sparsity.diag(2, 2));
-		sx2.at(0, 0).assign(SX.plus(sx.at(0, 0), new SX(13)));
+		var sx2 = SxStatic.sym("sx2", Sparsity.diag(2, 2));
+		sx2.at(0, 0).assign(SxStatic.plus(sx.at(0, 0), new SX(13)));
 		System.out.println(sx2);
 		System.out.println(sx2.at(0, 0));
 		System.out.println("--6....................\n");
@@ -153,22 +173,22 @@ public class JCasADi {
 //		// Symbolic
 //		// symbolic variables
 //		casadi::SX posi = casadi::SX::sym("p", 2);
-		SX posi = SX.sym("p", 2);
+		SX posi = SxStatic.sym("p", 2);
 		System.out.println("posi: " + posi);
 //		casadi::SX posi_des = casadi::SX::sym("p_des", 2);
-		SX posi_des = SX.sym("p_des", 2);
+		SX posi_des = SxStatic.sym("p_des", 2);
 //
 //		// objective function
 //		casadi::SX fun_obj = pow(posi(0)-posi_des(0), 2) +
 //							 pow(posi(1)-posi_des(1), 2);
-		SX fun_obj = SX.plus(
-			SX.pow(SX.minus(posi.at(0), posi_des.at(0)), new SX(2)),
-			SX.pow(SX.minus(posi.at(1), posi_des.at(1)), new SX(2))
+		SX fun_obj = SxStatic.plus(
+			SxStatic.pow(SxStatic.minus(posi.at(0), posi_des.at(0)), new SX(2)),
+			SxStatic.pow(SxStatic.minus(posi.at(1), posi_des.at(1)), new SX(2))
 		);
 //
 //		// gradients
 //		casadi::SX fun_obj_grad = jacobian(fun_obj, posi);  // 1 by 2 jacobian matrix
-		SX fun_obj_grad = SX.jacobian(fun_obj, posi);
+		SX fun_obj_grad = SxStatic.jacobian(fun_obj, posi);
 //
 //		// functions to be generated
 //		casadi::Function f_fun_obj("fun_obj", {posi, posi_des}, {fun_obj});
@@ -216,9 +236,9 @@ public class JCasADi {
 //		std::cout << "objective function jacobian: " << result_2.at(0) << std::endl;
 		System.out.println("objective function jacobian: " + result_2.get(0));
 
-		MX mx = MX.sym("x", 2, 2);
+		MX mx = MxStatic.sym("x", 2, 2);
 		StdVectorStdString vecStr = new StdVectorStdString();
-		String theStr = MX.print_operator(mx, vecStr);
+		String theStr = MxStatic.print_operator(mx, vecStr);
 		// mx 1.: x
 		// mx 2.: x
 		System.out.println("mx 1.: " + theStr);
@@ -231,10 +251,10 @@ public class JCasADi {
 //		std::cout << "foo: " << A << std::endl;
 		// Beispiel aus: https://web.casadi.org/docs/#the-mx-symbolics
 		// Achtung: Indizes fangen in der Casadi Doku bei 1 an und bei uns bei 0!
-		MX x = MX.sym("x", 2);
+		MX x = MxStatic.sym("x", 2);
 		MX A = new MX(2, 2);
 		A.at(0, 0).assign(x.at(0));
-		A.at(1, 1).assign(MX.plus(x.at(0), x.at(1)));
+		A.at(1, 1).assign(MxStatic.plus(x.at(0), x.at(1)));
 
 		// A:(project((zeros(2x2,1nz)[0] = x[0]))[1] = (x[0]+x[1]))
 		System.out.println("A:" + A);
@@ -244,13 +264,13 @@ public class JCasADi {
 		// DM ist nicht symbolisch!
 
 		// Input symbolic
-		MX in_sym_1 = MX.sym("in_sym_1", dim, dim);
+		MX in_sym_1 = MxStatic.sym("in_sym_1", dim, dim);
 		System.out.println("in_sym_1: " + in_sym_1);
-		MX in_sym_2 = MX.sym("in_sym_2", dim, dim);
+		MX in_sym_2 = MxStatic.sym("in_sym_2", dim, dim);
 		System.out.println("in_sym_2: " + in_sym_2);
 
 		// Output symbolic
-		MX out_sym_1 = MX.plus(in_sym_1, in_sym_2);
+		MX out_sym_1 = MxStatic.plus(in_sym_1, in_sym_2);
 		System.out.println("out_sym_1: " + out_sym_1);
 
 		// Function symbolic
@@ -291,11 +311,11 @@ public class JCasADi {
 		Function f_sym_casadi = f_sym_java(dim);
 
 		// Input symbolic
-		MX in_sym_1 = MX.sym("in_sym_1", dim, dim);
+		MX in_sym_1 = MxStatic.sym("in_sym_1", dim, dim);
 		System.out.println("in_sym_1: " + in_sym_1);
-		MX in_sym_2 = MX.sym("in_sym_2", dim, dim);
+		MX in_sym_2 = MxStatic.sym("in_sym_2", dim, dim);
 		System.out.println("in_sym_2: " + in_sym_2);
-		MX in_sym_com_1 = MX.sym("in_sym_com_1", dim, dim);
+		MX in_sym_com_1 = MxStatic.sym("in_sym_com_1", dim, dim);
 		System.out.println("in_sym_com_1: " + in_sym_com_1);
 
 		// Output symbolic
@@ -303,7 +323,7 @@ public class JCasADi {
 		var f_sym_out = new StdVectorMX();
 		f_sym_casadi.call(f_sym_in, f_sym_out);
 		MX f_sym_out_1 = f_sym_out.get(0);
-		MX out_sym_com_1 = MX.minus(f_sym_out_1, in_sym_com_1);
+		MX out_sym_com_1 = MxStatic.minus(f_sym_out_1, in_sym_com_1);
 		System.out.println("out_sym_com_1: " + out_sym_com_1);
 
 		// Function symbolic

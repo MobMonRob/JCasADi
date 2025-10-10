@@ -11,7 +11,6 @@ import de.dhbw.rahmlab.casadi.impl.std.Dict;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorDouble;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -25,18 +24,18 @@ public class CourseSolutions {
     // Ex 1.1
     @Test
     public void hello() {
-         MX x = MX.sym("x");
-        MX y = MX.sym("y");
+         MX x = MxStatic.sym("x");
+        MX y = MxStatic.sym("y");
         // TODO plus() sollte direkt doubles auch als Argument ermmöglichen
         // TODO MX-Objekte sollten direkt Methoden haben um damit weiterrechnen zu können
-        MX g1 = MX.tanh(MX.minus(MX.dot(MX.plus(x, new MX(2.0)), MX.dot(MX.sq(y),new MX(1d/25d))), new MX(0.5)));
-        MX g2 = MX.plus(MX.minus(MX.sin(x),MX.dot(new MX(0.5d),y)), new MX(1d));
+        MX g1 = MxStatic.tanh(MxStatic.minus(MxStatic.dot(MxStatic.plus(x, new MX(2.0)), MX.dot(MxStatic.sq(y),new MX(1d/25d))), new MX(0.5)));
+        MX g2 = MxStatic.plus(MxStatic.minus(MxStatic.sin(x),MxStatic.dot(new MX(0.5d),y)), new MX(1d));
         MX[] z = new MX[]{g1, g2};
         Dict options = new Dict();
         options.put("always_inline", new GenericType(true));
         //TODO possibly syntactic shugar: MX[] direkt als Argument von Function 
         // ermögichen
-        Function f = new Function("f",new StdVectorMX(new MX[]{x,y}), 
+        Function f = new Function("f",new StdVectorMX(new MX[]{x,y}),
                 new StdVectorMX(z), options);
         
         // Funktionsaufruf mit konstaten Argumenten

@@ -3,12 +3,9 @@ package de.dhbw.rahmlab.casadi;
 import de.dhbw.rahmlab.casadi.impl.casadi.FileDeserializer;
 import de.dhbw.rahmlab.casadi.impl.casadi.FileSerializer;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
-import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
-import java.io.FileDescriptor;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -18,9 +15,9 @@ public class Demo4SerializationSolution {
     public static void main(String[] args) {
         
         // Ex 1.1
-        SX x = SX.sym("x");
+        SX x = SxStatic.sym("x");
         Function f = new Function("f", new StdVectorSX(new SX[]{x}), 
-                new StdVectorSX(new SX[]{SX.pow(x, new SX(2)) }));
+                new StdVectorSX(new SX[]{SxStatic.pow(x, new SX(2)) }));
         f.save("f.casadi");
         Function f_loaded = Function.load("f.casadi");
         //TODO
@@ -44,7 +41,7 @@ public class Demo4SerializationSolution {
         FileSerializer fs = new FileSerializer("foo.casadi");
         fs.pack("foo");
         fs.pack(x);
-        fs.pack(new StdVectorSX(new SX[]{SX.pow(x, new SX(2)),SX.sin(x)}));
+        fs.pack(new StdVectorSX(new SX[]{SxStatic.pow(x, new SX(2)),SxStatic.sin(x)}));
         fs.pack(Sparsity.lower(5));
         fs.pack(f);
         
@@ -92,7 +89,7 @@ public class Demo4SerializationSolution {
 
         // # Ex 2.1
 
-        // x = SX.sym("x")
+        // x = SxStatic.sym("x")
 
         //f = new Function("f",new StdVectorSX(new SX[]{x}),new StdVectorSX(new SX[]{SX.pow(x, new SX(2)})));
         //FIXME
