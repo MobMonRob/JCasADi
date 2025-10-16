@@ -2,7 +2,6 @@ package de.dhbw.rahmlab.casadi.api;
 
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 
 /**
  * Useful to implement normalizeEvenElement()/generalRotor, exp(), sqrt(), log()
@@ -17,9 +16,11 @@ import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 public class SXScalar {
     
     public de.dhbw.rahmlab.casadi.impl.casadi.SX sx;
-    
-    public SXScalar(){
-        this.sx = new SX(Sparsity.dense(1));
+
+    public SXScalar() {
+        this.sx = SxStatic.zeros(1, 1); // Right: Initialize with 0.
+        //this.sx = new SX(Sparsity.dense(1)); // Wrong: Will be initialized with 1!
+        // Why 0? Because other Methods here depend on that assumption.
     }
     public SXScalar(SX sx){
         this.sx = sx;
