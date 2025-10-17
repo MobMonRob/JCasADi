@@ -2,6 +2,7 @@ package de.dhbw.rahmlab.casadi.api;
 
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
+import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 
 /**
  * Useful to implement normalizeEvenElement()/generalRotor, exp(), sqrt(), log()
@@ -15,12 +16,22 @@ import de.dhbw.rahmlab.casadi.impl.casadi.SX;
  */
 public class SXScalar {
     
-    public de.dhbw.rahmlab.casadi.impl.casadi.SX sx;
+    private final de.dhbw.rahmlab.casadi.impl.casadi.SX sx;
+
+    public SX sx() {
+        return this.sx;
+    }
+
+    /**
+     * Structural zero.
+     */
+    private static final SX ZERO = new SX(new Sparsity(1, 1));
 
     public SXScalar() {
-        this.sx = SxStatic.zeros(1, 1); // Right: Initialize with 0.
+        this.sx = new SX(new Sparsity(1, 1)); // right: Initialize with structural zero.
+        //this.sx = SxStatic.zeros(1, 1); // semi-right: Initialize with 0.
         //this.sx = new SX(Sparsity.dense(1)); // Wrong: Will be initialized with 1!
-        // Why 0? Because other Methods here depend on that assumption.
+        // Why 0? Because the summation Methods here depend on that assumption.
     }
     public SXScalar(SX sx){
         this.sx = sx;
@@ -54,58 +65,58 @@ public class SXScalar {
     }
     
     public static SXScalar sum(SXScalar[] summands){
-        SXScalar result = new SXScalar();
-        for (int i=0;i<summands.length;i++){
-            result.sx = SxStatic.plus(result.sx, summands[i].sx);
+        SX result = ZERO;
+        for (int i = 0; i < summands.length; i++) {
+            result = SxStatic.plus(result, summands[i].sx);
         }
-        return result;
+        return new SXScalar(result);
     }
     public static SXScalar sumSq(SXScalar[] summands){
-        SXScalar result = new SXScalar();
+        SX result = ZERO;
         for (int i=0;i<summands.length;i++){
-            result.sx = SxStatic.plus(result.sx, SxStatic.sq(summands[i].sx));
+            result = SxStatic.plus(result, SxStatic.sq(summands[i].sx));
         }
-        return result;
+        return new SXScalar(result);
     }
     public static SXScalar sumSq(SXColVec vec, int[] indizes){
-        SXScalar result = new SXScalar();
+        SX result = ZERO;
         for (int i=0;i<indizes.length;i++){
-            result.sx = SxStatic.plus(result.sx, SxStatic.sq(vec.sx.at(indizes[i])));
+            result = SxStatic.plus(result, SxStatic.sq(vec.sx.at(indizes[i])));
         }
-        return result;
+        return new SXScalar(result);
     }
     public static SXScalar sumProd(SXColVec vec, int[] a, int[] b){
         if (a.length != b.length) throw new IllegalArgumentException("a.length!=b.length");
-        SXScalar result = new SXScalar();
+        SX result = ZERO;
         for (int i=0;i<a.length;i++){
-            result.sx = SxStatic.plus(result.sx, SxStatic.times(vec.sx.at(a[i]),vec.sx.at(b[i])));
+            result = SxStatic.plus(result, SxStatic.times(vec.sx.at(a[i]), vec.sx.at(b[i])));
         }
-        return result;
+        return new SXScalar(result);
     }
     
     public static SXScalar sumProd(SXScalar[] scalors, SXColVec vec, int[] ind){
         if (scalors.length != ind.length) throw new IllegalArgumentException("scalors.length!=ind.length");
         //if (scalors.length != vec.length) throw new IllegalArgumentException("scalors.length!=vec.length");
-        SXScalar result = new SXScalar();
+        SX result = ZERO;
         for (int i=0;i<ind.length;i++){
-            result.sx = SxStatic.plus(result.sx, SxStatic.times(vec.sx.at(ind[i]),scalors[i].sx));
+            result = SxStatic.plus(result, SxStatic.times(vec.sx.at(ind[i]), scalors[i].sx));
         }
-        return result;
+        return new SXScalar(result);
     }
     
     public static SXScalar sub(SXScalar[] summands){
-        SXScalar result = new SXScalar();
+        SX result = ZERO;
         for (int i=0;i<summands.length;i++){
-            result.sx = SxStatic.minus(result.sx, summands[i].sx);
+            result = SxStatic.minus(result, summands[i].sx);
         }
-        return result;
+        return new SXScalar(result);
     }
     public static SXScalar subSq(SXScalar[] summands){
-        SXScalar result = new SXScalar();
+        SX result = ZERO;
         for (int i=0;i<summands.length;i++){
-            result.sx = SxStatic.minus(result.sx, SxStatic.sq(summands[i].sx));
+            result = SxStatic.minus(result, SxStatic.sq(summands[i].sx));
         }
-        return result;
+        return new SXScalar(result);
     }
     public SXScalar sq(){
         return new SXScalar(SxStatic.sq(sx));
