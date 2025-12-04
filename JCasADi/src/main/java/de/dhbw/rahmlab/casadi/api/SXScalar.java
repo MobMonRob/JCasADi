@@ -34,8 +34,9 @@ public class SXScalar {
     /**
      * Structural zero.
      */
-    private static final SX ZERO = new SX(new Sparsity(1, 1));
-
+    private static final SX ZERO_SX = new SX(new Sparsity(1, 1));
+    public static final SXScalar ZERO_SXScalar = new SXScalar();
+     
     public SXScalar() {
         this.sx = new SX(new Sparsity(1, 1)); // right: Initialize with structural zero.
         //this.sx = SxStatic.zeros(1, 1); // semi-right: Initialize with 0.
@@ -74,21 +75,21 @@ public class SXScalar {
     }
     
     public static SXScalar sum(SXScalar[] summands){
-        SX result = ZERO;
+        SX result = ZERO_SX;
         for (int i = 0; i < summands.length; i++) {
             result = SxStatic.plus(result, summands[i].sx);
         }
         return new SXScalar(result);
     }
     public static SXScalar sumSq(SXScalar[] summands){
-        SX result = ZERO;
+        SX result = ZERO_SX;
         for (int i=0;i<summands.length;i++){
             result = SxStatic.plus(result, SxStatic.sq(summands[i].sx));
         }
         return new SXScalar(result);
     }
     public static SXScalar sumSq(SXColVec vec, int[] indizes){
-        SX result = ZERO;
+        SX result = ZERO_SX;
         for (int i=0;i<indizes.length;i++){
             result = SxStatic.plus(result, SxStatic.sq(vec.sx.at(indizes[i])));
         }
@@ -96,7 +97,7 @@ public class SXScalar {
     }
     public static SXScalar sumProd(SXColVec vec, int[] a, int[] b){
         if (a.length != b.length) throw new IllegalArgumentException("a.length!=b.length");
-        SX result = ZERO;
+        SX result = ZERO_SX;
         for (int i=0;i<a.length;i++){
             result = SxStatic.plus(result, SxStatic.times(vec.sx.at(a[i]), vec.sx.at(b[i])));
         }
@@ -106,7 +107,7 @@ public class SXScalar {
     public static SXScalar sumProd(SXScalar[] scalors, SXColVec vec, int[] ind){
         if (scalors.length != ind.length) throw new IllegalArgumentException("scalors.length!=ind.length");
         //if (scalors.length != vec.length) throw new IllegalArgumentException("scalors.length!=vec.length");
-        SX result = ZERO;
+        SX result = ZERO_SX;
         for (int i=0;i<ind.length;i++){
             result = SxStatic.plus(result, SxStatic.times(vec.sx.at(ind[i]), scalors[i].sx));
         }
@@ -114,14 +115,14 @@ public class SXScalar {
     }
     
     public static SXScalar sub(SXScalar[] summands){
-        SX result = ZERO;
+        SX result = ZERO_SX;
         for (int i=0;i<summands.length;i++){
             result = SxStatic.minus(result, summands[i].sx);
         }
         return new SXScalar(result);
     }
     public static SXScalar subSq(SXScalar[] summands){
-        SX result = ZERO;
+        SX result = ZERO_SX;
         for (int i=0;i<summands.length;i++){
             result = SxStatic.minus(result, SxStatic.sq(summands[i].sx));
         }
