@@ -23,6 +23,15 @@ public class SXScalar {
     }
 
     /**
+     * Test if structural zero.
+     * 
+     * @return true if the object is structural zero.
+     */
+    public boolean isZero(){
+        return this.sx.sparsity().nnz() == 0;
+    }
+    
+    /**
      * Structural zero.
      */
     private static final SX ZERO = new SX(new Sparsity(1, 1));
