@@ -7,7 +7,50 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>de.dhbw.rahmlab.casadimaxima.JCasADi_Maxima</exec.mainClass>
+        <antlr.version>4.13.1</antlr.version>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>de.dhbw.rahmlab</groupId>
+            <artifactId>JCasADi</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${antlr.version}</version>
+            <scope>compile</scope>
+            <!-- needs to be transitive as part of the own API -->
+            <optional>false</optional>
+        </dependency>
+    </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/antlr4</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>${antlr.version}</version>
+                <configuration>
+                    <listener>true</listener>
+                    <visitor>true</visitor>
+                    <treatWarningsAsErrors>false</treatWarningsAsErrors>
+                    <detail>true</detail>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
