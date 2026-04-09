@@ -13,7 +13,7 @@ public class MaximaTranspiler extends CasadiParserBaseVisitor<String> {
         }
         // Das Array/die Liste am Ende
         if (ctx.array() != null) {
-            sb.append("result : ").append(visit(ctx.array())).append(";"); // ; zeigt Ergebnis an
+            sb.append("vn : ").append(visit(ctx.array())).append("$");
         }
         return sb.toString();
     }
@@ -162,6 +162,9 @@ public class MaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
         // 3. Zahlen: Direkt übernehmen
         if (ctx.NUMBER() != null) {
+            if (ctx.NUMBER().getText().equals("00")) {
+                return "0";
+            }
             return ctx.NUMBER().getText();
         }
 
