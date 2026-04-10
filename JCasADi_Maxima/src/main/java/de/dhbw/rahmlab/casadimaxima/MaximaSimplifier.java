@@ -20,11 +20,19 @@ public class MaximaSimplifier {
 
     public String simplify(String expr) throws RuntimeException {
         try {
+            String maximaInput = "";
+            maximaInput += "display2d:false$\n"; // Do not visualize formulas
+            maximaInput += expr + "\n"; // Add expr
+            maximaInput += "vs : (ev(%, infeval, trigrat, radscan))$\n"; // Simplify
+            maximaInput += "optimize(%)$\n"; // common subexpression elimination
+            maximaInput += "string(%);"; // Print result as single line. No line wrapping.
+            // maximaInput += "tex(%);"; // Caution: Line Wrapping
+
             ProcessBuilder pb = new ProcessBuilder(
                 "maxima",
                 "--very-quiet",
                 "--batch-string",
-                String.format("display2d:false$\n%s\nvs : (ev(vn, infeval, trigrat, radscan))$\nstring(vs);", expr)
+                maximaInput
             );
             Process p = pb.start();
             String out = new BufferedReader(new InputStreamReader(p.getInputStream()))
