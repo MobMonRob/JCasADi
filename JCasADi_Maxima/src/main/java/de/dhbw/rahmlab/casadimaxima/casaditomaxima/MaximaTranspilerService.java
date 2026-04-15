@@ -6,8 +6,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 public class MaximaTranspilerService {
 
-    private final MaximaTranspiler maximaTranspiler = new MaximaTranspiler();
-
     /**
      * Only for debugging.
      */
@@ -19,7 +17,8 @@ public class MaximaTranspilerService {
         var parser = new CasadiParser(tokenStream);
 
         var parseTree = parser.file();
-        String maximaString = this.maximaTranspiler.visit(parseTree);
+        MaximaTranspiler maximaTranspiler = new MaximaTranspiler();
+        String maximaString = maximaTranspiler.visit(parseTree);
 
         return maximaString;
     }

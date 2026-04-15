@@ -11,7 +11,11 @@ import java.util.List;
 
 public class CasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
-    private final Map<String, SX> symbolTable = new HashMap<>();
+    private final Map<String, SX> variables;
+
+    public CasadiTranspiler(Map<String, SX> initialVariables) {
+        this.variables = new HashMap<>(initialVariables);
+    }
 
     @Override
     public SX visitRoot(MaximaParser.RootContext ctx) {
@@ -46,7 +50,7 @@ public class CasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     public SX visitAssignment(MaximaParser.AssignmentContext ctx) {
         String id = ctx.ID().getText();
         SX value = visit(ctx.expression());
-        symbolTable.put(id, value);
+        variables.put(id, value);
         return value;
     }
 
@@ -72,8 +76,11 @@ public class CasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     @Override
     public SX visitVariable(MaximaParser.VariableContext ctx) {
         String name = ctx.getText();
-        // TODO: Fix a_0, a_1.
-        return symbolTable.computeIfAbsent(name, SxStatic::sym);
+        SX sx = variables.get(name);
+        if (sx == null) {
+            throw new RuntimeException(String.format("Illegal free variable: %s", name));
+        }
+        return sx;
     }
 
     @Override
@@ -147,7 +154,7 @@ public class CasadiTranspiler extends MaximaParserBaseVisitor<SX> {
             case MaximaLexer.NEQ ->
                 SxStatic.ne(left, right);
             default ->
-                throw new RuntimeException("Unbekannter Operator");
+                throw new AssertionError();
         };
     }
 
@@ -185,39 +192,68 @@ public class CasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     }
 
     private SX mapFunction(String name, List<SX> args) {
-        return switch (name) {
+        SX a = args.size() > 0 ? args.get(0) : null;
+        SX b = args.size() > 1 ? args.get(1) : null;
+
+        return switch (name.toLowerCase()) {
             case "sin" ->
-                SxStatic.sin(args.get(0));
+                SxStatic.sin(a);
             case "cos" ->
-                SxStatic.cos(args.get(0));
+                SxStatic.cos(a);
             case "tan" ->
-                SxStatic.tan(args.get(0));
-            case "exp" ->
-                SxStatic.exp(args.get(0));
-            case "log" ->
-                SxStatic.log(args.get(0));
-            case "sqrt" ->
-                SxStatic.sqrt(args.get(0));
-            case "abs" ->
-                SxStatic.abs(args.get(0));
+                SxStatic.tan(a);
             case "asin" ->
-                SxStatic.asin(args.get(0));
+                SxStatic.asin(a);
             case "acos" ->
-                SxStatic.acos(args.get(0));
+                SxStatic.acos(a);
             case "atan" ->
-                SxStatic.atan(args.get(0));
+                SxStatic.atan(a);
             case "atan2" ->
-                SxStatic.atan2(args.get(0), args.get(1));
-            case "min" ->
-                SxStatic.fmin(args.get(0), args.get(1));
-            case "max" ->
-                SxStatic.fmax(args.get(0), args.get(1));
+                SxStatic.atan2(a, b);
+
+            case "sinh" ->
+                SxStatic.sinh(a);
+            case "cosh" ->
+                SxStatic.cosh(a);
+            case "tanh" ->
+                SxStatic.tanh(a);
+            case "asinh" ->
+                SxStatic.asinh(a);
+            case "acosh" ->
+                SxStatic.acosh(a);
+            case "atanh" ->
+                SxStatic.atanh(a);
+
+            case "exp" ->
+                SxStatic.exp(a);
+            case "log" ->
+                SxStatic.log(a);
+
             case "floor" ->
-                SxStatic.floor(args.get(0));
-            case "ceil" ->
-                SxStatic.ceil(args.get(0));
+                SxStatic.floor(a);
+            case "ceiling" ->
+                SxStatic.ceil(a);
+            case "abs" ->
+                SxStatic.abs(a);
+            case "signum" ->
+                SxStatic.sign(a);
+
+            case "sqrt" ->
+                SxStatic.sqrt(a);
+
+            case "erf" ->
+                SxStatic.erf(a);
+
+            case "min", "lmin" ->
+                SxStatic.fmin(a, b);
+            case "max", "lmax" ->
+                SxStatic.fmax(a, b);
+
+            case "mod" ->
+                SxStatic.mod(a, b);
+
             default ->
-                throw new UnsupportedOperationException("Funktion " + name + " nicht implementiert.");
+                throw new UnsupportedOperationException(String.format("Unknown Maxima function: %s", name));
         };
     }
 }

@@ -1,10 +1,18 @@
 package de.dhbw.rahmlab.casadimaxima;
 
+import de.dhbw.rahmlab.casadi.SxStatic;
+import de.dhbw.rahmlab.casadi.impl.casadi.Function;
+import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
+import de.dhbw.rahmlab.casadi.impl.std.Dict;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 import de.dhbw.rahmlab.casadimaxima.casaditomaxima.MaximaTranspilerService;
 import de.dhbw.rahmlab.casadimaxima.maximatocasadi.CasadiTranspilerService;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MaximaSimplifier {
@@ -15,11 +23,13 @@ public class MaximaSimplifier {
         // String casadiString = "@1=0.5, @2=sq(arg0_0), [arg0_0, 00, 00, 00, ((@1*@2)+-0.5), ((@1*@2)+@1), 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]";
         String maximaInput = new MaximaTranspilerService().casadiToMaxima(casadiString);
         String maximaOutput = new MaximaSimplifier().simplify(maximaInput);
-        SX sx = new CasadiTranspilerService().maximaToCasadi(maximaOutput);
+        SX sx = new CasadiTranspilerService().maximaToCasadi(maximaOutput, List.of(SxStatic.sym("arg0", 32, 1), SxStatic.sym("arg1", 32, 1)));
         System.out.println("casadiString: " + casadiString);
         System.out.println("\nmaximaInput:\n" + maximaInput);
         System.out.println("\nmaximaOutput:\n" + maximaOutput);
         System.out.println("\nSX:\n" + sx.toString());
+        var func = new Function("testfunc", new StdVectorSX(), new StdVectorSX(new SX[]{sx}), new Dict(Map.of("allow_free", new GenericType(true))));
+        func.free_sx().forEach(System.out::println);
     }
 
     public String simplify(String expr) throws RuntimeException {
