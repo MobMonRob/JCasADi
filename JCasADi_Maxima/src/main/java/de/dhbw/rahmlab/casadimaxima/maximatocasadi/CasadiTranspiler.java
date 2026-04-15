@@ -131,7 +131,7 @@ public class CasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     public SX visitCompareExpr(MaximaParser.CompareExprContext ctx) {
         SX left = visit(ctx.expression(0));
         SX right = visit(ctx.expression(1));
-        int type = ctx.compOp().getChild(0).getPayload().getType(); // Hol den Token Typ
+        int type = ctx.op.getType();
 
         return switch (type) {
             case MaximaLexer.LT ->

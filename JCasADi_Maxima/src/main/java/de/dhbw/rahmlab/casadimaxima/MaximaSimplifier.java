@@ -1,6 +1,8 @@
 package de.dhbw.rahmlab.casadimaxima;
 
+import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadimaxima.casaditomaxima.MaximaTranspilerService;
+import de.dhbw.rahmlab.casadimaxima.maximatocasadi.CasadiTranspilerService;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
@@ -13,9 +15,11 @@ public class MaximaSimplifier {
         // String casadiString = "@1=0.5, @2=sq(arg0_0), [arg0_0, 00, 00, 00, ((@1*@2)+-0.5), ((@1*@2)+@1), 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]";
         String maximaInput = new MaximaTranspilerService().casadiToMaxima(casadiString);
         String maximaOutput = new MaximaSimplifier().simplify(maximaInput);
+        SX sx = new CasadiTranspilerService().maximaToCasadi(maximaOutput);
         System.out.println("casadiString: " + casadiString);
         System.out.println("\nmaximaInput:\n" + maximaInput);
         System.out.println("\nmaximaOutput:\n" + maximaOutput);
+        System.out.println("\nSX:\n" + sx.toString());
     }
 
     public String simplify(String expr) throws RuntimeException {
@@ -40,10 +44,12 @@ public class MaximaSimplifier {
             //.lines().collect(Collectors.joining("\n"));
             String err = new BufferedReader(new InputStreamReader(p.getErrorStream()))
                 .lines().collect(Collectors.joining("\n"));
+            // Does often not work!
             if (!err.isBlank()) {
                 throw new RuntimeException("Maxima error: " + err);
             }
             int ret = p.waitFor();
+            // Does often not work!
             if (ret != 0) {
                 throw new RuntimeException("Maxima error");
             }
