@@ -22,6 +22,23 @@ public class CasadiTranspilerService {
     }
 
     public SX maximaToCasadi(String maximaString, List<SX> variables) {
+        Map<String, SX> variablesMap = checkMapVars(variables);
+
+        var charStream = CharStreams.fromString(maximaString);
+        var lexer = new MaximaLexer(charStream);
+        var tokenStream = new CommonTokenStream(lexer);
+        var parser = new MaximaParser(tokenStream);
+
+        var parseTree = parser.root();
+        CasadiTranspiler casadiTranspiler = new CasadiTranspiler(variablesMap);
+        SX sx = casadiTranspiler.visit(parseTree);
+
+        sx = SxStatic.sparsify(sx);
+
+        return sx;
+    }
+
+    public static Map<String, SX> checkMapVars(List<SX> variables) throws IllegalArgumentException {
         Set<SX> uniqueVars = Collections.newSetFromMap(new IdentityHashMap<>(variables.size()));
         Map<String, SX> variablesMap = new HashMap<>();
         for (SX var : variables) {
@@ -57,18 +74,6 @@ public class CasadiTranspilerService {
             }
             // Map<String, SX> currentVarMap = rows.stream().collect(Collectors.toMap(SX::toString, java.util.function.Function.identity()));
         }
-
-        var charStream = CharStreams.fromString(maximaString);
-        var lexer = new MaximaLexer(charStream);
-        var tokenStream = new CommonTokenStream(lexer);
-        var parser = new MaximaParser(tokenStream);
-
-        var parseTree = parser.root();
-        CasadiTranspiler casadiTranspiler = new CasadiTranspiler(variablesMap);
-        SX sx = casadiTranspiler.visit(parseTree);
-
-        sx = SxStatic.sparsify(sx);
-
-        return sx;
+        return variablesMap;
     }
 }

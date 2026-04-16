@@ -25,6 +25,13 @@
             <!-- needs to be transitive as part of the own API -->
             <optional>false</optional>
         </dependency>
+        <!-- Needed for AntlrTestRig -->
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>4.13.1</version>
+        </dependency>
+        <!-- -->
     </dependencies>
     <build>
         <resources>

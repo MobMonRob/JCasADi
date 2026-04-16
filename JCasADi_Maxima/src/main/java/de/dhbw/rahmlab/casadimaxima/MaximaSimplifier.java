@@ -24,10 +24,10 @@ public class MaximaSimplifier {
         String maximaInput = new MaximaTranspilerService().casadiToMaxima(casadiString);
         String maximaOutput = new MaximaSimplifier().simplify(maximaInput);
         SX sx = new CasadiTranspilerService().maximaToCasadi(maximaOutput, List.of(SxStatic.sym("arg0", 32, 1), SxStatic.sym("arg1", 32, 1)));
-        System.out.println("casadiString: " + casadiString);
-        System.out.println("\nmaximaInput:\n" + maximaInput);
-        System.out.println("\nmaximaOutput:\n" + maximaOutput);
-        System.out.println("\nSX:\n" + sx.toString());
+        System.out.println("casadiIn: " + casadiString);
+        System.out.println("\nmaximaIn:\n" + maximaInput);
+        System.out.println("\nmaximaOut:\n" + maximaOutput);
+        System.out.println("\ncasadiOut:\n" + sx.toString());
         var func = new Function("testfunc", new StdVectorSX(), new StdVectorSX(new SX[]{sx}), new Dict(Map.of("allow_free", new GenericType(true))));
         func.free_sx().forEach(System.out::println);
     }
