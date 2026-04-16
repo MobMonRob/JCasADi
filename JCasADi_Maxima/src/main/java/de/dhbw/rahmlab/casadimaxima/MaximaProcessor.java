@@ -24,21 +24,25 @@ public class MaximaProcessor {
         SX casadiOut = new CasadiTranspilerService().maximaToCasadi(maximaOut, variables);
         System.out.println("->casadiOut: " + casadiOut.toString());
 
-        // ---------------------
+        validate(casadiIn, casadiOut, variables);
+
+        System.out.println();
+        System.out.flush();
+
+        return casadiOut;
+    }
+
+    private static void validate(SX casadiIn, SX casadiOut, List<SX> variables) throws RuntimeException {
         SX validatorIn = SxStatic.minus(casadiIn, casadiOut);
         String maximaValIn = new MaximaTranspilerService().casadiToMaxima(validatorIn);
         String maximaValOut = new MaximaSimplifier().simplify(maximaValIn);
         SX casadiValOut = new CasadiTranspilerService().maximaToCasadi(maximaValOut, variables);
         System.out.println("->casadiValOut: " + casadiValOut);
-        System.out.println();
-        System.out.flush();
 
         if (casadiValOut.nnz_() != 0) {
+            System.out.println();
+            System.out.flush();
             throw new RuntimeException(String.format("Nonzeros in validation: %s", casadiValOut));
         }
-        // ---------------------
-
-
-        return casadiOut;
     }
 }
