@@ -20,7 +20,7 @@ QUESTION    : '?' ;
 
 // Operatoren
 MUL         : '*' ;
-DIV         : '/' ;
+DIV         : '/' | './' ; // We do not expect them to be different. Only operating on scalar Expr.
 PLUS        : '+' ;
 MINUS       : '-' ;
 

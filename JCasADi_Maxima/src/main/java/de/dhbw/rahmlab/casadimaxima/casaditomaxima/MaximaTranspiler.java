@@ -110,7 +110,11 @@ public class MaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
     @Override
     public String visitMultiplicative(CasadiParser.MultiplicativeContext ctx) {
-        return visit(ctx.expr(0)) + " " + ctx.op.getText() + " " + visit(ctx.expr(1));
+        String operator = ctx.op.getText();
+        if (operator.equals("./")) {
+            operator = "/";
+        }
+        return visit(ctx.expr(0)) + " " + operator + " " + visit(ctx.expr(1));
     }
 
     @Override

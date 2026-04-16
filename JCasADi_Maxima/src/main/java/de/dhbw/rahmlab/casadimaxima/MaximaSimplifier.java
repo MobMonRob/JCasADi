@@ -30,6 +30,11 @@ public class MaximaSimplifier {
         System.out.println("\ncasadiOut:\n" + sx.toString());
         var func = new Function("testfunc", new StdVectorSX(), new StdVectorSX(new SX[]{sx}), new Dict(Map.of("allow_free", new GenericType(true))));
         func.free_sx().forEach(System.out::println);
+
+        SX a = new SX(1);
+        SX b = SxStatic.sym("b", 1, 1);
+        SX c = SxStatic.rdivide(a, b);
+        System.out.println("\nc:\n" + c.toString());
     }
 
     public String simplify(String expr) throws RuntimeException {
