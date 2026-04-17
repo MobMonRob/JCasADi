@@ -3,8 +3,7 @@ project(JCasADi_cmake VERSION 0.1 LANGUAGES CXX)
 
 add_compile_options(-D_GLIBCXX_USE_CXX11_ABI=0)
 
-SET(CMAKE_EXE_LINKER_FLAGS
-    "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath -Wl,${CMAKE_SOURCE_DIR}/build")
+#SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath -Wl,${CMAKE_SOURCE_DIR}/build")
 
 # for using casadi
 #find_package(casadi REQUIRED)
@@ -37,14 +36,20 @@ message(${CASADI_DIR})
 set(CASADI_INCLUDE_DIR ${CASADI_DIR}/include)
 
 # find casadi library
-find_library(CASADI_LIBRARY
-    NAMES casadi
-    HINTS ${CASADI_DIR})
-if(CASADI_LIBRARY)
-    set(CASADI_LIBRARIES ${CASADI_LIBRARIES} ${CASADI_LIBRARY})
-endif()
+#find_library(CASADI_LIBRARY
+#    NAMES casadi
+#    HINTS ${CASADI_DIR})
+#if(CASADI_LIBRARY)
+#    set(CASADI_LIBRARIES ${CASADI_LIBRARIES} ${CASADI_LIBRARY})
+#endif()
 
-message(${CASADI_LIBRARY})
+#message(${CASADI_LIBRARY})
+
+add_library(CASADI_LIB SHARED IMPORTED)
+set_target_properties(CASADI_LIB PROPERTIES
+    IMPORTED_LOCATION "${CASADI_DIR}/libcasadi.so"
+    IMPORTED_NO_SONAME TRUE
+)
 
 # find the following packages
 find_package(Threads REQUIRED)
@@ -56,15 +61,14 @@ include_directories(
     ${CODE_GEN_INCLUDE_DIR})
 
 # library directories
-link_directories(${CASADI_DIR})
+#link_directories(${CASADI_DIRS})
 
 # find all the header files
 file(GLOB HEADER_FILES_HPP ${CMAKE_SOURCE_DIR}/include/*.hpp)
 file(GLOB HEADER_FILES_H ${CMAKE_SOURCE_DIR}/include/*.h)
 
-
 # add executable files for test
 
 add_executable(test ./test.cpp)
-target_link_libraries(test ${CASADI_LIBRARY})
+target_link_libraries(test CASADI_LIB)
 
