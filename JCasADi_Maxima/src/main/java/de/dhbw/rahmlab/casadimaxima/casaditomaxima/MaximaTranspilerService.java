@@ -28,7 +28,10 @@ public class MaximaTranspilerService {
             throw new IllegalArgumentException("Only column vectors supported.");
         }
 
+        // Double.PRECISION
+        // SX.set_precision(0);
         String casadiString = sx.toString();
+
         return casadiToMaxima(casadiString);
     }
 }
