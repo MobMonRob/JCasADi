@@ -2,7 +2,7 @@ package de.dhbw.rahmlab.casadimaxima.casaditomaxima;
 
 import java.util.List;
 
-public class MaximaTranspiler extends CasadiParserBaseVisitor<String> {
+public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
     @Override
     public String visitFile(CasadiParser.FileContext ctx) {

@@ -1,9 +1,9 @@
-package de.dhbw.rahmlab.casadimaxima;
+package de.dhbw.rahmlab.casadimaxima.api;
 
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadimaxima.casaditomaxima.MaximaTranspilerService;
-import de.dhbw.rahmlab.casadimaxima.maximatocasadi.CasadiTranspilerService;
+import de.dhbw.rahmlab.casadimaxima.casaditomaxima.ToMaximaTranspilerService;
+import de.dhbw.rahmlab.casadimaxima.maximatocasadi.ToCasadiTranspilerService;
 import java.util.List;
 
 public class MaximaProcessor {
@@ -15,13 +15,13 @@ public class MaximaProcessor {
         SX casadiIn = SxStatic.sparsify(SxStatic.simplify(expr)); // To compare, what Maxima does better.
         System.out.println("->casadiIn: " + casadiIn.toString());
 
-        String maximaIn = new MaximaTranspilerService().casadiToMaxima(casadiIn);
+        String maximaIn = new ToMaximaTranspilerService().casadiToMaxima(casadiIn);
         System.out.println("->maximaIn: " + maximaIn);
 
         String maximaOut = new MaximaSimplifier().simplify(maximaIn);
         System.out.println("->maximaOut: " + maximaOut);
 
-        SX casadiOut = new CasadiTranspilerService().maximaToCasadi(maximaOut, variables);
+        SX casadiOut = new ToCasadiTranspilerService().maximaToCasadi(maximaOut, variables);
         System.out.println("->casadiOut: " + casadiOut.toString());
 
         validate(casadiIn, casadiOut, variables);
@@ -34,9 +34,9 @@ public class MaximaProcessor {
 
     private static void validate(SX casadiIn, SX casadiOut, List<SX> variables) throws RuntimeException {
         SX validatorIn = SxStatic.minus(casadiIn, casadiOut);
-        String maximaValIn = new MaximaTranspilerService().casadiToMaxima(validatorIn);
+        String maximaValIn = new ToMaximaTranspilerService().casadiToMaxima(validatorIn);
         String maximaValOut = new MaximaSimplifier().simplify(maximaValIn);
-        SX casadiValOut = new CasadiTranspilerService().maximaToCasadi(maximaValOut, variables);
+        SX casadiValOut = new ToCasadiTranspilerService().maximaToCasadi(maximaValOut, variables);
         System.out.println("->casadiValOut: " + casadiValOut);
 
         if (casadiValOut.nnz_() != 0) {

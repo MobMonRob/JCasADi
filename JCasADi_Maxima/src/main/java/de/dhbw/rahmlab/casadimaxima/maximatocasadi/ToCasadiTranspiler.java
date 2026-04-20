@@ -9,11 +9,11 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CasadiTranspiler extends MaximaParserBaseVisitor<SX> {
+public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     private final Map<String, SX> variables;
 
-    public CasadiTranspiler(Map<String, SX> initialVariables) {
+    public ToCasadiTranspiler(Map<String, SX> initialVariables) {
         this.variables = new HashMap<>(initialVariables);
     }
 

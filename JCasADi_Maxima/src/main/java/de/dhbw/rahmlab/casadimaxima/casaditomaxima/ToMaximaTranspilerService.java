@@ -4,7 +4,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-public class MaximaTranspilerService {
+public class ToMaximaTranspilerService {
 
     /**
      * Only for debugging.
@@ -17,7 +17,7 @@ public class MaximaTranspilerService {
         var parser = new CasadiParser(tokenStream);
 
         var parseTree = parser.file();
-        MaximaTranspiler maximaTranspiler = new MaximaTranspiler();
+        ToMaximaTranspiler maximaTranspiler = new ToMaximaTranspiler();
         String maximaString = maximaTranspiler.visit(parseTree);
 
         return maximaString;
@@ -28,7 +28,6 @@ public class MaximaTranspilerService {
             throw new IllegalArgumentException("Only column vectors supported.");
         }
 
-        // Double.PRECISION
         // SX.set_precision(0);
         String casadiString = sx.toString();
 

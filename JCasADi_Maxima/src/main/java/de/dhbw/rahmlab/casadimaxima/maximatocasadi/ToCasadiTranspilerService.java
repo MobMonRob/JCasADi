@@ -13,13 +13,7 @@ import java.util.stream.Collectors;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-public class CasadiTranspilerService {
-
-    public static void main(String[] args) {
-        var a = SxStatic.sym("a", 16, 1);
-        SxStatic.vertsplit_n(a, 16).forEach(System.out::println);
-        // Alternative: at()
-    }
+public class ToCasadiTranspilerService {
 
     public SX maximaToCasadi(String maximaString, List<SX> variables) {
         Map<String, SX> variablesMap = checkMapVars(variables);
@@ -30,7 +24,7 @@ public class CasadiTranspilerService {
         var parser = new MaximaParser(tokenStream);
 
         var parseTree = parser.root();
-        CasadiTranspiler casadiTranspiler = new CasadiTranspiler(variablesMap);
+        ToCasadiTranspiler casadiTranspiler = new ToCasadiTranspiler(variablesMap);
         SX sx = casadiTranspiler.visit(parseTree);
 
         sx = SxStatic.sparsify(sx);
