@@ -32,6 +32,13 @@
             <version>4.13.1</version>
         </dependency>
         <!-- -->
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>1.0.1</version>
+            <!-- Supress transitivity -->
+            <optional>true</optional>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -57,6 +64,22 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <!-- annotation processing of auto-service -->
+                    <compilerArgs>-proc:full</compilerArgs>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.google.auto.service</groupId>
+                        <artifactId>auto-service</artifactId>
+                        <version>1.0.1</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
