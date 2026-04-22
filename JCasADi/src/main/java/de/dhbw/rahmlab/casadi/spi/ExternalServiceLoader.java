@@ -1,7 +1,6 @@
 package de.dhbw.rahmlab.casadi.spi;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.ServiceLoader.Provider;
@@ -10,6 +9,7 @@ public final class ExternalServiceLoader {
 
     private static ExternalServiceLoader instance;
     private final ServiceLoader<ICasADiExternalProcessor> loader;
+    private final Optional<ICasADiExternalProcessor> processor;
 
     public static synchronized ExternalServiceLoader instance() {
         if (instance == null) {
@@ -19,10 +19,11 @@ public final class ExternalServiceLoader {
     }
 
     private ExternalServiceLoader() {
-        loader = ServiceLoader.load(ICasADiExternalProcessor.class);
+        this.loader = ServiceLoader.load(ICasADiExternalProcessor.class);
+        this.processor = findProcessor(loader);
     }
 
-    public Optional<ICasADiExternalProcessor> getProcessor() {
+    private static Optional<ICasADiExternalProcessor> findProcessor(ServiceLoader<ICasADiExternalProcessor> loader) {
         List<ICasADiExternalProcessor> impls = loader.stream()
             .map(Provider::get)
             .toList();
@@ -36,7 +37,7 @@ public final class ExternalServiceLoader {
         return Optional.of(impls.get(0));
     }
 
-    public static ICasADiExternalProcessor getProcessorThrowing(String algebra) throws NoSuchElementException {
-        return ExternalServiceLoader.instance().getProcessor().orElseThrow();
+    public static Optional<ICasADiExternalProcessor> getProcessor() {
+        return ExternalServiceLoader.instance().processor;
     }
 }
