@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class MaximaSimplifier {
 
-    public static synchronized SX simplify(SX expr, List<SX> variables) {
+    public static synchronized SX simplifySparsify(SX expr, List<SX> variables) {
         System.out.flush();
         System.out.println();
 
@@ -24,10 +24,11 @@ public class MaximaSimplifier {
         String maximaOut = MaximaSimplifier.simplify(maximaIn);
         System.out.println("->maximaOut: " + maximaOut);
 
+        // sparsify happens here.
         SX casadiOut = new ToCasadiTranspilerService().maximaToCasadi(maximaOut, variables);
         System.out.println("->casadiOut: " + casadiOut.toString());
 
-        validate(casadiIn, casadiOut, variables);
+        // validate(casadiIn, casadiOut, variables);
 
         System.out.println();
         System.out.flush();
@@ -77,6 +78,13 @@ public class MaximaSimplifier {
     }
 
     public static void validate(SX casadiIn, SX casadiOut, List<SX> variables) throws RuntimeException {
+        if (casadiIn.columns() != casadiOut.columns()) {
+            throw new AssertionError("Column count differs.");
+        }
+        if (casadiIn.rows() != casadiOut.rows()) {
+            throw new AssertionError("Row count differs.");
+        }
+
         SX validatorIn = SxStatic.minus(casadiIn, casadiOut);
         String maximaValIn = new ToMaximaTranspilerService().casadiToMaxima(validatorIn);
         String maximaValOut = MaximaSimplifier.simplify(maximaValIn);
