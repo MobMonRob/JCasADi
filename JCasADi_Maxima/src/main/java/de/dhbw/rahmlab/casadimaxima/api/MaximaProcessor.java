@@ -9,8 +9,8 @@ import java.util.List;
 public class MaximaProcessor implements ICasADiExternalProcessor {
 
     @Override
-    public SX simplify(SX expr, List<SX> variables) {
-        return MaximaSimplifier.simplify(expr, variables);
+    public SX simplifySparsify(SX expr, List<SX> variables) {
+        return MaximaSimplifier.simplifySparsify(expr, variables);
     }
 
 }
