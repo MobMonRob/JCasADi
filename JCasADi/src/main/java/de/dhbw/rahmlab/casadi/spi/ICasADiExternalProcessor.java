@@ -11,4 +11,6 @@ public interface ICasADiExternalProcessor {
         SX sparse = SxStatic.sparsify(simple);
         return sparse;
     }
+
+    String LaTeXify(SX casadiIn);
 }
