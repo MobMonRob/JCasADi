@@ -13,4 +13,9 @@ public class MaximaProcessor implements ICasADiExternalProcessor {
         return MaximaSimplifier.simplifySparsify(expr, variables);
     }
 
+    @Override
+    public String LaTeXify(SX casadiIn) {
+        return MaximaLaTeXifier.LaTeXify(casadiIn);
+    }
+
 }
