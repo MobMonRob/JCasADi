@@ -110,27 +110,36 @@ public class Demo8CodeGenerationSolution {
         C.generate();
 
         // 5.2 Using the generated code (external function and JIT compilation)
+        long startTime = System.nanoTime();
         Function fLoaded = CoreWrapper.external("f", "./gen.so").getCasADiObject();
         StdVectorDM arg = new StdVectorDM(new DM[]{new DM(3.14)});
         StdVectorDM res = new StdVectorDM();
 	    fLoaded.call(arg, res);
+        long endTime = System.nanoTime();
+        System.out.println("Time taken to load and call f: " + (endTime - startTime) + " nanoseconds");
         System.out.println("fLoaded(3.14)="+res.toString()); // f(3.14)=[0.00159265]
 
         Function gLoaded = CoreWrapper.external("g", "./gen.so").getCasADiObject();
         gLoaded.call(arg, res);
         System.out.println("gLoaded(3.14)="+res.toString()); // g(3.14)=[-0.999999]
 
+        startTime = System.nanoTime();
         Importer cImporter = new Importer("gen.c", "shell"); // compiler can be "shell" or "clang" (CasADi distributed, but not working for JCasADi yet (2026-05-13))
         Function fJIT = CoreWrapper.external("f", cImporter).getCasADiObject();
         fJIT.call(arg, res);
+        endTime = System.nanoTime();
+        System.out.println("Time taken to JIT compile and call f: " + (endTime - startTime) + " nanoseconds");
         System.out.println("fJIT(3.14)="+res.toString()); // f(3.14)=[0.00159265]
 
         // Use another optimization for JIT compilation from (https://github.com/casadi/casadi/issues/1941#issuecomment-274793064)
         Dict jitOptions = new Dict();
         jitOptions.put("flags", new GenericType("-O3"));
+        startTime = System.nanoTime();
         Importer cImporter2 = new Importer("gen.c", "shell", jitOptions);
         Function fJIT2 = CoreWrapper.external("f", cImporter2).getCasADiObject();
         fJIT2.call(arg, res);
+        endTime = System.nanoTime();
+        System.out.println("Time taken to JIT compile with -O3 and call f: " + (endTime - startTime) + " nanoseconds");
         System.out.println("fJIT2(3.14)="+res.toString()); // f(3.14)=[0.00159265]
     }
 }
