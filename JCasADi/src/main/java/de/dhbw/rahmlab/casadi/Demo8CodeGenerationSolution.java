@@ -1,10 +1,14 @@
 package de.dhbw.rahmlab.casadi;
 
+import de.dhbw.rahmlab.casadi.api.core.wrapper.CoreWrapper;
+import de.dhbw.rahmlab.casadi.impl.casadi.CodeGenerator;
+import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
+import de.dhbw.rahmlab.casadi.impl.std.StdVectorDM;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorMX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 
@@ -87,14 +91,30 @@ public class Demo8CodeGenerationSolution {
          * fprintf(fileID,"set INCDIR=%s\n",GlobalOptions.getCasadiIncludePath());
          * fclose(fileID);
          */
-        /*fileID = fopen("common.sh","w");
-        fprintf(fileID,"LIBDIR=''%s''\n",GlobalOptions.getCasadiPath());
-        fprintf(fileID,"INCDIR=''%s''\n",GlobalOptions.getCasadiIncludePath());
-        fclose(fileID);
 
-        fileID = fopen("common.bat","w");
-        fprintf(fileID,"set LIBDIR=%s\n",GlobalOptions.getCasadiPath());
-        fprintf(fileID,"set INCDIR=%s\n",GlobalOptions.getCasadiIncludePath());
-        fclose(fileID);*/
+        // Examples from https://web.casadi.org/docs/#generating-c-code
+        SX x1 = SxStatic.sym("x");
+        SX y1 = SxStatic.sym("y");
+
+        Function f1 = new Function("f", new StdVectorSX(new SX[] { x1 }),
+                new StdVectorSX(new SX[] { SxStatic.sin(x1) }));
+        Function g1 = new Function("g", new StdVectorSX(new SX[] { y1 }),
+                new StdVectorSX(new SX[] { SxStatic.cos(y1) }));
+        Dict options1 = new Dict();
+        options1.put("with_header", new GenericType(true));
+        CodeGenerator C = new CodeGenerator("gen.c", options1);
+        C.add(f1);
+        C.add(g1);
+        C.generate();
+
+        Function fLoaded = CoreWrapper.external("f", "./gen.so").getCasADiObject();
+        StdVectorDM arg = new StdVectorDM(new DM[]{new DM(3.14)});
+        StdVectorDM res = new StdVectorDM();
+	    fLoaded.call(arg, res);
+        System.out.println("f(3.14)="+res.toString()); // f(3.14)=[0.00159265]
+
+        Function gLoaded = CoreWrapper.external("g", "./gen.so").getCasADiObject();
+        gLoaded.call(arg, res);
+        System.out.println("g(3.14)="+res.toString()); // g(3.14)=[-0.999999]
     }
 }
