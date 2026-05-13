@@ -5,6 +5,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.CodeGenerator;
 import de.dhbw.rahmlab.casadi.impl.casadi.DM;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
+import de.dhbw.rahmlab.casadi.impl.casadi.Importer;
 import de.dhbw.rahmlab.casadi.impl.casadi.MX;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.Dict;
@@ -93,6 +94,7 @@ public class Demo8CodeGenerationSolution {
          */
 
         // Examples from https://web.casadi.org/docs/#generating-c-code
+        // 5.1 Syntax for generating code
         SX x1 = SxStatic.sym("x");
         SX y1 = SxStatic.sym("y");
 
@@ -107,14 +109,28 @@ public class Demo8CodeGenerationSolution {
         C.add(g1);
         C.generate();
 
+        // 5.2 Using the generated code (external function and JIT compilation)
         Function fLoaded = CoreWrapper.external("f", "./gen.so").getCasADiObject();
         StdVectorDM arg = new StdVectorDM(new DM[]{new DM(3.14)});
         StdVectorDM res = new StdVectorDM();
 	    fLoaded.call(arg, res);
-        System.out.println("f(3.14)="+res.toString()); // f(3.14)=[0.00159265]
+        System.out.println("fLoaded(3.14)="+res.toString()); // f(3.14)=[0.00159265]
 
         Function gLoaded = CoreWrapper.external("g", "./gen.so").getCasADiObject();
         gLoaded.call(arg, res);
-        System.out.println("g(3.14)="+res.toString()); // g(3.14)=[-0.999999]
+        System.out.println("gLoaded(3.14)="+res.toString()); // g(3.14)=[-0.999999]
+
+        Importer cImporter = new Importer("gen.c", "shell"); // compiler can be "shell" or "clang" (CasADi distributed, but not working for JCasADi yet (2026-05-13))
+        Function fJIT = CoreWrapper.external("f", cImporter).getCasADiObject();
+        fJIT.call(arg, res);
+        System.out.println("fJIT(3.14)="+res.toString()); // f(3.14)=[0.00159265]
+
+        // Use another optimization for JIT compilation from (https://github.com/casadi/casadi/issues/1941#issuecomment-274793064)
+        Dict jitOptions = new Dict();
+        jitOptions.put("flags", new GenericType("-O3"));
+        Importer cImporter2 = new Importer("gen.c", "shell", jitOptions);
+        Function fJIT2 = CoreWrapper.external("f", cImporter2).getCasADiObject();
+        fJIT2.call(arg, res);
+        System.out.println("fJIT2(3.14)="+res.toString()); // f(3.14)=[0.00159265]
     }
 }
