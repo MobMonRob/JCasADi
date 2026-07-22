@@ -109,6 +109,15 @@ public class Demo8CodeGenerationSolution {
         C.add(g1);
         C.generate();
 
+        // Compile c code to shared library (gen.so) using gcc
+        try {
+            ProcessBuilder pb = new ProcessBuilder("gcc", "-shared", "-fPIC", "-o", "gen.so", "gen.c");
+            Process process = pb.start();
+            process.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // 5.2 Using the generated code (external function and JIT compilation)
         long startTime = System.nanoTime();
         Function fLoaded = CoreWrapper.external("f", "./gen.so").getCasADiObject();
