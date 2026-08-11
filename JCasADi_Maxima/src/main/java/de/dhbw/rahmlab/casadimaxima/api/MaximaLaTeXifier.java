@@ -8,6 +8,26 @@ import java.util.stream.Collectors;
 
 public class MaximaLaTeXifier {
 
+    public static void main(String[] args) {
+        String maximaIn
+            = """
+v1 : 0.5$
+v2 : (v1 * (arg0_0)^2)$
+v3 : (v2 + v1)$
+v4 : (arg0_0 - (0.0996 * arg1_0))$
+v5 : (v2 - v1)$
+v6 : (v1 * (v4)^2)$
+v7 : (v6 + v1)$
+v8 : (v6 - v1)$
+v9 : ((((v3 * v4) - (v5 * v4)) - (arg0_0 * v7)) + (arg0_0 * v8))$
+v10 : (((((arg0_0 * v4) + (v3 * v7)) - (v5 * v7)) + (v3 * v8)) - (v5 * v8))$
+vn : [v9, 0, 0, 0, v10, v10, 0, 0, 0, 0, 0, 0, 0, 0, 0, v9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]$
+""";
+
+        String latexified = LaTeXify(maximaIn);
+        System.out.println(latexified);
+    }
+
     public static synchronized String LaTeXify(SX casadiIn) {
         System.out.flush();
         System.out.println();
@@ -35,7 +55,11 @@ public class MaximaLaTeXifier {
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
             maximaInput += expr + "\n"; // Add expr
-            maximaInput += "tex(%, false);"; // Print as tex and string
+            maximaInput += "transpose(matrix(%))$\n"; // Column vector
+            maximaInput += "tex_raw: tex1(%)$\n"; // tex single line
+            maximaInput += "short_tex: ssubst(\"\\\\begin{pmatrix}\", \"\\\\ifx\\\\endpmatrix\\\\undefined\\\\pmatrix{\\\\else\\\\begin{pmatrix}\\\\fi \", tex_raw)$\n";
+            maximaInput += "short_tex: ssubst(\"\\\\end{pmatrix}\", \"\\\\ifx\\\\endpmatrix\\\\undefined}\\\\else\\\\end{pmatrix}\\\\fi\", short_tex)$\n";
+            maximaInput += "?princ(short_tex)$\n"; // Print
 
             ProcessBuilder pb = new ProcessBuilder(
                 "maxima",

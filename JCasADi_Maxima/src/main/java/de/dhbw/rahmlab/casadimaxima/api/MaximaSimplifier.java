@@ -48,7 +48,6 @@ public class MaximaSimplifier {
             maximaInput += "vs : (ev(%, infeval, trigrat, radscan))$\n"; // Simplify
             maximaInput += "optimize(%)$\n"; // common subexpression elimination
             maximaInput += "string(%);"; // Print result as single line. No line wrapping.
-            // maximaInput += "tex(%);"; // Caution: Line Wrapping
 
             ProcessBuilder pb = new ProcessBuilder(
                 "maxima",
