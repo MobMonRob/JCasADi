@@ -40,11 +40,11 @@ public class MaximaSimplifier {
      * Only for debugging.
      */
     @Deprecated
-    public static String simplify(String expr) throws RuntimeException {
+    public static String simplify(String maximaExpr) throws RuntimeException {
         try {
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
-            maximaInput += expr + "\n"; // Add expr
+            maximaInput += maximaExpr + "\n"; // Add expr
             maximaInput += "vs : (ev(%, infeval, trigrat, radscan))$\n"; // Simplify
             maximaInput += "optimize(%)$\n"; // common subexpression elimination
             maximaInput += "string(%);"; // Print result as single line. No line wrapping.

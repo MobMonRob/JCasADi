@@ -50,11 +50,11 @@ vn : [v9, 0, 0, 0, v10, v10, 0, 0, 0, 0, 0, 0, 0, 0, 0, v9, 0, 0, 0, 0, 0, 0, 0,
      * Only for debugging.
      */
     @Deprecated
-    public static String LaTeXify(String expr) throws RuntimeException {
+    public static String LaTeXify(String maximaExpr) throws RuntimeException {
         try {
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
-            maximaInput += expr + "\n"; // Add expr
+            maximaInput += maximaExpr + "\n"; // Add expr
             maximaInput += "transpose(matrix(%))$\n"; // Column vector
             maximaInput += "tex_raw: tex1(%)$\n"; // tex single line
             maximaInput += "short_tex: ssubst(\"\\\\begin{pmatrix}\", \"\\\\ifx\\\\endpmatrix\\\\undefined\\\\pmatrix{\\\\else\\\\begin{pmatrix}\\\\fi \", tex_raw)$\n";
