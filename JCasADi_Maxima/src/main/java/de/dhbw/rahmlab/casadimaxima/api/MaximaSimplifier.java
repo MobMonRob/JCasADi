@@ -11,27 +11,33 @@ import java.util.stream.Collectors;
 
 public class MaximaSimplifier {
 
-    public static synchronized SX simplifySparsify(SX expr, List<SX> variables) {
-        System.out.flush();
-        System.out.println();
+    public static SX simplifySparsify(SX expr, List<SX> variables) {
+        StringBuilder print = new StringBuilder();
 
+        print.append("\n");
         SX casadiIn = SxStatic.sparsify(SxStatic.simplify(expr)); // To compare, what Maxima does better.
-        System.out.println("->casadiIn: " + casadiIn.toString());
+        print.append("->casadiIn: ").append(casadiIn.toString());
+        print.append("\n");
 
         String maximaIn = new ToMaximaTranspilerService().casadiToMaxima(casadiIn);
-        System.out.println("->maximaIn: " + maximaIn);
+        print.append("->maximaIn: ").append(maximaIn);
+        print.append("\n");
 
         String maximaOut = MaximaSimplifier.simplify(maximaIn);
-        System.out.println("->maximaOut: " + maximaOut);
+        print.append("->maximaOut: ").append(maximaOut);
+        print.append("\n");
 
         // sparsify happens here.
         SX casadiOut = new ToCasadiTranspilerService().maximaToCasadi(maximaOut, variables);
-        System.out.println("->casadiOut: " + casadiOut.toString());
+        print.append("->casadiOut: ").append(casadiOut.toString());
+        print.append("\n");
 
         // validate(casadiIn, casadiOut, variables);
-
-        System.out.println();
-        System.out.flush();
+        synchronized (System.out) {
+            System.out.flush();
+            System.out.println(print.toString());
+            System.out.flush();
+        }
 
         return casadiOut;
     }

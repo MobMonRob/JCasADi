@@ -28,20 +28,26 @@ vn : [v9, 0, 0, 0, v10, v10, 0, 0, 0, 0, 0, 0, 0, 0, 0, v9, 0, 0, 0, 0, 0, 0, 0,
         System.out.println(latexified);
     }
 
-    public static synchronized String LaTeXify(SX casadiIn) {
-        System.out.flush();
-        System.out.println();
+    public static String LaTeXify(SX casadiIn) {
+        StringBuilder print = new StringBuilder();
 
-        System.out.println("->casadiIn: " + casadiIn.toString());
+        print.append("\n");
+        print.append("->casadiIn: ").append(casadiIn.toString());
+        print.append("\n");
 
         String maximaIn = new ToMaximaTranspilerService().casadiToMaxima(casadiIn);
-        System.out.println("->maximaIn: " + maximaIn);
+        print.append("->maximaIn: ").append(maximaIn);
+        print.append("\n");
 
         String maximaOut = MaximaLaTeXifier.LaTeXify(maximaIn);
-        System.out.println("->maximaOut: " + maximaOut);
+        print.append("->maximaOut: ").append(maximaOut);
+        print.append("\n");
 
-        System.out.println();
-        System.out.flush();
+        synchronized (System.out) {
+            System.out.flush();
+            System.out.println(print.toString());
+            System.out.flush();
+        }
 
         return maximaOut;
     }
