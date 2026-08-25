@@ -11,14 +11,16 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MaximaSimplifier {
 
     private static final String FULL_SIMPLIFY_FAST_RESOURCE
         = "/de/dhbw/rahmlab/casadimaxima/full_simplify_fast.mac";
-    private static Path fullSimplifyFastScript;
+    private static final Map<String, Path> CACHED_RESOURCES = new HashMap<>();
 
     public static SX simplifySparsify(SX expr, List<SX> variables) {
         StringBuilder print = new StringBuilder();
@@ -59,7 +61,7 @@ public class MaximaSimplifier {
         try {
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
-            maximaInput += "load(" + maximaString(fullSimplifyFastScript()) + ")$\n";
+            maximaInput += "load(" + maximaString(resourceCacher(FULL_SIMPLIFY_FAST_RESOURCE)) + ")$\n";
             maximaInput += maximaExpr + "\n"; // Add expr
             maximaInput += "vs : full_simplify_fast(%)$\n"; // Simplify
             maximaInput += "optimize(%)$\n"; // common subexpression elimination
@@ -92,17 +94,22 @@ public class MaximaSimplifier {
         }
     }
 
-    private static synchronized Path fullSimplifyFastScript() {
-        if (fullSimplifyFastScript != null) {
-            return fullSimplifyFastScript;
+    private static synchronized Path resourceCacher(String resourcePath) {
+        Path cachedResource = CACHED_RESOURCES.get(resourcePath);
+        if (cachedResource != null) {
+            return cachedResource;
         }
 
-        try (InputStream resource = MaximaSimplifier.class.getResourceAsStream(FULL_SIMPLIFY_FAST_RESOURCE)) {
+        try (InputStream resource = MaximaSimplifier.class.getResourceAsStream(resourcePath)) {
             if (resource == null) {
-                throw new RuntimeException("Missing Maxima resource: " + FULL_SIMPLIFY_FAST_RESOURCE);
+                throw new RuntimeException("Missing Maxima resource: " + resourcePath);
             }
 
-            Path script = Files.createTempFile("full_simplify_fast-", ".mac");
+            Path resourceFileName = Path.of(resourcePath).getFileName();
+            String resourceName = resourceFileName == null ? "resource" : resourceFileName.toString();
+            int extensionStart = resourceName.lastIndexOf('.');
+            String suffix = extensionStart >= 0 ? resourceName.substring(extensionStart) : ".tmp";
+            Path script = Files.createTempFile("resource-", suffix);
             try {
                 Files.copy(resource, script, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
@@ -110,10 +117,10 @@ public class MaximaSimplifier {
                 throw e;
             }
             script.toFile().deleteOnExit();
-            fullSimplifyFastScript = script;
+            CACHED_RESOURCES.put(resourcePath, script);
             return script;
         } catch (IOException e) {
-            throw new RuntimeException("Failed to extract Maxima resource: " + FULL_SIMPLIFY_FAST_RESOURCE, e);
+            throw new RuntimeException("Failed to extract Maxima resource: " + resourcePath, e);
         }
     }
 
