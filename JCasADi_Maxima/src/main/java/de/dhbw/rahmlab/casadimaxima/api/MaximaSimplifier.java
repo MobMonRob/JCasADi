@@ -4,6 +4,7 @@ import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadimaxima.casaditomaxima.ToMaximaTranspilerService;
 import de.dhbw.rahmlab.casadimaxima.maximatocasadi.ToCasadiTranspilerService;
+import de.dhbw.rahmlab.casadimaxima.util.ProcessOutputReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -61,11 +62,13 @@ public class MaximaSimplifier {
         try {
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
+            maximaInput += "ratprint:false$\n"; // Do not visualize formulas
             maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_RESOURCE)) + ")$\n";
             maximaInput += maximaExpr + "\n"; // Add expr
-            maximaInput += "vs : full_simplify_fast(%)$\n"; // Simplify
-            maximaInput += "optimize(%)$\n"; // common subexpression elimination
-            maximaInput += "string(%);"; // Print result as single line. No line wrapping.
+            maximaInput += "vs: full_simplify_fast(%)$\n"; // Simplify
+            maximaInput += "vo: optimize(%)$\n"; // common subexpression elimination
+            maximaInput += "printf(true,\"__RESULT_BEGIN__~%~a~%__RESULT_END__~%\", string(vo))$\n"; // Print result as single line. No line wrapping.
+            //maximaInput += "string(%);"; // Print result as single line. No line wrapping.
 
             ProcessBuilder pb = new ProcessBuilder(
                 "maxima",
@@ -74,24 +77,41 @@ public class MaximaSimplifier {
                 maximaInput
             );
             Process p = pb.start();
-            String out = new BufferedReader(new InputStreamReader(p.getInputStream()))
-                .lines().toList().getLast();
-            //.lines().collect(Collectors.joining("\n"));
-            String err = new BufferedReader(new InputStreamReader(p.getErrorStream()))
-                .lines().collect(Collectors.joining("\n"));
-            // Does often not work!
-            if (!err.isBlank()) {
-                throw new RuntimeException("Maxima error: " + err);
+
+            ProcessOutputReader.Result result;
+            try (var reader = new ProcessOutputReader(p)) {
+                result = reader.await();
             }
-            int ret = p.waitFor();
-            // Does often not work!
-            if (ret != 0) {
-                throw new RuntimeException("Maxima error");
+            if (result.exitCode() != 0) {
+                throw new RuntimeException(
+                    "Maxima error:\n" + result.stderr()
+                );
             }
-            return out;
+
+            return extractMaximaResult(result.stdout());
         } catch (Exception e) {
             throw new RuntimeException("Failed to run Maxima", e);
         }
+    }
+
+    private static String extractMaximaResult(String out) {
+        String begin = "__RESULT_BEGIN__";
+        String end = "__RESULT_END__";
+
+        // lastIndexOf, because --batch-string echoes the printf command itself.
+        int start = out.lastIndexOf(begin);
+        if (start < 0) {
+            throw new RuntimeException("Maxima result start marker not found:\n" + out);
+        }
+
+        start += begin.length();
+
+        int finish = out.indexOf(end, start);
+        if (finish < 0) {
+            throw new RuntimeException("Maxima result end marker not found:\n" + out);
+        }
+
+        return out.substring(start, finish).trim();
     }
 
     private static synchronized Path maximaFileCacher(String resourcePath) {

@@ -18,7 +18,7 @@
 
 
 /* Expose Maxima's internal size measure. */
-:lisp (defmfun $fs_size (x) (conssize x))
+fs_size(e) := ?conssize(e)$
 
 
 /*
@@ -126,15 +126,15 @@ fs_core_step(e) :=
  * Repeat cheap transformations, but keep runtime bounded.
  */
 fs_core(e, max_rounds) :=
-    block([current, next, i],
+    block([current, candidate, i],
 
         current : e,
 
         for i : 1 thru max_rounds do (
-            next : fs_core_step(current),
+            candidate : fs_core_step(current),
 
-            if fs_size(next) < fs_size(current)
-            then current : next
+            if fs_size(candidate) < fs_size(current)
+            then current : candidate
             else return(current)
         ),
 

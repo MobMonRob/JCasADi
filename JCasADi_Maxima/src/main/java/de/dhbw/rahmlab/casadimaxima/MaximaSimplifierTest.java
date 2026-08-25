@@ -28,11 +28,10 @@ public class MaximaSimplifierTest {
         // String casadiString = "@1=0.5, @2=sq(arg0_0), [arg0_0, 00, 00, 00, ((@1*@2)+-0.5), ((@1*@2)+@1), 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]";
         String maximaInput = new ToMaximaTranspilerService().casadiToMaxima(casadiString);
         String maximaOutput = MaximaSimplifier.simplify(maximaInput);
-        // SX sx = new ToCasadiTranspilerService().maximaToCasadi(maximaOutput, List.of(SxStatic.sym("arg0", 32, 1), SxStatic.sym("arg1", 32, 1)));
+        SX sx = new ToCasadiTranspilerService().maximaToCasadi(maximaOutput, List.of(SxStatic.sym("arg0", 32, 1), SxStatic.sym("arg1", 32, 1)));
         System.out.println("casadiIn: " + casadiString);
         System.out.println("\nmaximaIn:\n" + maximaInput);
         System.out.println("\nmaximaOut:\n" + maximaOutput);
-        SX sx = new ToCasadiTranspilerService().maximaToCasadi(maximaOutput, List.of(SxStatic.sym("arg0", 32, 1), SxStatic.sym("arg1", 32, 1)));
         System.out.println("\ncasadiOut:\n" + sx.toString());
         var func = new Function("testfunc", new StdVectorSX(), new StdVectorSX(new SX[]{sx}), new Dict(Map.of("allow_free", new GenericType(true))));
         func.free_sx().forEach(System.out::println);
