@@ -58,9 +58,15 @@ vn : [v9, 0, 0, 0, v10, v10, 0, 0, 0, 0, 0, 0, 0, 0, 0, v9, 0, 0, 0, 0, 0, 0, 0,
     @Deprecated
     public static String LaTeXify(String maximaExpr) throws RuntimeException {
         try {
+            String trimmedMaximaExpr = maximaExpr.trim();
+            if (!trimmedMaximaExpr.endsWith("$") && !trimmedMaximaExpr.endsWith(";")) {
+                maximaExpr += "$";
+            }
+
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
             maximaInput += maximaExpr + "\n"; // Add expr
+            maximaInput += "\n"; // Add expr
             maximaInput += "transpose(matrix(%))$\n"; // Column vector
             maximaInput += "tex_raw: tex1(%)$\n"; // tex single line
             maximaInput += "short_tex: ssubst(\"\\\\begin{pmatrix}\", \"\\\\ifx\\\\endpmatrix\\\\undefined\\\\pmatrix{\\\\else\\\\begin{pmatrix}\\\\fi \", tex_raw)$\n";

@@ -63,7 +63,7 @@ public class MaximaSimplifier {
             maximaInput += "ratprint:false$\n"; // Do not visualize formulas
             maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_RESOURCE)) + ")$\n";
             maximaInput += maximaExpr + "\n"; // Add expr
-            maximaInput += "vs: full_simplify_fast(%)$\n"; // Simplify
+            maximaInput += "vs: full_simplify(%)$\n"; // Simplify
             maximaInput += "vo: optimize(%)$\n"; // common subexpression elimination
             maximaInput += "printf(true,\"__RESULT_BEGIN__~%~a~%__RESULT_END__~%\", string(vo))$\n"; // Print result as single line. No line wrapping.
             //maximaInput += "string(%);"; // Print result as single line. No line wrapping.
@@ -86,6 +86,7 @@ public class MaximaSimplifier {
                 );
             }
 
+            // System.out.println(result.stdout()); // Debug
             return extractMaximaResult(result.stdout());
         } catch (Exception e) {
             throw new RuntimeException("Failed to run Maxima", e);

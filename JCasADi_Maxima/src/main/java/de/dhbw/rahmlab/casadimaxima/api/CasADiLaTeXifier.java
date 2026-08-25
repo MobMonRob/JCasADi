@@ -30,10 +30,9 @@ public class CasADiLaTeXifier {
  00]
 """;
         String maximaExpr = new ToMaximaTranspilerService().casadiToMaxima(casadiExpr);
-        // System.out.println(maximaExpr);
-        // // Leads to errors. Unknown why.
-        // maximaExpr = MaximaSimplifier.simplify(maximaExpr);
-        // System.out.println(maximaExpr);
+        System.out.println(maximaExpr);
+        maximaExpr = MaximaSimplifier.simplify(maximaExpr);
+        System.out.println(maximaExpr);
         String latexExpr = MaximaLaTeXifier.LaTeXify(maximaExpr);
         System.out.println(latexExpr);
     }
