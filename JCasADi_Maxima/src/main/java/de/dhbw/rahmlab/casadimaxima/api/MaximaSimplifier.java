@@ -31,6 +31,7 @@ public class MaximaSimplifier {
         String maximaIn = new ToMaximaTranspilerService().casadiToMaxima(casadiIn);
         print.append("->maximaIn: ").append(maximaIn);
         print.append("\n");
+        System.out.println(print.toString()); // Debug
 
         String maximaOut = MaximaSimplifier.simplify(maximaIn);
         print.append("->maximaOut: ").append(maximaOut);
