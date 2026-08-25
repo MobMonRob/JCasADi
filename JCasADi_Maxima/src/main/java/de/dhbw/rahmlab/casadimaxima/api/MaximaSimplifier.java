@@ -20,7 +20,7 @@ public class MaximaSimplifier {
 
     private static final String FULL_SIMPLIFY_FAST_RESOURCE
         = "/de/dhbw/rahmlab/casadimaxima/full_simplify_fast.mac";
-    private static final Map<String, Path> CACHED_RESOURCES = new HashMap<>();
+    private static final Map<String, Path> CACHED_MAXIMA_FILES = new HashMap<>();
 
     public static SX simplifySparsify(SX expr, List<SX> variables) {
         StringBuilder print = new StringBuilder();
@@ -61,7 +61,7 @@ public class MaximaSimplifier {
         try {
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
-            maximaInput += "load(" + maximaString(resourceCacher(FULL_SIMPLIFY_FAST_RESOURCE)) + ")$\n";
+            maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_FAST_RESOURCE)) + ")$\n";
             maximaInput += maximaExpr + "\n"; // Add expr
             maximaInput += "vs : full_simplify_fast(%)$\n"; // Simplify
             maximaInput += "optimize(%)$\n"; // common subexpression elimination
@@ -94,8 +94,8 @@ public class MaximaSimplifier {
         }
     }
 
-    private static synchronized Path resourceCacher(String resourcePath) {
-        Path cachedResource = CACHED_RESOURCES.get(resourcePath);
+    private static synchronized Path maximaFileCacher(String resourcePath) {
+        Path cachedResource = CACHED_MAXIMA_FILES.get(resourcePath);
         if (cachedResource != null) {
             return cachedResource;
         }
@@ -106,10 +106,11 @@ public class MaximaSimplifier {
             }
 
             Path resourceFileName = Path.of(resourcePath).getFileName();
-            String resourceName = resourceFileName == null ? "resource" : resourceFileName.toString();
+            String resourceName = resourceFileName.toString();
             int extensionStart = resourceName.lastIndexOf('.');
-            String suffix = extensionStart >= 0 ? resourceName.substring(extensionStart) : ".tmp";
-            Path script = Files.createTempFile("resource-", suffix);
+            String prefix = resourceName.substring(0, extensionStart) + "-";
+            String suffix = resourceName.substring(extensionStart);
+            Path script = Files.createTempFile(prefix, suffix);
             try {
                 Files.copy(resource, script, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
@@ -117,7 +118,7 @@ public class MaximaSimplifier {
                 throw e;
             }
             script.toFile().deleteOnExit();
-            CACHED_RESOURCES.put(resourcePath, script);
+            CACHED_MAXIMA_FILES.put(resourcePath, script);
             return script;
         } catch (IOException e) {
             throw new RuntimeException("Failed to extract Maxima resource: " + resourcePath, e);
