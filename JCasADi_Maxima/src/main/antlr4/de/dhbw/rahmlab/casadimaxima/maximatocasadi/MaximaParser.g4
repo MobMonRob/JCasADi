@@ -2,7 +2,7 @@ parser grammar MaximaParser;
 
 options { tokenVocab=MaximaLexer; }
 
-root : QUOTE content QUOTE ;
+root : content;
 
 content
     : arrayExpr                          # SimpleArray
