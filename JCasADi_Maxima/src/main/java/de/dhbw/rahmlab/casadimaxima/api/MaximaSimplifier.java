@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 public class MaximaSimplifier {
 
-    private static final String FULL_SIMPLIFY_FAST_RESOURCE
-        = "/de/dhbw/rahmlab/casadimaxima/full_simplify_fast.mac";
+    private static final String FULL_SIMPLIFY_RESOURCE
+        = "/de/dhbw/rahmlab/casadimaxima/full_simplify.mac";
     private static final Map<String, Path> CACHED_MAXIMA_FILES = new HashMap<>();
 
     public static SX simplifySparsify(SX expr, List<SX> variables) {
@@ -61,7 +61,7 @@ public class MaximaSimplifier {
         try {
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
-            maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_FAST_RESOURCE)) + ")$\n";
+            maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_RESOURCE)) + ")$\n";
             maximaInput += maximaExpr + "\n"; // Add expr
             maximaInput += "vs : full_simplify_fast(%)$\n"; // Simplify
             maximaInput += "optimize(%)$\n"; // common subexpression elimination
