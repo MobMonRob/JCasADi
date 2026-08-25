@@ -64,17 +64,20 @@ public class MaximaSimplifier {
             maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_RESOURCE)) + ")$\n";
             maximaInput += maximaExpr + "\n"; // Add expr
             maximaInput += "vs: full_simplify(%)$\n"; // Simplify
+            // maximaInput += "vo: %$\n";
             maximaInput += "vo: optimize(%)$\n"; // common subexpression elimination
             maximaInput += "printf(true,\"__RESULT_BEGIN__~%~a~%__RESULT_END__~%\", string(vo))$\n"; // Print result as single line. No line wrapping.
-            //maximaInput += "string(%);"; // Print result as single line. No line wrapping.
 
             ProcessBuilder pb = new ProcessBuilder(
                 "maxima",
                 "--very-quiet",
+                "-X",
+                "--dynamic-space-size 4096 --disable-ldb --lose-on-corruption",
                 "--batch-string",
                 maximaInput
             );
             Process p = pb.start();
+            p.getOutputStream().close(); // Never new input to Maxima. Surfaces some errors.
 
             ProcessOutputReader.Result result;
             try (var reader = new ProcessOutputReader(p)) {

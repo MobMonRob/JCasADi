@@ -5,7 +5,6 @@ import de.dhbw.rahmlab.casadimaxima.casaditomaxima.ToMaximaTranspilerService;
 public class CasADiLaTeXifier {
 
     public static void main(String[] args) {
-        // Example for insufficient simplifcation. Was simplified before.
         String casadiExpr = """
 @1=0.0892001,
  @2=(0.5*arg0_0),
