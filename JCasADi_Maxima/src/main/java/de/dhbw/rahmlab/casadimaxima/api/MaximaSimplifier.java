@@ -5,9 +5,7 @@ import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadimaxima.casaditomaxima.ToMaximaTranspilerService;
 import de.dhbw.rahmlab.casadimaxima.maximatocasadi.ToCasadiTranspilerService;
 import de.dhbw.rahmlab.casadimaxima.util.ProcessOutputReader;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,7 +13,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MaximaSimplifier {
 
