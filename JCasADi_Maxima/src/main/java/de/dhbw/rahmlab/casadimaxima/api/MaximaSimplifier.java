@@ -63,7 +63,8 @@ public class MaximaSimplifier {
             maximaInput += "ratprint:false$\n"; // Do not visualize formulas
             maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_RESOURCE)) + ")$\n";
             maximaInput += maximaExpr + "\n"; // Add expr
-            maximaInput += "vs: full_simplify(%)$\n"; // Simplify
+            // maximaInput += "vs: full_simplify(%)$\n"; // Simplify
+            maximaInput += "vs: trigreduce(ratsimp(trigsimp(ratsimp(xthru(%)))))$\n"; // Simplify
             // maximaInput += "vo: %$\n";
             maximaInput += "vo: optimize(%)$\n"; // common subexpression elimination
             maximaInput += "printf(true,\"__RESULT_BEGIN__~%~a~%__RESULT_END__~%\", string(vo))$\n"; // Print result as single line. No line wrapping.
