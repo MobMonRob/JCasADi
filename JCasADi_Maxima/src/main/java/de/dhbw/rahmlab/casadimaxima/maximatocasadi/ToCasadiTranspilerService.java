@@ -3,6 +3,9 @@ package de.dhbw.rahmlab.casadimaxima.maximatocasadi;
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
+import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
+import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Phase;
+import de.dhbw.rahmlab.casadimaxima.parsing.FailFastErrorListener;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
@@ -19,8 +22,12 @@ public class ToCasadiTranspilerService {
 
         var charStream = CharStreams.fromString(maximaString);
         var lexer = new MaximaLexer(charStream);
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(new FailFastErrorListener(Direction.MAXIMA_TO_CASADI, Phase.LEXER, maximaString));
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new MaximaParser(tokenStream);
+        parser.removeErrorListeners();
+        parser.addErrorListener(new FailFastErrorListener(Direction.MAXIMA_TO_CASADI, Phase.PARSER, maximaString));
 
         var parseTree = parser.root();
         ToCasadiTranspiler casadiTranspiler = new ToCasadiTranspiler(variablesMap);
