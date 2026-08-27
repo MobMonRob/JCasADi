@@ -13,10 +13,23 @@ import java.util.List;
 public class ParserFailureVerification {
 
     public static void main(String[] args) {
-        assertCasadiParserFailure("[(a-2043)]");
-        assertCasadiParserFailure("[(a-9.0072e+15)]");
+        assertCasadiConversion("[(a-2043)]", "vn : [(a - 2043)]$");
+        assertCasadiConversion("[(a-136999)]", "vn : [(a - 136999)]$");
+        assertCasadiConversion("[(a-9.0072e+15)]", "vn : [(a - 9.0072e+15)]$");
+        assertCasadiConversion("[(a-1.80144e+16)]", "vn : [(a - 1.80144e+16)]$");
+        assertCasadiConversion("[-2043]", "vn : [-(2043)]$");
+        assertCasadiConversion("[(a-1e-3)]", "vn : [(a - 1e-3)]$");
+        assertCasadiParserFailure("[(a+)]");
         assertMaximaParserFailure("[1,]");
-        System.out.println("Fail-fast parser verification passed.");
+        System.out.println("Lexer and fail-fast parser verification passed.");
+    }
+
+    private static void assertCasadiConversion(String source, String expected) {
+        String actual = new ToMaximaTranspilerService().casadiToMaxima(source);
+        if (!expected.equals(actual)) {
+            throw new AssertionError("Unexpected conversion for " + source
+                    + ": expected " + expected + ", got " + actual);
+        }
     }
 
     private static void assertCasadiParserFailure(String source) {
