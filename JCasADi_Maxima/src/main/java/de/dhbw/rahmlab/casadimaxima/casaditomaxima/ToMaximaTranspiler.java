@@ -130,16 +130,22 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
         switch (op) {
             case "==":
-                return left + " = " + right;  // Maxima Vergleich
+                return "(" + left + " = " + right + ")";  // Maxima Vergleich
             case "!=":
-                return left + " # " + right;  // Maxima Ungleich
-            case "&&":
-                return left + " and " + right;
-            case "||":
-                return left + " or " + right;
+                return "(" + left + " # " + right + ")";  // Maxima Ungleich
             default:
-                return left + " " + op + " " + right;
+                return "(" + left + " " + op + " " + right + ")";
         }
+    }
+
+    @Override
+    public String visitLogicalAnd(CasadiParser.LogicalAndContext ctx) {
+        return "(" + visit(ctx.expr(0)) + " and " + visit(ctx.expr(1)) + ")";
+    }
+
+    @Override
+    public String visitLogicalOr(CasadiParser.LogicalOrContext ctx) {
+        return "(" + visit(ctx.expr(0)) + " or " + visit(ctx.expr(1)) + ")";
     }
 
     @Override

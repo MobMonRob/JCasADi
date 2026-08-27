@@ -159,12 +159,13 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     }
 
     @Override
-    public SX visitLogicalExpr(MaximaParser.LogicalExprContext ctx) {
-        SX left = visit(ctx.expression(0));
-        SX right = visit(ctx.expression(1));
-        return ctx.op.getType() == MaximaLexer.AND
-            ? SxStatic.logic_and(left, right)
-            : SxStatic.logic_or(left, right);
+    public SX visitLogicalAndExpr(MaximaParser.LogicalAndExprContext ctx) {
+        return SxStatic.logic_and(visit(ctx.expression(0)), visit(ctx.expression(1)));
+    }
+
+    @Override
+    public SX visitLogicalOrExpr(MaximaParser.LogicalOrExprContext ctx) {
+        return SxStatic.logic_or(visit(ctx.expression(0)), visit(ctx.expression(1)));
     }
 
     @Override

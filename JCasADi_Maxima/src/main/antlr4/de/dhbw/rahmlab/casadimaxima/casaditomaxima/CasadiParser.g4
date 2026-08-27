@@ -13,7 +13,9 @@ expr        : LPAREN expr RPAREN                        # Parentheses
             | (MINUS|NOT) expr                          # UnaryOp
             | expr op=(MUL|DIV) expr                    # Multiplicative
             | expr op=(PLUS|MINUS) expr                 # Additive
-            | expr op=(LT|LE|GT|GE|EQ|NEQ|AND|OR) expr  # RelationalOps
+            | expr op=(LT|LE|GT|GE|EQ|NEQ) expr         # RelationalOps
+            | expr AND expr                              # LogicalAnd
+            | expr OR expr                               # LogicalOr
             | expr QUESTION expr COLON expr             # TernaryOp
             | atom                                      # Primary
             ;

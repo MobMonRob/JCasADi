@@ -2,7 +2,7 @@ parser grammar MaximaParser;
 
 options { tokenVocab=MaximaLexer; }
 
-root : content;
+root : content EOF;
 
 content
     : arrayExpr                          # SimpleArray
@@ -31,7 +31,7 @@ expression
 	| expression op=(ADD|SUB) expression                            # AddSubExpr
 	| expression op=(EQ|NEQ|LT|GT|LTE|GTE) expression               # CompareExpr
 	| NOT expression                                                # NotExpr
-	| expression op=(AND|OR) expression                             # LogicalExpr
+	| expression AND expression                                     # LogicalAndExpr
+	| expression OR expression                                      # LogicalOrExpr
 	| IF expression THEN expression ELSE expression                 # IfExpr
     ;
-

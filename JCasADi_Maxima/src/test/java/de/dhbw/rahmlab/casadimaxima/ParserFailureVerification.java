@@ -4,8 +4,12 @@ import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Phase;
 import de.dhbw.rahmlab.casadimaxima.casaditomaxima.ToMaximaTranspilerService;
+import de.dhbw.rahmlab.casadimaxima.maximatocasadi.MaximaLexer;
+import de.dhbw.rahmlab.casadimaxima.maximatocasadi.MaximaParser;
 import de.dhbw.rahmlab.casadimaxima.maximatocasadi.ToCasadiTranspilerService;
 import java.util.List;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
  * Manual regression harness for fail-fast ANTLR diagnostics.
@@ -19,8 +23,12 @@ public class ParserFailureVerification {
         assertCasadiConversion("[(a-1.80144e+16)]", "vn : [(a - 1.80144e+16)]$");
         assertCasadiConversion("[-2043]", "vn : [-(2043)]$");
         assertCasadiConversion("[(a-1e-3)]", "vn : [(a - 1e-3)]$");
+        assertCasadiConversion("[a<b&&c<d]", "vn : [((a < b) and (c < d))]$");
+        assertCasadiConversion("[a||b&&c]", "vn : [(a or (b and c))]$");
         assertCasadiParserFailure("[(a+)]");
         assertMaximaParserFailure("[1,]");
+        assertMaximaParserFailure("[1] unexpected");
+        assertMaximaLogicalPrecedence();
         System.out.println("Lexer and fail-fast parser verification passed.");
     }
 
@@ -49,6 +57,19 @@ public class ParserFailureVerification {
         } catch (TranspilationException exception) {
             assertMetadata(exception, Direction.MAXIMA_TO_CASADI, Phase.PARSER, source);
             exception.printStackTrace(System.out);
+        }
+    }
+
+    private static void assertMaximaLogicalPrecedence() {
+        var lexer = new MaximaLexer(CharStreams.fromString("[(1=1) or (1=0) and (1=0)]"));
+        var parser = new MaximaParser(new CommonTokenStream(lexer));
+        var root = parser.root();
+        var expression = ((MaximaParser.SimpleArrayContext) root.content())
+                .arrayExpr().expression(0);
+        if (!(expression instanceof MaximaParser.LogicalOrExprContext orContext)
+                || !(orContext.expression(1) instanceof MaximaParser.LogicalAndExprContext)) {
+            throw new AssertionError("Expected OR with an AND right operand, got: "
+                    + root.toStringTree(parser));
         }
     }
 
