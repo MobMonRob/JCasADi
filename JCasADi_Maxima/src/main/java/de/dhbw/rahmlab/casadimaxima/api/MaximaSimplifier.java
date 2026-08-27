@@ -74,6 +74,7 @@ public class MaximaSimplifier {
             maximaInput += "ratprint:false$\n"; // Do not visualize formulas
             maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_RESOURCE)) + ")$\n";
             maximaInput += maximaExpr + "\n"; // Add expr
+            // maximaInput += "vs : (ev(%, infeval, trigrat))$\n"; // Old simplify
             // maximaInput += "vs: full_simplify(%)$\n"; // Simplify
             maximaInput += "vs: trigreduce(ratsimp(trigsimp(ratsimp(xthru(%)))))$\n"; // Simplify
             // maximaInput += "vo: %$\n";
@@ -84,7 +85,7 @@ public class MaximaSimplifier {
                 "maxima",
                 "--very-quiet",
                 "-X",
-                "--dynamic-space-size 4096 --disable-ldb --lose-on-corruption"
+                "--dynamic-space-size 1024 --disable-ldb --lose-on-corruption" //4096
             ));
             if (requiresBatchFile(maximaInput)) {
                 temporaryBatchFile = Files.createTempFile("maxima-batch-", ".mac");
