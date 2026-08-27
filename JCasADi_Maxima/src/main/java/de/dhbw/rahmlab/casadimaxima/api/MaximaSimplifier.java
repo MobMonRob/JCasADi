@@ -42,8 +42,13 @@ public class MaximaSimplifier {
         print.append("->maximaOut: ").append(maximaOut);
         print.append("\n");
 
-        // sparsify happens here.
-        SX casadiOut = new ToCasadiTranspilerService().maximaToCasadi(maximaOut, variables);
+        SX casadiOut;
+        try {
+            // sparsify happens here.
+            casadiOut = new ToCasadiTranspilerService().maximaToCasadi(maximaOut, variables);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException(String.format("%s\nFrom Maxima in:\n%s", ex.getMessage(), maximaIn), ex);
+        }
         print.append("->casadiOut: ").append(casadiOut.toString());
         print.append("\n");
 

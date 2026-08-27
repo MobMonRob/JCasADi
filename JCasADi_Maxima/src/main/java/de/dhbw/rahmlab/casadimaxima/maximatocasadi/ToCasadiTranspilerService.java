@@ -9,7 +9,6 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -25,7 +24,12 @@ public class ToCasadiTranspilerService {
 
         var parseTree = parser.root();
         ToCasadiTranspiler casadiTranspiler = new ToCasadiTranspiler(variablesMap);
-        SX sx = casadiTranspiler.visit(parseTree);
+        SX sx;
+        try {
+            sx = casadiTranspiler.visit(parseTree);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException(String.format("Exception \"%s\" with Maxima Output: \"%s\".", ex.getMessage(), maximaString), ex);
+        }
 
         sx = SxStatic.sparsify(sx);
 
