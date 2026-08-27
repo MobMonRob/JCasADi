@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,9 @@ public class MaximaSimplifier {
 
     private static final String FULL_SIMPLIFY_RESOURCE
         = "/de/dhbw/rahmlab/casadimaxima/full_simplify.mac";
+    private static final int MAXIMA_BATCH_STRING_THRESHOLD_BYTES = 120 * 1024;
+    private static final int MAXIMA_BATCH_STRING_SAFE_DIRECT_THRESHOLD_CHARS
+        = MAXIMA_BATCH_STRING_THRESHOLD_BYTES / 3;
     private static final Map<String, Path> CACHED_MAXIMA_FILES = new HashMap<>();
 
     public static SX simplifySparsify(SX expr, List<SX> variables) {
@@ -57,6 +62,7 @@ public class MaximaSimplifier {
      */
     @Deprecated
     public static String simplify(String maximaExpr) throws RuntimeException {
+        Path temporaryBatchFile = null;
         try {
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
@@ -69,19 +75,26 @@ public class MaximaSimplifier {
             maximaInput += "vo: optimize(%)$\n"; // common subexpression elimination
             maximaInput += "printf(true,\"__RESULT_BEGIN__~%~a~%__RESULT_END__~%\", string(vo))$\n"; // Print result as single line. No line wrapping.
 
-            ProcessBuilder pb = new ProcessBuilder(
+            List<String> maximaArguments = new ArrayList<>(List.of(
                 "maxima",
                 "--very-quiet",
                 "-X",
-                "--dynamic-space-size 4096 --disable-ldb --lose-on-corruption",
-                "--batch-string",
-                maximaInput
-            );
-            Process p = pb.start();
-            p.getOutputStream().close(); // Never new input to Maxima. Surfaces some errors.
+                "--dynamic-space-size 4096 --disable-ldb --lose-on-corruption"
+            ));
+            if (requiresBatchFile(maximaInput)) {
+                temporaryBatchFile = Files.createTempFile("maxima-batch-", ".mac");
+                Files.writeString(temporaryBatchFile, maximaInput, StandardCharsets.UTF_8);
+                maximaArguments.add("--batch=" + temporaryBatchFile.toAbsolutePath());
+            } else {
+                maximaArguments.add("--batch-string");
+                maximaArguments.add(maximaInput);
+            }
+            ProcessBuilder pb = new ProcessBuilder(maximaArguments);
+            Process process = pb.start();
+            process.getOutputStream().close(); // Never new input to Maxima. Surfaces some errors.
 
             ProcessOutputReader.Result result;
-            try (var reader = new ProcessOutputReader(p)) {
+            try (var reader = new ProcessOutputReader(process)) {
                 result = reader.await();
             }
             if (result.exitCode() != 0) {
@@ -94,7 +107,27 @@ public class MaximaSimplifier {
             return extractMaximaResult(result.stdout());
         } catch (Exception e) {
             throw new RuntimeException("Failed to run Maxima", e);
+        } finally {
+            if (temporaryBatchFile != null) {
+                try {
+                    Files.deleteIfExists(temporaryBatchFile);
+                } catch (IOException ignored) {
+                    // Best effort: the system temporary directory is cleaned up separately.
+                }
+            }
         }
+    }
+
+    private static boolean requiresBatchFile(String maximaInput) {
+        int characterCount = maximaInput.length();
+        if (characterCount < MAXIMA_BATCH_STRING_SAFE_DIRECT_THRESHOLD_CHARS) {
+            return false;
+        }
+        if (characterCount >= MAXIMA_BATCH_STRING_THRESHOLD_BYTES) {
+            return true;
+        }
+        return maximaInput.getBytes(StandardCharsets.UTF_8).length
+            >= MAXIMA_BATCH_STRING_THRESHOLD_BYTES;
     }
 
     private static String extractMaximaResult(String out) {
