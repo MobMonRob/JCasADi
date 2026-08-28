@@ -193,6 +193,11 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     public SX visitFunctionCall(MaximaParser.FunctionCallContext ctx) {
         String funcName = ctx.ID().getText().toLowerCase();
         validateFunction(ctx, funcName, ctx.expression().size());
+        if (funcName.equals("mod") && isLiteralZero(ctx.expression(1))) {
+            throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                    "Function 'mod' requires a non-zero literal divisor in direction "
+                    + Direction.MAXIMA_TO_CASADI);
+        }
         List<SX> args = new ArrayList<>();
         for (var exprCtx : ctx.expression()) {
             args.add(visit(exprCtx));
@@ -203,7 +208,6 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     private SX mapFunction(String name, List<SX> args) {
         SX a = args.get(0);
-        SX b = args.size() == 2 ? args.get(1) : null;
 
         return switch (name.toLowerCase()) {
             case "sin" ->
@@ -219,7 +223,7 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
             case "atan" ->
                 SxStatic.atan(a);
             case "atan2" ->
-                SxStatic.atan2(a, b);
+                SxStatic.atan2(a, args.get(1));
 
             case "sinh" ->
                 SxStatic.sinh(a);
@@ -254,12 +258,44 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
             case "erf" ->
                 SxStatic.erf(a);
 
+            case "mod" ->
+                SxStatic.minus(a, SxStatic.times(args.get(1),
+                        SxStatic.floor(SxStatic.rdivide(a, args.get(1)))));
             case "min" ->
-                SxStatic.fmin(a, b);
+                foldMin(args);
             case "max" ->
-                SxStatic.fmax(a, b);
+                foldMax(args);
             default -> throw new AssertionError("Validated function was not mapped: " + name);
         };
+    }
+
+    private SX foldMin(List<SX> args) {
+        SX result = args.get(0);
+        for (int i = 1; i < args.size(); i++) {
+            result = SxStatic.fmin(result, args.get(i));
+        }
+        return result;
+    }
+
+    private SX foldMax(List<SX> args) {
+        SX result = args.get(0);
+        for (int i = 1; i < args.size(); i++) {
+            result = SxStatic.fmax(result, args.get(i));
+        }
+        return result;
+    }
+
+    private boolean isLiteralZero(MaximaParser.ExpressionContext ctx) {
+        if (ctx instanceof MaximaParser.NumberContext) {
+            return Double.parseDouble(ctx.getText()) == 0.0;
+        }
+        if (ctx instanceof MaximaParser.ParenExprContext paren) {
+            return isLiteralZero(paren.expression());
+        }
+        if (ctx instanceof MaximaParser.UnaryMinusContext unaryMinus) {
+            return isLiteralZero(unaryMinus.expression());
+        }
+        return false;
     }
 
     private void validateFunction(MaximaParser.FunctionCallContext ctx, String function,
@@ -268,7 +304,15 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
             case "sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh",
                     "asinh", "acosh", "atanh", "exp", "log", "floor", "ceiling", "abs",
                     "signum", "sqrt", "erf" -> 1;
-            case "atan2", "min", "max" -> 2;
+            case "atan2", "mod" -> 2;
+            case "min", "max" -> {
+                if (actualArity < 1) {
+                    throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                            String.format("Function '%s' expects at least one argument but got %d in direction %s",
+                                    function, actualArity, Direction.MAXIMA_TO_CASADI));
+                }
+                yield actualArity;
+            }
             default -> -1;
         };
         if (expectedArity < 0) {

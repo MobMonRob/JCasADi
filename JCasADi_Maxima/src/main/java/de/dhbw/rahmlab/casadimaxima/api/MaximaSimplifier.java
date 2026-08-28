@@ -103,7 +103,7 @@ public class MaximaSimplifier {
             try (var reader = new ProcessOutputReader(process)) {
                 result = reader.await();
             }
-            if (result.exitCode() != 0) {
+            if (result.exitCode() != 0 || !result.stderr().isEmpty()) {
                 throw new RuntimeException(
                     "Maxima error:\n" + result.stderr()
                 );

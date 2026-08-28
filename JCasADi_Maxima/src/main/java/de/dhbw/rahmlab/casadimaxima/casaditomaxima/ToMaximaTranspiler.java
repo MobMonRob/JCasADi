@@ -118,11 +118,24 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
             case "atan2":
                 validateArity(ctx, funcName, args.size(), 2);
                 return "atan2(" + visit(args.get(0)) + ", " + visit(args.get(1)) + ")";
-            case "fmod":
-            case "copysign":
+            case "fmod": {
                 validateArity(ctx, funcName, args.size(), 2);
-                throw unsupported(ctx, funcName, args.size(), "2",
-                        "is temporarily unsupported until Plan 02");
+                if (isLiteralZero(args.get(1))) {
+                    throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
+                            "Function 'fmod' requires a non-zero literal divisor in direction "
+                            + Direction.CASADI_TO_MAXIMA);
+                }
+                String dividend = visit(args.get(0));
+                String divisor = visit(args.get(1));
+                return "signum(" + dividend + ") * mod(abs(" + dividend + "), abs(" + divisor + "))";
+            }
+            case "copysign": {
+                validateArity(ctx, funcName, args.size(), 2);
+                String magnitude = visit(args.get(0));
+                String signSource = visit(args.get(1));
+                return "abs(" + magnitude + ") * (signum(" + signSource + ") + 1 - signum("
+                        + signSource + ")^2)";
+            }
             default:
                 throw unsupported(ctx, funcName, args.size(), "one of [1, 2]", "is not supported");
         }
@@ -142,6 +155,20 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
         return TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
                 String.format("Function '%s' %s; expected arity %s, got %d in direction %s",
                         function, reason, expectedArity, actualArity, Direction.CASADI_TO_MAXIMA));
+    }
+
+    private boolean isLiteralZero(CasadiParser.ExprContext ctx) {
+        if (ctx instanceof CasadiParser.PrimaryContext primary
+                && primary.atom().NUMBER() != null) {
+            return Double.parseDouble(primary.atom().NUMBER().getText()) == 0.0;
+        }
+        if (ctx instanceof CasadiParser.ParenthesesContext paren) {
+            return isLiteralZero(paren.expr());
+        }
+        if (ctx instanceof CasadiParser.UnaryOpContext unaryOp && unaryOp.MINUS() != null) {
+            return isLiteralZero(unaryOp.expr());
+        }
+        return false;
     }
 
     @Override
