@@ -1,8 +1,20 @@
 package de.dhbw.rahmlab.casadimaxima.casaditomaxima;
 
+import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
+import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
 import java.util.List;
 
 public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
+
+    private final String source;
+
+    public ToMaximaTranspiler() {
+        this("");
+    }
+
+    public ToMaximaTranspiler(String source) {
+        this.source = source;
+    }
 
     @Override
     public String visitFile(CasadiParser.FileContext ctx) {
@@ -50,51 +62,86 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
         List<CasadiParser.ExprContext> args = ctx.expr();
 
         switch (funcName) {
-            // --- Unäre Operationen ---
             case "sq":
+                validateArity(ctx, funcName, args.size(), 1);
                 return "(" + visit(args.get(0)) + ")^2";
             case "sign":
+                validateArity(ctx, funcName, args.size(), 1);
                 return "signum(" + visit(args.get(0)) + ")";
             case "ceil":
+                validateArity(ctx, funcName, args.size(), 1);
                 return "ceiling(" + visit(args.get(0)) + ")";
             case "fabs":
+                validateArity(ctx, funcName, args.size(), 1);
                 return "abs(" + visit(args.get(0)) + ")";
             case "expm1":
+                validateArity(ctx, funcName, args.size(), 1);
                 return "(exp(" + visit(args.get(0)) + ") - 1)";
             case "log1p":
+                validateArity(ctx, funcName, args.size(), 1);
                 return "log(1 + (" + visit(args.get(0)) + "))";
             case "log10":
-                // CasADi gibt (0.434294 * log(a)) aus, aber falls der Visitor den Call log10 sieht:
+                validateArity(ctx, funcName, args.size(), 1);
                 return "(log(" + visit(args.get(0)) + ") / log(10))";
-
-            // --- Binäre Operationen ---
+            case "sqrt":
+            case "floor":
+            case "exp":
+            case "log":
+            case "erf":
+            case "sin":
+            case "cos":
+            case "tan":
+            case "asin":
+            case "acos":
+            case "atan":
+            case "sinh":
+            case "cosh":
+            case "tanh":
+            case "asinh":
+            case "acosh":
+            case "atanh":
+                validateArity(ctx, funcName, args.size(), 1);
+                return funcName + "(" + visit(args.get(0)) + ")";
             case "pow":
             case "constpow":
+                validateArity(ctx, funcName, args.size(), 2);
                 return "(" + visit(args.get(0)) + ")^(" + visit(args.get(1)) + ")";
-            case "fmod":
-                return "mod(" + visit(args.get(0)) + ", " + visit(args.get(1)) + ")";
             case "fmin":
+                validateArity(ctx, funcName, args.size(), 2);
                 return "min(" + visit(args.get(0)) + ", " + visit(args.get(1)) + ")";
             case "fmax":
-                return "max(" + visit(args.get(1)) + ", " + visit(args.get(1)) + ")";
+                validateArity(ctx, funcName, args.size(), 2);
+                return "max(" + visit(args.get(0)) + ", " + visit(args.get(1)) + ")";
             case "hypot":
+                validateArity(ctx, funcName, args.size(), 2);
                 return "sqrt((" + visit(args.get(0)) + ")^2 + (" + visit(args.get(1)) + ")^2)";
+            case "atan2":
+                validateArity(ctx, funcName, args.size(), 2);
+                return "atan2(" + visit(args.get(0)) + ", " + visit(args.get(1)) + ")";
+            case "fmod":
             case "copysign":
-                return "(abs(" + visit(args.get(0)) + ") * signum(" + visit(args.get(1)) + "))";
-
-            // Standardfall für sin, cos, atan2, etc.
+                validateArity(ctx, funcName, args.size(), 2);
+                throw unsupported(ctx, funcName, args.size(), "2",
+                        "is temporarily unsupported until Plan 02");
             default:
-                StringBuilder sb = new StringBuilder();
-                sb.append(funcName).append("(");
-                for (int i = 0; i < args.size(); i++) {
-                    sb.append(visit(args.get(i)));
-                    if (i < args.size() - 1) {
-                        sb.append(", ");
-                    }
-                }
-                sb.append(")");
-                return sb.toString();
+                throw unsupported(ctx, funcName, args.size(), "one of [1, 2]", "is not supported");
         }
+    }
+
+    private void validateArity(CasadiParser.FunctionCallContext ctx, String function,
+            int actualArity, int expectedArity) {
+        if (actualArity != expectedArity) {
+            throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
+                    String.format("Function '%s' expects arity %d but got %d in direction %s",
+                            function, expectedArity, actualArity, Direction.CASADI_TO_MAXIMA));
+        }
+    }
+
+    private TranspilationException unsupported(CasadiParser.FunctionCallContext ctx, String function,
+            int actualArity, String expectedArity, String reason) {
+        return TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
+                String.format("Function '%s' %s; expected arity %s, got %d in direction %s",
+                        function, reason, expectedArity, actualArity, Direction.CASADI_TO_MAXIMA));
     }
 
     @Override

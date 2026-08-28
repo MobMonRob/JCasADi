@@ -3,6 +3,7 @@ package de.dhbw.rahmlab.casadimaxima.maximatocasadi;
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
+import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Phase;
 import de.dhbw.rahmlab.casadimaxima.parsing.FailFastErrorListener;
@@ -30,10 +31,12 @@ public class ToCasadiTranspilerService {
         parser.addErrorListener(new FailFastErrorListener(Direction.MAXIMA_TO_CASADI, Phase.PARSER, maximaString));
 
         var parseTree = parser.root();
-        ToCasadiTranspiler casadiTranspiler = new ToCasadiTranspiler(variablesMap);
+        ToCasadiTranspiler casadiTranspiler = new ToCasadiTranspiler(variablesMap, maximaString);
         SX sx;
         try {
             sx = casadiTranspiler.visit(parseTree);
+        } catch (TranspilationException ex) {
+            throw ex;
         } catch (RuntimeException ex) {
             throw new RuntimeException(String.format("Exception \"%s\" with Maxima Output: \"%s\".", ex.getMessage(), maximaString), ex);
         }

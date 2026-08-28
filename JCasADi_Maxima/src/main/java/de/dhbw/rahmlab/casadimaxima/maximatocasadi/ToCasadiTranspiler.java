@@ -4,6 +4,8 @@ import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
+import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
+import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
@@ -12,9 +14,15 @@ import java.util.List;
 public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     private final Map<String, SX> variables;
+    private final String source;
 
     public ToCasadiTranspiler(Map<String, SX> initialVariables) {
+        this(initialVariables, "");
+    }
+
+    public ToCasadiTranspiler(Map<String, SX> initialVariables, String source) {
         this.variables = new HashMap<>(initialVariables);
+        this.source = source;
     }
 
     @Override
@@ -184,6 +192,7 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     @Override
     public SX visitFunctionCall(MaximaParser.FunctionCallContext ctx) {
         String funcName = ctx.ID().getText().toLowerCase();
+        validateFunction(ctx, funcName, ctx.expression().size());
         List<SX> args = new ArrayList<>();
         for (var exprCtx : ctx.expression()) {
             args.add(visit(exprCtx));
@@ -193,8 +202,8 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     }
 
     private SX mapFunction(String name, List<SX> args) {
-        SX a = args.size() > 0 ? args.get(0) : null;
-        SX b = args.size() > 1 ? args.get(1) : null;
+        SX a = args.get(0);
+        SX b = args.size() == 2 ? args.get(1) : null;
 
         return switch (name.toLowerCase()) {
             case "sin" ->
@@ -245,16 +254,32 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
             case "erf" ->
                 SxStatic.erf(a);
 
-            case "min", "lmin" ->
+            case "min" ->
                 SxStatic.fmin(a, b);
-            case "max", "lmax" ->
+            case "max" ->
                 SxStatic.fmax(a, b);
-
-            case "mod" ->
-                SxStatic.mod(a, b);
-
-            default ->
-                throw new UnsupportedOperationException(String.format("Unknown Maxima function: %s", name));
+            default -> throw new AssertionError("Validated function was not mapped: " + name);
         };
+    }
+
+    private void validateFunction(MaximaParser.FunctionCallContext ctx, String function,
+            int actualArity) {
+        int expectedArity = switch (function) {
+            case "sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh",
+                    "asinh", "acosh", "atanh", "exp", "log", "floor", "ceiling", "abs",
+                    "signum", "sqrt", "erf" -> 1;
+            case "atan2", "min", "max" -> 2;
+            default -> -1;
+        };
+        if (expectedArity < 0) {
+            throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                    String.format("Function '%s' is not supported; expected arity one of [1, 2], got %d in direction %s",
+                            function, actualArity, Direction.MAXIMA_TO_CASADI));
+        }
+        if (actualArity != expectedArity) {
+            throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                    String.format("Function '%s' expects arity %d but got %d in direction %s",
+                            function, expectedArity, actualArity, Direction.MAXIMA_TO_CASADI));
+        }
     }
 }

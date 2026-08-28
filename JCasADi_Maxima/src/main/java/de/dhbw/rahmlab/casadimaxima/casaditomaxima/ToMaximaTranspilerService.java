@@ -24,7 +24,7 @@ public class ToMaximaTranspilerService {
         parser.addErrorListener(new FailFastErrorListener(Direction.CASADI_TO_MAXIMA, Phase.PARSER, casadiString));
 
         var parseTree = parser.file();
-        ToMaximaTranspiler maximaTranspiler = new ToMaximaTranspiler();
+        ToMaximaTranspiler maximaTranspiler = new ToMaximaTranspiler(casadiString);
         String maximaString = maximaTranspiler.visit(parseTree);
 
         return maximaString;

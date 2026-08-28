@@ -9,7 +9,7 @@ assignment  : VAR ASSIGN expr ;
 array       : LBRACK expr (COMMA expr)* RBRACK ;
 
 expr        : LPAREN expr RPAREN                        # Parentheses
-            | ID LPAREN expr (COMMA expr)* RPAREN       # FunctionCall
+            | ID LPAREN (expr (COMMA expr)*)? RPAREN    # FunctionCall
             | (MINUS|NOT) expr                          # UnaryOp
             | expr op=(MUL|DIV) expr                    # Multiplicative
             | expr op=(PLUS|MINUS) expr                 # Additive

@@ -25,11 +25,28 @@ public class ParserFailureVerification {
         assertCasadiConversion("[(a-1e-3)]", "vn : [(a - 1e-3)]$");
         assertCasadiConversion("[a<b&&c<d]", "vn : [((a < b) and (c < d))]$");
         assertCasadiConversion("[a||b&&c]", "vn : [(a or (b and c))]$");
+        assertCasadiConversion("[sin(a)]", "vn : [sin(a)]$");
+        assertCasadiConversion("[atan2(a,b)]", "vn : [atan2(a, b)]$");
+        assertCasadiConversion("[fmax(a,b+1)]", "vn : [max(a, b + 1)]$");
+        assertMaximaConversion("[sin(1)]");
+        assertMaximaConversion("[max(1,2)]");
         assertCasadiParserFailure("[(a+)]");
         assertMaximaParserFailure("[1,]");
         assertMaximaParserFailure("[1] unexpected");
+        assertCasadiSemanticFailure("[sin()]");
+        assertCasadiSemanticFailure("[sin(a,b)]");
+        assertCasadiSemanticFailure("[fmod(a,b)]");
+        assertCasadiSemanticFailure("[copysign(a,b)]");
+        assertCasadiSemanticFailure("[remainder(a,b)]");
+        assertCasadiSemanticFailure("[erfinv(a)]");
+        assertCasadiSemanticFailure("[unknown(a)]");
+        assertMaximaSemanticFailure("[sin()]");
+        assertMaximaSemanticFailure("[sin(1,2)]");
+        assertMaximaSemanticFailure("[mod(1,2)]");
+        assertMaximaSemanticFailure("[lmin(1,2)]");
+        assertMaximaSemanticFailure("[unknown(1)]");
         assertMaximaLogicalPrecedence();
-        System.out.println("Lexer and fail-fast parser verification passed.");
+        System.out.println("Lexer, parser, and semantic function verification passed.");
     }
 
     private static void assertCasadiConversion(String source, String expected) {
@@ -50,6 +67,15 @@ public class ParserFailureVerification {
         }
     }
 
+    private static void assertCasadiSemanticFailure(String source) {
+        try {
+            new ToMaximaTranspilerService().casadiToMaxima(source);
+            throw new AssertionError("Expected a TranspilationException for: " + source);
+        } catch (TranspilationException exception) {
+            assertMetadata(exception, Direction.CASADI_TO_MAXIMA, Phase.SEMANTIC, source);
+        }
+    }
+
     private static void assertMaximaParserFailure(String source) {
         try {
             new ToCasadiTranspilerService().maximaToCasadi(source, List.of());
@@ -57,6 +83,21 @@ public class ParserFailureVerification {
         } catch (TranspilationException exception) {
             assertMetadata(exception, Direction.MAXIMA_TO_CASADI, Phase.PARSER, source);
             exception.printStackTrace(System.out);
+        }
+    }
+
+    private static void assertMaximaSemanticFailure(String source) {
+        try {
+            new ToCasadiTranspilerService().maximaToCasadi(source, List.of());
+            throw new AssertionError("Expected a TranspilationException for: " + source);
+        } catch (TranspilationException exception) {
+            assertMetadata(exception, Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC, source);
+        }
+    }
+
+    private static void assertMaximaConversion(String source) {
+        if (new ToCasadiTranspilerService().maximaToCasadi(source, List.of()) == null) {
+            throw new AssertionError("Expected a converted SX value for: " + source);
         }
     }
 

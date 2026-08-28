@@ -14,8 +14,6 @@ import org.antlr.v4.runtime.Token;
  */
 public class FailFastErrorListener extends BaseErrorListener {
 
-    private static final int CONTEXT_RADIUS = 80;
-
     private final Direction direction;
     private final Phase phase;
     private final String source;
@@ -34,8 +32,8 @@ public class FailFastErrorListener extends BaseErrorListener {
                 ? token.getStartIndex() : indexAt(line, charPositionInLine);
         String offendingToken = token != null ? token.getText() : "<unknown>";
 
-        throw new TranspilationException(direction, phase, line, charPositionInLine,
-                offendingToken, sourceContext(sourceIndex, offendingToken.length()), message, exception);
+        throw TranspilationException.at(direction, phase, source, line, charPositionInLine,
+                offendingToken, sourceIndex, offendingToken.length(), message, exception);
     }
 
     private int indexAt(int line, int column) {
@@ -48,14 +46,5 @@ public class FailFastErrorListener extends BaseErrorListener {
             index = newline + 1;
         }
         return Math.min(index + column, source.length());
-    }
-
-    private String sourceContext(int sourceIndex, int tokenLength) {
-        int safeIndex = Math.max(0, Math.min(sourceIndex, source.length()));
-        int start = Math.max(0, safeIndex - CONTEXT_RADIUS);
-        int finish = Math.min(source.length(), safeIndex + Math.max(1, tokenLength) + CONTEXT_RADIUS);
-        String excerpt = source.substring(start, finish);
-        String marker = " ".repeat(safeIndex - start) + "^";
-        return String.format("Source context:%n%s%n%s", excerpt, marker);
     }
 }
