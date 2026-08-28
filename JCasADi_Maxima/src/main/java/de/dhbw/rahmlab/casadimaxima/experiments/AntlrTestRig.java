@@ -1,4 +1,4 @@
-package de.dhbw.rahmlab.casadimaxima;
+package de.dhbw.rahmlab.casadimaxima.experiments;
 
 import org.antlr.v4.gui.TestRig;
 import org.antlr.v4.runtime.CharStream;

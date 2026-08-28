@@ -1,18 +1,18 @@
-package de.dhbw.rahmlab.casadimaxima.casaditomaxima;
+package de.dhbw.rahmlab.casadimaxima.implementation.transpilation;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Phase;
-import de.dhbw.rahmlab.casadimaxima.parsing.FailFastErrorListener;
+import de.dhbw.rahmlab.casadimaxima.casaditomaxima.CasadiLexer;
+import de.dhbw.rahmlab.casadimaxima.casaditomaxima.CasadiParser;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Direction;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Phase;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-public class ToMaximaTranspilerService {
+public class CasadiToMaximaTranspilerService {
 
     /**
-     * Only for debugging.
+     * Low-level CasADi-text entry point for diagnostics and exploration.
      */
-    @Deprecated
     public String casadiToMaxima(String casadiString) {
         var charStream = CharStreams.fromString(casadiString);
         var lexer = new CasadiLexer(charStream);
@@ -24,7 +24,7 @@ public class ToMaximaTranspilerService {
         parser.addErrorListener(new FailFastErrorListener(Direction.CASADI_TO_MAXIMA, Phase.PARSER, casadiString));
 
         var parseTree = parser.file();
-        ToMaximaTranspiler maximaTranspiler = new ToMaximaTranspiler(casadiString);
+        CasadiToMaximaTranspiler maximaTranspiler = new CasadiToMaximaTranspiler(casadiString);
         String maximaString = maximaTranspiler.visit(parseTree);
 
         return maximaString;

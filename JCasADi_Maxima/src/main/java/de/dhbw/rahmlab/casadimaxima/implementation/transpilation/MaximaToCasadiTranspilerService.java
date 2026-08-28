@@ -1,12 +1,12 @@
-package de.dhbw.rahmlab.casadimaxima.maximatocasadi;
+package de.dhbw.rahmlab.casadimaxima.implementation.transpilation;
 
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Phase;
-import de.dhbw.rahmlab.casadimaxima.parsing.FailFastErrorListener;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Direction;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Phase;
+import de.dhbw.rahmlab.casadimaxima.maximatocasadi.MaximaLexer;
+import de.dhbw.rahmlab.casadimaxima.maximatocasadi.MaximaParser;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-public class ToCasadiTranspilerService {
+public class MaximaToCasadiTranspilerService {
 
     private static final Pattern ARGUMENT_COMPONENT = Pattern.compile("arg\\d+_\\d+");
 
@@ -34,7 +34,7 @@ public class ToCasadiTranspilerService {
         parser.addErrorListener(new FailFastErrorListener(Direction.MAXIMA_TO_CASADI, Phase.PARSER, maximaString));
 
         var parseTree = parser.root();
-        ToCasadiTranspiler casadiTranspiler = new ToCasadiTranspiler(variablesMap, maximaString);
+        MaximaToCasadiTranspiler casadiTranspiler = new MaximaToCasadiTranspiler(variablesMap, maximaString);
         SX sx;
         try {
             sx = casadiTranspiler.visit(parseTree);
@@ -75,8 +75,8 @@ public class ToCasadiTranspilerService {
                 }
                 if (!ARGUMENT_COMPONENT.matcher(rowString).matches()) {
                     throw new IllegalArgumentException(
-                            "Input symbol components must use CasADi's argN_M form, but found: "
-                            + rowString);
+                        "Input symbol components must use CasADi's argN_M form, but found: "
+                        + rowString);
                 }
                 Object mapped = variablesMap.put(rowString, row);
                 if (mapped != null) {

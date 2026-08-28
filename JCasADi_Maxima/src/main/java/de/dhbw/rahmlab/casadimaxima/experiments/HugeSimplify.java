@@ -1,8 +1,8 @@
-package de.dhbw.rahmlab.casadimaxima.api;
+package de.dhbw.rahmlab.casadimaxima.experiments;
 
-import de.dhbw.rahmlab.casadimaxima.casaditomaxima.ToMaximaTranspilerService;
+import de.dhbw.rahmlab.casadimaxima.implementation.maxima.MaximaSimplifier;
 
-public class DebugTest {
+public class HugeSimplify {
 
     public static void main(String[] args) {
         String maximaExpr = """
@@ -174,7 +174,7 @@ v165 : (((v137 + v139) - v141) + v143)$
 v166 : (v158 - v159)$
 vn : [0, (((((v144 * v151) + (v152 * v157)) - (v160 * v161)) + (v162 * v163)) + (v164 * v165)), ((((v162 * v166) - (v152 * v151)) - (v160 * v162)) - (v164 * v152)), ((v160 * v151) + (v164 * v166)), ((((v160 * v152) - (v152 * v166)) - (v162 * v151)) - (v164 * v162)), 0, 0, 0, 0, 0, 0, (((((v144 * v162) + (v152 * v161)) + (v160 * v157)) + (v162 * v165)) - (v164 * v163)), (((((v144 * v166) + (v152 * v163)) + (v160 * v165)) - (v162 * v157)) + (v164 * v161)), (((((v144 * v152) + (v152 * v165)) - (v160 * v163)) - (v162 * v161)) - (v164 * v157)), ((((v164)^2 - (v152)^2) - (v160)^2) - (v162)^2), 0]$
 """;
-        String maximaExprSimple = MaximaSimplifier.simplify(maximaExpr);
+        String maximaExprSimple = MaximaSimplifier.simplify_internal(maximaExpr);
         System.out.println(maximaExprSimple);
         System.out.println(".........");
         System.out.println(maximaExprSimple.length());

@@ -1,4 +1,4 @@
-package de.dhbw.rahmlab.casadimaxima.util;
+package de.dhbw.rahmlab.casadimaxima.implementation.maxima;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

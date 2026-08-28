@@ -1,18 +1,19 @@
-package de.dhbw.rahmlab.casadimaxima.casaditomaxima;
+package de.dhbw.rahmlab.casadimaxima.implementation.transpilation;
 
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
+import de.dhbw.rahmlab.casadimaxima.casaditomaxima.CasadiParser;
+import de.dhbw.rahmlab.casadimaxima.casaditomaxima.CasadiParserBaseVisitor;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Direction;
 import java.util.List;
 
-public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
+public class CasadiToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
     private final String source;
 
-    public ToMaximaTranspiler() {
+    public CasadiToMaximaTranspiler() {
         this("");
     }
 
-    public ToMaximaTranspiler(String source) {
+    public CasadiToMaximaTranspiler(String source) {
         this.source = source;
     }
 
@@ -122,8 +123,8 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
                 validateArity(ctx, funcName, args.size(), 2);
                 if (isLiteralZero(args.get(1))) {
                     throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
-                            "Function 'fmod' requires a non-zero literal divisor in direction "
-                            + Direction.CASADI_TO_MAXIMA);
+                        "Function 'fmod' requires a non-zero literal divisor in direction "
+                        + Direction.CASADI_TO_MAXIMA);
                 }
                 String dividend = visit(args.get(0));
                 String divisor = visit(args.get(1));
@@ -134,7 +135,7 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
                 String magnitude = visit(args.get(0));
                 String signSource = visit(args.get(1));
                 return "(abs(" + magnitude + ") * (signum(" + signSource + ") + 1 - signum("
-                        + signSource + ")^2))";
+                    + signSource + ")^2))";
             }
             default:
                 throw unsupported(ctx, funcName, args.size(), "one of [1, 2]", "is not supported");
@@ -142,24 +143,24 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
     }
 
     private void validateArity(CasadiParser.FunctionCallContext ctx, String function,
-            int actualArity, int expectedArity) {
+        int actualArity, int expectedArity) {
         if (actualArity != expectedArity) {
             throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
-                    String.format("Function '%s' expects arity %d but got %d in direction %s",
-                            function, expectedArity, actualArity, Direction.CASADI_TO_MAXIMA));
+                String.format("Function '%s' expects arity %d but got %d in direction %s",
+                    function, expectedArity, actualArity, Direction.CASADI_TO_MAXIMA));
         }
     }
 
     private TranspilationException unsupported(CasadiParser.FunctionCallContext ctx, String function,
-            int actualArity, String expectedArity, String reason) {
+        int actualArity, String expectedArity, String reason) {
         return TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
-                String.format("Function '%s' %s; expected arity %s, got %d in direction %s",
-                        function, reason, expectedArity, actualArity, Direction.CASADI_TO_MAXIMA));
+            String.format("Function '%s' %s; expected arity %s, got %d in direction %s",
+                function, reason, expectedArity, actualArity, Direction.CASADI_TO_MAXIMA));
     }
 
     private boolean isLiteralZero(CasadiParser.ExprContext ctx) {
         if (ctx instanceof CasadiParser.PrimaryContext primary
-                && primary.atom().NUMBER() != null) {
+            && primary.atom().NUMBER() != null) {
             return Double.parseDouble(primary.atom().NUMBER().getText()) == 0.0;
         }
         if (ctx instanceof CasadiParser.ParenthesesContext paren) {
@@ -207,11 +208,11 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
     }
 
     private String visitComparison(CasadiParser.ExprContext comparison,
-            CasadiParser.ExprContext leftContext, CasadiParser.ExprContext rightContext,
-            String op) {
+        CasadiParser.ExprContext leftContext, CasadiParser.ExprContext rightContext,
+        String op) {
         if (isComparison(leftContext) || isComparison(rightContext)) {
             throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, comparison,
-                    "Comparison chains are not supported in direction " + Direction.CASADI_TO_MAXIMA);
+                "Comparison chains are not supported in direction " + Direction.CASADI_TO_MAXIMA);
         }
         String left = visit(leftContext);
         String right = visit(rightContext);
@@ -232,7 +233,7 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
             unwrapped = parentheses.expr();
         }
         return unwrapped instanceof CasadiParser.RelationalOpsContext
-                || unwrapped instanceof CasadiParser.EqualityOpsContext;
+            || unwrapped instanceof CasadiParser.EqualityOpsContext;
     }
 
     @Override
@@ -275,6 +276,7 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
             return ctx.NUMBER().getText();
         }
 
-        return ""; // Sollte theoretisch nie erreicht werden
+        throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
+            "Unhandled CasADi atom in direction " + Direction.CASADI_TO_MAXIMA);
     }
 }

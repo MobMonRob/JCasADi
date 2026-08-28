@@ -1,11 +1,13 @@
-package de.dhbw.rahmlab.casadimaxima.maximatocasadi;
+package de.dhbw.rahmlab.casadimaxima.implementation.transpilation;
 
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Direction;
+import de.dhbw.rahmlab.casadimaxima.maximatocasadi.MaximaLexer;
+import de.dhbw.rahmlab.casadimaxima.maximatocasadi.MaximaParser;
+import de.dhbw.rahmlab.casadimaxima.maximatocasadi.MaximaParserBaseVisitor;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,18 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
+public class MaximaToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     private final Map<String, SX> inputVariables;
     private Set<String> cseNames = Collections.emptySet();
     private final Map<String, SX> cseValues = new HashMap<>();
     private final String source;
 
-    public ToCasadiTranspiler(Map<String, SX> initialVariables) {
+    public MaximaToCasadiTranspiler(Map<String, SX> initialVariables) {
         this(initialVariables, "");
     }
 
-    public ToCasadiTranspiler(Map<String, SX> initialVariables, String source) {
+    public MaximaToCasadiTranspiler(Map<String, SX> initialVariables, String source) {
         this.inputVariables = new HashMap<>(initialVariables);
         this.source = source;
     }
@@ -65,7 +67,7 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
         String cseName = ctx.CSE_VAR().getText();
         if (!cseNames.contains(cseName)) {
             throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                    "CSE variable '" + cseName + "' is not declared in the block variable list");
+                "CSE variable '" + cseName + "' is not declared in the block variable list");
         }
         SX value = visit(ctx.expression());
         cseValues.put(cseName, value);
@@ -99,7 +101,7 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
             return inputVariable;
         }
         throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                "Unknown free variable: " + name);
+            "Unknown free variable: " + name);
     }
 
     @Override
@@ -107,12 +109,12 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
         String cseName = ctx.getText();
         if (!cseNames.contains(cseName)) {
             throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                    "CSE variable '" + cseName + "' is not declared in the block variable list");
+                "CSE variable '" + cseName + "' is not declared in the block variable list");
         }
         SX cseValue = cseValues.get(cseName);
         if (cseValue == null) {
             throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                    "CSE variable '" + cseName + "' is used before its first assignment");
+                "CSE variable '" + cseName + "' is used before its first assignment");
         }
         return cseValue;
     }
@@ -172,7 +174,7 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     public SX visitCompareExpr(MaximaParser.CompareExprContext ctx) {
         if (isComparison(ctx.expression(0)) || isComparison(ctx.expression(1))) {
             throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                    "Comparison chains are not supported in direction " + Direction.MAXIMA_TO_CASADI);
+                "Comparison chains are not supported in direction " + Direction.MAXIMA_TO_CASADI);
         }
         SX left = visit(ctx.expression(0));
         SX right = visit(ctx.expression(1));
@@ -233,8 +235,8 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
         validateFunction(ctx, funcName, ctx.expression().size());
         if (funcName.equals("mod") && isLiteralZero(ctx.expression(1))) {
             throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                    "Function 'mod' requires a non-zero literal divisor in direction "
-                    + Direction.MAXIMA_TO_CASADI);
+                "Function 'mod' requires a non-zero literal divisor in direction "
+                + Direction.MAXIMA_TO_CASADI);
         }
         List<SX> args = new ArrayList<>();
         for (var exprCtx : ctx.expression()) {
@@ -298,12 +300,13 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
             case "mod" ->
                 SxStatic.minus(a, SxStatic.times(args.get(1),
-                        SxStatic.floor(SxStatic.rdivide(a, args.get(1)))));
+                SxStatic.floor(SxStatic.rdivide(a, args.get(1)))));
             case "min" ->
                 foldMin(args);
             case "max" ->
                 foldMax(args);
-            default -> throw new AssertionError("Validated function was not mapped: " + name);
+            default ->
+                throw new AssertionError("Validated function was not mapped: " + name);
         };
     }
 
@@ -337,31 +340,32 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     }
 
     private void validateFunction(MaximaParser.FunctionCallContext ctx, String function,
-            int actualArity) {
+        int actualArity) {
         int expectedArity = switch (function) {
-            case "sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh",
-                    "asinh", "acosh", "atanh", "exp", "log", "floor", "ceiling", "abs",
-                    "signum", "sqrt", "erf" -> 1;
-            case "atan2", "mod" -> 2;
+            case "sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh", "asinh", "acosh", "atanh", "exp", "log", "floor", "ceiling", "abs", "signum", "sqrt", "erf" ->
+                1;
+            case "atan2", "mod" ->
+                2;
             case "min", "max" -> {
                 if (actualArity < 1) {
                     throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                            String.format("Function '%s' expects at least one argument but got %d in direction %s",
-                                    function, actualArity, Direction.MAXIMA_TO_CASADI));
+                        String.format("Function '%s' expects at least one argument but got %d in direction %s",
+                            function, actualArity, Direction.MAXIMA_TO_CASADI));
                 }
                 yield actualArity;
             }
-            default -> -1;
+            default ->
+                -1;
         };
         if (expectedArity < 0) {
             throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                    String.format("Function '%s' is not supported; expected arity one of [1, 2], got %d in direction %s",
-                            function, actualArity, Direction.MAXIMA_TO_CASADI));
+                String.format("Function '%s' is not supported; expected arity one of [1, 2], got %d in direction %s",
+                    function, actualArity, Direction.MAXIMA_TO_CASADI));
         }
         if (actualArity != expectedArity) {
             throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                    String.format("Function '%s' expects arity %d but got %d in direction %s",
-                            function, expectedArity, actualArity, Direction.MAXIMA_TO_CASADI));
+                String.format("Function '%s' expects arity %d but got %d in direction %s",
+                    function, expectedArity, actualArity, Direction.MAXIMA_TO_CASADI));
         }
     }
 }

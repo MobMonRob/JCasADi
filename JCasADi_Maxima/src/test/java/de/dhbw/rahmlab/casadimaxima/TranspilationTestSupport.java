@@ -2,11 +2,11 @@ package de.dhbw.rahmlab.casadimaxima;
 
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Phase;
-import de.dhbw.rahmlab.casadimaxima.casaditomaxima.ToMaximaTranspilerService;
-import de.dhbw.rahmlab.casadimaxima.maximatocasadi.ToCasadiTranspilerService;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Direction;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Phase;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.CasadiToMaximaTranspilerService;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.MaximaToCasadiTranspilerService;
 import java.util.List;
 import org.junit.jupiter.api.function.Executable;
 
@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 abstract class TranspilationTestSupport {
 
-    final ToMaximaTranspilerService toMaxima = new ToMaximaTranspilerService();
-    final ToCasadiTranspilerService toCasadi = new ToCasadiTranspilerService();
+    final CasadiToMaximaTranspilerService toMaxima = new CasadiToMaximaTranspilerService();
+    final MaximaToCasadiTranspilerService toCasadi = new MaximaToCasadiTranspilerService();
 
     final SX symbol(String name) {
         return SxStatic.sym(name);

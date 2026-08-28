@@ -1,4 +1,4 @@
-package de.dhbw.rahmlab.casadimaxima;
+package de.dhbw.rahmlab.casadimaxima.experiments;
 
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;

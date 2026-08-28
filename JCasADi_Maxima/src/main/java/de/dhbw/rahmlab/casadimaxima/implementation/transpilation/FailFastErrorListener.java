@@ -1,16 +1,15 @@
-package de.dhbw.rahmlab.casadimaxima.parsing;
+package de.dhbw.rahmlab.casadimaxima.implementation.transpilation;
 
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
-import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Phase;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Direction;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Phase;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
 
 /**
- * Converts every ANTLR syntax error into an exception instead of allowing
- * error recovery to continue with a partial parse tree.
+ * Converts every ANTLR syntax error into an exception instead of allowing error recovery to continue with a
+ * partial parse tree.
  */
 public class FailFastErrorListener extends BaseErrorListener {
 
@@ -26,14 +25,14 @@ public class FailFastErrorListener extends BaseErrorListener {
 
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol,
-            int line, int charPositionInLine, String message, RecognitionException exception) {
+        int line, int charPositionInLine, String message, RecognitionException exception) {
         Token token = offendingSymbol instanceof Token ? (Token) offendingSymbol : null;
         int sourceIndex = token != null && token.getStartIndex() >= 0
-                ? token.getStartIndex() : indexAt(line, charPositionInLine);
+            ? token.getStartIndex() : indexAt(line, charPositionInLine);
         String offendingToken = token != null ? token.getText() : tokenAt(sourceIndex);
 
         throw TranspilationException.at(direction, phase, source, line, charPositionInLine,
-                offendingToken, sourceIndex, offendingToken.length(), message, exception);
+            offendingToken, sourceIndex, offendingToken.length(), message, exception);
     }
 
     private int indexAt(int line, int column) {
@@ -50,6 +49,6 @@ public class FailFastErrorListener extends BaseErrorListener {
 
     private String tokenAt(int sourceIndex) {
         return sourceIndex < source.length()
-                ? String.valueOf(source.charAt(sourceIndex)) : "<EOF>";
+            ? String.valueOf(source.charAt(sourceIndex)) : "<EOF>";
     }
 }

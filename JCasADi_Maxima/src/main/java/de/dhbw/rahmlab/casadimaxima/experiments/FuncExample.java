@@ -1,4 +1,4 @@
-package de.dhbw.rahmlab.casadimaxima;
+package de.dhbw.rahmlab.casadimaxima.experiments;
 
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
@@ -6,7 +6,8 @@ import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 import java.util.List;
 
-public class FuncTest {
+public class FuncExample {
+
     public static void main(String[] args) {
         var a = SxStatic.sym("a", 16, 1);
         System.out.println(a.toString());
