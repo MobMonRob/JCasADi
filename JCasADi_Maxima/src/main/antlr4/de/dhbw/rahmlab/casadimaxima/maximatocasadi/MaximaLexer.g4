@@ -15,6 +15,7 @@ NOT   : 'not' ;
 // Konstanten & Symbole
 E_CONST  : '%e' ;
 PI_CONST : '%pi' ;
+CSE_VAR  : '%' [0-9]+ ;
 ASSIGN   : ':' ;
 QUOTE    : '"' ;
 COMMA    : ',' ;

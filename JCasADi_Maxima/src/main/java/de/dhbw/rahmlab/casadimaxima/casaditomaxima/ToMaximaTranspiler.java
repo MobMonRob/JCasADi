@@ -2,15 +2,10 @@ package de.dhbw.rahmlab.casadimaxima.casaditomaxima;
 
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
-import java.util.Set;
 import java.util.List;
 
 public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
-    private static final Set<String> RESERVED_VARIABLE_NAMES = Set.of(
-            "integrate", "next", "from", "diff", "in", "at", "limit", "sum", "for",
-            "and", "elseif", "then", "else", "do", "or", "if", "unless", "product",
-            "while", "thru", "step", "block", "not");
     private final String source;
 
     public ToMaximaTranspiler() {
@@ -39,7 +34,7 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
     public String visitAssignment(CasadiParser.AssignmentContext ctx) {
         // Maxima nutzt ':' für Zuweisungen
         // @1 -> v1
-        String varName = ctx.VAR().getText().replace("@", "v");
+        String varName = ctx.CSE_VAR().getText().replace("@", "v");
         return varName + " : " + visit(ctx.expr());
     }
 
@@ -63,13 +58,13 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
     @Override
     public String visitFunctionCall(CasadiParser.FunctionCallContext ctx) {
-        String funcName = ctx.ID().getText();
+        String funcName = ctx.FUNCTION_ID().getText();
         List<CasadiParser.ExprContext> args = ctx.expr();
 
         switch (funcName) {
             case "sq":
                 validateArity(ctx, funcName, args.size(), 1);
-                return "(" + visit(args.get(0)) + ")^2";
+                return "((" + visit(args.get(0)) + ")^2)";
             case "sign":
                 validateArity(ctx, funcName, args.size(), 1);
                 return "signum(" + visit(args.get(0)) + ")";
@@ -110,7 +105,7 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
             case "pow":
             case "constpow":
                 validateArity(ctx, funcName, args.size(), 2);
-                return "(" + visit(args.get(0)) + ")^(" + visit(args.get(1)) + ")";
+                return "((" + visit(args.get(0)) + ")^(" + visit(args.get(1)) + "))";
             case "fmin":
                 validateArity(ctx, funcName, args.size(), 2);
                 return "min(" + visit(args.get(0)) + ", " + visit(args.get(1)) + ")";
@@ -119,7 +114,7 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
                 return "max(" + visit(args.get(0)) + ", " + visit(args.get(1)) + ")";
             case "hypot":
                 validateArity(ctx, funcName, args.size(), 2);
-                return "sqrt((" + visit(args.get(0)) + ")^2 + (" + visit(args.get(1)) + ")^2)";
+                return "sqrt(((" + visit(args.get(0)) + ")^2) + ((" + visit(args.get(1)) + ")^2))";
             case "atan2":
                 validateArity(ctx, funcName, args.size(), 2);
                 return "atan2(" + visit(args.get(0)) + ", " + visit(args.get(1)) + ")";
@@ -132,14 +127,14 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
                 }
                 String dividend = visit(args.get(0));
                 String divisor = visit(args.get(1));
-                return "signum(" + dividend + ") * mod(abs(" + dividend + "), abs(" + divisor + "))";
+                return "(signum(" + dividend + ") * mod(abs(" + dividend + "), abs(" + divisor + ")))";
             }
             case "copysign": {
                 validateArity(ctx, funcName, args.size(), 2);
                 String magnitude = visit(args.get(0));
                 String signSource = visit(args.get(1));
-                return "abs(" + magnitude + ") * (signum(" + signSource + ") + 1 - signum("
-                        + signSource + ")^2)";
+                return "(abs(" + magnitude + ") * (signum(" + signSource + ") + 1 - signum("
+                        + signSource + ")^2))";
             }
             default:
                 throw unsupported(ctx, funcName, args.size(), "one of [1, 2]", "is not supported");
@@ -181,9 +176,9 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
         String operand = visit(ctx.expr());
         // Unterscheidung zwischen - und !
         if (ctx.getChild(0).getText().equals("!")) {
-            return "not " + operand;
+            return "(not (" + operand + "))";
         } else {
-            return "-(" + operand + ")";
+            return "(-(" + operand + "))";
         }
     }
 
@@ -193,12 +188,12 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
         if (operator.equals("./")) {
             operator = "/";
         }
-        return visit(ctx.expr(0)) + " " + operator + " " + visit(ctx.expr(1));
+        return "(" + visit(ctx.expr(0)) + " " + operator + " " + visit(ctx.expr(1)) + ")";
     }
 
     @Override
     public String visitAdditive(CasadiParser.AdditiveContext ctx) {
-        return visit(ctx.expr(0)) + " " + ctx.op.getText() + " " + visit(ctx.expr(1));
+        return "(" + visit(ctx.expr(0)) + " " + ctx.op.getText() + " " + visit(ctx.expr(1)) + ")";
     }
 
     @Override
@@ -257,21 +252,19 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
         String elseExpr = visit(ctx.expr(2));
 
         // Maxima Syntax: if condition then b else c
-        return "if " + condition + " then " + thenExpr + " else " + elseExpr;
+        return "(if " + condition + " then " + thenExpr + " else " + elseExpr + ")";
     }
 
     @Override
     public String visitAtom(CasadiParser.AtomContext ctx) {
         // 1. Variablen wie @1 -> v1
-        if (ctx.VAR() != null) {
-            return ctx.VAR().getText().replace("@", "v");
+        if (ctx.CSE_VAR() != null) {
+            return ctx.CSE_VAR().getText().replace("@", "v");
         }
 
-        // 2. Argumente wie arg0_0 -> bleiben gleich (Maxima versteht Unterstriche)
+        // 2. CasADi input-vector components remain literal.
         if (ctx.ARG() != null) {
-            String name = ctx.ARG().getText();
-            validateVariableName(ctx, name);
-            return name;
+            return ctx.ARG().getText();
         }
 
         // 3. Zahlen: Direkt übernehmen
@@ -282,21 +275,6 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
             return ctx.NUMBER().getText();
         }
 
-        // 4. IDs (z.B. Konstanten oder andere Bezeichner)
-        if (ctx.ID() != null) {
-            String name = ctx.ID().getText();
-            validateVariableName(ctx, name);
-            return name;
-        }
-
         return ""; // Sollte theoretisch nie erreicht werden
-    }
-
-    private void validateVariableName(CasadiParser.AtomContext ctx, String name) {
-        if (name.startsWith("v") || name.startsWith("_")
-                || RESERVED_VARIABLE_NAMES.contains(name)) {
-            throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
-                    "Variable name '" + name + "' is not safe for Maxima output");
-        }
     }
 }

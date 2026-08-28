@@ -17,8 +17,8 @@ import java.util.Set;
 public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     private final Map<String, SX> inputVariables;
-    private Set<String> localNames = Collections.emptySet();
-    private final Map<String, SX> localValues = new HashMap<>();
+    private Set<String> cseNames = Collections.emptySet();
+    private final Map<String, SX> cseValues = new HashMap<>();
     private final String source;
 
     public ToCasadiTranspiler(Map<String, SX> initialVariables) {
@@ -42,11 +42,11 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     @Override
     public SX visitFullBlock(MaximaParser.FullBlockContext ctx) {
-        localNames = new HashSet<>();
-        for (var localName : ctx.varList().ID()) {
-            localNames.add(localName.getText());
+        cseNames = new HashSet<>();
+        for (var cseName : ctx.varList().CSE_VAR()) {
+            cseNames.add(cseName.getText());
         }
-        localValues.clear();
+        cseValues.clear();
 
         visit(ctx.definitions());
         return visit(ctx.arrayExpr());
@@ -62,13 +62,13 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     @Override
     public SX visitAssignment(MaximaParser.AssignmentContext ctx) {
-        String id = ctx.ID().getText();
-        if (!localNames.contains(id)) {
+        String cseName = ctx.CSE_VAR().getText();
+        if (!cseNames.contains(cseName)) {
             throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                    "Assignment target '" + id + "' is not declared as a local block variable");
+                    "CSE variable '" + cseName + "' is not declared in the block variable list");
         }
         SX value = visit(ctx.expression());
-        localValues.put(id, value);
+        cseValues.put(cseName, value);
         return value;
     }
 
@@ -94,20 +94,27 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     @Override
     public SX visitVariable(MaximaParser.VariableContext ctx) {
         String name = ctx.getText();
-        if (localNames.contains(name)) {
-            SX localValue = localValues.get(name);
-            if (localValue == null) {
-                throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                        "Local variable '" + name + "' is used before its first assignment");
-            }
-            return localValue;
-        }
         SX inputVariable = inputVariables.get(name);
-        if (inputVariable == null) {
-            throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
-                    "Unknown free variable: " + name);
+        if (inputVariable != null) {
+            return inputVariable;
         }
-        return inputVariable;
+        throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                "Unknown free variable: " + name);
+    }
+
+    @Override
+    public SX visitCseVariable(MaximaParser.CseVariableContext ctx) {
+        String cseName = ctx.getText();
+        if (!cseNames.contains(cseName)) {
+            throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                    "CSE variable '" + cseName + "' is not declared in the block variable list");
+        }
+        SX cseValue = cseValues.get(cseName);
+        if (cseValue == null) {
+            throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                    "CSE variable '" + cseName + "' is used before its first assignment");
+        }
+        return cseValue;
     }
 
     @Override
@@ -222,7 +229,7 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     @Override
     public SX visitFunctionCall(MaximaParser.FunctionCallContext ctx) {
-        String funcName = ctx.ID().getText().toLowerCase();
+        String funcName = ctx.ID().getText();
         validateFunction(ctx, funcName, ctx.expression().size());
         if (funcName.equals("mod") && isLiteralZero(ctx.expression(1))) {
             throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
@@ -240,7 +247,7 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     private SX mapFunction(String name, List<SX> args) {
         SX a = args.get(0);
 
-        return switch (name.toLowerCase()) {
+        return switch (name) {
             case "sin" ->
                 SxStatic.sin(a);
             case "cos" ->

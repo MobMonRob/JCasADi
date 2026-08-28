@@ -9,11 +9,11 @@ content
     | BLOCK LPAR varList COMMA definitions COMMA arrayExpr RPAR # FullBlock
     ;
 
-varList : LBRACK (ID (COMMA ID)*)? RBRACK ;
+varList : LBRACK (CSE_VAR (COMMA CSE_VAR)*)? RBRACK ;
 
 definitions : assignment (COMMA assignment)* ;
 
-assignment : ID ASSIGN expression ;
+assignment : CSE_VAR ASSIGN expression ;
 
 arrayExpr : LBRACK (expression (COMMA expression)*)? RBRACK ;
 
@@ -21,7 +21,8 @@ arrayExpr : LBRACK (expression (COMMA expression)*)? RBRACK ;
 expression
 	: LPAR expression RPAR                                          # ParenExpr
     | ID LPAR (expression (COMMA expression)*)? RPAR                # FunctionCall
-	| ID                                                            # Variable
+    | CSE_VAR                                                       # CseVariable
+    | ID                                                            # Variable
 	| NUMBER                                                        # Number
 	| E_CONST                                                       # ConstantE
 	| PI_CONST                                                      # ConstantPi

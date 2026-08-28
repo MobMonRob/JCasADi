@@ -4,12 +4,12 @@ options { tokenVocab=CasadiLexer; }
 
 file        : (assignment (COMMA assignment)* COMMA)? array EOF ;
 
-assignment  : VAR ASSIGN expr ;
+assignment  : CSE_VAR ASSIGN expr ;
 
 array       : LBRACK expr (COMMA expr)* RBRACK ;
 
 expr        : LPAREN expr RPAREN                        # Parentheses
-            | ID LPAREN (expr (COMMA expr)*)? RPAREN    # FunctionCall
+            | FUNCTION_ID LPAREN (expr (COMMA expr)*)? RPAREN # FunctionCall
             | (MINUS|NOT) expr                          # UnaryOp
             | expr op=(MUL|DIV) expr                    # Multiplicative
             | expr op=(PLUS|MINUS) expr                 # Additive
@@ -22,7 +22,6 @@ expr        : LPAREN expr RPAREN                        # Parentheses
             ;
 
 atom        : NUMBER 
-            | VAR 
-            | ARG 
-            | ID 
+            | CSE_VAR
+            | ARG
             ;
