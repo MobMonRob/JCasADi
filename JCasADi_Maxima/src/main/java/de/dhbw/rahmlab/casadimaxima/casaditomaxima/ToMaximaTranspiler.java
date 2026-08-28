@@ -203,9 +203,23 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
     @Override
     public String visitRelationalOps(CasadiParser.RelationalOpsContext ctx) {
-        String left = visit(ctx.expr(0));
-        String right = visit(ctx.expr(1));
-        String op = ctx.op.getText();
+        return visitComparison(ctx, ctx.expr(0), ctx.expr(1), ctx.op.getText());
+    }
+
+    @Override
+    public String visitEqualityOps(CasadiParser.EqualityOpsContext ctx) {
+        return visitComparison(ctx, ctx.expr(0), ctx.expr(1), ctx.op.getText());
+    }
+
+    private String visitComparison(CasadiParser.ExprContext comparison,
+            CasadiParser.ExprContext leftContext, CasadiParser.ExprContext rightContext,
+            String op) {
+        if (isComparison(leftContext) || isComparison(rightContext)) {
+            throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, comparison,
+                    "Comparison chains are not supported in direction " + Direction.CASADI_TO_MAXIMA);
+        }
+        String left = visit(leftContext);
+        String right = visit(rightContext);
 
         switch (op) {
             case "==":
@@ -215,6 +229,15 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
             default:
                 return "(" + left + " " + op + " " + right + ")";
         }
+    }
+
+    private boolean isComparison(CasadiParser.ExprContext context) {
+        CasadiParser.ExprContext unwrapped = context;
+        while (unwrapped instanceof CasadiParser.ParenthesesContext parentheses) {
+            unwrapped = parentheses.expr();
+        }
+        return unwrapped instanceof CasadiParser.RelationalOpsContext
+                || unwrapped instanceof CasadiParser.EqualityOpsContext;
     }
 
     @Override

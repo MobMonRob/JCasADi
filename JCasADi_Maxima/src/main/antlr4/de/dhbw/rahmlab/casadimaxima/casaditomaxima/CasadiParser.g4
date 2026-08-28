@@ -13,10 +13,11 @@ expr        : LPAREN expr RPAREN                        # Parentheses
             | (MINUS|NOT) expr                          # UnaryOp
             | expr op=(MUL|DIV) expr                    # Multiplicative
             | expr op=(PLUS|MINUS) expr                 # Additive
-            | expr op=(LT|LE|GT|GE|EQ|NEQ) expr         # RelationalOps
+            | expr op=(LT|LE|GT|GE) expr                # RelationalOps
+            | expr op=(EQ|NEQ) expr                     # EqualityOps
             | expr AND expr                              # LogicalAnd
             | expr OR expr                               # LogicalOr
-            | expr QUESTION expr COLON expr             # TernaryOp
+            | <assoc=right> expr QUESTION expr COLON expr # TernaryOp
             | atom                                      # Primary
             ;
 

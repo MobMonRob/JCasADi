@@ -30,7 +30,7 @@ public class FailFastErrorListener extends BaseErrorListener {
         Token token = offendingSymbol instanceof Token ? (Token) offendingSymbol : null;
         int sourceIndex = token != null && token.getStartIndex() >= 0
                 ? token.getStartIndex() : indexAt(line, charPositionInLine);
-        String offendingToken = token != null ? token.getText() : "<unknown>";
+        String offendingToken = token != null ? token.getText() : tokenAt(sourceIndex);
 
         throw TranspilationException.at(direction, phase, source, line, charPositionInLine,
                 offendingToken, sourceIndex, offendingToken.length(), message, exception);
@@ -46,5 +46,10 @@ public class FailFastErrorListener extends BaseErrorListener {
             index = newline + 1;
         }
         return Math.min(index + column, source.length());
+    }
+
+    private String tokenAt(int sourceIndex) {
+        return sourceIndex < source.length()
+                ? String.valueOf(source.charAt(sourceIndex)) : "<EOF>";
     }
 }

@@ -163,6 +163,10 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     @Override
     public SX visitCompareExpr(MaximaParser.CompareExprContext ctx) {
+        if (isComparison(ctx.expression(0)) || isComparison(ctx.expression(1))) {
+            throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                    "Comparison chains are not supported in direction " + Direction.MAXIMA_TO_CASADI);
+        }
         SX left = visit(ctx.expression(0));
         SX right = visit(ctx.expression(1));
         int type = ctx.op.getType();
@@ -183,6 +187,14 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
             default ->
                 throw new AssertionError();
         };
+    }
+
+    private boolean isComparison(MaximaParser.ExpressionContext context) {
+        MaximaParser.ExpressionContext unwrapped = context;
+        while (unwrapped instanceof MaximaParser.ParenExprContext parentheses) {
+            unwrapped = parentheses.expression();
+        }
+        return unwrapped instanceof MaximaParser.CompareExprContext;
     }
 
     @Override

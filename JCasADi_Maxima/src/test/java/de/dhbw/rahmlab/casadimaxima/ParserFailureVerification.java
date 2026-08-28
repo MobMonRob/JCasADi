@@ -4,6 +4,8 @@ import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Phase;
 import de.dhbw.rahmlab.casadimaxima.api.MaximaSimplifier;
+import de.dhbw.rahmlab.casadimaxima.casaditomaxima.CasadiLexer;
+import de.dhbw.rahmlab.casadimaxima.casaditomaxima.CasadiParser;
 import de.dhbw.rahmlab.casadimaxima.casaditomaxima.ToMaximaTranspilerService;
 import de.dhbw.rahmlab.casadimaxima.maximatocasadi.MaximaLexer;
 import de.dhbw.rahmlab.casadimaxima.maximatocasadi.MaximaParser;
@@ -74,7 +76,10 @@ public class ParserFailureVerification {
         assertMaximaRoundTrip("[copysign(-2,3)]", "2");
         assertSymbolicCopysignRoundTrip();
         assertMaximaLocalBindingSafety();
+        assertCasadiParserPrecedence();
         assertMaximaLogicalPrecedence();
+        assertComparisonChainSafety();
+        assertLexerFailures();
         System.out.println("Lexer, parser, semantic function, and binding verification passed.");
     }
 
@@ -304,6 +309,104 @@ public class ParserFailureVerification {
             throw new AssertionError("Expected OR with an AND right operand, got: "
                     + root.toStringTree(parser));
         }
+
+        var powerLexer = new MaximaLexer(CharStreams.fromString("[-2^3^4]"));
+        var powerParser = new MaximaParser(new CommonTokenStream(powerLexer));
+        var powerExpression = ((MaximaParser.SimpleArrayContext) powerParser.root().content())
+                .arrayExpr().expression(0);
+        if (!(powerExpression instanceof MaximaParser.UnaryMinusContext unaryMinus)
+                || !(unaryMinus.expression() instanceof MaximaParser.PowerExprContext outerPower)
+                || !(outerPower.expression(1) instanceof MaximaParser.PowerExprContext)) {
+            throw new AssertionError("Expected unary minus around a right-associative power, got: "
+                    + powerExpression.toStringTree(powerParser));
+        }
+
+        var precedenceLexer = new MaximaLexer(
+                CharStreams.fromString("[not 1=1 and 1=0 or 1=1]"));
+        var precedenceParser = new MaximaParser(new CommonTokenStream(precedenceLexer));
+        var precedenceExpression = ((MaximaParser.SimpleArrayContext) precedenceParser.root().content())
+                .arrayExpr().expression(0);
+        if (!(precedenceExpression instanceof MaximaParser.LogicalOrExprContext orExpression)
+                || !(orExpression.expression(0) instanceof MaximaParser.LogicalAndExprContext andExpression)
+                || !(andExpression.expression(0) instanceof MaximaParser.NotExprContext notExpression)
+                || !(notExpression.expression() instanceof MaximaParser.CompareExprContext)) {
+            throw new AssertionError("Expected comparison before not, and, and or, got: "
+                    + precedenceExpression.toStringTree(precedenceParser));
+        }
+    }
+
+    private static void assertCasadiParserPrecedence() {
+        var relationLexer = new CasadiLexer(CharStreams.fromString("[a<b==c]"));
+        var relationParser = new CasadiParser(new CommonTokenStream(relationLexer));
+        var relationExpression = relationParser.file().array().expr(0);
+        if (!(relationExpression instanceof CasadiParser.EqualityOpsContext equality)
+                || !(equality.expr(0) instanceof CasadiParser.RelationalOpsContext)) {
+            throw new AssertionError("Expected equality around a stronger relational expression, got: "
+                    + relationExpression.toStringTree(relationParser));
+        }
+
+        var ternaryLexer = new CasadiLexer(CharStreams.fromString("[a?b:c?d:e]"));
+        var ternaryParser = new CasadiParser(new CommonTokenStream(ternaryLexer));
+        var ternaryExpression = ternaryParser.file().array().expr(0);
+        if (!(ternaryExpression instanceof CasadiParser.TernaryOpContext ternary)
+                || !(ternary.expr(2) instanceof CasadiParser.TernaryOpContext)) {
+            throw new AssertionError("Expected a right-associative ternary expression, got: "
+                    + ternaryExpression.toStringTree(ternaryParser));
+        }
+    }
+
+    private static void assertComparisonChainSafety() {
+        for (String source : List.of("[a<b<c]", "[a==b==c]", "[(a<b)==(c<d)]")) {
+            assertCasadiSemanticFailure(source);
+        }
+        assertCasadiConversion("[!(a==b)]", "vn : [not ((a = b))]$");
+        assertCasadiConversion("[a<b?c:d]", "vn : [if (a < b) then c else d]$");
+
+        List<de.dhbw.rahmlab.casadi.impl.casadi.SX> inputs = List.of(
+                de.dhbw.rahmlab.casadi.SxStatic.sym("a"),
+                de.dhbw.rahmlab.casadi.SxStatic.sym("b"),
+                de.dhbw.rahmlab.casadi.SxStatic.sym("c"),
+                de.dhbw.rahmlab.casadi.SxStatic.sym("d"));
+        for (String source : List.of("[a<b<c]", "[a=b=c]", "[(a<b)=(c<d)]")) {
+            assertMaximaSemanticFailure(source, null, inputs);
+        }
+        assertMaximaConversion("[not (a=b) and (c<d)]", inputs);
+    }
+
+    private static void assertLexerFailures() {
+        assertCasadiLexerFailure("[$]", "$", 1, 1);
+        assertCasadiLexerFailure("[.5]", ".", 1, 1);
+        assertMaximaLexerFailure("[$]", "$", 1, 1);
+        assertMaximaLexerFailure("[.5]", ".", 1, 1);
+    }
+
+    private static void assertCasadiLexerFailure(String source, String offendingToken,
+            int line, int column) {
+        try {
+            new ToMaximaTranspilerService().casadiToMaxima(source);
+            throw new AssertionError("Expected a lexer TranspilationException for: " + source);
+        } catch (TranspilationException exception) {
+            assertMetadata(exception, Direction.CASADI_TO_MAXIMA, Phase.LEXER, source);
+            assertLexerPosition(exception, offendingToken, line, column);
+        }
+    }
+
+    private static void assertMaximaLexerFailure(String source, String offendingToken,
+            int line, int column) {
+        try {
+            new ToCasadiTranspilerService().maximaToCasadi(source, List.of());
+            throw new AssertionError("Expected a lexer TranspilationException for: " + source);
+        } catch (TranspilationException exception) {
+            assertMetadata(exception, Direction.MAXIMA_TO_CASADI, Phase.LEXER, source);
+            assertLexerPosition(exception, offendingToken, line, column);
+        }
+    }
+
+    private static void assertMaximaConversion(String source,
+            List<de.dhbw.rahmlab.casadi.impl.casadi.SX> inputs) {
+        if (new ToCasadiTranspilerService().maximaToCasadi(source, inputs) == null) {
+            throw new AssertionError("Expected a converted SX value for: " + source);
+        }
     }
 
     private static void assertMetadata(TranspilationException exception,
@@ -318,6 +421,15 @@ public class ParserFailureVerification {
         if (expected != null && !expected.equals(exception.getOffendingToken())) {
             throw new AssertionError("Unexpected offending token: expected " + expected
                     + ", got " + exception.getOffendingToken(), exception);
+        }
+    }
+
+    private static void assertLexerPosition(TranspilationException exception, String offendingToken,
+            int line, int column) {
+        assertOffendingToken(exception, offendingToken);
+        if (exception.getLine() != line || exception.getColumn() != column) {
+            throw new AssertionError("Unexpected lexer position: expected " + line + ":" + column
+                    + ", got " + exception.getLine() + ":" + exception.getColumn(), exception);
         }
     }
 }
