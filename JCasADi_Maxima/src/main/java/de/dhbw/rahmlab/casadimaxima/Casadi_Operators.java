@@ -4,7 +4,7 @@ import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import static de.dhbw.rahmlab.casadi.impl.casadi.SxGenericExpression.*;
 
-public class JCasADi_Maxima {
+public class Casadi_Operators {
 
     public static void main(String[] args) {
         SX zz = new SX(1e-5);
