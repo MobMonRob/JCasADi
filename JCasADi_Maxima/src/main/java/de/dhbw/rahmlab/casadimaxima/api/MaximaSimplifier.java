@@ -72,7 +72,7 @@ public class MaximaSimplifier {
             String maximaInput = "";
             maximaInput += "display2d:false$\n"; // Do not visualize formulas
             maximaInput += "ratprint:false$\n"; // Do not visualize formulas
-            maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_RESOURCE)) + ")$\n";
+            // maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_RESOURCE)) + ")$\n"; // Only for full_simplify
             maximaInput += maximaExpr + "\n"; // Add expr
             // maximaInput += "vs : (ev(%, infeval, trigrat))$\n"; // Old simplify
             // maximaInput += "vs: full_simplify(%)$\n"; // Simplify
