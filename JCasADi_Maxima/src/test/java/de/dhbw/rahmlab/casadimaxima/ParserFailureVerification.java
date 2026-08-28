@@ -29,6 +29,9 @@ public class ParserFailureVerification {
         assertCasadiConversion("[sin(a)]", "vn : [sin(a)]$");
         assertCasadiConversion("[atan2(a,b)]", "vn : [atan2(a, b)]$");
         assertCasadiConversion("[fmax(a,b+1)]", "vn : [max(a, b + 1)]$");
+        assertCasadiVariableSafety();
+        assertCasadiTemporaryTransport();
+        assertGeneratedCasadiTemporaryTransport();
         assertMaximaConversion("[sin(1)]");
         assertMaximaConversion("[max(1,2)]");
         assertCasadiParserFailure("[(a+)]");
@@ -70,8 +73,9 @@ public class ParserFailureVerification {
         assertMaximaRoundTrip("[copysign(-2,0)]", "2");
         assertMaximaRoundTrip("[copysign(-2,3)]", "2");
         assertSymbolicCopysignRoundTrip();
+        assertMaximaLocalBindingSafety();
         assertMaximaLogicalPrecedence();
-        System.out.println("Lexer, parser, and semantic function verification passed.");
+        System.out.println("Lexer, parser, semantic function, and binding verification passed.");
     }
 
     private static void assertCasadiConversion(String source, String expected) {
@@ -93,11 +97,16 @@ public class ParserFailureVerification {
     }
 
     private static void assertCasadiSemanticFailure(String source) {
+        assertCasadiSemanticFailure(source, null);
+    }
+
+    private static void assertCasadiSemanticFailure(String source, String offendingToken) {
         try {
             new ToMaximaTranspilerService().casadiToMaxima(source);
             throw new AssertionError("Expected a TranspilationException for: " + source);
         } catch (TranspilationException exception) {
             assertMetadata(exception, Direction.CASADI_TO_MAXIMA, Phase.SEMANTIC, source);
+            assertOffendingToken(exception, offendingToken);
         }
     }
 
@@ -112,11 +121,21 @@ public class ParserFailureVerification {
     }
 
     private static void assertMaximaSemanticFailure(String source) {
+        assertMaximaSemanticFailure(source, null);
+    }
+
+    private static void assertMaximaSemanticFailure(String source, String offendingToken) {
+        assertMaximaSemanticFailure(source, offendingToken, List.of());
+    }
+
+    private static void assertMaximaSemanticFailure(String source, String offendingToken,
+            List<de.dhbw.rahmlab.casadi.impl.casadi.SX> inputs) {
         try {
-            new ToCasadiTranspilerService().maximaToCasadi(source, List.of());
+            new ToCasadiTranspilerService().maximaToCasadi(source, inputs);
             throw new AssertionError("Expected a TranspilationException for: " + source);
         } catch (TranspilationException exception) {
             assertMetadata(exception, Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC, source);
+            assertOffendingToken(exception, offendingToken);
         }
     }
 
@@ -174,6 +193,106 @@ public class ParserFailureVerification {
         }
     }
 
+    private static void assertCasadiVariableSafety() {
+        for (String name : List.of("v", "v1", "velocity", "vn", "_", "__")) {
+            assertCasadiSemanticFailure("[" + name + "]", name);
+        }
+        for (String name : List.of("integrate", "next", "from", "diff", "in", "at", "limit",
+                "sum", "for", "and", "elseif", "then", "else", "do", "or", "if", "unless",
+                "product", "while", "thru", "step", "block", "not")) {
+            assertCasadiSemanticFailure("[" + name + "]", name);
+        }
+        for (String name : List.of("V", "V1", "Velocity", "If", "Block", "sin", "arg0_0")) {
+            assertCasadiConversion("[" + name + "]", "vn : [" + name + "]$");
+        }
+    }
+
+    private static void assertCasadiTemporaryTransport() {
+        String source = "@1=1, @2=(@1+2), [@2]";
+        String maxima = new ToMaximaTranspilerService().casadiToMaxima(source);
+        if (!maxima.contains("v1 : 1$") || !maxima.contains("v2 : (v1 + 2)$")
+                || !maxima.endsWith("vn : [v2]$")) {
+            throw new AssertionError("Expected mechanical @N to vN transport, got: " + maxima);
+        }
+    }
+
+    private static void assertGeneratedCasadiTemporaryTransport() {
+        var a = de.dhbw.rahmlab.casadi.SxStatic.sym("a");
+        var b = de.dhbw.rahmlab.casadi.SxStatic.sym("b");
+        var first = de.dhbw.rahmlab.casadi.SxStatic.plus(a, b);
+        var second = de.dhbw.rahmlab.casadi.SxStatic.times(first, first);
+        var third = de.dhbw.rahmlab.casadi.SxStatic.plus(second, first);
+        var scalarExpression = de.dhbw.rahmlab.casadi.SxStatic.plus(
+                de.dhbw.rahmlab.casadi.SxStatic.times(third, third),
+                de.dhbw.rahmlab.casadi.SxStatic.times(third, third));
+        var expression = de.dhbw.rahmlab.casadi.SxStatic.vertcat(
+                new de.dhbw.rahmlab.casadi.impl.std.StdVectorSX(
+                        new de.dhbw.rahmlab.casadi.impl.casadi.SX[]{scalarExpression,
+                            scalarExpression}));
+        String casadiText = expression.toString();
+        if (casadiText.chars().filter(character -> character == '@').count() < 2) {
+            throw new AssertionError("Expected CasADi to emit multiple temporary definitions, got: "
+                    + casadiText);
+        }
+        if (new ToMaximaTranspilerService().casadiToMaxima(expression).isEmpty()) {
+            throw new AssertionError("Expected generated CasADi temporary expression to transpile");
+        }
+    }
+
+    private static void assertMaximaLocalBindingSafety() {
+        var a = de.dhbw.rahmlab.casadi.SxStatic.sym("a");
+        var b = de.dhbw.rahmlab.casadi.SxStatic.sym("b");
+        List<de.dhbw.rahmlab.casadi.impl.casadi.SX> inputs = List.of(a, b);
+
+        assertMaximaExpression("block([%1,%2],%1:a+b,%2:%1*%1,[%2])", inputs,
+                de.dhbw.rahmlab.casadi.SxStatic.times(
+                        de.dhbw.rahmlab.casadi.SxStatic.plus(a, b),
+                        de.dhbw.rahmlab.casadi.SxStatic.plus(a, b)));
+        String cseResult = new ToCasadiTranspilerService().maximaToCasadi(
+                "block([%1],%1:a+b,[%1])", inputs).toString();
+        if (cseResult.contains("%1")) {
+            throw new AssertionError("Local CSE name leaked into CasADi expression: " + cseResult);
+        }
+
+        assertMaximaSemanticFailure("block([%1],%1:%1,[%1])", "%1");
+        assertMaximaSemanticFailure("block([%1,%2],%1:%2,%2:a,[%1])", "%2");
+        assertMaximaSemanticFailure("block([%1],%1:missing,[%1])", "missing");
+        assertMaximaSemanticFailure("block([%1],%1:a,[missing])", "missing", inputs);
+        assertMaximaSemanticFailure("block([%1],%2:a,[%2])", "%2", inputs);
+
+        assertMaximaExpression("block([a],a:2,[a])", inputs,
+                new de.dhbw.rahmlab.casadi.impl.casadi.SX(2));
+        assertMaximaExpression("block([%1],%1:a+1,%1:%1+1,[%1])", inputs,
+                de.dhbw.rahmlab.casadi.SxStatic.plus(
+                        de.dhbw.rahmlab.casadi.SxStatic.plus(a,
+                                new de.dhbw.rahmlab.casadi.impl.casadi.SX(1)),
+                        new de.dhbw.rahmlab.casadi.impl.casadi.SX(1)));
+        assertMaximaExpression("block([%1,%2],%1:a,[%1])", inputs, a);
+
+        ToCasadiTranspilerService service = new ToCasadiTranspilerService();
+        try {
+            service.maximaToCasadi("block([%1],%1:%1,[%1])", inputs);
+            throw new AssertionError("Expected local self-reference to fail");
+        } catch (TranspilationException exception) {
+            assertMetadata(exception, Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC,
+                    "block([%1],%1:%1,[%1])");
+        }
+        String afterFailure = service.maximaToCasadi("[a]", inputs).toString();
+        if (!"a".equals(afterFailure)) {
+            throw new AssertionError("Local state leaked into next transpilation: " + afterFailure);
+        }
+    }
+
+    private static void assertMaximaExpression(String source,
+            List<de.dhbw.rahmlab.casadi.impl.casadi.SX> inputs,
+            de.dhbw.rahmlab.casadi.impl.casadi.SX expected) {
+        String actual = new ToCasadiTranspilerService().maximaToCasadi(source, inputs).toString();
+        if (!expected.toString().equals(actual)) {
+            throw new AssertionError("Unexpected binding conversion for " + source
+                    + ": expected " + expected + ", got " + actual);
+        }
+    }
+
     private static void assertMaximaLogicalPrecedence() {
         var lexer = new MaximaLexer(CharStreams.fromString("[(1=1) or (1=0) and (1=0)]"));
         var parser = new MaximaParser(new CommonTokenStream(lexer));
@@ -192,6 +311,13 @@ public class ParserFailureVerification {
         if (exception.getDirection() != direction || exception.getPhase() != phase
                 || !exception.getSourceContext().contains(source)) {
             throw new AssertionError("Unexpected exception metadata: " + exception.getMessage(), exception);
+        }
+    }
+
+    private static void assertOffendingToken(TranspilationException exception, String expected) {
+        if (expected != null && !expected.equals(exception.getOffendingToken())) {
+            throw new AssertionError("Unexpected offending token: expected " + expected
+                    + ", got " + exception.getOffendingToken(), exception);
         }
     }
 }

@@ -2,10 +2,15 @@ package de.dhbw.rahmlab.casadimaxima.casaditomaxima;
 
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
+import java.util.Set;
 import java.util.List;
 
 public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
+    private static final Set<String> RESERVED_VARIABLE_NAMES = Set.of(
+            "integrate", "next", "from", "diff", "in", "at", "limit", "sum", "for",
+            "and", "elseif", "then", "else", "do", "or", "if", "unless", "product",
+            "while", "thru", "step", "block", "not");
     private final String source;
 
     public ToMaximaTranspiler() {
@@ -241,7 +246,9 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
         // 2. Argumente wie arg0_0 -> bleiben gleich (Maxima versteht Unterstriche)
         if (ctx.ARG() != null) {
-            return ctx.ARG().getText();
+            String name = ctx.ARG().getText();
+            validateVariableName(ctx, name);
+            return name;
         }
 
         // 3. Zahlen: Direkt übernehmen
@@ -254,9 +261,19 @@ public class ToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
         // 4. IDs (z.B. Konstanten oder andere Bezeichner)
         if (ctx.ID() != null) {
-            return ctx.ID().getText();
+            String name = ctx.ID().getText();
+            validateVariableName(ctx, name);
+            return name;
         }
 
         return ""; // Sollte theoretisch nie erreicht werden
+    }
+
+    private void validateVariableName(CasadiParser.AtomContext ctx, String name) {
+        if (name.startsWith("v") || name.startsWith("_")
+                || RESERVED_VARIABLE_NAMES.contains(name)) {
+            throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
+                    "Variable name '" + name + "' is not safe for Maxima output");
+        }
     }
 }

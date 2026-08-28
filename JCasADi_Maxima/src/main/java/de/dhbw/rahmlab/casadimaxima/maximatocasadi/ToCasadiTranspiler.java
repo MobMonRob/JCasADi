@@ -6,14 +6,19 @@ import de.dhbw.rahmlab.casadi.impl.casadi.Sparsity;
 import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException;
 import de.dhbw.rahmlab.casadimaxima.api.TranspilationException.Direction;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
-    private final Map<String, SX> variables;
+    private final Map<String, SX> inputVariables;
+    private Set<String> localNames = Collections.emptySet();
+    private final Map<String, SX> localValues = new HashMap<>();
     private final String source;
 
     public ToCasadiTranspiler(Map<String, SX> initialVariables) {
@@ -21,7 +26,7 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     }
 
     public ToCasadiTranspiler(Map<String, SX> initialVariables, String source) {
-        this.variables = new HashMap<>(initialVariables);
+        this.inputVariables = new HashMap<>(initialVariables);
         this.source = source;
     }
 
@@ -37,12 +42,13 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
 
     @Override
     public SX visitFullBlock(MaximaParser.FullBlockContext ctx) {
-        // Ignore variable declarations.
+        localNames = new HashSet<>();
+        for (var localName : ctx.varList().ID()) {
+            localNames.add(localName.getText());
+        }
+        localValues.clear();
 
-        // Variable Assignments
         visit(ctx.definitions());
-
-        // Array at the end
         return visit(ctx.arrayExpr());
     }
 
@@ -57,8 +63,12 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     @Override
     public SX visitAssignment(MaximaParser.AssignmentContext ctx) {
         String id = ctx.ID().getText();
+        if (!localNames.contains(id)) {
+            throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                    "Assignment target '" + id + "' is not declared as a local block variable");
+        }
         SX value = visit(ctx.expression());
-        variables.put(id, value);
+        localValues.put(id, value);
         return value;
     }
 
@@ -84,11 +94,20 @@ public class ToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     @Override
     public SX visitVariable(MaximaParser.VariableContext ctx) {
         String name = ctx.getText();
-        SX sx = variables.get(name);
-        if (sx == null) {
-            throw new RuntimeException(String.format("Illegal free variable: %s", name));
+        if (localNames.contains(name)) {
+            SX localValue = localValues.get(name);
+            if (localValue == null) {
+                throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                        "Local variable '" + name + "' is used before its first assignment");
+            }
+            return localValue;
         }
-        return sx;
+        SX inputVariable = inputVariables.get(name);
+        if (inputVariable == null) {
+            throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+                    "Unknown free variable: " + name);
+        }
+        return inputVariable;
     }
 
     @Override
