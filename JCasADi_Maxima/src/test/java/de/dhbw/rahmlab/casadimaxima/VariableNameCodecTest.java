@@ -18,4 +18,11 @@ class VariableNameCodecTest {
         assertFalse(VariableNameCodec.isEncoded("x"));
         assertThrows(IllegalArgumentException.class, () -> VariableNameCodec.decode("x"));
     }
+
+    @Test
+    void texTransportIdentifiersAreDecoded() {
+        assertEquals("{\\it simp}+{\\it var\\_x}", VariableNameCodec.decodeTex(
+            "{\\it var\\_simp}+{\\it var\\_var\\_x}"));
+        assertEquals("{%1}+var_x", VariableNameCodec.decodeTex("{%1}+var_x"));
+    }
 }

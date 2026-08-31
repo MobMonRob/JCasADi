@@ -2,6 +2,7 @@ package de.dhbw.rahmlab.casadimaxima.implementation.maxima;
 
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.CasadiToMaximaTranspilerService;
+import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.VariableNameCodec;
 
 /**
  * Internal Maxima LaTeX renderer; not a stable API.
@@ -22,7 +23,7 @@ public final class MaximaLatexRenderer {
         print.append("->maximaIn: ").append(maximaIn);
         print.append("\n");
 
-        String maximaOut = render_internal(maximaIn);
+        String maximaOut = VariableNameCodec.decodeTex(render_internal(maximaIn));
         print.append("->maximaOut: ").append(maximaOut);
         print.append("\n");
 

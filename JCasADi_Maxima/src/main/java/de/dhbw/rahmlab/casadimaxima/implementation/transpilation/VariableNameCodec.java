@@ -1,5 +1,8 @@
 package de.dhbw.rahmlab.casadimaxima.implementation.transpilation;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Encodes free CasADi symbol names for transport through Maxima.
  *
@@ -9,6 +12,9 @@ package de.dhbw.rahmlab.casadimaxima.implementation.transpilation;
 public final class VariableNameCodec {
 
     public static final String PREFIX = "var_";
+    private static final Pattern TEX_ENCODED_IDENTIFIER = Pattern.compile(
+        "(?<![A-Za-z0-9_])var\\\\_(?:(?:[A-Za-z])|(?:\\\\_))(?:(?:[A-Za-z0-9])|(?:\\\\_))*(?![A-Za-z0-9]|\\\\_)"
+    );
 
     private VariableNameCodec() {
     }
@@ -26,5 +32,21 @@ public final class VariableNameCodec {
 
     public static boolean isEncoded(String maximaName) {
         return maximaName.startsWith(PREFIX);
+    }
+
+    /**
+     * Decodes Maxima's TeX representation of all transport identifiers in {@code latex}.
+     */
+    public static String decodeTex(String latex) {
+        Matcher matcher = TEX_ENCODED_IDENTIFIER.matcher(latex);
+        StringBuffer decoded = new StringBuffer();
+        while (matcher.find()) {
+            String maximaName = matcher.group().replace("\\_", "_");
+            String casadiName = decode(maximaName);
+            String texName = casadiName.replace("_", "\\_");
+            matcher.appendReplacement(decoded, Matcher.quoteReplacement(texName));
+        }
+        matcher.appendTail(decoded);
+        return decoded.toString();
     }
 }
