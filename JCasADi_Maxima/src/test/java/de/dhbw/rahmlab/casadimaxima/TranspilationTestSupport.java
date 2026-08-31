@@ -8,6 +8,7 @@ import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationEx
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.CasadiToMaximaTranspilerService;
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.MaximaToCasadiTranspilerService;
 import java.util.List;
+import java.util.HashSet;
 import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,5 +33,9 @@ abstract class TranspilationTestSupport {
 
     final List<SX> symbols(String... names) {
         return java.util.Arrays.stream(names).map(this::symbol).toList();
+    }
+
+    final HashSet<String> variables(String... names) {
+        return new HashSet<>(List.of(names));
     }
 }

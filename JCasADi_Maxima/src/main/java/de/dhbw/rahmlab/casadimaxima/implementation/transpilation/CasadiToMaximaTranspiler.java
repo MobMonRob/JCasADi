@@ -3,18 +3,18 @@ package de.dhbw.rahmlab.casadimaxima.implementation.transpilation;
 import de.dhbw.rahmlab.casadimaxima.casaditomaxima.CasadiParser;
 import de.dhbw.rahmlab.casadimaxima.casaditomaxima.CasadiParserBaseVisitor;
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Direction;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class CasadiToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
     private final String source;
+    private final Set<String> variables;
 
-    public CasadiToMaximaTranspiler() {
-        this("");
-    }
-
-    public CasadiToMaximaTranspiler(String source) {
+    public CasadiToMaximaTranspiler(String source, Set<String> variables) {
         this.source = source;
+        this.variables = Collections.unmodifiableSet(variables);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CasadiToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
     @Override
     public String visitFunctionCall(CasadiParser.FunctionCallContext ctx) {
-        String funcName = ctx.FUNCTION_ID().getText();
+        String funcName = ctx.ID().getText();
         List<CasadiParser.ExprContext> args = ctx.expr();
 
         switch (funcName) {
@@ -263,9 +263,14 @@ public class CasadiToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
             return ctx.CSE_VAR().getText().replace("@", "v");
         }
 
-        // 2. CasADi input-vector components remain literal.
-        if (ctx.ARG() != null) {
-            return ctx.ARG().getText();
+        // 2. Free CasADi symbols are transported under a Maxima-safe name.
+        if (ctx.ID() != null) {
+            String name = ctx.ID().getText();
+            if (variables.contains(name)) {
+                return VariableNameCodec.encode(name);
+            }
+            throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
+                "Unknown variable: " + name);
         }
 
         // 3. Zahlen: Direkt übernehmen

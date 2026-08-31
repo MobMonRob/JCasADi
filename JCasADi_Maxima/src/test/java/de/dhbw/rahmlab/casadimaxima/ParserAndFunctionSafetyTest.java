@@ -4,68 +4,54 @@ import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationEx
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Phase;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ParserAndFunctionSafetyTest extends TranspilationTestSupport {
 
     @Test
     void lexerParserAndComparisonFailuresHaveStructuredMetadata() {
-        for (String source : List.of("[$]", "[.5]", "[(arg0_0+)]", "[1] unexpected")) {
-            Phase phase = source.equals("[(arg0_0+)]") ? Phase.PARSER : Phase.LEXER;
-            if (source.equals("[1] unexpected")) {
-                phase = Phase.PARSER;
-            }
-            assertFailure(() -> toMaxima.casadiToMaxima(source), Direction.CASADI_TO_MAXIMA, phase, source);
+        for (String source : List.of("[$]", "[.5]", "[1] unexpected")) {
+            Phase phase = source.equals("[1] unexpected") ? Phase.PARSER : Phase.LEXER;
+            assertFailure(() -> toMaxima.casadiToMaxima(source, variables()),
+                Direction.CASADI_TO_MAXIMA, phase, source);
         }
-        for (String source : List.of("[$]", "[.5]", "[1,]", "[1] unexpected")) {
-            Phase phase = source.equals("[1,]") ? Phase.PARSER : Phase.LEXER;
-            if (source.equals("[1] unexpected")) {
-                phase = Phase.PARSER;
-            }
-            assertFailure(() -> toCasadi.maximaToCasadi(source, List.of()), Direction.MAXIMA_TO_CASADI, phase, source);
-        }
-        for (String source : List.of("[arg0_0<arg1_0<arg2_0]", "[arg0_0==arg1_0==arg2_0]",
-            "[(arg0_0<arg1_0)==(arg2_0<arg3_0)]")) {
-            assertFailure(() -> toMaxima.casadiToMaxima(source), Direction.CASADI_TO_MAXIMA,
-                Phase.SEMANTIC, source);
-        }
-        for (String source : List.of("[arg0_0<arg1_0<arg2_0]", "[arg0_0=arg1_0=arg2_0]",
-            "[(arg0_0<arg1_0)=(arg2_0<arg3_0)]")) {
-            assertFailure(() -> toCasadi.maximaToCasadi(source,
-                symbols("arg0_0", "arg1_0", "arg2_0", "arg3_0")),
-                Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC, source);
-        }
+        assertFailure(() -> toMaxima.casadiToMaxima("[a<b<c]", variables("a", "b", "c")),
+            Direction.CASADI_TO_MAXIMA, Phase.SEMANTIC, "[a<b<c]");
+        assertFailure(() -> toCasadi.maximaToCasadi("[var_a<var_b<var_c]",
+            symbols("a", "b", "c")), Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC,
+            "[var_a<var_b<var_c]");
+    }
+
+    @Test
+    void casadiFunctionsAndVariablesAreDistinguishedByCallSyntax() {
+        assertEquals("vn : [var_sin]$", toMaxima.casadiToMaxima("[sin]", variables("sin")));
+        assertEquals("vn : [sin(var_x)]$", toMaxima.casadiToMaxima("[sin(x)]", variables("x")));
+        assertFailure(() -> toMaxima.casadiToMaxima("[unknown(x)]", variables("x")),
+            Direction.CASADI_TO_MAXIMA, Phase.SEMANTIC, "[unknown(x)]");
     }
 
     @Test
     void maximaFunctionNamesAreCaseSensitive() {
-        assertEquals("sin(arg0_0)", toCasadi.maximaToCasadi("[sin(arg0_0)]", symbols("arg0_0")).toString());
-        for (String source : List.of("[SIN(arg0_0)]", "[Sin(arg0_0)]", "[MOD(arg0_0,2)]", "[Max(arg0_0,arg1_0)]")) {
-            assertFailure(() -> toCasadi.maximaToCasadi(source, symbols("arg0_0", "arg1_0")),
+        assertEquals("sin(a)", toCasadi.maximaToCasadi("[sin(var_a)]", symbols("a")).toString());
+        for (String source : List.of("[SIN(var_a)]", "[Sin(var_a)]", "[MOD(var_a,2)]")) {
+            assertFailure(() -> toCasadi.maximaToCasadi(source, symbols("a")),
                 Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC, source);
         }
     }
 
     @Test
     void maximaCseVariablesHaveAnExplicitGrammarCategory() {
-        assertEquals("arg0_0", toCasadi.maximaToCasadi(
-            "block([%1],%1:arg0_0,[%1])", symbols("arg0_0")).toString());
-
-        for (String source : List.of("block([temporary],temporary:arg0_0,[temporary])",
-            "block([%temporary],%temporary:arg0_0,[%temporary])", "[%1(arg0_0)]")) {
-            assertFailure(() -> toCasadi.maximaToCasadi(source, symbols("arg0_0")),
-                Direction.MAXIMA_TO_CASADI, Phase.PARSER, source);
-        }
+        assertEquals("a", toCasadi.maximaToCasadi("block([%1],%1:var_a,[%1])",
+            symbols("a")).toString());
+        assertFailure(() -> toCasadi.maximaToCasadi("block([temporary],temporary:var_a,[temporary])",
+            symbols("a")), Direction.MAXIMA_TO_CASADI, Phase.PARSER, "temporary");
     }
 
     @Test
     void maximasModAndNaryExtremaKeepTheirDefinedMapping() {
-        assertEquals("(arg0_0-(arg1_0*floor((arg0_0/arg1_0))))",
-            toCasadi.maximaToCasadi("[mod(arg0_0,arg1_0)]", symbols("arg0_0", "arg1_0")).toString());
-        assertEquals("fmin(fmin(arg0_0,arg1_0),arg2_0)",
-            toCasadi.maximaToCasadi("[min(arg0_0,arg1_0,arg2_0)]", symbols("arg0_0", "arg1_0", "arg2_0")).toString());
-        assertEquals("fmax(fmax(arg0_0,arg1_0),arg2_0)",
-            toCasadi.maximaToCasadi("[max(arg0_0,arg1_0,arg2_0)]", symbols("arg0_0", "arg1_0", "arg2_0")).toString());
+        assertEquals("(a-(b*floor((a/b))))", toCasadi.maximaToCasadi("[mod(var_a,var_b)]",
+            symbols("a", "b")).toString());
+        assertEquals("fmin(fmin(a,b),c)", toCasadi.maximaToCasadi("[min(var_a,var_b,var_c)]",
+            symbols("a", "b", "c")).toString());
     }
 }

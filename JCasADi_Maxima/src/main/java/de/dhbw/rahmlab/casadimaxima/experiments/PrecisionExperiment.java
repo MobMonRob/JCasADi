@@ -15,6 +15,7 @@ import de.dhbw.rahmlab.casadimaxima.implementation.maxima.MaximaSimplifier;
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.MaximaToCasadiTranspilerService;
 import java.util.List;
 import java.util.Map;
+import java.util.HashSet;
 
 public class PrecisionExperiment {
 
@@ -22,7 +23,8 @@ public class PrecisionExperiment {
         String casadiString = "@1=-0.0996, @2=(arg0_0+(@1*arg1_0)), @3=0.0996, @4=((@3*arg1_0)-arg0_0), @5=0.5, @6=sq((arg0_0+(@1*arg1_0))), @7=((@5*@6)+-0.508884), @8=-0.5, @9=(-0.491116+(@8*@6)), @10=((@5*@6)+0.491116), @11=(0.508884+(@8*@6)), @12=((@3*arg1_0)-arg0_0), [(((@2*@4)-(@7*@9))+(@10*@11)), 00, 00, 00, (((@2*@9)-(@7*@4))-(@10*@12)), (((@2*@11)-(@7*@12))-(@10*@4)), 00, 00, 00, 00, 00, 00, 00, 00, 00, (((@2*@12)-(@7*@11))+(@10*@9)), 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]";
 
         // String casadiString = "@1=0.5, @2=sq(arg0_0), [arg0_0, 00, 00, 00, ((@1*@2)+-0.5), ((@1*@2)+@1), 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00]";
-        String maximaInput = new CasadiToMaximaTranspilerService().casadiToMaxima(casadiString);
+        String maximaInput = new CasadiToMaximaTranspilerService().casadiToMaxima(casadiString,
+            new HashSet<>(List.of("arg0_0", "arg1_0")));
         String maximaOutput = MaximaSimplifier.simplify_internal(maximaInput);
         SX sx = new MaximaToCasadiTranspilerService().maximaToCasadi(maximaOutput, List.of(SxStatic.sym("arg0", 32, 1), SxStatic.sym("arg1", 32, 1)));
         System.out.println("casadiIn: " + casadiString);

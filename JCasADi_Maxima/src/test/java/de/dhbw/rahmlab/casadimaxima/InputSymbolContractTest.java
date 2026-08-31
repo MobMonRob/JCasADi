@@ -2,76 +2,67 @@ package de.dhbw.rahmlab.casadimaxima;
 
 import de.dhbw.rahmlab.casadi.SxStatic;
 import de.dhbw.rahmlab.casadi.impl.casadi.SX;
-import de.dhbw.rahmlab.casadi.impl.std.StdVectorSX;
-import de.dhbw.rahmlab.casadimaxima.api.MaximaProcessor;
 import de.dhbw.rahmlab.casadimaxima.implementation.maxima.MaximaSimplifier;
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Direction;
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Phase;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 class InputSymbolContractTest extends TranspilationTestSupport {
 
     @Test
-    void publicPipelineAndSpiProduceTheSameResult() {
-        SX expression = SxStatic.sym("arg0", 2, 1);
-        List<SX> variables = List.of(expression);
-        String expected = MaximaSimplifier.simplify_pipeline(expression, variables).toString();
-
-        assertEquals(expected, new MaximaProcessor().simplifySparsify(expression, variables).toString());
+    void explicitFreeSymbolsAreEncodedForMaxima() {
+        String maxima = toMaxima.casadiToMaxima("@1=simp, [@1+display2d+sin]",
+            variables("simp", "display2d", "sin"));
+        assertEquals("v1 : var_simp$\nvn : [((v1 + var_display2d) + var_sin)]$", maxima);
     }
 
     @Test
-    void argumentComponentsPassThroughWithoutTransportNames() {
-        String maxima = toMaxima.casadiToMaxima("@1=arg0_0, [@1+arg1_2]");
-        assertEquals("v1 : arg0_0$\nvn : [(v1 + arg1_2)]$", maxima);
-        assertFalse(maxima.contains("vjcx"));
-        assertEquals("(arg0_0+arg1_2)", toCasadi.maximaToCasadi("[arg0_0+arg1_2]",
-            symbols("arg0_0", "arg1_2")).toString());
+    void sxEntryPointDiscoversFreeSymbolsAutomatically() {
+        SX expression = SxStatic.plus(symbol("simp"), symbol("var_x"));
+        assertEquals("vn : [((var_simp + var_var_x))]$", toMaxima.casadiToMaxima(expression));
     }
 
     @Test
-    void freeCasadiIdentifiersAreRejectedInEveryStringEntryPoint() {
-        for (String source : List.of("[a]", "[simp]", "[display2d]", "[sin(a)]")) {
-            assertFailure(() -> toMaxima.casadiToMaxima(source), Direction.CASADI_TO_MAXIMA,
-                Phase.PARSER, source);
-        }
+    void rawStringRequiresAnExplicitVariableAllowList() {
+        assertFailure(() -> toMaxima.casadiToMaxima("[a]", variables()),
+            Direction.CASADI_TO_MAXIMA, Phase.SEMANTIC, "[a]");
+        assertFailure(() -> toMaxima.casadiToMaxima("[unknown(a)]", variables("a")),
+            Direction.CASADI_TO_MAXIMA, Phase.SEMANTIC, "[unknown(a)]");
     }
 
     @Test
-    void inputVariableApiRequiresCasadiArgumentComponentNames() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> toCasadi.maximaToCasadi("[a]", symbols("a")));
-        assertTrue(exception.getMessage().contains("argN_M"));
+    void maximaNamesAreDecodedOnlyThroughTheTransportMap() {
+        assertEquals("(simp+var_x)", toCasadi.maximaToCasadi("[var_simp+var_var_x]",
+            symbols("simp", "var_x")).toString());
+        assertFailure(() -> toCasadi.maximaToCasadi("[simp]", symbols("simp")),
+            Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC, "[simp]");
+        assertFailure(() -> toCasadi.maximaToCasadi("[var_foreign]", List.of()),
+            Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC, "[var_foreign]");
     }
 
     @Test
-    void unknownFreeMaximaVariablesStillFailClosedAndCseLocalsRemainLocal() {
-        assertFailure(() -> toCasadi.maximaToCasadi("[arg9_9]", symbols("arg0_0")),
-            Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC, "[arg9_9]");
-        assertFailure(() -> toCasadi.maximaToCasadi("[foreign]", List.of()),
-            Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC, "[foreign]");
-        assertEquals("(arg0_0+1)", toCasadi.maximaToCasadi(
-            "block([%1],%1:arg0_0+1,[%1])", symbols("arg0_0")).toString());
+    void cseNamesAreNotEncoded() {
+        String maxima = toMaxima.casadiToMaxima("@1=a, [@1]", variables("a"));
+        assertEquals("v1 : var_a$\nvn : [v1]$", maxima);
+        assertEquals("(a+1)", toCasadi.maximaToCasadi(
+            "block([%1],%1:var_a+1,[%1])", symbols("a")).toString());
     }
 
     @Test
-    void latexUsesOriginalArgumentComponentNames() {
-        SX input = SxStatic.sym("arg0", 2, 1);
-        String latex = new MaximaProcessor().LaTeXify(SxStatic.vertcat(
-            new StdVectorSX(new SX[]{input, new SX(1)})));
-        assertTrue(latex.contains("arg"));
-        assertTrue(latex.contains("0,0"));
-        assertFalse(latex.contains("vjcx"));
+    void pipelineRetainsOriginalSymbolsAfterRoundTrip() {
+        SX expression = SxStatic.sym("simp", 2, 1);
+        List<SX> inputs = List.of(expression);
+        assertEquals(MaximaSimplifier.simplify_pipeline(expression, inputs).toString(),
+            new de.dhbw.rahmlab.casadimaxima.api.MaximaProcessor()
+                .simplifySparsify(expression, inputs).toString());
     }
 
     @Test
-    void maximaDoesNotConsumeArgumentComponentNames() {
-        String maxima = toMaxima.casadiToMaxima("[arg0_0]");
-        assertEquals("[arg0_0]", MaximaSimplifier.simplify_internal(maxima));
+    void duplicateTransportNamesAreRejected() {
+        assertThrows(IllegalArgumentException.class,
+            () -> toCasadi.maximaToCasadi("[var_a]", List.of(symbol("a"), symbol("a"))));
     }
 }

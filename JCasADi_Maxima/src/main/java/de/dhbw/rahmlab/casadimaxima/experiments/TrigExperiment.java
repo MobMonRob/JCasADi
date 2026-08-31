@@ -3,6 +3,8 @@ package de.dhbw.rahmlab.casadimaxima.experiments;
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.CasadiToMaximaTranspilerService;
 import de.dhbw.rahmlab.casadimaxima.implementation.maxima.MaximaLatexRenderer;
 import de.dhbw.rahmlab.casadimaxima.implementation.maxima.MaximaSimplifier;
+import java.util.HashSet;
+import java.util.List;
 
 public class TrigExperiment {
 
@@ -30,7 +32,8 @@ public class TrigExperiment {
  00,
  00]
 """;
-        String maximaExpr = new CasadiToMaximaTranspilerService().casadiToMaxima(casadiExpr);
+        String maximaExpr = new CasadiToMaximaTranspilerService().casadiToMaxima(casadiExpr,
+            new HashSet<>(List.of("arg0_0")));
         System.out.println(maximaExpr);
         maximaExpr = MaximaSimplifier.simplify_internal(maximaExpr);
         System.out.println(maximaExpr);

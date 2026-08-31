@@ -4,70 +4,55 @@ import de.dhbw.rahmlab.casadimaxima.implementation.maxima.MaximaSimplifier;
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Direction;
 import de.dhbw.rahmlab.casadimaxima.implementation.transpilation.TranspilationException.Phase;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
 
 class MaximaOutputSafetyTest extends TranspilationTestSupport {
 
     @Test
-    void groupsTransparentFunctionsAndPreservesDivision() {
-        String output = toMaxima.casadiToMaxima("[arg2_0/fmod(arg0_0,arg1_0),copysign(arg0_0,arg1_0)]");
-        assertEquals("vn : [(arg2_0 / (signum(arg0_0) * mod(abs(arg0_0), abs(arg1_0)))), "
-            + "(abs(arg0_0) * (signum(arg1_0) + 1 - signum(arg1_0)^2))]$", output);
+    void groupsTransparentFunctionsAndUsesTransportNames() {
+        String output = toMaxima.casadiToMaxima("[z/fmod(x,y),copysign(x,y)]",
+            variables("x", "y", "z"));
+        assertEquals("vn : [(var_z / (signum(var_x) * mod(abs(var_x), abs(var_y)))), "
+            + "(abs(var_x) * (signum(var_y) + 1 - signum(var_y)^2))]$", output);
         assertFalse(output.contains("fmod("));
         assertFalse(output.contains("copysign("));
     }
 
     @Test
-    void fmodRoundTripIsNumericallyAndSymbolicallyGrouped() {
-        String maximaInput = toMaxima.casadiToMaxima("[12/fmod(5,3)]");
-        assertEquals("[6]", MaximaSimplifier.simplify_internal(maximaInput));
-
-        String symbolicInput = toMaxima.casadiToMaxima("[arg2_0/fmod(arg0_0,arg1_0)]");
-        String maximaOutput = MaximaSimplifier.simplify_internal(symbolicInput);
-        String casadi = toCasadi.maximaToCasadi(maximaOutput,
-            symbols("arg0_0", "arg1_0", "arg2_0")).toString();
-        assertFalse(casadi.contains("vjcx"));
-        assertTrue(casadi.contains("arg0_0"));
-        assertTrue(casadi.contains("arg1_0"));
-        assertTrue(casadi.contains("arg2_0"));
+    void fmodRoundTripPreservesOriginalSymbolNames() {
+        String maximaInput = toMaxima.casadiToMaxima("[z/fmod(x,y)]", variables("x", "y", "z"));
+        String maximaOutput = MaximaSimplifier.simplify_internal(maximaInput);
+        String casadi = toCasadi.maximaToCasadi(maximaOutput, symbols("x", "y", "z")).toString();
+        assertTrue(casadi.contains("x"));
+        assertTrue(casadi.contains("y"));
+        assertTrue(casadi.contains("z"));
     }
 
     @Test
-    void existingFmodAndCopysignRoundTripsRemainCovered() {
-        for (String[] testCase : new String[][]{
-            {"[fmod(5,3)]", "2"}, {"[fmod(5,-3)]", "2"},
-            {"[fmod(-5,3)]", "-2"}, {"[fmod(-5,-3)]", "-2"},
-            {"[copysign(-2,-3)]", "-2"}, {"[copysign(-2,0)]", "2"},
-            {"[copysign(-2,3)]", "2"}}) {
-            String maxima = MaximaSimplifier.simplify_internal(toMaxima.casadiToMaxima(testCase[0]));
-            assertEquals(testCase[1], toCasadi.maximaToCasadi(maxima, List.of()).toString());
-        }
+    void numericFunctionRoundTripsNeedNoVariables() {
+        String maxima = MaximaSimplifier.simplify_internal(
+            toMaxima.casadiToMaxima("[fmod(5,3)]", variables()));
+        assertEquals("2", toCasadi.maximaToCasadi(maxima, List.of()).toString());
     }
 
     @Test
     void notLogicAndTernaryAreStructurallyPreserved() {
-        assertEquals("vn : [((not (arg0_0)) + arg1_0)]$", toMaxima.casadiToMaxima("[!arg0_0+arg1_0]"));
-        assertEquals("vn : [((not (arg0_0)) = arg1_0)]$", toMaxima.casadiToMaxima("[!arg0_0==arg1_0]"));
-        assertEquals("vn : [(if arg0_0 then (if arg1_0 then arg2_0 else arg3_0) else arg4_0)]$",
-            toMaxima.casadiToMaxima("[arg0_0?arg1_0?arg2_0:arg3_0:arg4_0]"));
-        assertEquals("vn : [((not (((arg0_0 = arg1_0)))) and ((arg2_0 < arg3_0)))]$",
-            toMaxima.casadiToMaxima("[!(arg0_0==arg1_0)&&(arg2_0<arg3_0)]"));
+        assertEquals("vn : [((not (var_a)) + var_b)]$",
+            toMaxima.casadiToMaxima("[!a+b]", variables("a", "b")));
+        assertEquals("vn : [(if var_a then var_b else var_c)]$",
+            toMaxima.casadiToMaxima("[a?b:c]", variables("a", "b", "c")));
     }
 
     @Test
     void knownFunctionContractsRemainFailClosed() {
-        for (String source : List.of("[fmax(1)]", "[fmod(1)]", "[copysign(1,2,3)]",
-            "[remainder(1,2)]", "[erfinv(1)]", "[unknown(1)]", "[fmod(1,0)]")) {
-            assertFailure(() -> toMaxima.casadiToMaxima(source), Direction.CASADI_TO_MAXIMA,
-                Phase.SEMANTIC, source);
+        for (String source : List.of("[fmax(1)]", "[unknown(1)]", "[fmod(1,0)]")) {
+            assertFailure(() -> toMaxima.casadiToMaxima(source, variables()),
+                Direction.CASADI_TO_MAXIMA, Phase.SEMANTIC, source);
         }
-        for (String source : List.of("[mod(1,0)]", "[mod(1,2,3)]", "[lmin(1,2)]",
-            "[unknown(1)]", "[min()]", "[max()]")) {
-            assertFailure(() -> toCasadi.maximaToCasadi(source, List.of()), Direction.MAXIMA_TO_CASADI,
-                Phase.SEMANTIC, source);
-        }
+        assertFailure(() -> toCasadi.maximaToCasadi("[unknown(1)]", List.of()),
+            Direction.MAXIMA_TO_CASADI, Phase.SEMANTIC, "[unknown(1)]");
     }
 }

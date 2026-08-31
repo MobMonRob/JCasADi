@@ -13,13 +13,10 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 public class MaximaToCasadiTranspilerService {
-
-    private static final Pattern ARGUMENT_COMPONENT = Pattern.compile("arg\\d+_\\d+");
 
     public SX maximaToCasadi(String maximaString, List<SX> variables) {
         Map<String, SX> variablesMap = checkMapVars(variables);
@@ -73,12 +70,8 @@ public class MaximaToCasadiTranspilerService {
                 if (rowString.equals("00")) {
                     continue;
                 }
-                if (!ARGUMENT_COMPONENT.matcher(rowString).matches()) {
-                    throw new IllegalArgumentException(
-                        "Input symbol components must use CasADi's argN_M form, but found: "
-                        + rowString);
-                }
-                Object mapped = variablesMap.put(rowString, row);
+                String transportName = VariableNameCodec.encode(rowString);
+                Object mapped = variablesMap.put(transportName, row);
                 if (mapped != null) {
                     // // Not allowed:
                     // SX a1 = SxStatic.sym("a");

@@ -23,12 +23,8 @@ public class MaximaToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     private final Map<String, SX> cseValues = new HashMap<>();
     private final String source;
 
-    public MaximaToCasadiTranspiler(Map<String, SX> initialVariables) {
-        this(initialVariables, "");
-    }
-
     public MaximaToCasadiTranspiler(Map<String, SX> initialVariables, String source) {
-        this.inputVariables = new HashMap<>(initialVariables);
+        this.inputVariables = Collections.unmodifiableMap(initialVariables);
         this.source = source;
     }
 
