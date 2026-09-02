@@ -57,13 +57,24 @@ public final class MaximaSimplifier {
         String maximaInput = "";
         maximaInput += "display2d:false$\n"; // Do not visualize formulas
         maximaInput += "ratprint:false$\n"; // Do not visualize formulas
+        // When halfangles is true, trigonometric functions of arguments expr/2 are simplified to functions of expr.
+        // Introduces lots of pow and floor!
+        // Itroduces %i with trigrat!
+        // maximaInput += "halfangles:true$\n";
         // maximaInput += "load(" + maximaString(maximaFileCacher(FULL_SIMPLIFY_RESOURCE)) + ")$\n"; // Only for full_simplify
         maximaInput += maximaExpr + "\n"; // Add expr
-        // maximaInput += "vs : (ev(%, infeval, trigrat))$\n"; // Old simplify
-        // maximaInput += "vs: full_simplify(%)$\n"; // Simplify
-        maximaInput += "vs: trigreduce(ratsimp(trigsimp(ratsimp(xthru(%)))))$\n"; // Simplify
-        // maximaInput += "vo: %$\n";
+        // // maximaInput += "vs: full_simplify(%)$\n"; // Simplify
+        // maximaInput += "vs: trigreduce(ratsimp(trigsimp(ratsimp(xthru(%)))))$\n"; // Simplify
+        // maximaInput += "vs: trigreduce(ratsimp(trigsimp(ratsimp(xthru(trigrat(trigexpand(%)))))))$\n"; // Simplify
+        // maximaInput += "vs: ratsimp(trigsimp(ratsimp(xthru(trigrat(trigexpand(%))))))$\n"; // Simplify
+        // maximaInput += "vs: trigreduce(ratsimp(trigsimp(ratsimp(xthru(trigexpand(trigrat(%)))))))$\n"; // Simplify
+        // maximaInput += "vs: ratsimp(trigsimp(ratsimp(xthru(trigexpand(trigrat(%))))))$\n"; // Simplify
+        // maximaInput += "vs: trigreduce(ratsimp(trigsimp(ratsimp(xthru(trigrat(trigexpand(trigrat(%))))))))$\n"; // Simplify
+        // maximaInput += "vs: ratsimp(trigsimp(ratsimp(xthru(trigrat(trigexpand(trigrat(%)))))))$\n"; // Simplify
+        // maximaInput += "vs: ratsimp(trigsimp(ratsimp(xthru(trigexpand(trigrat(trigexpand(%)))))))$\n"; // Simplify
+        maximaInput += "vs: ratsimp(xthru(trigsimp(ratsimp(xthru(trigsimp(trigrat(trigsimp(trigexpand(%)))))))))$\n"; // Simplify
         maximaInput += "vo: optimize(%)$\n"; // common subexpression elimination
+        // maximaInput += "vo: %$\n";
         maximaInput += "printf(true,\"" + RESULT_BEGIN + "~%~a~%" + RESULT_END + "~%\", string(vo))$\n";
         return MaximaProcessExecutor.execute(maximaInput, RESULT_BEGIN, RESULT_END);
     }
