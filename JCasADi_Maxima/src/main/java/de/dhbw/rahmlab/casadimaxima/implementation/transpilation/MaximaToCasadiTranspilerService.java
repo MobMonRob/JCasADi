@@ -18,7 +18,12 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 public class MaximaToCasadiTranspilerService {
 
+    @Deprecated
     public SX maximaToCasadi(String maximaString, List<SX> variables) {
+        return maximaToCasadi(maximaString, variables, "");
+    }
+
+    public SX maximaToCasadi(String maximaString, List<SX> variables, String nameOfPi) {
         Map<String, SX> variablesMap = checkMapVars(variables);
 
         var charStream = CharStreams.fromString(maximaString);
@@ -31,7 +36,7 @@ public class MaximaToCasadiTranspilerService {
         parser.addErrorListener(new FailFastErrorListener(Direction.MAXIMA_TO_CASADI, Phase.PARSER, maximaString));
 
         var parseTree = parser.root();
-        MaximaToCasadiTranspiler casadiTranspiler = new MaximaToCasadiTranspiler(variablesMap, maximaString);
+        MaximaToCasadiTranspiler casadiTranspiler = new MaximaToCasadiTranspiler(variablesMap, maximaString, nameOfPi);
         SX sx;
         try {
             sx = casadiTranspiler.visit(parseTree);
@@ -57,7 +62,7 @@ public class MaximaToCasadiTranspilerService {
             }
 
             if (!var.is_valid_input()) {
-                throw new IllegalArgumentException("Variable is not a purely symbolic.");
+                throw new IllegalArgumentException("Variable is not purely symbolic.");
             }
 
             if (var.columns() != 1) {

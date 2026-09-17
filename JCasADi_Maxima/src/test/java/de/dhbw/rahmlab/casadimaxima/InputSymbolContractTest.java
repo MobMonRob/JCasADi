@@ -55,9 +55,9 @@ class InputSymbolContractTest extends TranspilationTestSupport {
     void pipelineRetainsOriginalSymbolsAfterRoundTrip() {
         SX expression = SxStatic.sym("simp", 2, 1);
         List<SX> inputs = List.of(expression);
-        assertEquals(MaximaSimplifier.simplify_pipeline(expression, inputs).toString(),
+        assertEquals(MaximaSimplifier.simplify_pipeline(expression, inputs, "").toString(),
             new de.dhbw.rahmlab.casadimaxima.api.MaximaProcessor()
-                .simplifySparsify(expression, inputs).toString());
+                .simplifySparsify(expression, inputs, "").toString());
     }
 
     @Test

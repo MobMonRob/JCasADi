@@ -11,10 +11,12 @@ public class CasadiToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
     private final String source;
     private final Set<String> variables;
+    private final String nameOfPi;
 
-    public CasadiToMaximaTranspiler(String source, Set<String> variables) {
+    public CasadiToMaximaTranspiler(String source, Set<String> variables, String nameOfPi) {
         this.source = source;
         this.variables = Collections.unmodifiableSet(variables);
+        this.nameOfPi = nameOfPi;
     }
 
     @Override
@@ -258,22 +260,26 @@ public class CasadiToMaximaTranspiler extends CasadiParserBaseVisitor<String> {
 
     @Override
     public String visitAtom(CasadiParser.AtomContext ctx) {
-        // 1. Variablen wie @1 -> v1
+        // CSE Variables: @1 -> v1
         if (ctx.CSE_VAR() != null) {
             return ctx.CSE_VAR().getText().replace("@", "v");
         }
 
-        // 2. Free CasADi symbols are transported under a Maxima-safe name.
         if (ctx.ID() != null) {
             String name = ctx.ID().getText();
+            if (name.equals(this.nameOfPi)) {
+                // Special case: pi
+                return "%pi";
+            }
             if (variables.contains(name)) {
+                // Free CasADi symbols are transported under a Maxima-safe name.
                 return VariableNameCodec.encode(name);
             }
             throw TranspilationException.semantic(Direction.CASADI_TO_MAXIMA, source, ctx,
                 "Unknown variable: " + name);
         }
 
-        // 3. Zahlen: Direkt übernehmen
+        // Numbers: use directly.
         if (ctx.NUMBER() != null) {
             if (ctx.NUMBER().getText().equals("00")) {
                 return "0";

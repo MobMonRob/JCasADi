@@ -22,10 +22,12 @@ public class MaximaToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
     private Set<String> cseNames = Collections.emptySet();
     private final Map<String, SX> cseValues = new HashMap<>();
     private final String source;
+    private final String nameOfPi;
 
-    public MaximaToCasadiTranspiler(Map<String, SX> initialVariables, String source) {
+    public MaximaToCasadiTranspiler(Map<String, SX> initialVariables, String source, String nameOfPi) {
         this.inputVariables = Collections.unmodifiableMap(initialVariables);
         this.source = source;
+        this.nameOfPi = nameOfPi;
     }
 
     @Override
@@ -115,17 +117,21 @@ public class MaximaToCasadiTranspiler extends MaximaParserBaseVisitor<SX> {
         return cseValue;
     }
 
+    /*
     @Override
     public SX visitConstantE(MaximaParser.ConstantEContext ctx) {
         return SxStatic.exp(new SX(1.0));
     }
-
-    // private final SX pi = new SX(Math.PI);
-    private final SX PI = SxStatic.acos(new SX(-1));
-
+     */
     @Override
     public SX visitConstantPi(MaximaParser.ConstantPiContext ctx) {
-        return PI;
+        // Could be optimized to be checked only once.
+        SX piSX = inputVariables.get(this.nameOfPi);
+        if (piSX != null) {
+            return piSX;
+        }
+        throw TranspilationException.semantic(Direction.MAXIMA_TO_CASADI, source, ctx,
+            "nameOfPi not present in inputVariables");
     }
 
     @Override
