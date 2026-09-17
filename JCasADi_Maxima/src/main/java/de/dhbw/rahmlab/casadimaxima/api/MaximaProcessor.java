@@ -11,8 +11,8 @@ import java.util.List;
 public class MaximaProcessor implements ICasADiExternalProcessor {
 
     @Override
-    public SX simplifySparsify(SX expr, List<SX> variables) {
-        return MaximaSimplifier.simplify_pipeline(expr, variables);
+    public SX simplifySparsify(SX expr, List<SX> variables, String nameOfPi) {
+        return MaximaSimplifier.simplify_pipeline(expr, variables, nameOfPi);
     }
 
     @Override

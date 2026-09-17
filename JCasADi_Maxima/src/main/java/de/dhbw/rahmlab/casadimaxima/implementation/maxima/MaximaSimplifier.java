@@ -24,13 +24,13 @@ public final class MaximaSimplifier {
     private static final String RESULT_BEGIN = "__RESULT_BEGIN__";
     private static final String RESULT_END = "__RESULT_END__";
 
-    public static SX simplify_pipeline(SX expression, List<SX> variables) {
+    public static SX simplify_pipeline(SX expression, List<SX> variables, String nameOfPi) {
         StringBuilder print = new StringBuilder();
         print.append("\n");
         SX casadiIn = SxStatic.sparsify(SxStatic.simplify(expression));
         print.append("->casadiIn: ").append(casadiIn);
         print.append("\n");
-        String maximaIn = new CasadiToMaximaTranspilerService().casadiToMaxima(casadiIn);
+        String maximaIn = new CasadiToMaximaTranspilerService().casadiToMaxima(casadiIn, nameOfPi);
         print.append("->maximaIn: ").append(maximaIn);
         print.append("\n");
         System.out.println(print); // Intentional diagnostic output during stabilization.
@@ -39,7 +39,7 @@ public final class MaximaSimplifier {
         print.append("\n");
         SX casadiOut;
         try {
-            casadiOut = new MaximaToCasadiTranspilerService().maximaToCasadi(maximaOut, variables);
+            casadiOut = new MaximaToCasadiTranspilerService().maximaToCasadi(maximaOut, variables, nameOfPi);
         } catch (RuntimeException ex) {
             throw new RuntimeException(String.format("%s\nFrom Maxima in:\n%s", ex.getMessage(), maximaIn), ex);
         }

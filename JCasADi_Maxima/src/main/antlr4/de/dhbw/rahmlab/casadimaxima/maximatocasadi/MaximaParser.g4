@@ -24,7 +24,7 @@ expression
 	| CSE_VAR                                                       # CseVariable
 	| ID                                                            # Variable
 	| NUMBER                                                        # Number
-	| E_CONST                                                       # ConstantE
+//	| E_CONST                                                       # ConstantE
 	| PI_CONST                                                      # ConstantPi
 	| <assoc=right> expression op=POW expression                    # PowerExpr
 	| SUB expression                                                # UnaryMinus
