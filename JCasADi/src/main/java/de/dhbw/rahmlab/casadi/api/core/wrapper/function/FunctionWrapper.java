@@ -17,6 +17,7 @@ import de.dhbw.rahmlab.casadi.api.core.wrapper.str.StringVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.MapStringToSXWrapper;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXVector;
 import de.dhbw.rahmlab.casadi.api.core.wrapper.sx.SXWrapper;
+import de.dhbw.rahmlab.casadi.impl.casadi.CodeGenerator;
 import de.dhbw.rahmlab.casadi.impl.casadi.Function;
 import de.dhbw.rahmlab.casadi.impl.casadi.GenericType;
 import de.dhbw.rahmlab.casadi.impl.std.*;
@@ -627,6 +628,18 @@ public class FunctionWrapper {
 
     public String generate() {
         return this.function.generate();
+    }
+
+    public void generateC(String path, String fileName) {
+        generateC(path, fileName, true);
+    }
+
+    public void generateC(String path, String fileName, boolean withHeader) {
+        Dict options = new Dict();
+        options.put("with_header", new GenericType(withHeader));
+        CodeGenerator generator = new CodeGenerator(fileName, options);
+        generator.add(this.function);
+        generator.generate(path);
     }
 
     public String generateDependencies(String fileName, Dictionary opts) {
