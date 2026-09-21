@@ -1,0 +1,439 @@
+/*
+ * full_simplify.mac
+ *
+ * Automatic simplifier for expressions that will be evaluated numerically many
+ * times.  The objective is not textual size: candidates are scored by a simple
+ * weighted operation-cost model AFTER Maxima optimize() has exposed common
+ * subexpressions.
+ *
+ * Public API:
+ *     full_simplify(expr)
+ *
+ * The returned value is the algebraic expression, NOT optimize(expr).  This is
+ * intentional: optimize() is used only for scoring.  The caller can run one
+ * final optimize() on the returned expression (and, in particular, on a whole
+ * vector of outputs) to obtain CSE temporaries.
+ */
+
+full_simplify(e) :=
+block(
+    [
+        /* Cost weights.  Deliberately simple first approximation. */
+        w_add : 1,
+        w_mul : 1,
+        w_div : 8,
+        w_pow : 20,
+        w_sin : 50,
+        w_cos : 50,
+        w_tan : 60,
+        w_other_trig : 60,
+
+        /* Search limits: keep runtime bounded. */
+        fast_round_limit : 3,
+        medium_round_limit : 2,
+        trigexpand_size_limit : 2500,
+
+        /* Local helper functions. */
+        each, safe, raw_cost, cost, trig_count, compound_trig_count,
+        choose, fast_candidates, run_fast, medium_candidates,
+        deep_trig_candidate,
+
+        /* Working variables. */
+        current, current_cost, choice, candidates,
+        i, improved, deep_candidate, deep_cost
+    ],
+
+    /*
+     * Apply f elementwise to lists.  This matters for vector-valued formulas:
+     * algebraic transforms act on each output, while cost() later calls
+     * optimize() on the WHOLE vector, so cross-output CSE is still counted.
+     */
+    each : lambda([f, x],
+        if listp(x) then
+            map(lambda([y], each(f, y)), x)
+        else
+            apply(f, [x])
+    ),
+
+    /*
+     * A candidate-generating transform should never abort unattended
+     * simplification.  On an error, keep the original expression.
+     */
+    safe : lambda([f, x],
+        block([r],
+            r : errcatch(apply(f, [x])),
+            if r = [] then x else first(r)
+        )
+    ),
+
+    /*
+     * Weighted cost of an expression tree.
+     *
+     * This is intentionally small and understandable rather than pretending to
+     * model a particular CPU exactly.  The crucial first-order fact for this
+     * application is that sin/cos/tan are much more expensive than addition/multiplication.
+     *
+     * Structural operators introduced by optimize(), such as block, assignment
+     * and lists, have zero own cost; their arguments are still traversed, so the
+     * RHS of every CSE temporary and the final expression are counted exactly
+     * where they occur.
+     */
+    raw_cost : lambda([x],
+        if atom(x) then
+            0
+        else
+            block([o, a, n, subcost, p],
+                o : op(x),
+                a : args(x),
+                n : length(a),
+                subcost : if n = 0 then 0 else apply("+", map(raw_cost, a)),
+
+                if o = "+" then
+                    subcost + w_add * max(0, n - 1)
+
+                elseif o = "-" then
+                    /* Unary minus is normally free/sign handling; binary - is add-like. */
+                    subcost + (if n <= 1 then 0 else w_add)
+
+                elseif o = "*" then
+                    subcost + w_mul * max(0, n - 1)
+
+                elseif o = "/" then
+                    subcost + w_div
+
+                elseif o = "^" then
+                    block([p : second(a)],
+                        if integerp(p) then (
+                            if p = 0 or p = 1 then
+                                subcost
+                            elseif p > 1 and p <= 4 then
+                                subcost + w_mul * (p - 1)
+                            elseif p = -1 then
+                                subcost + w_div
+                            elseif p < -1 and p >= -4 then
+                                subcost + w_div + w_mul * (-p - 1)
+                            else
+                                subcost + w_pow
+                        )
+                        else
+                            subcost + w_pow
+                    )
+
+                elseif o = sin then
+                    subcost + w_sin
+
+                elseif o = cos then
+                    subcost + w_cos
+
+                elseif o = tan then
+                    subcost + w_tan
+
+                elseif member(o, [cot, sec, csc]) then
+                    subcost + w_other_trig
+
+                elseif member(o, [asin, acos, atan, acot, asec, acsc]) then
+                    subcost + w_other_trig
+
+                else
+                    /* Unknown/structural function: count only its arguments. */
+                    subcost
+            )
+    ),
+
+    /*
+     * CSE-aware cost.  optimize() is deliberately used only here.  The original
+     * candidate remains available for further symbolic transformations.
+     */
+    cost : lambda([x], raw_cost(optimize(x))),
+
+    /* Cheap structural predicate used to avoid unnecessary trig work. */
+    trig_count : lambda([x],
+        if atom(x) then
+            0
+        else
+            block([o, a, here],
+                o : op(x),
+                a : args(x),
+                here : if member(o,
+                    [sin, cos, tan, cot, sec, csc,
+                     asin, acos, atan, acot, asec, acsc])
+                    then 1 else 0,
+                here + (if length(a) = 0 then 0
+                        else apply("+", map(trig_count, a)))
+            )
+    ),
+
+    /*
+     * Count trig calls whose argument is a sum.  Such nodes are precisely where
+     * the controlled angle-sum trigexpand branch can expose new cancellations.
+     */
+    compound_trig_count : lambda([x],
+        if atom(x) then
+            0
+        else
+            block([o, a, here, arg1],
+                o : op(x),
+                a : args(x),
+                here : 0,
+
+                if member(o, [sin, cos, tan]) and length(a) >= 1 then (
+                    arg1 : first(a),
+                    if not atom(arg1) and op(arg1) = "+" then
+                        here : 1
+                ),
+
+                here + (if length(a) = 0 then 0
+                        else apply("+", map(compound_trig_count, a)))
+            )
+    ),
+
+    /*
+     * Select the lowest-cost candidate.  conssize is only a tie-breaker now;
+     * it is NOT the optimization objective.
+     *
+     * Returns [best_expression, best_cost].
+     */
+    choose : lambda([base, base_cost, xs],
+        block([best, best_cost, c, c_cost],
+            best : base,
+            best_cost : base_cost,
+
+            for c in xs do (
+                c_cost : cost(c),
+                if c_cost < best_cost
+                   or (c_cost = best_cost
+                       and ?conssize(c) < ?conssize(best))
+                then (
+                    best : c,
+                    best_cost : c_cost
+                )
+            ),
+
+            [best, best_cost]
+        )
+    ),
+
+    /*
+     * Cheap/high-value portfolio.
+     *
+     * We compare COMPLETED transformation paths.  Therefore a useful path may
+     * temporarily grow internally and still win after later cleanup.
+     */
+    fast_candidates : lambda([x],
+        block([has_trig, xs],
+            has_trig : trig_count(x) > 0,
+            xs : [],
+
+            /* Rational/algebraic candidates. */
+            xs : cons(
+                safe(lambda([z], each(lambda([q], ratsimp(q)), z)), x),
+                xs
+            ),
+
+            /* Documented useful ordering: xthru before ratsimp. */
+            xs : cons(
+                safe(lambda([z], each(lambda([q], ratsimp(xthru(q))), z)), x),
+                xs
+            ),
+
+            if has_trig then (
+                /* Fundamental trig identities, e.g. sin^2+cos^2. */
+                xs : cons(
+                    safe(lambda([z], each(lambda([q], trigsimp(q)), z)), x),
+                    xs
+                ),
+
+                /* Trig identity first, rational cleanup second. */
+                xs : cons(
+                    safe(lambda([z], each(
+                        lambda([q], ratsimp(trigsimp(q))), z)), x),
+                    xs
+                ),
+
+                /* Reverse ordering can expose identities hidden by rational form. */
+                xs : cons(
+                    safe(lambda([z], each(
+                        lambda([q], trigsimp(ratsimp(q))), z)), x),
+                    xs
+                ),
+
+                /*
+                 * Reduction identities can contract products/sums to combined
+                 * angles, e.g. sin(x)cos(y)+cos(x)sin(y) -> sin(x+y).
+                 */
+                xs : cons(
+                    safe(lambda([z], each(
+                        lambda([q], trigreduce(trigsimp(q))), z)), x),
+                    xs
+                ),
+
+                /* Same, followed by rational cleanup. */
+                xs : cons(
+                    safe(lambda([z], each(
+                        lambda([q], ratsimp(trigreduce(trigsimp(q)))), z)), x),
+                    xs
+                )
+            ),
+
+            xs
+        )
+    ),
+
+    /* Run the cheap portfolio to a small bounded local fixed point. */
+    run_fast : lambda([x, x_cost],
+        block([cur, cur_cost, ch, round],
+            cur : x,
+            cur_cost : x_cost,
+
+            for round : 1 thru fast_round_limit do (
+                ch : choose(cur, cur_cost, fast_candidates(cur)),
+                if second(ch) < cur_cost
+                   or (second(ch) = cur_cost
+                       and ?conssize(first(ch)) < ?conssize(cur))
+                then (
+                    cur : first(ch),
+                    cur_cost : second(ch)
+                )
+                else
+                    return(done)
+            ),
+
+            [cur, cur_cost]
+        )
+    ),
+
+    /*
+     * More expensive candidates.  Only tried after the cheap portfolio stalls.
+     */
+    medium_candidates : lambda([x],
+        block([has_trig, xs],
+            has_trig : trig_count(x) > 0,
+            xs : [],
+
+            /* Stronger rational/non-rational fixed-point simplification. */
+            xs : cons(
+                safe(lambda([z], each(
+                    lambda([q], fullratsimp(if has_trig then trigsimp(q) else q)), z)), x),
+                xs
+            ),
+
+            /* Factor after rational normalization; useful but potentially expensive. */
+            xs : cons(
+                safe(lambda([z], each(
+                    lambda([q], factor(ratsimp(q))), z)), x),
+                xs
+            ),
+
+            /* Evaluation-oriented polynomial restructuring. */
+            xs : cons(
+                safe(lambda([z], each(
+                    lambda([q], horner(ratsimp(q))), z)), x),
+                xs
+            ),
+
+            if has_trig then (
+                /* Specialized canonicalization for rational trig expressions. */
+                xs : cons(
+                    safe(lambda([z], each(
+                        lambda([q],
+                            ratsimp(trigrat(trigsimp(ratsimp(q))))), z)), x),
+                    xs
+                )
+            ),
+
+            xs
+        )
+    ),
+
+    /*
+     * One deliberately expansive escape hatch for angle-sum identities.
+     * Only the FINAL result is scored; the expanded intermediate form is never
+     * greedily rejected merely because it is larger.
+     */
+    deep_trig_candidate : lambda([x],
+        safe(
+            lambda([z],
+                each(
+                    lambda([q],
+                        block(
+                            [trigexpandplus : true,
+                             trigexpandtimes : false],
+                            ratsimp(
+                                trigsimp(
+                                    trigreduce(
+                                        ratsimp(
+                                            trigsimp(
+                                                trigexpand(q)
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    z
+                )
+            ),
+            x
+        )
+    ),
+
+    /* ------------------------- Search proper ------------------------- */
+
+    current : e,
+    current_cost : cost(current),
+
+    /* Stage A: cheap/high-value local search. */
+    choice : run_fast(current, current_cost),
+    current : first(choice),
+    current_cost : second(choice),
+
+    /*
+     * Stage B: at most two expensive escalation rounds.
+     * A medium improvement is followed by the cheap portfolio again because
+     * factor/fullratsimp/trigrat/horner may expose cheap follow-up reductions.
+     */
+    for i : 1 thru medium_round_limit do (
+        choice : choose(current, current_cost, medium_candidates(current)),
+        improved : second(choice) < current_cost
+                   or (second(choice) = current_cost
+                       and ?conssize(first(choice)) < ?conssize(current)),
+
+        if improved then (
+            current : first(choice),
+            current_cost : second(choice),
+            choice : run_fast(current, current_cost),
+            current : first(choice),
+            current_cost : second(choice)
+        )
+        else
+            return(done)
+    ),
+
+    /*
+     * Stage C: one controlled angle-sum expansion attempt, only when it is
+     * structurally relevant and the expression is not already huge.
+     */
+    if trig_count(current) > 0
+       and compound_trig_count(current) > 0
+       and ?conssize(current) <= trigexpand_size_limit
+    then (
+        deep_candidate : deep_trig_candidate(current),
+        deep_cost : cost(deep_candidate),
+
+        if deep_cost < current_cost
+           or (deep_cost = current_cost
+               and ?conssize(deep_candidate) < ?conssize(current))
+        then (
+            current : deep_candidate,
+            current_cost : deep_cost,
+
+            /* Cheap cleanup after a successful escape from a local minimum. */
+            choice : run_fast(current, current_cost),
+            current : first(choice),
+            current_cost : second(choice)
+        )
+    ),
+
+    current
+)$

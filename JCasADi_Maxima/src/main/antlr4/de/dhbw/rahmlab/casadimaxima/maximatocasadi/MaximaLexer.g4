@@ -13,8 +13,9 @@ OR    : 'or' ;
 NOT   : 'not' ;
 
 // Konstanten & Symbole
-E_CONST  : '%e' ;
+//E_CONST  : '%e' ;
 PI_CONST : '%pi' ;
+CSE_VAR  : '%' [0-9]+ ;
 ASSIGN   : ':' ;
 QUOTE    : '"' ;
 COMMA    : ',' ;
@@ -39,5 +40,3 @@ GT    : '>' ;
 // Literale
 NUMBER : [0-9]+ ('.' [0-9]*)? ([eE] [+-]? [0-9]+)? ;
 ID     : [a-zA-Z%][a-zA-Z0-9_]* ;
-
-ANY    : . ;
