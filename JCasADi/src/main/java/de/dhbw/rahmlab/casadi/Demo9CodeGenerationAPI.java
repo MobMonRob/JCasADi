@@ -26,7 +26,7 @@ public class Demo9CodeGenerationAPI {
                 new StdVectorSX(new SX[] { SxStatic.cos(y) }));
         // 1. Pack CasADi Function in FunctionWrapper
         FunctionWrapper func = new FunctionWrapper(f);
-        func.generateC("", "gen.c");
+        func.generate("", "gen.c");
 
         // 2. Compile and reimport the generated code, then call it
         Importer importer = new Importer("gen.c", "shell");

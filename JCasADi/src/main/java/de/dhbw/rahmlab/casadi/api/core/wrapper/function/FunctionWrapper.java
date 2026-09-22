@@ -630,11 +630,11 @@ public class FunctionWrapper {
         return this.function.generate();
     }
 
-    public void generateC(String path, String fileName) {
-        generateC(path, fileName, true);
+    public void generate(String path, String fileName) {
+        generate(path, fileName, true);
     }
 
-    public void generateC(String path, String fileName, boolean withHeader) {
+    public void generate(String path, String fileName, boolean withHeader) {
         Dict options = new Dict();
         options.put("with_header", new GenericType(withHeader));
         CodeGenerator generator = new CodeGenerator(fileName, options);
