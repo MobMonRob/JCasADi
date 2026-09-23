@@ -95,7 +95,7 @@ public class DemoCodeGeneration {
 
         SX b1 = new SX(5,1);
 
-        System.out.println("LaTeX sin(x): " + MaximaLaTeXifier.LaTeXify(b1));
+        System.out.println("LaTeX sin(x): " + new MaximaProcessor().LaTeXify(b1));
         
     }
 }
