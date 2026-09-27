@@ -45,12 +45,30 @@ public final class MaximaSimplifier {
         }
         print.append("->casadiOut: ").append(casadiOut);
         print.append("\n");
+        // validate(casadiIn, casadiOut, variables, nameOfPi);
         synchronized (System.out) {
             System.out.flush();
             System.out.println(print);
             System.out.flush();
         }
         return casadiOut;
+    }
+
+    private static void validate(SX casadiIn, SX casadiOut, List<SX> variables, String nameOfPi) {
+        if (casadiIn.rows() != casadiOut.rows() || casadiIn.columns() != casadiOut.columns()) {
+            throw new IllegalStateException(String.format(
+                "Maxima changed expression dimensions from %dx%d to %dx%d",
+                casadiIn.rows(), casadiIn.columns(), casadiOut.rows(), casadiOut.columns()));
+        }
+
+        SX difference = SxStatic.minus(casadiIn, casadiOut);
+        String maximaIn = new CasadiToMaximaTranspilerService().casadiToMaxima(difference, nameOfPi);
+        String maximaOut = simplify_internal(maximaIn);
+        SX remainder = new MaximaToCasadiTranspilerService().maximaToCasadi(maximaOut, variables, nameOfPi);
+        if (remainder.nnz_() != 0) {
+            // throw new IllegalStateException("Nonzeros in Maxima validation: " + remainder);
+            System.err.println("--------> Nonzeros in Maxima validation: " + remainder);
+        }
     }
 
     public static String simplify_internal(String maximaExpr) throws RuntimeException {
